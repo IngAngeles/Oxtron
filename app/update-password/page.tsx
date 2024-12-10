@@ -1,3 +1,4 @@
+"use client"
 import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
 import Image from "next/image";
 
