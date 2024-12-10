@@ -1,10 +1,15 @@
 "use client"
 
 import React from 'react'
-import Lottie from "lottie-react";
 import animationData from "@/public/assets/lotties/loading-white.json"
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const Lottie = dynamic(() => import("lottie-react"), {
+    ssr: false,
+});
+  
 
 const NoAccess = () => {
   return (

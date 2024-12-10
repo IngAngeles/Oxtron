@@ -1,5 +1,9 @@
-import RegisterForm from "@/components/forms/RegisterForm";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+const RegisterForm = dynamic(() => import("@/components/forms/RegisterForm"), {
+  ssr: false,
+});
 
 export default function RegisterPage() { 
   return (

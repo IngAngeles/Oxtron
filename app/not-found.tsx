@@ -1,4 +1,8 @@
-import Error from '@/components/loading/ErrorPageWhite'; 
+import dynamic from 'next/dynamic';
+
+const Error = dynamic(() => import("@/components/loading/ErrorPageWhite"), {
+  ssr: false,
+});
 
 const Custom404 = () => {
   return <Error />;

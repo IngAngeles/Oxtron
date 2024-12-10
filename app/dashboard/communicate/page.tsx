@@ -1,12 +1,14 @@
 "use client"
 import React, { useState } from 'react';
 import DashboardButton from '@/components/DashboardButton';
-import Inbox from '@/components/Inbox';
-import TableField from '@/components/TableField';
-import TitleHandler from '@/components/TitleHandler';
+// import Inbox from '@/components/Inbox';
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 import { EnvironmentalReport } from '@/components/communicate/EnvironmentalReport'
 import { CreateReport } from '@/components/forms/communicate/CreateReport'
+import dynamic from 'next/dynamic';
+
+const TableField = dynamic(() => import('@/components/TableField'), { ssr: false });
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
 
 const Communicate = () => {
   const [isLoading, setIsLoading] = useState(false);
