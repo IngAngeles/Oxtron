@@ -1,9 +1,11 @@
 "use client"
 import { useState, useEffect } from 'react';
-import TitleHandler from '@/components/TitleHandler';
-import TabMenu from '@/components/measure/TabMenu';
 import { measureCards } from '@/constants/measure';
-import Loading from '@/components/loading/LoadingBlack';  
+import dynamic from 'next/dynamic';
+
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const TabMenu = dynamic(() => import('@/components/measure/TabMenu'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
 
 const items: string[] = ['All', 'Scope 1', 'Scope 2', 'Scope 3'];
 

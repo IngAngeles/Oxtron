@@ -1,5 +1,9 @@
-import ForgotPasswordForm from "@/components/forms/ForgotPasswordForm";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+const ForgotPasswordForm = dynamic(() => import("@/components/forms/ForgotPasswordForm"), {
+  ssr: false,
+});
 
 export default function ForgotPasswordPage() { 
   return (

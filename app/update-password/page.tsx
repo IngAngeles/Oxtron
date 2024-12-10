@@ -1,6 +1,11 @@
 "use client"
-import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
+
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+const UpdatePasswordForm = dynamic(() => import("@/components/forms/UpdatePasswordForm"), {
+  ssr: false,
+});
 
 export default function Home() { 
 

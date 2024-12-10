@@ -1,17 +1,20 @@
 "use client";
-import BarChart from '@/components/charts/barChart';
+
 import DataStats from '@/components/charts/dataStats';
-import EqualizerChart from '@/components/charts/equalizerChart';
 import TitleHandler from '@/components/TitleHandler';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { ControlData, EmissionPercentageProps, EmissionTonsProps, GasPercentage, GasTons, TableDataProps } from '@/constants/types';
 import { fetchDash } from '@/actions/dashboard';
-import CircleChart from '@/components/charts/circleChart';
 import EnvironmentalTable from '@/components/charts/environmentalTable';
 import CaptureEmissions from '@/components/charts/captureEmissions';
 import Loading from '@/components/loading/LoadingBlack';  
 import ErrorPage from '@/components/loading/ErrorPageBlack';
+import dynamic from 'next/dynamic';
+
+const BarChart = dynamic(() => import('@/components/charts/barChart'), { ssr: false });
+const CircleChart = dynamic(() => import('@/components/charts/circleChart'), { ssr: false });
+const EqualizerChart = dynamic(() => import('@/components/charts/equalizerChart'), { ssr: false });
 
 const Home = () => {
   const [data, setData] = useState<ControlData[]>([]);
