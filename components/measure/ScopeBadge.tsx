@@ -1,0 +1,23 @@
+type Props = { scope: string[] }
+
+const ScopeBadge = ({ scope }: Props) => {
+  const formatScope = (scope: string[]): string => {
+    if (scope.length === 1) {
+      return scope[0];
+    } else if (scope.length === 2) {
+      return `${scope[0]} and ${scope[1].replace('Scope', '').trim()}`;
+    } else {
+      const allButLast = scope.slice(0, -1).map((item, index) => index === 0 ? item : item.replace('Scope', '').trim()).join(', ');
+      const last = scope[scope.length - 1].replace('Scope', '').trim();
+      return `${allButLast} and ${last}`;
+    }
+  };
+
+  return (
+    <span className="w-auto h-auto p-1 bg-neutral-300 text-neutral-500 text-xs rounded">
+      { formatScope(scope) }
+    </span>
+  )
+}
+
+export default ScopeBadge
