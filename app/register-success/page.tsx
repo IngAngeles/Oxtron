@@ -1,11 +1,9 @@
 "use client"
 
-import LottieAnimation from "@/components/LottieAnimation"; // Asegúrate de que la ruta sea correcta
 import dynamic from "next/dynamic";
 
-const SuccessPage = dynamic(() => import("@/components/SuccessPage"), {
-  ssr: false,
-});
+const SuccessPage = dynamic(() => import("@/components/SuccessPage"), {ssr: false,});
+const LottieAnimation = dynamic(() => import("@/components/LottieAnimation"), {ssr: false,});
 
 
 export default function Home() {
