@@ -1,15 +1,15 @@
-import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
-import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
+import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
-import { Form } from "@/components/ui/form";
-import { LogisticDetails, LogisticDetailsValidation } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from 'react'
-import { useForm } from "react-hook-form";
-import { createLogisticDetails, updateLogisticDetails } from '@/actions/measure/details'
-import { VLabel } from '@/constants/types'
-import { getCboTypes } from '@/actions/communicate'
-import { toast } from '@/components/ui/use-toast'
+import {Form} from "@/components/ui/form";
+import {LogisticDetails, LogisticDetailsValidation} from "@/lib/validation";
+import {zodResolver} from "@hookform/resolvers/zod";
+import React, {useEffect, useState} from 'react'
+import {useForm} from "react-hook-form";
+import {createLogisticDetails, getDistance, updateLogisticDetails} from '@/actions/measure/details'
+import {VLabel} from '@/constants/types'
+import {getCboTypes} from '@/actions/communicate'
+import {toast} from '@/components/ui/use-toast'
 
 type Props = { idControlLogistics: number; logistic?: LogisticDetails; reloadData: () => void };
 
@@ -47,21 +47,21 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       if (data.success) {
         toast({
           title: 'Success',
-          description: `This invoice has been ${ !logistic ? 'created' : 'updated' } successfully`,
+          description: `This invoice has been ${!logistic ? 'created' : 'updated'} successfully`,
           className: 'bg-black',
         })
         form.reset()
         reloadData()
       }
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
         className: 'bg-[#7f1d1d]',
       })
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   }
@@ -75,6 +75,27 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
     loadData()
   }, [])
 
+  useEffect(() => {
+    const origin = form.getValues('origin');
+    const destiny = form.getValues('destiny');
+
+    if (origin && destiny && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+      getDistance(Number(origin), Number(destiny)).then((result) => {
+        if (result?.success) {
+          // @ts-ignore
+          form.setValue('distance', result?.data?.distance);
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: 'It was not possible to calculate the distance between these postal codes.',
+            className: 'bg-[#7f1d1d]',
+          })
+        }
+      });
+    }
+  }, [form.getValues('origin'), form.getValues('destiny')]);
+
   return (
     <Form {...form}>
       <form
@@ -84,15 +105,15 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex justify-center w-full gap-4">
             <CustomRadioButton
-              value={ emissionsFactor }
-              onChange={ setEmissionsFactor }
-              options={ [
-                { value: '1', label: 'Default' },
-                { value: '2', label: 'Personalized' },
-              ] }
-              cols={ 2 }
+              value={emissionsFactor}
+              onChange={setEmissionsFactor}
+              options={[
+                {value: '1', label: 'Default'},
+                {value: '2', label: 'Personalized'},
+              ]}
+              cols={2}
               label="EMISSIONS FACTOR"
-              defaultSelected={ 0 }/>
+              defaultSelected={0}/>
           </div>
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
@@ -146,7 +167,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
               name="idFuelType"
               label="FUEL TYPE"
               placeholder="Fuel Type"
-              options={ fuelType }
+              options={fuelType}
             />
           </div>
           <div>
@@ -157,6 +178,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
                 name="amount"
                 label="AMOUNT"
                 placeholder="Amount"
+                disabled={true}
               />
               <CustomFormField
                 control={form.control}
