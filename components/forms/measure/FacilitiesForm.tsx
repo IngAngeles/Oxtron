@@ -9,6 +9,10 @@ import { useToast } from '@/components/ui/use-toast'
 import { Facility, FacilityValidation } from '@/lib/validation'
 import { ICboStatus, IFacility, IMeasureContextType, IMeasureResponse, VLabel } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = Readonly<{ facilityMeasure?: IFacility }>
 
@@ -17,6 +21,10 @@ const FacilitiesForm = ({ facilityMeasure }: Props) => {
   const [cboStatuses, setCboStatuses] = useState<VLabel[]>([])
   const { setMeasure, handleHideModal, addMeasure, setData } = useContext(MeasureContext) as IMeasureContextType || {}
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
 
   const handleCreateFacility = async (facility: Facility) => {
     await createFacility(facility)
@@ -119,6 +127,30 @@ const FacilitiesForm = ({ facilityMeasure }: Props) => {
     }
   }
 
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.modal);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <Form { ...form }>
       <form onSubmit={ form.handleSubmit(onSubmit) } className="space-y-6 flex-1 text-neutral-500 w-full">
@@ -126,15 +158,15 @@ const FacilitiesForm = ({ facilityMeasure }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             name="idFacility"
-            label="Facility ID"
-            placeholder="Write Facility ID"
+            label={dictionary.title}
+            placeholder={dictionary.write}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="propertyStatus"
-            label="Property Status"
-            placeholder="Select Status"
+            label={dictionary.status}
+            placeholder={dictionary.status}
             options={ cboStatuses }
             control={ form.control }
           >
@@ -142,31 +174,31 @@ const FacilitiesForm = ({ facilityMeasure }: Props) => {
           </CustomFormField>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
-            placeholder="Write City"
+            placeholder={dictionary.city}
             name="city"
-            label="City"
+            label={dictionary.city}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
-            placeholder="Write Country"
+            placeholder={dictionary.country}
             name="country"
-            label="Country"
+            label={dictionary.country}
             control={ form.control }
           />
           <div className="col-span-2">
             <CustomFormField
               fieldType={ FormFieldType.TEXTAREA }
-              placeholder="Write Facility Description"
+              placeholder={dictionary.desc}
               name="description"
-              label="Description (Optional)"
+              label={dictionary.desc}
               control={ form.control }
             />
           </div>
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-            { !facilityMeasure ? 'Add' : 'Update' }
+            { !facilityMeasure ? dictionary.add : dictionary.button }
           </SubmitButton>
         </div>
       </form>

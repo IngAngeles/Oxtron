@@ -12,27 +12,25 @@ export const UserFormValidation = z.object({
 export type Login = z.infer<typeof UserFormValidation>
 
 export const UserRegisterValidation = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  role: z.string().min(1, 'Role is required'),
-  email: z.string().email('Invalid email address').min(1, 'Email is required'),
+  firstName: z.string().nonempty('First name is required'),
+  lastName: z.string().nonempty('Last name is required'),
+  role: z.string().nonempty('Role is required'),
+  email: z.string().email('Invalid email address').nonempty('Email is required'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
   confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long'),
-  organisationName: z.string().min(1, 'Organisation name is required'),
-  city: z.string().min(1, 'City is required'),
-  state: z.string().min(1, 'State is required'),
-  country: z.string().min(1, 'Country is required'),
-  postalCode: z.string().min(1, 'Postal code is required'),
+  organisationName: z.string().nonempty('Organisation name is required'),
+  city: z.string().nonempty('City is required'),
+  state: z.string().nonempty('State is required'),
+  country: z.string().nonempty('Country is required'),
+  postalCode: z.string().nonempty('Postal code is required'),
   typeLicense: z.string().transform((val) => {
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
   }),
-  // active: z.string().min(1).max(1).default('1'),
   telephoneUser: z.string().min(10, 'You must enter your phone number'),
   timeZone: z.string().min(1, 'You must enter your phone time zone'),
   language: z.string().min(1, 'Language is required'),
-  // idUSerType: z.number().positive().int().default(1),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Passwords don\'t match',
   path: ['confirmPassword'],
@@ -50,7 +48,7 @@ export const UserRegisterByCompanyIdValidation = z.object({
   telephoneUser: z.string().min(10, 'You must enter your phone number'),
   timeZone: z.string().min(1, 'You must enter your phone time zone'),
   language: z.string().min(1, 'Language is required'),
-}).refine(({ password, confirmPassword }) => password === confirmPassword, {
+}).refine((data) => data.password === data.confirmPassword, {
   message: 'Passwords don\'t match',
   path: ['confirmPassword'],
 })
@@ -111,180 +109,38 @@ export type Facility = z.infer<typeof FacilityValidation>;
 
 export const FacilityDetailsValidation = z.object({
   idControlFacilityDetails: z.number().int().optional(),
-  invoiceId: z.string().optional(),
-  unit: z.string().optional(),
-  typeEquipment: z.string().optional(),
-
-  idControlFacility: z.number().int().min(1, { message: "idControlFacility is required" }),
-  idType: z
-    .string()
-    .nonempty({ message: "idType is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("idType must be a valid number");
-      return parsed;
-    }),
-  idEmissionFactor: z.number().int().min(1, { message: "idEmissionFactor is required" }),
-  startDate: z.string().nonempty({ message: "startDate is required" }),
-  endDate: z.string().nonempty({ message: "endDate is required" }),
-  idTypeDetails: z.number().int().min(1, { message: "idTypeDetails is required" }),
-  amount: z.number().int().min(1, { message: "amount is required" }),
-  measureFugitive: z.number().int().min(1, { message: "measureFugitive is required" }),
-  purchased: z.number().min(1, { message: "purchased is required" }),
-  delivered: z.number().min(1, { message: "delivered is required" }),
-  returnsProducers: z
-    .string()
-    .nonempty({ message: "returnsProducers is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("returnsProducers must be a valid number");
-      return parsed;
-    }),
-  returnedUsers: z
-    .string()
-    .nonempty({ message: "returnedUsers is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("returnedUsers must be a valid number");
-      return parsed;
-    }),
-  returnedOffsiteRecycling: z.number().min(1, { message: "returnedOffsiteRecycling is required" }),
-  partialNAmeplateCharged: z.number().min(1, { message: "partialNAmeplateCharged is required" }),
-  amountYearsBeginning: z.number().min(1, { message: "amountYearsBeginning is required" }),
-  amountYearsEnd: z.number().min(1, { message: "amountYearsEnd is required" }),
-  chargedIntoEquipment: z.number().min(1, { message: "chargedIntoEquipment is required" }),
-  dontKnow: z.number().int().min(1, { message: "dontKnow is required" }),
-  offSiteRecycling: z
-    .string()
-    .nonempty({ message: "offSiteRecycling is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("offSiteRecycling must be a valid number");
-      return parsed;
-    }),
-  offSiteDestruction: z
-    .string()
-    .nonempty({ message: "offSiteDestruction is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("offSiteDestruction must be a valid number");
-      return parsed;
-    }),
-  densityPressurePartial: z
-    .string()
-    .nonempty({ message: "densityPressurePartial is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("densityPressurePartial must be a valid number");
-      return parsed;
-    }),
-  densityPressureFull: z
-    .string()
-    .nonempty({ message: "densityPressureFull is required" })
-    .transform((val) => {
-      const parsed = Number(val);
-      if (isNaN(parsed)) throw new Error("densityPressureFull must be a valid number");
-      return parsed;
-    }),
-  active: z.number().int().min(1, { message: "active is required" }),
-});
-
-export type FacilityDetails = z.infer<typeof FacilityDetailsValidation>;
-
-export const FacilityDescriptionDetailsValidation = z.object({
-  idControlFacilityDetails: z.number().int().optional(),
   idControlFacility: z.number().int().min(1, 'idControlFacility is required'),
-  idType: z.union([z.string(), z.number()]).transform(val => {
+  idType: z.string().transform(val => {
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
   }),
-  idTypeDescription: z.string().optional(),
   idEmissionFactor: z.number().int().min(1, 'idEmissionFactor is required'),
-  idEmissionFactorDescription: z.string().optional(),
   startDate: z.string().min(1, 'startDate is required'),
   endDate: z.string().min(1, 'endDate is required'),
   invoiceId: z.string().optional(),
   idTypeDetails: z.number().int().min(1, 'idTypeDetails is required'),
-  idTypeDetailsDescription: z.string().optional(),
   amount: z.number().int().min(1, 'amount is required'),
   unit: z.string().optional(),
   typeEquipment: z.string().optional(),
-  measureFugitive: z.number().int().min(0, 'measureFugitive is required'),
-  purchased: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  delivered: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  returnsProducers: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  returnedUsers: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  returnedOffsiteRecycling: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  partialNAmeplateCharged: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  amountYearsBeginning: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  amountYearsEnd: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  chargedIntoEquipment: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  dontKnow: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  offSiteRecycling: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  offSiteDestruction: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  densityPressurePartial: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  densityPressureFull: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  active: z.number().int().min(0, 'active is required'),
-  firstName: z.string().min(0, 'first name is required'),
+  measureFugitive: z.number().int().min(1, 'measureFugitive is required'),
+  purchased: z.number().min(1, 'purchased is required'),
+  delivered: z.number().min(1, 'delivered is required'),
+  returnsProducers: z.number().min(1, 'returnsProducers is required'),
+  returnedUsers: z.number().min(1, 'returnedUsers is required'),
+  returnedOffsiteRecycling: z.number().min(1, 'returnedOffsiteRecycling is required'),
+  partialNAmeplateCharged: z.number().min(1, 'partialNAmeplateCharged is required'),
+  amountYearsBeginning: z.number().min(1, 'amountYearsBeginning is required'),
+  amountYearsEnd: z.number().min(1, 'amountYearsEnd is required'),
+  chargedIntoEquipment: z.number().min(1, 'chargedIntoEquipment is required'),
+  dontKnow: z.number().int().min(1, 'dontKnow is required'),
+  offSiteRecycling: z.number().min(1, 'offSiteRecycling is required'),
+  offSiteDestruction: z.number().min(1, 'offSiteDestruction is required'),
+  densityPressurePartial: z.number().min(1, 'densityPressurePartial is required'),
+  densityPressureFull: z.number().min(1, 'densityPressureFull is required'),
+  active: z.number().int().min(1, 'active is required'),
 })
-export type FacilityDescriptionDetails = z.infer<typeof FacilityDescriptionDetailsValidation>;
+export type FacilityDetails = z.infer<typeof FacilityDetailsValidation>;
 
 export const VehicleValidation = z.object({
   idControlVehicle: z.string().transform(val => {
@@ -341,19 +197,11 @@ export const VehicleDetailsValidation = z.object({
     .optional()
     .or(z.literal('')),
   idVehicleCboType: z
-    .string()
-    .transform((val) => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
+    .number({ required_error: 'El campo \'idVehicleCboType\' es requerido.' })
+    .int('Debe ser un número entero.'),
   amount: z
-    .string()
-    .transform((val) => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
+    .number({ required_error: 'El campo \'amount\' es requerido.' })
+    .positive('Debe ser un número positivo.'),
   unit: z
     .string()
     .optional(),
@@ -362,52 +210,6 @@ export const VehicleDetailsValidation = z.object({
     .int('Debe ser un número entero.'),
 })
 export type VehicleDetails = z.infer<typeof VehicleDetailsValidation>
-
-export const VehicleDescriptionDetailsValidation = z.object({
-  idControlVehicleDetails: z
-    .number()
-    .int('Debe ser un número entero.')
-    .optional(),
-  idControlVehicle: z
-    .number({ required_error: 'El campo \'idControlVehicle\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  idEmissionFactor: z
-    .number({ required_error: 'El campo \'idEmissionFactor\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  idEmissionFactorDescription: z.string().min(1),
-  startDate: z
-    .string({ required_error: 'El campo \'startDate\' es requerido.' })
-    .datetime({ message: 'Debe ser una fecha válida en formato ISO 8601.' }),
-  endDate: z
-    .string({ required_error: 'El campo \'endDate\' es requerido.' })
-    .datetime({ message: 'Debe ser una fecha válida en formato ISO 8601.' }),
-  invoiceId: z
-    .string()
-    .optional()
-    .or(z.literal('')),
-  idVehicleCboType: z
-    .string()
-    .transform((val) => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  cboTypeDescription: z.string().min(1),
-  amount: z
-    .string()
-    .transform((val) => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  unit: z
-    .string()
-    .optional(),
-  active: z
-    .number({ required_error: 'El campo \'active\' es requerido.' })
-    .int('Debe ser un número entero.'),
-})
-export type VehicleDescriptionDetails = z.infer<typeof VehicleDescriptionDetailsValidation>
 
 export const TravelValidation = z.object({
   idControlTravel: z.string().transform(val => {
@@ -442,11 +244,9 @@ export const TravelDetailsValidation = z.object({
   invoiceId: z
     .string()
     .optional(),
-  idTravelCboType: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) return 0
-    return parsed
-  }),
+  idTravelCboType: z
+    .number({ required_error: 'El campo \'idTravelCboType\' es requerido.' })
+    .int('Debe ser un número entero.'),
   origin: z
     .string()
     .optional(),
@@ -458,43 +258,6 @@ export const TravelDetailsValidation = z.object({
     .int('Debe ser un número entero.'),
 })
 export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
-
-export const TravelDescriptionDetailsValidation = z.object({
-  idControlTravelDetails: z
-    .number()
-    .int('Debe ser un número entero.')
-    .optional(),
-  idControlTravel: z
-    .number({ required_error: 'El campo \'idControlTravel\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  idEmissionFactor: z
-    .number({ required_error: 'El campo \'idEmissionFactor\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  idEmissionFactorDescription: z.string().min(1),
-  startDate: z
-    .string({ required_error: 'El campo \'startDate\' es requerido.' })
-    .datetime({ message: 'Debe ser una fecha válida en formato ISO 8601.' }),
-  endDate: z
-    .string({ required_error: 'El campo \'endDate\' es requerido.' })
-    .datetime({ message: 'Debe ser una fecha válida en formato ISO 8601.' }),
-  invoiceId: z
-    .string()
-    .optional(),
-  idTravelCboType: z
-    .number({ required_error: 'El campo \'idTravelCboType\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  travelCboTypeDescription: z.string().min(1),
-  origin: z
-    .string()
-    .optional(),
-  destiny: z
-    .string()
-    .optional(),
-  active: z
-    .number({ required_error: 'El campo \'active\' es requerido.' })
-    .int('Debe ser un número entero.'),
-})
-export type TravelDescriptionDetails = z.infer<typeof TravelDescriptionDetailsValidation>;
 
 export const LogisticValidation = z.object({
   idControlLogistics: z.string().transform(val => {
@@ -540,68 +303,15 @@ export const LogisticDetailsValidation = z.object({
     .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
   invoiceId: z.string().optional(),
   idFuelType: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  amount: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
+    .number({ required_error: 'el campo \'idFuelType\' es requerido.' })
+    .int('debe ser un número entero.'),
+  amount: z.number().optional(),
   unit: z.string().optional(),
   active: z
     .number({ required_error: 'el campo \'active\' es requerido.' })
     .int('debe ser un número entero.'),
 })
 export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
-
-export const LogisticDescriptionDetailsValidation = z.object({
-  idControlLogisticsDetails: z
-    .number()
-    .int('debe ser un número entero.')
-    .optional(),
-  idControlLogistics: z
-    .number({ required_error: 'el campo \'idControlLogistics\' es requerido.' })
-    .int('debe ser un número entero.'),
-  idEmissionFactor: z
-    .number({ required_error: 'el campo \'idEmissionFactor\' es requerido.' })
-    .int('debe ser un número entero.'),
-  idEmissionFactorDescription: z.string().optional(),
-  origin: z.string().optional(),
-  destiny: z.string().optional(),
-  startDate: z
-    .string({ required_error: 'el campo \'startDate\' es requerido.' })
-    .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
-  endDate: z
-    .string({ required_error: 'el campo \'endDate\' es requerido.' })
-    .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
-  invoiceId: z.string().optional(),
-  idFuelType: z
-    .union([z.string(), z.number()])
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    }),
-  fuelTypeDescription: z.string().optional(),
-  amount: z
-    .union([z.string(), z.number()])
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    }),
-  unit: z.union([z.string(), z.null()]).optional(),
-  active: z
-    .number({ required_error: 'el campo \'active\' es requerido.' })
-    .int('debe ser un número entero.'),
-})
-export type LogisticDescriptionDetails = z.infer<typeof LogisticDescriptionDetailsValidation>
 
 export const ManufacturingValidation = z.object({
   idControlManufacturing: z.string().transform(val => {
@@ -640,11 +350,7 @@ export const ManufacturingDetailsValidation = z.object({
     .string({ required_error: 'el campo \'endDate\' es requerido.' })
     .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
   amount: z
-    .string().transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })
+    .number()
     .optional(),
   unit: z
     .string()
@@ -654,40 +360,6 @@ export const ManufacturingDetailsValidation = z.object({
     .int('debe ser un número entero.'),
 })
 export type ManufacturingDetails = z.infer<typeof ManufacturingDetailsValidation>
-
-export const ManufacturingDescriptionDetailsValidation = z.object({
-  idControlManufacturingDetails: z
-    .number()
-    .int('debe ser un número entero.')
-    .optional(),
-  idControlManufacturing: z
-    .number({ required_error: 'el campo \'idControlManufacturing\' es requerido.' })
-    .int('debe ser un número entero.'),
-  idEmissionFactor: z
-    .number({ required_error: 'el campo \'idEmissionFactor\' es requerido.' })
-    .int('debe ser un número entero.'),
-  idEmissionFactorDescription: z.string().optional(),
-  invoiceId: z.string().optional(),
-  startDate: z
-    .string({ required_error: 'el campo \'startDate\' es requerido.' })
-    .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
-  endDate: z
-    .string({ required_error: 'el campo \'endDate\' es requerido.' })
-    .datetime({ message: 'debe ser una fecha válida en formato ISO 8601.' }),
-  amount: z
-    .union([z.string(), z.number()])
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })
-    .optional(),
-  unit: z.string().optional(),
-  active: z
-    .number({ required_error: 'el campo \'active\' es requerido.' })
-    .int('debe ser un número entero.'),
-})
-export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
 
 export const CommutingValidation = z.object({
   idControlCommuting: z.string().transform(val => {
@@ -705,8 +377,7 @@ export type Commuting = z.infer<typeof CommutingValidation>
 export const CommutingDetailsValidation = z.object({
   idControlCommutingDetails: z
     .number({ required_error: 'El campo \'idControlCommutingDetails\' es requerido.' })
-    .int('Debe ser un número entero.')
-    .optional(),
+    .int('Debe ser un número entero.'),
   idControlCommuting: z
     .number({ required_error: 'El campo \'idControlCommuting\' es requerido.' })
     .int('Debe ser un número entero.'),
@@ -726,60 +397,14 @@ export const CommutingDetailsValidation = z.object({
     .string()
     .optional(),
   fuelEfficiency: z
-    .string({ required_error: 'El campo \'fuelEfficiency\' es requerido.' })
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
+    .number({ required_error: 'El campo \'fuelEfficiency\' es requerido.' })
+    .positive('Debe ser un número positivo.'),
   active: z
     .number()
     .int('Debe ser un número entero.')
     .default(1),
 })
 export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
-
-export const CommutingDescriptionDetailsValidation = z.object({
-  idControlCommutingDetails: z
-    .number({ required_error: 'El campo \'idControlCommutingDetails\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  idControlCommuting: z
-    .number({ required_error: 'El campo \'idControlCommuting\' es requerido.' })
-    .int('Debe ser un número entero.'),
-  origin: z
-    .string()
-    .optional(),
-  originZipCode: z
-    .string()
-    .optional(),
-  destination: z
-    .string()
-    .optional(),
-  distinationZipCode: z
-    .string()
-    .optional(),
-  distance: z
-    .string()
-    .optional(),
-  fuelEfficiency: z
-    .string({ required_error: 'El campo \'fuelEfficiency\' es requerido.' })
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
-  active: z
-    .number()
-    .int('Debe ser un número entero.')
-    .default(1),
-  idCommutingCboModeTransport: z.number().positive().int(),
-  cboModeTransportDescription: z.string().min(1),
-  activity: z.string().min(1),
-  unit: z.string().min(1),
-  status: z.string().min(1),
-  idUserControl: z.string().min(1),
-})
-export type CommutingDescriptionDetails = z.infer<typeof CommutingDescriptionDetailsValidation>;
 
 export const CompanyValidation = z.object({
   idCompany: z.number().optional(),
@@ -823,10 +448,3 @@ export const ReportHeaderValidation = z.object({
   active: z.number().min(1, 'Active is required').default(() => 1),
 })
 export type ReportHeader = z.infer<typeof ReportHeaderValidation>
-
-export const ComboValidation = z.object({
-  idControl: z.number(),
-  description: z.string(),
-  units: z.string(),
-});
-export type ComboType = z.infer<typeof ComboValidation>;

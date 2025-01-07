@@ -2,32 +2,21 @@
 import { AxiosError } from 'axios'
 import axiosInstance from '@/lib/axios-instance'
 import {
-  CommutingDescriptionDetails,
   CommutingDetails,
-  FacilityDescriptionDetails,
-  LogisticDescriptionDetails,
+  FacilityDetails,
   LogisticDetails,
-  ManufacturingDescriptionDetails,
   ManufacturingDetails,
-  TravelDescriptionDetails,
   TravelDetails,
-  VehicleDescriptionDetails,
   VehicleDetails
 } from '@/lib/validation'
 
-export async function getCommutingDetails(idCommuting: number) {
+export async function getCommutingDetails(idControlCommuting: number) {
   try {
-    const response = await axiosInstance.get('/CommutingDetails/Mostrar_CommutingDetails_ControlLogisticDescription', {
-      params: { idCommuting }
+    const response = await axiosInstance.get('/CommutingDetails/Mostrar_CommutingDetails_ControlLogistic', {
+      params: { idControlCommuting }
     })
 
-    const data = response.data as CommutingDescriptionDetails[]
-
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
+    return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -39,7 +28,7 @@ export async function getCommutingDetails(idCommuting: number) {
 
 export async function createCommutingDetails(commutingDetails: CommutingDetails) {
   try {
-    const response = await axiosInstance.post('/CommutingDetails/Registrar_CommutingDetails', commutingDetails)
+    const response = await axiosInstance.post('/CommutingDetails/Mostrar_CommutingDetails_ControlLogistic', commutingDetails)
 
     return { status: response.status, success: true, data: response.data }
   } catch (error) {
@@ -52,46 +41,13 @@ export async function createCommutingDetails(commutingDetails: CommutingDetails)
   }
 }
 
-export async function updateCommutingDetails(commutingDetails: CommutingDetails) {
-  try {
-    const response = await axiosInstance.put('/CommutingDetails/Actualizar_CommutingDetails', commutingDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteCommutingDetails(IdCommuting: number) {
-  try {
-    const response = await axiosInstance.delete('/CommutingDetails/Eliminar_CommutingDetails', {
-      params: { IdCommuting }
-    })
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
 export async function getFacilityDetails(idFacilities: number) {
   try {
-    const response = await axiosInstance.get('/FacilitiesDetails/Mostrar_FacilitiesDetails_ControlFacilitiesDescripton', {
+    const response = await axiosInstance.get('/FacilitiesDetails/Mostrar_FacilitiesDetails_ControlFacilities', {
       params: { idFacilities }
     })
-    const data = response.data as FacilityDescriptionDetails[]
 
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
+    return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -101,7 +57,7 @@ export async function getFacilityDetails(idFacilities: number) {
   }
 }
 
-export async function createFacilityDetails(facilityDetails: FacilityDescriptionDetails) {
+export async function createFacilityDetails(facilityDetails: FacilityDetails) {
   try {
     const response = await axiosInstance.post('/FacilitiesDetails/Registrar_FacilitiesDetails', facilityDetails)
 
@@ -115,46 +71,13 @@ export async function createFacilityDetails(facilityDetails: FacilityDescription
   }
 }
 
-export async function updateFacilityDetails(facilityDetails: FacilityDescriptionDetails) {
+export async function getLogisticDetails(idControlLogistics: number) {
   try {
-    const response = await axiosInstance.put('/FacilitiesDetails/Actualizar_FacilitiesDetails', facilityDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteFacilityDetails(IdFacilities: number) {
-  try {
-    const response = await axiosInstance.delete('/FacilitiesDetails/Eliminar_FacilitiesDetails', {
-      params: { IdFacilities }
+    const response = await axiosInstance.get('/LogisticsDetails/Mostrar_LogisticsDetails_ControlLogistic', {
+      params: { idControlLogistics }
     })
+
     return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function getLogisticDetails(idLogistic: number) {
-  try {
-    const response = await axiosInstance.get('/LogisticsDetails/Mostrar_LogisticsDetails_ControlLogisticDescription', {
-      params: { idLogistic }
-    })
-    const data = response.data as LogisticDescriptionDetails[]
-
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -166,17 +89,7 @@ export async function getLogisticDetails(idLogistic: number) {
 
 export async function createLogisticDetails(logisticDetails: LogisticDetails) {
   try {
-    const { amount, idControlLogistics, idFuelType } = logisticDetails
-    const data = {
-      ...logisticDetails,
-      amount: Number(amount),
-      idControlLogistics: Number(idControlLogistics),
-      idFuelType: Number(idFuelType),
-    }
-
-    console.log({ data })
-
-    const response = await axiosInstance.post('/LogisticsDetails/Registrar_LogisticsDetails', data)
+    const response = await axiosInstance.post('/LogisticsDetails/Registrar_LogisticsDetails', logisticDetails)
 
     return { status: response.status, success: true, data: response.data }
   } catch (error) {
@@ -188,46 +101,13 @@ export async function createLogisticDetails(logisticDetails: LogisticDetails) {
   }
 }
 
-export async function updateLogisticDetails(logisticDetails: LogisticDetails) {
-  try {
-    const response = await axiosInstance.put('/LogisticsDetails/Actualizar_LogisticsDetails', logisticDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteLogisticDetails(IdLogistic: number) {
-  try {
-    const response = await axiosInstance.delete('/LogisticsDetails/Eliminar_LogisticsDetails', {
-      params: { IdLogistic }
-    })
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
 export async function getManufacturingDetails(idManufacturing: number) {
   try {
-    const response = await axiosInstance.get('/ManufacturingDetails/Mostrar_ManufacturingDetails_ControlManufacturingDescription', {
+    const response = await axiosInstance.get('/ManufacturingDetails/Mostrar_ManufacturingDetails_ControlManufacturing', {
       params: { idManufacturing }
     })
-    const data = response.data as ManufacturingDescriptionDetails[]
 
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
+    return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -251,46 +131,13 @@ export async function createManufacturingDetails(manufacturingDetails: Manufactu
   }
 }
 
-export async function updateManufacturingDetails(manufacturingDetails: ManufacturingDetails) {
-  try {
-    const response = await axiosInstance.put('/ManufacturingDetails/Actualizar_ManufacturingDetails', manufacturingDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteManufacturingDetails(IdManufacturing: number) {
-  try {
-    const response = await axiosInstance.delete('/ManufacturingDetails/Eliminar_ManufacturingDetails', {
-      params: { IdManufacturing }
-    })
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
 export async function getTravelDetails(idControl: number) {
   try {
-    const response = await axiosInstance.get('/TravelsDetails/Mostrar_TravelsDetails_ControlTravelDescription', {
+    const response = await axiosInstance.get('/TravelsDetails/Mostrar_TravelsDetails_ControlTravel', {
       params: { idControl }
     })
-    const data = response.data as TravelDescriptionDetails[]
 
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
+    return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -314,46 +161,13 @@ export async function createTravelDetails(travelDetails: TravelDetails) {
   }
 }
 
-export async function updateTravelDetails(travelDetails: TravelDetails) {
-  try {
-    const response = await axiosInstance.put('/TravelsDetails/Actualizar_TravelsDetails', travelDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteTravelDetails(IdTravels: number) {
-  try {
-    const response = await axiosInstance.delete('/TravelsDetails/Eliminar_TravelsDetails', {
-      params: { IdTravels }
-    })
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
 export async function getVehicleDetails(idControl: number) {
   try {
-    const response = await axiosInstance.get('/VehicleDetails/Mostrar_Vehicles_ControlVehicleDescription', {
+    const response = await axiosInstance.get('/VehicleDetails/Mostrar_Vehicles_ControlVehicle', {
       params: { idControl }
     })
-    const data = response.data as VehicleDescriptionDetails[]
 
-    return {
-      status: response.status,
-      success: true,
-      data: data.filter((detail) => detail.active === 1)
-    }
+    return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError
 
@@ -374,33 +188,5 @@ export async function createVehicleDetails(vehicleDetails: VehicleDetails) {
     console.error({ error })
 
     return { status: axiosError.response?.status, success: true, data: axiosError.response?.data }
-  }
-}
-
-export async function updateVehicleDetails(vehicleDetails: VehicleDetails) {
-  try {
-    const response = await axiosInstance.put('/VehicleDetails/Actualizar_VehiclesDetails', vehicleDetails)
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
-  }
-}
-
-export async function deleteVehicleDetails(IdVehicles: number) {
-  try {
-    const response = await axiosInstance.delete('/VehicleDetails/Eliminar_VehiclesDetails', {
-      params: { IdVehicles }
-    })
-    return { status: response.status, success: true, data: response.data }
-  } catch (error) {
-    const axiosError = error as unknown as AxiosError
-
-    console.error({ error })
-
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
   }
 }

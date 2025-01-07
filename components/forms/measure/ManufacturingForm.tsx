@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { createManufacturing, deleteManufacturing, updateManufacturing } from '@/actions/measure'
@@ -11,6 +11,10 @@ import { IManufacturing, IMeasureContextType, IMeasureResponse } from '@/constan
 import { MeasureContext } from '@/context/measure'
 import { useFacilities } from '@/hooks/measure/useFacilities'
 import { Manufacturing, ManufacturingValidation } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = Readonly<{ manufacturingMeasure?: IManufacturing }>
 
@@ -19,13 +23,55 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
   const { facilities } = useFacilities()
   const { addMeasure, handleHideModal, setData, setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  useEffect(() => {
+        const loadDictionary = async () => {
+          try {
+            setLoading(true);
+            const dict = await getDictionary(lang);
+            setDictionary(dict.pages.measure.modalm);
+          } catch (error) {
+            console.error("Error loading dictionary:", error);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        loadDictionary();
+      }, [lang]);
+
+      const form = useForm<Manufacturing>({
+        resolver: zodResolver(ManufacturingValidation),
+        defaultValues: {
+          idControlManufacturing: manufacturingMeasure?.idControlManufacturing ?? 0,
+          idUserControl: manufacturingMeasure?.idUserControl ?? 0,
+          idFacility: manufacturingMeasure?.idFacility ?? '',
+          idTypeEquipment: manufacturingMeasure?.idTypeEquipment ?? 0,
+          idTypeEquipmentCode: manufacturingMeasure?.idTypeEquipmentCode ?? 0,
+          idTypeFuelUsed: manufacturingMeasure?.idTypeFuelUsed ?? 0,
+          process: manufacturingMeasure?.process ?? '',
+          active: manufacturingMeasure?.active ?? 1,
+        },
+      })
+
+      if (loading || !dictionary) {
+        return (
+          <div className="flex items-center justify-center w-full h-full">
+            <Loading />
+          </div>
+        );
+      }
 
   const handleCreateManufacturing = async (manufacturing: Manufacturing) => {
     await createManufacturing(manufacturing)
     addMeasure(manufacturing as unknown as IMeasureResponse)
     toast({
-      title: 'Success',
-      description: 'This manufacturing has been inserted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc1,
       className: 'bg-black',
     })
   }
@@ -46,8 +92,8 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This manufacturing has been updated successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc2,
       className: 'bg-black',
     })
   }
@@ -61,25 +107,11 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This manufacturing has been deleted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc3,
       className: 'bg-black',
     })
   }
-
-  const form = useForm<Manufacturing>({
-    resolver: zodResolver(ManufacturingValidation),
-    defaultValues: {
-      idControlManufacturing: manufacturingMeasure?.idControlManufacturing ?? 0,
-      idUserControl: manufacturingMeasure?.idUserControl ?? 0,
-      idFacility: manufacturingMeasure?.idFacility ?? '',
-      idTypeEquipment: manufacturingMeasure?.idTypeEquipment ?? 0,
-      idTypeEquipmentCode: manufacturingMeasure?.idTypeEquipmentCode ?? 0,
-      idTypeFuelUsed: manufacturingMeasure?.idTypeFuelUsed ?? 0,
-      process: manufacturingMeasure?.process ?? '',
-      active: manufacturingMeasure?.active ?? 1,
-    },
-  })
 
   async function onSubmit(manufacturing: Manufacturing) {
     setIsLoading(true)
@@ -95,8 +127,8 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messages.title,
+        description: dictionary.messages.error,
         className: 'bg-[#7f1d1d]',
       })
       console.error('ManufacturingForm:', error)
@@ -112,43 +144,43 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             name="process"
-            label="PROCESS"
-            placeholder="Process"
+            label={dictionary.label}
+            placeholder={dictionary.process}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idFacility"
-            label="FACILITY"
-            placeholder="Select Facility"
+            label={dictionary.label1}
+            placeholder={dictionary.faci}
             options={ facilities }
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idTypeEquipment"
-            label="TYPE OF EQUIPMENT"
-            placeholder="Type Of Equipment"
+            label={dictionary.label2}
+            placeholder={dictionary.type}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idTypeFuelUsed"
-            label="TYPE OF FUEL USED"
-            placeholder="Type Of Fuel Used"
+            label={dictionary.label3}
+            placeholder={dictionary.fuel}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idTypeEquipmentCode"
-            label="EQUIPMENT CODE"
-            placeholder="Equipment Code"
+            label={dictionary.label4}
+            placeholder={dictionary.code}
             control={ form.control }
           />
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-            { !manufacturingMeasure ? 'Add' : 'Update' }
+            { !manufacturingMeasure ? dictionary.add : dictionary.up }
           </SubmitButton>
         </div>
       </form>

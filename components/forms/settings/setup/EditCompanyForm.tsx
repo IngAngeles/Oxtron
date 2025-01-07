@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,12 +8,20 @@ import { updateCompany } from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = { company?: Company }
 
 export const EditCompanyForm = ({ company }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
 
   const form = useForm<Company>({
     resolver: zodResolver(CompanyValidation),
@@ -55,6 +64,30 @@ export const EditCompanyForm = ({ company }: Props) => {
     }
   }
 
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.settings.setup);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <Form { ...form }>
       <form onSubmit={ form.handleSubmit(onSubmit) } className="space-y-6 flex-1 text-neutral-500 w-full">
@@ -62,53 +95,53 @@ export const EditCompanyForm = ({ company }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="Business Name"
-            label="BUSINESS NAME"
+            placeholder={dictionary.content1.name}
+            label={dictionary.content1.name}
             name="organisatioName"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="Industry"
-            label="INDUSTRY"
+            placeholder={dictionary.content1.industry}
+            label={dictionary.content1.industry}
             name="industry"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="Country"
-            label="COUNTRY"
+            placeholder={dictionary.content1.country}
+            label={dictionary.content1.country}
             name="country"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="State"
-            label="STATE"
+            placeholder={dictionary.content1.state}
+            label={dictionary.content1.state}
             name="state"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="City"
-            label="CITY"
+            placeholder={dictionary.content1.city}
+            label={dictionary.content1.city}
             name="city"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="Zip Code"
-            label="ZIP CODE"
+            placeholder={dictionary.content1.zip}
+            label={dictionary.content1.zip}
             name="postalCode"/>
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder="Adress"
-            label="ADDRESS"
+            placeholder={dictionary.content1.add}
+            label={dictionary.content1.add}
             name="address"/>
           <CustomFormField
             fieldType={ FormFieldType.PHONE_INPUT }
             control={ form.control }
-            placeholder="Telephone"
-            label="TELEPHONE"
+            placeholder={dictionary.content1.phonee}
+            label={dictionary.content1.phonee}
             name="telephoneCompany"/>
         </div>
-        <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>Update</SubmitButton>
+        <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>{dictionary.content1.up}</SubmitButton>
       </form>
     </Form>
   )

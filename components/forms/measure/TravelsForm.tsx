@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { createTravel, deleteTravel, updateTravel } from '@/actions/measure'
@@ -10,20 +10,87 @@ import SubmitButton from '@/components/SubmitButton'
 import { IMeasureContextType, IMeasureResponse, ITravel } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
 import { Travel, TravelValidation } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = Readonly<{ travelMeasure?: ITravel }>
 
 const TravelsForm = ({ travelMeasure }: Props) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const { addMeasure, handleHideModal, setData, setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false);
+  const { addMeasure, handleHideModal, setData, setMeasure } = useContext(MeasureContext) as IMeasureContextType || {};
+  const { toast } = useToast();
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.modalt);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  const form = useForm<Travel>({
+    resolver: zodResolver(TravelValidation),
+    defaultValues: {
+      idControlTravel: travelMeasure?.idControlTravel ?? 0,
+      idUserControl: travelMeasure?.idUserControl ?? 0,
+      idTravel: travelMeasure?.idTravel ?? '',
+      description: travelMeasure?.description ?? '',
+      active: travelMeasure?.active ?? 1,
+    },
+  })
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
+
+  async function onSubmit(travel: Travel) {
+    setIsLoading(true)
+
+    try {
+      if (!travelMeasure) {
+        await handleCreateTravel(travel)
+      } else {
+        await handleUpdateTravel(travel)
+      }
+      form.reset()
+      handleHideModal()
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: dictionary.messages.title,
+        description: dictionary.messages.descrip,
+        className: 'bg-[#7f1d1d]',
+      })
+      console.error('onSubmitTravel:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleCreateTravel = async (travel: Travel) => {
     await createTravel(travel)
     addMeasure(travel as unknown as IMeasureResponse)
     toast({
-      title: 'Success',
-      description: 'This travel has been inserted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.this,
       className: 'bg-black',
     })
   }
@@ -44,8 +111,8 @@ const TravelsForm = ({ travelMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This travel has been updated successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.this1,
       className: 'bg-black',
     })
   }
@@ -59,45 +126,10 @@ const TravelsForm = ({ travelMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This travel has been deleted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.this2,
       className: 'bg-black',
     })
-  }
-
-  const form = useForm<Travel>({
-    resolver: zodResolver(TravelValidation),
-    defaultValues: {
-      idControlTravel: travelMeasure?.idControlTravel ?? 0,
-      idUserControl: travelMeasure?.idUserControl ?? 0,
-      idTravel: travelMeasure?.idTravel ?? '',
-      description: travelMeasure?.description ?? '',
-      active: travelMeasure?.active ?? 1,
-    },
-  })
-
-  async function onSubmit(travel: Travel) {
-    setIsLoading(true)
-
-    try {
-      if (!travelMeasure) {
-        await handleCreateTravel(travel)
-      } else {
-        await handleUpdateTravel(travel)
-      }
-      form.reset()
-      handleHideModal()
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
-        className: 'bg-[#7f1d1d]',
-      })
-      console.error('onSubmitTravel:', error)
-    } finally {
-      setIsLoading(false)
-    }
   }
 
 
@@ -108,23 +140,23 @@ const TravelsForm = ({ travelMeasure }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             name="idTravel"
-            label="TRAVEL ID"
-            placeholder="Write Travel ID"
+            label={dictionary.id}
+            placeholder={dictionary.write}
             control={ form.control }
           />
           <div className="col-span-2">
             <CustomFormField
               fieldType={ FormFieldType.TEXTAREA }
               name="description"
-              label="DESCRIPTION"
-              placeholder="Write Description"
+              label={dictionary.descri}
+              placeholder={dictionary.writed}
               control={ form.control }
             />
           </div>
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-            { !travelMeasure ? 'Add' : 'Update' }
+            { !travelMeasure ? dictionary.add : dictionary.up }
           </SubmitButton>
         </div>
       </form>

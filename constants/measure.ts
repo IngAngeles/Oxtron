@@ -1,5 +1,4 @@
 import { ICommuting, IFacility, ILogistic, IManufacturing, IMeasureResponse, ITravel, IVehicle } from './types'
-import { getFacilitiesByUserId } from '@/actions/measure'
 
 export const measureCards: IMeasureCard[] = [
   {
@@ -14,8 +13,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 1', 'Scope 2', 'Scope 3']
-    },
-    appendTitle: false,
+    }
   },
   {
     id: 2,
@@ -29,8 +27,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 1']
-    },
-    appendTitle: false,
+    }
   },
   {
     id: 3,
@@ -44,8 +41,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 3']
-    },
-    appendTitle: false,
+    }
   },
   {
     id: 4,
@@ -59,8 +55,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 3']
-    },
-    appendTitle: false,
+    }
   },
   {
     id: 5,
@@ -74,8 +69,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 1']
-    },
-    appendTitle: false,
+    }
   },
   {
     id: 6,
@@ -89,8 +83,7 @@ export const measureCards: IMeasureCard[] = [
     lastUpdated: new Date(2022, 10, 23),
     footerCard: {
       scope: ['Scope 3']
-    },
-    appendTitle: false,
+    }
   },
 ]
 
@@ -124,7 +117,6 @@ export const getFacilities = (facilities: IFacility[], handleShowModal: () => vo
   link: `/${ facility.idControlFacility }`,
   lastUpdated: new Date(2022, 10, 23),
   measure: facility as unknown as IMeasureResponse,
-  appendTitle: true,
 }))
 export const getVehicles = (vehicles: IVehicle[], handleShowModal: () => void): IMeasureCard[] => vehicles.map((vehicle) => ({
   id: vehicle.idControlVehicle,
@@ -138,7 +130,6 @@ export const getVehicles = (vehicles: IVehicle[], handleShowModal: () => void): 
   link: `/${ vehicle.idControlVehicle }`,
   lastUpdated: new Date(2022, 10, 23),
   measure: vehicle as unknown as IMeasureResponse,
-  appendTitle: true,
 }))
 
 export const getTravels = (travels: ITravel[], handleShowModal: () => void): IMeasureCard[] => travels.map((travel) => ({
@@ -153,7 +144,6 @@ export const getTravels = (travels: ITravel[], handleShowModal: () => void): IMe
   link: `/${ travel.idControlTravel }`,
   lastUpdated: new Date(2022, 10, 23),
   measure: travel as unknown as IMeasureResponse,
-  appendTitle: true,
 }))
 
 export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void): IMeasureCard[] => logistics.map((logistic) => ({
@@ -168,7 +158,6 @@ export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void
   link: `/${ logistic.idControlLogistics }`,
   lastUpdated: new Date(2022, 10, 23),
   measure: logistic as unknown as IMeasureResponse,
-  appendTitle: true,
 }))
 
 export const getManufacturing = (manufacturing: IManufacturing[], handleShowModal: () => void): IMeasureCard[] => manufacturing.map((manufacture) => ({
@@ -183,26 +172,18 @@ export const getManufacturing = (manufacturing: IManufacturing[], handleShowModa
   link: `/${ manufacture.idControlManufacturing }`,
   lastUpdated: new Date(2022, 10, 23),
   measure: manufacture as unknown as IMeasureResponse,
-  appendTitle: true,
 }))
 
-export const getCommuting = async (commuting: ICommuting[], handleShowModal: () => void): Promise<IMeasureCard[]> => {
-  const facilities: IFacility[] = await getFacilitiesByUserId() || []
-
-  return commuting.map((commute) => (
-    {
-      id: commute.idControlCommuting,
-      title: facilities.find(facility => Number(commute.idControlFacility) === facility.idControlFacility)?.idFacility || 'No Facility',
-      description: 'Mexico City, Mexico',
-      icon: {
-        src: '/assets/icons/black/Edit.png',
-        position: 'head',
-        onClick: handleShowModal,
-      },
-      link: `/${ commute.idControlCommuting }`,
-      lastUpdated: new Date(2022, 10, 23),
-      measure: commute as unknown as IMeasureResponse,
-      appendTitle: true,
-    })
-  )
-}
+export const getCommuting = (commuting: ICommuting[], handleShowModal: () => void): IMeasureCard[] => commuting.map((commute) => ({
+  id: commute.idControlCommuting,
+  title: commute.idControlFacility,
+  description: 'Mexico City, Mexico',
+  icon: {
+    src: '/assets/icons/black/Edit.png',
+    position: 'head',
+    onClick: handleShowModal,
+  },
+  link: `/${ commute.idControlCommuting }`,
+  lastUpdated: new Date(2022, 10, 23),
+  measure: commute as unknown as IMeasureResponse,
+}))
