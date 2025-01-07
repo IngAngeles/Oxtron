@@ -7,7 +7,7 @@ import SubmitButton from '@/components/SubmitButton'
 import { CommutingDetails, CommutingDetailsValidation } from '@/lib/validation'
 import { VLabel } from '@/constants/types'
 import { getCboModeTransport } from '@/actions/measure'
-import { createCommutingDetails, updateCommutingDetails } from '@/actions/measure/details'
+import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
 import { toast } from '@/components/ui/use-toast'
 
 type Props = { idControlCommuting: number; commuting?: CommutingDetails; reloadData: () => void  };
@@ -74,6 +74,27 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     loadData()
   }, [])
 
+  useEffect(() => {
+    const origin = form.getValues('originZipCode');
+    const destiny = form.getValues('distinationZipCode');
+
+    if (origin && destiny && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+      getDistance(Number(origin), Number(destiny)).then((result) => {
+        if (result?.success) {
+          // @ts-ignore
+          form.setValue('distance', result?.data?.distance);
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: 'It was not possible to calculate the distance between these postal codes.',
+            className: 'bg-[#7f1d1d]',
+          })
+        }
+      });
+    }
+  }, [form.getValues('originZipCode'), form.getValues('distinationZipCode')]);
+
   return (
     <Form { ...form }>
       <form
@@ -125,6 +146,7 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
             fieldType={ FormFieldType.INPUT }
             label="DISTANCE"
             placeholder="Commuting Distance"
+            disabled={ true }
           />
           <CustomFormField
             control={ form.control }
