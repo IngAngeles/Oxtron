@@ -14,7 +14,6 @@ import {
   VehicleDescriptionDetails,
   VehicleDetails
 } from '@/lib/validation'
-import {distance} from "framer-motion";
 
 export async function getCommutingDetails(idCommuting: number) {
   try {
