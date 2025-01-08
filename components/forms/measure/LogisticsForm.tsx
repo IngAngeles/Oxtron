@@ -97,9 +97,28 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
       destinationzc: logisticMeasure?.destinationzc ?? '',
       originzc: logisticMeasure?.originzc ?? '',
       loadLogistic: logisticMeasure?.loadLogistic ?? '',
-      active: logisticMeasure?.active ?? 1
+      active: logisticMeasure?.active ?? 1,
+      propertyStatus: logisticMeasure?.propertyStatus ?? ''
     },
   })
+
+  const watchedFields = form.watch([
+    'origin',
+    'destination',
+    'originzc',
+    'destinationzc',
+    'idCboStatus',
+    'idTravelCboType',
+    'idCboBrand',
+    'propertyStatus',
+    'selectVehicle',
+  ])
+
+  const isNextDisabled = currentStep === 1
+    ? watchedFields[0]!.length === 0 || watchedFields[1]!.length === 0 || watchedFields[2]!.length === 0 || watchedFields[3]!.length === 0
+    : currentStep === 2
+      ? watchedFields[4] === 0 || watchedFields[5] === 0 || watchedFields[6] === 0
+      : false
 
   async function onSubmit(logistic: Logistic) {
     setIsLoading(true)
@@ -304,6 +323,7 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
               type="button"
               className={ 'bg-[#9FA2B4] w-full py-6 hover:scale-95 transition duration-300 text-white' }
               onClick={ nextStep }
+              disabled={ isNextDisabled }
             >
               Next
             </Button>

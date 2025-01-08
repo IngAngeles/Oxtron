@@ -14,12 +14,12 @@ const MeasureContent = ({ scope, cards, appendTitle = false }: Props) => {
   return (
     <TabsContent value={ scope }>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-12">
-        { filterCards(cards, scope).map((card) => (
+        { cards.length !== 0 ? filterCards(cards, scope).map((card) => (
           <MeasureCard
             { ...card }
             appendTitle={ appendTitle }
             key={ card.id }/>
-        )) }
+        )): <p className="text-black">No data available</p> }
       </div>
     </TabsContent>
   )

@@ -33,7 +33,7 @@ export async function getCommutingDetails(idCommuting: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -97,7 +97,7 @@ export async function getFacilityDetails(idFacilities: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -160,7 +160,7 @@ export async function getLogisticDetails(idLogistic: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -233,7 +233,7 @@ export async function getManufacturingDetails(idManufacturing: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -296,7 +296,7 @@ export async function getTravelDetails(idControl: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -359,7 +359,7 @@ export async function getVehicleDetails(idControl: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 

@@ -1,15 +1,16 @@
-import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
-import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
+'use client'
+import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
-import {Form} from "@/components/ui/form";
-import {LogisticDetails, LogisticDetailsValidation} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import React, {useEffect, useState} from 'react'
-import {useForm} from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import { LogisticDetails, LogisticDetailsValidation } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from 'react'
+import { useForm } from "react-hook-form";
 import {createLogisticDetails, getDistance, updateLogisticDetails} from '@/actions/measure/details'
-import {VLabel} from '@/constants/types'
-import {getCboTypes} from '@/actions/communicate'
-import {toast} from '@/components/ui/use-toast'
+import { VLabel } from '@/constants/types'
+import { getCboTypes } from '@/actions/communicate'
+import { toast } from '@/components/ui/use-toast'
 
 type Props = { idControlLogistics: number; logistic?: LogisticDetails; reloadData: () => void };
 
@@ -79,11 +80,11 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
     const origin = form.getValues('origin');
     const destiny = form.getValues('destiny');
 
-    if (origin && destiny && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
       getDistance(Number(origin), Number(destiny)).then((result) => {
         if (result?.success) {
           // @ts-ignore
-          form.setValue('distance', result?.data?.distance);
+          form.setValue('amount', result?.data?.distance);
         } else {
           toast({
             variant: 'destructive',
@@ -105,15 +106,15 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex justify-center w-full gap-4">
             <CustomRadioButton
-              value={emissionsFactor}
-              onChange={setEmissionsFactor}
-              options={[
-                {value: '1', label: 'Default'},
-                {value: '2', label: 'Personalized'},
-              ]}
-              cols={2}
+              value={ emissionsFactor }
+              onChange={ setEmissionsFactor }
+              options={ [
+                { value: '1', label: 'Default' },
+                // { value: '2', label: 'Personalized' },
+              ] }
+              cols={ 2 }
               label="EMISSIONS FACTOR"
-              defaultSelected={0}/>
+              defaultSelected={ 0 }/>
           </div>
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
@@ -160,7 +161,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex justify-center w-full gap-4">
+          {/* <div className="flex justify-center w-full gap-4">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
@@ -169,7 +170,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
               placeholder="Fuel Type"
               options={fuelType}
             />
-          </div>
+          </div> */ }
           <div>
             <div className="flex justify-center w-full gap-4">
               <CustomFormField
@@ -178,15 +179,15 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
                 name="amount"
                 label="AMOUNT"
                 placeholder="Amount"
-                disabled={true}
+                disabled
               />
-              <CustomFormField
+              {/* <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="unit"
                 placeholder="Unit"
                 label="UNIT"
-              />
+              /> */}
             </div>
           </div>
         </div>
@@ -195,7 +196,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            {"Update"}
+            { !logistic ? 'create' : 'update' }
           </SubmitButton>
         </div>
       </form>

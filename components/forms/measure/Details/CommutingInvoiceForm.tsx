@@ -78,7 +78,7 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     const origin = form.getValues('originZipCode');
     const destiny = form.getValues('distinationZipCode');
 
-    if (origin && destiny && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
       getDistance(Number(origin), Number(destiny)).then((result) => {
         if (result?.success) {
           // @ts-ignore
@@ -146,7 +146,6 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
             fieldType={ FormFieldType.INPUT }
             label="DISTANCE"
             placeholder="Commuting Distance"
-            disabled={ true }
           />
           <CustomFormField
             control={ form.control }
@@ -156,20 +155,20 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
             placeholder="Select Transport"
             options={ cboModeTransport }
           />
-          <CustomFormField
-            control={ form.control }
+          {/* <CustomFormField
+            control={form.control}
             name="fuelEfficiency"
-            fieldType={ FormFieldType.INPUT }
+            fieldType={FormFieldType.INPUT}
             label="FUEL EFFICIENCY"
             placeholder="Fuel efficiency"
-          />
+          /> */}
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton
             isLoading={ isLoading }
             onClick={ () => onSubmit(form.getValues()) }
           >
-            { 'Update' }
+            { !commuting ? 'create' : 'update' }
           </SubmitButton>
         </div>
       </form>

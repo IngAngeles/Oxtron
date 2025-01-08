@@ -59,6 +59,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Input
             placeholder={ props.placeholder }
             { ...field }
+            {...props}
             className="bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]"
           />
         </FormControl>
@@ -181,8 +182,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           </FormControl>
         </div>
       );
-          
-      
+
     case FormFieldType.SELECT:
       return (
         <FormControl className="flex-1 title-century-gothic-regular bg-[#FCFDFE]">

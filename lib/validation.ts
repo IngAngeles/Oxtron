@@ -516,6 +516,8 @@ export const LogisticValidation = z.object({
   idCboBrand: z.number().positive('This field is required'),
   licensePlate: z.string().nullable(),
   active: z.number().max(1).min(0).default(1),
+  propertyStatus: z.string().max(1).min(0).default('1'),
+  selectVehicle: z.string().max(1).min(0).default('1'),
 })
 export type Logistic = z.infer<typeof LogisticValidation>
 

@@ -1,17 +1,17 @@
 'use client'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { Form } from '@/components/ui/form'
-import CustomFormField, { FormFieldType } from '../CustomFormField'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {useForm} from 'react-hook-form'
+import {z} from 'zod'
+import {Form} from '@/components/ui/form'
+import CustomFormField, {FormFieldType} from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { UserRegisterValidation } from '@/lib/validation'
+import React, {useState, useEffect} from 'react'
+import {useRouter} from 'next/navigation'
+import {UserRegisterValidation} from '@/lib/validation'
 import Link from 'next/link'
-import { toast } from '@/components/ui/use-toast'
-import { register } from '@/actions/auth'
-import { Button } from '../ui/button'
+import {toast} from '@/components/ui/use-toast'
+import {register} from '@/actions/auth'
+import {Button} from '../ui/button'
 
 const RegisterForm = () => {
   const router = useRouter()
@@ -19,6 +19,14 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [currentStep, setCurrentStep] = useState<number>(1)
+  const [timeZone, setTimeZone] = useState('UTC')
+
+  useEffect(() => {
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    console.log({browserTimeZone})
+    setTimeZone(browserTimeZone || 'UTC')
+  }, [])
+
   const form = useForm<z.infer<typeof UserRegisterValidation>>({
     resolver: zodResolver(UserRegisterValidation),
     defaultValues: {
@@ -33,24 +41,21 @@ const RegisterForm = () => {
       state: '',
       country: '',
       postalCode: '',
-      typeLicense: 0,
+      typeLicense: 1,
       telephoneUser: '0000000000',
-      timeZone: 'UTC',
+      timeZone: timeZone,
       language: 'Por definir',
-      // idUSerType: 1,
-      // active: '0',
     },
   })
+
   const [arePasswordsMatch, setArePasswordMatch] = useState<boolean>(true)
 
   const nextStep = async () => {
     const isFormValid = await form.trigger(["firstName", "lastName", "password", "confirmPassword"])
-    const { password, confirmPassword } = form.getValues()
+    const {password, confirmPassword} = form.getValues()
     setArePasswordMatch(password === confirmPassword)
 
-    console.log({ isFormValid, arePasswordsMatch, password, confirmPassword })
-
-    if (!isFormValid || password != confirmPassword) return
+    if (!isFormValid || password !== confirmPassword) return
 
     setCurrentStep(2)
   }
@@ -69,7 +74,7 @@ const RegisterForm = () => {
       form.reset()
       router.push(`/register-success`)
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
@@ -82,112 +87,119 @@ const RegisterForm = () => {
   }
 
   return (
-    <Form { ...form }>
-      <form onSubmit={ form.handleSubmit(onSubmit) } className="space-y-6 flex-1 w-[28rem]">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1 w-[28rem]">
         <section className="mb-12 space-y-4 text-center">
           <h1 className="font-bold text-[24px] text-black title-century-gothic-bold">Sign Up</h1>
-          <p className="text-[#9FA2B4] title-century-gothic-regular text-[14px]">Enter your administrator info below</p>
+          <p className="text-[#9FA2B4] title-century-gothic-regular text-[14px]">Enter your administrator info
+            below</p>
         </section>
-        { currentStep === 1 && (
+        {currentStep === 1 && (
           <>
             <div className="flex space-x-4">
               <CustomFormField
-                fieldType={ FormFieldType.INPUT }
-                control={ form.control }
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
                 name="firstName"
                 label="First Name"
-                placeholder="Enter your first name"/>
+                placeholder="Enter your first name"
+              />
               <CustomFormField
-                fieldType={ FormFieldType.INPUT }
-                control={ form.control }
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
                 name="lastName"
                 label="Last Name"
-                placeholder="Enter your last name"/>
+                placeholder="Enter your last name"
+              />
             </div>
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="role"
               label="Role"
-              placeholder="Enter your role"/><CustomFormField
-            fieldType={ FormFieldType.INPUT }
-            control={ form.control }
-            name="email"
-            label="Email"
-            placeholder="Enter your email address"/><CustomFormField
-            fieldType={ FormFieldType.PASSWORD }
-            control={ form.control }
-            placeholder="Password"
-            label="Password"
-            name="password"
-            showPassword={ showPassword }
-            onPasswordToggle={ () => setShowPassword(!showPassword) }
-            showPasswordToggle/>
-            { !arePasswordsMatch && (
-              <p id=":R8l7rmj6:-form-item-message" className="text-sm font-medium text-destructive shad-error">
-                Passwords don&apos;t match
-              </p>
-            ) }
+              placeholder="Enter your role"
+            />
             <CustomFormField
-              fieldType={ FormFieldType.PASSWORD }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Enter your email address"
+            />
+            <CustomFormField
+              fieldType={FormFieldType.PASSWORD}
+              control={form.control}
+              placeholder="Password"
+              label="Password"
+              name="password"
+              showPassword={showPassword}
+              onPasswordToggle={() => setShowPassword(!showPassword)}
+              showPasswordToggle
+            />
+            {!arePasswordsMatch && (
+              <p className="text-sm font-medium text-destructive shad-error">Passwords don&apos;t
+                match</p>
+            )}
+            <CustomFormField
+              fieldType={FormFieldType.PASSWORD}
+              control={form.control}
               placeholder="Confirm Password"
               label="Confirm Password"
               name="confirmPassword"
-              showPassword={ showConfirmPassword }
-              onPasswordToggle={ () => setShowConfirmPassword(!showConfirmPassword) }
-              showPasswordToggle/>
-            { !arePasswordsMatch && (
-              <p id=":R8l7rmj6:-form-item-message" className="text-sm font-medium text-destructive shad-error">
-                Passwords don&apos;t match
-              </p>
-            ) }
+              showPassword={showConfirmPassword}
+              onPasswordToggle={() => setShowConfirmPassword(!showConfirmPassword)}
+              showPasswordToggle
+            />
+            {!arePasswordsMatch && (
+              <p className="text-sm font-medium text-destructive shad-error">Passwords don&apos;t
+                match</p>
+            )}
           </>
-        ) }
-        { currentStep > 1 && (
+        )}
+        {currentStep > 1 && (
           <>
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="organisationName"
               label="Organisation Name"
               placeholder="Enter your organisation name"
             />
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="city"
               label="City"
               placeholder="Enter your city"
             />
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="state"
               label="State"
               placeholder="Enter your state"
             />
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="country"
               label="Country"
               placeholder="Enter your country"
             />
             <CustomFormField
-              fieldType={ FormFieldType.INPUT }
-              control={ form.control }
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
               name="postalCode"
               label="Postal Code"
               placeholder="Enter your postal code"
             />
           </>
-        ) }
-        { currentStep > 1 ? (
-          <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
+        )}
+        {currentStep > 1 ? (
+          <SubmitButton isLoading={isLoading} onClick={() => onSubmit(form.getValues())}>
             Sign up
           </SubmitButton>
-        ) :
+        ) : (
           <Button
             type="button"
             disabled={isLoading}
@@ -195,10 +207,13 @@ const RegisterForm = () => {
             onClick={nextStep}
           >
             Next
-          </Button> }
+          </Button>
+        )}
 
         <Link href="/" className="text-black text-sm w-full font-extralight">
-          <p className="mt-4">¿Already have an account? <b>Log In</b></p>
+          <p className="mt-4">
+            ¿Already have an account? <b>Log In</b>
+          </p>
         </Link>
       </form>
     </Form>

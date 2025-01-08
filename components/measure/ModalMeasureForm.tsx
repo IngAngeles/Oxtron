@@ -18,7 +18,7 @@ const ModalMeasureForm = ({ scope, title, handleOnCloseModal, measure }: Props) 
   return (
     <div className="fixed top-0 right-0 flex flex-col items-center justify-center w-screen h-screen bg-black/25">
       <div
-        className="flex flex-col items-center justify-between w-full h-full lg:w-1/3 md:w-2/3 md:h-[80vh] rounded bg-white p-8 gap-4 md:gap-8">
+        className="flex flex-col items-center justify-between w-full h-full lg:w-1/3 md:w-2/3 md:h-auto rounded bg-white p-8 gap-4 md:gap-8">
         <section className="flex items-center justify-between w-full h-auto space-y-4">
           <h3 className="font-bold text-xl text-neutral-900">{ title }</h3>
           <div className="flex items-center justify-center rounded-full border-2 border-neutral-500">

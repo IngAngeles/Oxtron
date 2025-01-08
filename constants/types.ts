@@ -134,6 +134,8 @@ export interface ILogistic {
     idCboBrand: number;
     licensePlate?: string;
     active: number;
+    propertyStatus: string;
+    selectVehicle: string;
 }
 
 export interface IManufacturing {

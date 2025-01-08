@@ -67,7 +67,7 @@ const MeasureProvider = ({ children, scope }: Props) => {
         const response: IMeasureResponse[] = await fetchData(scope)
         setData(response)
       } catch (error) {
-        setError(error as AxiosError)
+        setData([])
       } finally {
         setLoading(false)
       }
