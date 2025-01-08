@@ -46,7 +46,7 @@ const MeasureCard = ({
   const { setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
 
   return (
-    <Card className="w-full text-neutral-500 rounded-[8px] shadow-custom">
+    <Card className="w-full text-neutral-500 rounded-[8px] !shadow-custom">
       <CardHeader>
         <div className="flex items-center justify-between gap-2 ">
           <div>

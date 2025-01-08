@@ -106,28 +106,28 @@ const BarChart: React.FC<BarChartProps> = ({ gasTons, gasPercentage }) => {
 
           <div className='flex justify-between items-center text-content font-light'>
             <div className='flex items-center gap-2'>
-              <div className='w-5 h-5 bg-[#87CEEB] rounded-full'/>
+              <div className='w-5 h-5 bg-[#B0D4FF] rounded-full'/>
               <p>CO<sub>2</sub></p>
             </div>
             <p>{unit === 'T' ? `${gasTons?.ggE_CO2_T || 0} T` : `${gasPercentage?.ggE_CO2_P || 0} %`}</p>
           </div>
           <div className='flex justify-between items-center text-content font-light'>
             <div className='flex items-center gap-2'>
-              <div className='w-5 h-5 bg-[#4169E1] rounded-full'/>
+              <div className='w-5 h-5 bg-[#0065FF] rounded-full'/>
               <p>CH<sub>4</sub></p>
             </div>
             <p>{unit === 'T' ? `${gasTons?.ggE_CH4_T || 0} T` : `${gasPercentage?.ggE_CH4_P || 0} %`}</p>
           </div>
           <div className='flex justify-between items-center text-content font-light'>
             <div className='flex items-center gap-2'>
-              <div className='w-5 h-5 bg-[#000080] rounded-full'/>
+              <div className='w-5 h-5 bg-[#03133A] rounded-full'/>
               <p>N<sub>2</sub>O</p>
             </div>
             <p>{unit === 'T' ? `${gasTons?.ggE_N20_T || 0} T` : `${gasPercentage?.ggE_N20_P || 0} %`}</p>
           </div>
           <div className='flex justify-between items-center text-content font-light'>
             <div className='flex items-center gap-2'>
-              <div className='w-5 h-5 bg-[#000000] rounded-full'/>
+              <div className='w-5 h-5 bg-[#000A14] rounded-full'/>
               <p>Biofuel CO<sub>2</sub></p>
             </div>
             <p>{unit === 'T' ? `${gasTons?.ggE_BCO2_T || 0} T` : `${gasPercentage?.ggE_BCO2_P || 0} %`}</p>
