@@ -77,31 +77,26 @@ const MeasureProvider = ({ children, scope }: Props) => {
   }, [scope])
 
   useEffect(() => {
-    const loadData = async () => {
-      switch (scope) {
-        case EMeasureScope.Facilities:
-          setCards(getFacilities(data as unknown as IFacility[], handleShowModal))
-          break
-        case EMeasureScope.Vehicles:
-          setCards(getVehicles(data as unknown as IVehicle[], handleShowModal))
-          break
-        case EMeasureScope.Travels:
-          setCards(getTravels(data as unknown as ITravel[], handleShowModal))
-          break
-        case EMeasureScope.Logistics:
-          setCards(getLogistics(data as unknown as ILogistic[], handleShowModal))
-          break
-        case EMeasureScope.Manufacturing:
-          setCards(getManufacturing(data as unknown as IManufacturing[], handleShowModal))
-          break
-        case EMeasureScope.Commuting:
-          const commutingData = await getCommuting(data as unknown as ICommuting[], handleShowModal)
-          setCards(commutingData)
-          break
-      }
+    switch (scope) {
+      case EMeasureScope.Facilities:
+        setCards(getFacilities(data as unknown as IFacility[], handleShowModal))
+        break
+      case EMeasureScope.Vehicles:
+        setCards(getVehicles(data as unknown as IVehicle[], handleShowModal))
+        break
+      case EMeasureScope.Travels:
+        setCards(getTravels(data as unknown as ITravel[], handleShowModal))
+        break
+      case EMeasureScope.Logistics:
+        setCards(getLogistics(data as unknown as ILogistic[], handleShowModal))
+        break
+      case EMeasureScope.Manufacturing:
+        setCards(getManufacturing(data as unknown as IManufacturing[], handleShowModal))
+        break
+      case EMeasureScope.Commuting:
+        setCards(getCommuting(data as unknown as ICommuting[], handleShowModal))
+        break
     }
-
-    loadData()
   }, [data])
 
   return (

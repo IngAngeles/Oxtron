@@ -7,6 +7,10 @@ import { LogisticDetails, LogisticDetailsValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 import {createLogisticDetails, getDistance, updateLogisticDetails} from '@/actions/measure/details'
 import { VLabel } from '@/constants/types'
 import { getCboTypes } from '@/actions/communicate'
@@ -17,7 +21,28 @@ type Props = { idControlLogistics: number; logistic?: LogisticDetails; reloadDat
 export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}: Props) => {
   const [emissionsFactor, setEmissionsFactor] = useState<string>("1");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
   const [fuelType, setFuelType] = useState<VLabel[]>([])
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.createm.log);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
   const form = useForm<LogisticDetails>({
     resolver: zodResolver(LogisticDetailsValidation),
     defaultValues: {
@@ -37,6 +62,14 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       unit: logistic?.unit ?? '',
     },
   });
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
 
   async function onSubmit(logisticsDetails: LogisticDetails) {
     setIsLoading(true);
@@ -106,47 +139,47 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex justify-center w-full gap-4">
             <CustomRadioButton
-              value={ emissionsFactor }
-              onChange={ setEmissionsFactor }
-              options={ [
-                { value: '1', label: 'Default' },
-                // { value: '2', label: 'Personalized' },
-              ] }
-              cols={ 2 }
-              label="EMISSIONS FACTOR"
-              defaultSelected={ 0 }/>
+              value={emissionsFactor}
+              onChange={setEmissionsFactor}
+              options={[
+                {value: "1", label: dictionary.lab1},
+                // { value: "2", label: dictionary.lab2 },
+              ]}
+              cols={2}
+              label={dictionary.label}
+              defaultSelected={0}/>
           </div>
-          <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="origin"
-              label="ORIGIN"
-              placeholder="Origin"
+              name="startDate"
+              label={dictionary.label1}
+              placeholder={dictionary.ori}
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="destiny"
-              label="DESTINY"
-              placeholder="Destiny"
+              name="endDate"
+              label={dictionary.label2}
+              placeholder={dictionary.desti}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="startDate"
-              label="START DATE"
+              label={dictionary.label3}
               placeholder="dd/mm/yyyy"
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="endDate"
-              label="END DATE"
+              label={dictionary.label4}
               placeholder="dd/mm/yyyy"
             />
           </div>
@@ -155,38 +188,36 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
               control={form.control}
               fieldType={FormFieldType.INPUT}
               name="invoiceId"
-              label="INVOICE ID (OPTIONAL)"
-              placeholder="Invoice ID"
+              label={dictionary.label5}
+              placeholder={dictionary.id}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="idFuelType"
-              label="FUEL TYPE"
-              placeholder="Fuel Type"
-              options={fuelType}
+              name="fuelType"
+              label={dictionary.label6}
+              placeholder={dictionary.type}
             />
-          </div> */ }
+          </div>
           <div>
-            <div className="flex justify-center w-full gap-4">
+            <div className="flex items-center justify-center w-full">
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="amount"
-                label="AMOUNT"
-                placeholder="Amount"
-                disabled
+                label={dictionary.label}
+                placeholder={dictionary.amo}
               />
               {/* <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="unit"
-                placeholder="Unit"
-                label="UNIT"
+                placeholder={dictionary.uni}
+                label={dictionary.label8}
               /> */}
             </div>
           </div>
@@ -196,7 +227,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            { !logistic ? 'create' : 'update' }
+            {dictionary.up}
           </SubmitButton>
         </div>
       </form>

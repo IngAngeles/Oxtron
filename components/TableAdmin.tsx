@@ -18,16 +18,23 @@ import { useToast } from '@/components/ui/use-toast'
 import { getCompanyById } from '@/actions/company'
 import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/admin-account'
 import { Company } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 interface TableAdminProps {}
 
 const TableField: React.FC<TableAdminProps> = () => {
   const [data, setData] = useState<IUser[]>([])
-  const [_, setLoading] = useState(true)
   const [__, setError] = useState<AxiosError | null>(null)
   const [company, setCompany] = useState<Company | null>(null)
   const { setUser, searchTerm, handleOpenUpdateUserModal } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
 
   const loadData = async () => {
     setLoading(true)
@@ -47,8 +54,28 @@ const TableField: React.FC<TableAdminProps> = () => {
   }
 
   useEffect(() => {
-    loadData()
-  }, [])
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.settings.admin);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
 
   const filteredData = data.filter(user =>
     `${ user.firstName } ${ user.lastName }`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -59,14 +86,14 @@ const TableField: React.FC<TableAdminProps> = () => {
       const response = await deleteUserById(idUserControl)
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'This user has been inserted successfully',
+          title: dictionary.table.success, 
+          description: dictionary.table.other,
         })
       }
     } catch (error) {
       toast({
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.table.error,
+        description: dictionary.table.descript,
       })
       console.error({ error })
     }
@@ -77,14 +104,14 @@ const TableField: React.FC<TableAdminProps> = () => {
       const response = await disableUserById(idUserControl)
       if (response.success) {
         toast({
-          title: 'Success',
-          description: 'This user has been disabled successfully',
+          title: dictionary.table.success, 
+          description: dictionary.table.description,
         })
       }
     } catch (error) {
       toast({
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.table.error,
+        description: dictionary.table.descript,
       })
       console.error({ error })
     }
@@ -100,11 +127,11 @@ const TableField: React.FC<TableAdminProps> = () => {
       <Table style={ { color: '#9FA2B4' } }>
         <TableHeader>
           <TableRow style={ { color: '#9FA2B4', fontSize: '11px' } }>
-            <TableHead>Organization</TableHead>
-            <TableHead className="hidden md:table-cell">Name</TableHead>
-            <TableHead className="hidden md:table-cell">Email</TableHead>
-            <TableHead className="hidden md:table-cell">Status</TableHead>
-            <TableHead>Options</TableHead>
+            <TableHead>{dictionary.table.organization}</TableHead>
+            <TableHead className="hidden md:table-cell">{dictionary.table.name}</TableHead>
+            <TableHead className="hidden md:table-cell">{dictionary.table.email}</TableHead>
+            <TableHead className="hidden md:table-cell">{dictionary.table.status}</TableHead>
+            <TableHead>{dictionary.table.options}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

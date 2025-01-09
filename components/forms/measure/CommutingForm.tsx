@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { createCommuting, deleteCommuting, updateCommuting } from '@/actions/measure'
@@ -11,6 +11,10 @@ import { ICommuting, IMeasureContextType, IMeasureResponse } from '@/constants/t
 import { MeasureContext } from '@/context/measure'
 import { useFacilities } from '@/hooks/measure/useFacilities'
 import { Commuting, CommutingValidation } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = Readonly<{ commutingMeasure?: ICommuting }>
 
@@ -19,13 +23,52 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
   const { facilities } = useFacilities()
   const { setMeasure, setData, handleHideModal, addMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  useEffect(() => {
+          const loadDictionary = async () => {
+            try {
+              setLoading(true);
+              const dict = await getDictionary(lang);
+              setDictionary(dict.pages.measure.modalc);
+            } catch (error) {
+              console.error("Error loading dictionary:", error);
+            } finally {
+              setLoading(false);
+            }
+          };
+      
+          loadDictionary();
+        }, [lang]);
+
+        const form = useForm<Commuting>({
+          resolver: zodResolver(CommutingValidation),
+          defaultValues: {
+            idControlCommuting: commutingMeasure?.idControlCommuting ?? 0,
+            idUserControl: commutingMeasure?.idUserControl ?? 0,
+            description: commutingMeasure?.description ?? '',
+            idControlFacility: commutingMeasure?.idControlFacility ?? '',
+            active: commutingMeasure?.active ?? 1,
+          },
+        })
+
+        if (loading || !dictionary) {
+          return (
+            <div className="flex items-center justify-center w-full h-full">
+              <Loading />
+            </div>
+          );
+        }
 
   const handleCreateCommuting = async (commuting: Commuting) => {
     await createCommuting(commuting)
     addMeasure(commuting as unknown as IMeasureResponse)
     toast({
-      title: 'Success',
-      description: 'This commuting has been inserted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc1,
       className: 'bg-black',
     })
   }
@@ -43,8 +86,8 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This commuting has been updated successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc2,
       className: 'bg-black',
     })
   }
@@ -58,22 +101,11 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This facility has been deleted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.desc3,
       className: 'bg-black',
     })
   }
-
-  const form = useForm<Commuting>({
-    resolver: zodResolver(CommutingValidation),
-    defaultValues: {
-      idControlCommuting: commutingMeasure?.idControlCommuting ?? 0,
-      idUserControl: commutingMeasure?.idUserControl ?? 0,
-      description: commutingMeasure?.description ?? '',
-      idControlFacility: commutingMeasure?.idControlFacility ?? '',
-      active: commutingMeasure?.active ?? 1,
-    },
-  })
 
   async function onSubmit(commuting: Commuting) {
     setIsLoading(true)
@@ -89,8 +121,8 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messages.title,
+        description: dictionary.messages.desc,
         className: 'bg-[#7f1d1d]',
       })
       console.error('CommutingForm:', error)
@@ -106,8 +138,8 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idControlFacility"
-            label="Facility"
-            placeholder="Select Facility"
+            label={dictionary.label}
+            placeholder={dictionary.faci}
             options={ facilities }
             control={ form.control }
           >
@@ -117,15 +149,15 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
             <CustomFormField
               fieldType={ FormFieldType.TEXTAREA }
               name="description"
-              label="DESCRIPTION (OPTIONAL)"
-              placeholder="Description"
+              label={dictionary.label1}
+              placeholder={dictionary.des}
               control={ form.control }
             />
           </div>
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-            { !commutingMeasure ? 'Add' : 'Update' }
+            { !commutingMeasure ? dictionary.add : dictionary.up }
           </SubmitButton>
         </div>
       </form>

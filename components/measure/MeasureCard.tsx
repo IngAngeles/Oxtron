@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import IconButton from '@/components/measure/IconButton'
 import ScopeBadge from '@/components/measure/ScopeBadge'
-import { cn, /* formatDateTime */ } from '@/lib/utils'
+import { cn, formatDateTime } from '@/lib/utils'
 import { IMeasureContextType, IMeasureResponse } from '@/constants/types'
 import { useContext } from 'react'
 import { MeasureContext } from '@/context/measure'
@@ -22,7 +22,6 @@ declare global {
     footerCard?: {
       scope: string[]
     }
-    appendTitle: boolean,
     link?: string
     measure?: IMeasureResponse
   }
@@ -32,17 +31,16 @@ type Props = Readonly<IMeasureCard>
 
 const MeasureCard = ({
   title = '',
-  // lastUpdated,
+  lastUpdated,
   icon: { src, position = 'head', onClick },
   description,
   footerCard,
-  appendTitle = false,
   link,
   measure,
 }: Props) => {
   const pathname = usePathname()
   const router = useRouter()
-  // const { dateOnly } = formatDateTime(lastUpdated)
+  const { dateOnly } = formatDateTime(lastUpdated)
   const { setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
 
   return (
@@ -55,11 +53,11 @@ const MeasureCard = ({
                 'font-bold text-xl text-neutral-900',
                 link ? 'cursor-pointer' : 'cursor-default',
               ) }
-              onClick={ link ? () => router.push(`${ pathname }/${appendTitle ? title : ''}${ link }`) : undefined }
+              onClick={ link ? () => router.push(pathname + link) : undefined }
             >
               { title }
             </h3>
-            {/* <span className="font-light text-neutral-500 text-xs">{ `Last Update: ${ dateOnly }` }</span> */ }
+            {/* <span className="font-light text-neutral-500 text-xs">{ `Last Update: ${ dateOnly }` }</span> */}
           </div>
           { position === 'head' &&
             <IconButton

@@ -25,100 +25,73 @@ import {
 } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
 import { Vehicle, VehicleValidation } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack'
 
 type Props = Readonly<{ vehicleMeasure?: IVehicle }>
 
 const VehiclesForm = ({ vehicleMeasure }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [cboStatuses, setCboStatuses] = useState<VLabel[]>([]);
+  const [CboBrands, setCboBrands] = useState<VLabel[]>([]);
+  const [CboModels, setCboModels] = useState<VLabel[]>([]);
+  const [cboTypes, setCboTypes] = useState<VLabel[]>([]);
+  const { addMeasure, handleHideModal, setData, setMeasure } =
+    (useContext(MeasureContext) as IMeasureContextType) || {};
+  const { toast } = useToast();
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [cboStatuses, setCboStatuses] = useState<VLabel[]>([])
-  const [CboBrands, setCboBrands] = useState<VLabel[]>([])
-  const [CboModels, setCboModels] = useState<VLabel[]>([])
-  const [cboTypes, setCboTypes] = useState<VLabel[]>([])
-  const { addMeasure, handleHideModal, setData, setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
-  const { toast } = useToast()
+  const [dictionary, setDictionary] = useState<any>(null);
 
-  const handleCreateVehicle = async (vehicle: Vehicle) => {
-    await createVehicle(vehicle)
-    addMeasure(vehicle as unknown as IMeasureResponse)
-    toast({
-      title: 'Success',
-      description: 'This vehicle has been inserted successfully',
-      className: 'bg-black',
-    })
-  }
-
-  const handleUpdateVehicle = async (vehicle: Vehicle) => {
-    const updatedVehicle = {
-      ...vehicleMeasure, ...vehicle,
-      idControlVehicle: vehicleMeasure?.idControlVehicle
-    } as unknown as IVehicle
-    setMeasure(updatedVehicle as unknown as IMeasureResponse)
-    await updateVehicle(updatedVehicle)
-    setMeasure(undefined)
-
-    setData(prevState =>
-      prevState.map(measure => {
-        const measureVehicle: IVehicle = measure as unknown as IVehicle
-        return measureVehicle.idControlVehicle === vehicle.idControlVehicle ? vehicle as unknown as IMeasureResponse : measure as unknown as IMeasureResponse
-      })
-    )
-    toast({
-      title: 'Success',
-      description: 'This vehicle has been updated successfully',
-      className: 'bg-black',
-    })
-  }
-
-  const handleDeleteVehicle = async (idControlVehicle: number) => {
-    await deleteVehicle(idControlVehicle.toString())
-    setData(prevState =>
-      prevState.filter(measure => {
-        const measureVehicle: IVehicle = measure as unknown as IVehicle
-        return measureVehicle.idControlVehicle !== idControlVehicle
-      })
-    )
-    toast({
-      title: 'Success',
-      description: 'This vehicle has been deleted successfully',
-      className: 'bg-black',
-    })
-  }
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.modalv);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      }
+    };
+    loadDictionary();
+  }, [lang]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const statusResponse: ICboStatus[] = await getCboStatuses()
-        const brandResponse: ICboBrand[] = await getCboBrands()
-        const modelResponse: ICboModel[] = await getCboModels()
-        const typeResponse: ICboType[] = await getCboTypes()
-        const statuses: VLabel[] = statusResponse.map(status => ({
+        const statusResponse: ICboStatus[] = await getCboStatuses();
+        const brandResponse: ICboBrand[] = await getCboBrands();
+        const modelResponse: ICboModel[] = await getCboModels();
+        const typeResponse: ICboType[] = await getCboTypes();
+        const statuses: VLabel[] = statusResponse.map((status) => ({
           value: String(status.idStatus),
-          label: status.description
-        }))
-        const brands: VLabel[] = brandResponse.map(brand => ({
+          label: status.description,
+        }));
+        const brands: VLabel[] = brandResponse.map((brand) => ({
           value: String(brand.idVehicleCboBrand),
-          label: brand.description
-        }))
-        const models: VLabel[] = modelResponse.map(brand => ({
+          label: brand.description,
+        }));
+        const models: VLabel[] = modelResponse.map((brand) => ({
           value: String(brand.idVehicleCboModel),
-          label: brand.description
-        }))
-        const types: VLabel[] = typeResponse.map(type => ({
+          label: brand.description,
+        }));
+        const types: VLabel[] = typeResponse.map((type) => ({
           value: String(type.idVehicleCboType),
-          label: type.description
-        }))
+          label: type.description,
+        }));
 
-        setCboStatuses(statuses)
-        setCboBrands(brands)
-        setCboModels(models)
-        setCboTypes(types)
+        setCboStatuses(statuses);
+        setCboBrands(brands);
+        setCboModels(models);
+        setCboTypes(types);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const form = useForm<Vehicle>({
     resolver: zodResolver(VehicleValidation),
@@ -129,17 +102,25 @@ const VehiclesForm = ({ vehicleMeasure }: Props) => {
       idCboModel: vehicleMeasure?.idCboModel ?? 0,
       idCboType: vehicleMeasure?.idCboType ?? 0,
       idStatus: vehicleMeasure?.idStatus ?? 0,
-      licensePlate: vehicleMeasure?.licensePlate ?? '',
-      name: vehicleMeasure?.name ?? '',
+      licensePlate: vehicleMeasure?.licensePlate ?? "",
+      name: vehicleMeasure?.name ?? "",
       active: vehicleMeasure?.active ?? 1,
     },
-  })
+  });
+
+  if (!dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
 
   async function onSubmit(vehicles: Vehicle) {
     setIsLoading(true)
 
     try {
-      const description = `This vehicle has been ${ !vehicleMeasure ? 'inserted' : 'updated' } successfully`
+      const description = `${dictionary.messages.this} ${ !vehicleMeasure ? dictionary.messages.inser : dictionary.messages.up } ${dictionary.messages.succ}`
       if (!vehicleMeasure) {
         await createVehicle(vehicles)
       } else {
@@ -150,16 +131,16 @@ const VehiclesForm = ({ vehicleMeasure }: Props) => {
       }
       form.reset()
       toast({
-        title: 'Success',
+        title: dictionary.messages.success,
         description: description,
         className: 'bg-black',
       })
       handleHideModal()
     } catch (error) {
       toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        variant: dictionary.messages.var,
+        title: dictionary.messages.title,
+        description: dictionary.messages.descrip4,
         className: 'bg-[#7f1d1d]',
       })
       console.error('VehiclesForm:', error)
@@ -175,53 +156,53 @@ const VehiclesForm = ({ vehicleMeasure }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idStatus"
-            label="Property Status"
-            placeholder="Select Status"
+            label={dictionary.proper}
+            placeholder={dictionary.select}
             options={ cboStatuses }
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             name="name"
-            label="NAME (OPTIONAL)"
-            placeholder="Name"
+            label={dictionary.opt}
+            placeholder={dictionary.name}
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idCboBrand"
-            label="BRAND"
-            placeholder="Select Brand"
+            label={dictionary.brand}
+            placeholder={dictionary.selectb}
             options={ CboBrands }
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idCboModel"
-            label="MODEL"
-            placeholder="Select Model"
+            label={dictionary.model}
+            placeholder={dictionary.selectm}
             options={ CboModels }
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
             name="idCboType"
-            label="TYPE"
-            placeholder="Select Type"
+            label={dictionary.type}
+            placeholder={dictionary.selectt}
             options={ cboTypes }
             control={ form.control }
           />
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             name="licensePlate"
-            label="LICENSE PLATE (Optional)"
-            placeholder="Write License Plate"
+            label={dictionary.license}
+            placeholder={dictionary.write}
             control={ form.control }
           />
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-            { !vehicleMeasure ? 'Add' : 'Update' }
+            { !vehicleMeasure ? dictionary.add : dictionary.up }
           </SubmitButton>
         </div>
       </form>

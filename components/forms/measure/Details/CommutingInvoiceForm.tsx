@@ -7,14 +7,38 @@ import SubmitButton from '@/components/SubmitButton'
 import { CommutingDetails, CommutingDetailsValidation } from '@/lib/validation'
 import { VLabel } from '@/constants/types'
 import { getCboModeTransport } from '@/actions/measure'
-import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
+import { createCommutingDetails, updateCommutingDetails } from '@/actions/measure/details'
 import { toast } from '@/components/ui/use-toast'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = { idControlCommuting: number; commuting?: CommutingDetails; reloadData: () => void  };
 
 export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData }: Props) => {
   const [isLoading, setIsLoading] = useState(false)
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
   const [cboModeTransport, setCboModeTransport] = useState<VLabel[]>([])
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.createm.comm);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
 
   const form = useForm<CommutingDetails>({
     resolver: zodResolver(CommutingDetailsValidation),
@@ -30,6 +54,14 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
       idControlCommutingDetails: commuting?.idControlCommutingDetails,
     },
   })
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
 
   async function onSubmit(commutingDetails: CommutingDetails) {
     setIsLoading(true)
@@ -74,27 +106,6 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     loadData()
   }, [])
 
-  useEffect(() => {
-    const origin = form.getValues('originZipCode');
-    const destiny = form.getValues('distinationZipCode');
-
-    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
-      getDistance(Number(origin), Number(destiny)).then((result) => {
-        if (result?.success) {
-          // @ts-ignore
-          form.setValue('distance', result?.data?.distance);
-        } else {
-          toast({
-            variant: 'destructive',
-            title: 'Uh oh! Something went wrong.',
-            description: 'It was not possible to calculate the distance between these postal codes.',
-            className: 'bg-[#7f1d1d]',
-          })
-        }
-      });
-    }
-  }, [form.getValues('originZipCode'), form.getValues('distinationZipCode')]);
-
   return (
     <Form { ...form }>
       <form
@@ -107,8 +118,8 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
               control={ form.control }
               name="origin"
               fieldType={ FormFieldType.INPUT }
-              label="ORIGIN"
-              placeholder="Origin"
+              label={dictionary.label}
+              placeholder={dictionary.origin}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
@@ -116,8 +127,8 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
               control={ form.control }
               name="originZipCode"
               fieldType={ FormFieldType.INPUT }
-              label="ORIGIN ZIP CODE"
-              placeholder="Origin Zip Code"
+              label={dictionary.label1}
+              placeholder={dictionary.zip}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
@@ -125,8 +136,8 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
               control={ form.control }
               name="destination"
               fieldType={ FormFieldType.INPUT }
-              label="DESTINATION"
-              placeholder="Destination"
+              label={dictionary.label2}
+              placeholder={dictionary.desti}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
@@ -134,8 +145,8 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
               control={ form.control }
               name="destinationZipCode"
               fieldType={ FormFieldType.INPUT }
-              label="DESTINATION ZIP CODE"
-              placeholder="Destination Zip Code"
+              label={dictionary.label3}
+              placeholder={dictionary.code}
             />
           </div>
         </div>
@@ -144,23 +155,23 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
             control={ form.control }
             name="distance"
             fieldType={ FormFieldType.INPUT }
-            label="DISTANCE"
-            placeholder="Commuting Distance"
+            label={dictionary.label4}
+            placeholder={dictionary.dis}
           />
           <CustomFormField
             control={ form.control }
             name="idCommutingCboModeTransport"
             fieldType={ FormFieldType.SELECT }
-            label="MODE OF TRANSPORT"
-            placeholder="Select Transport"
+            label={dictionary.label5}
+            placeholder={dictionary.mode}
             options={ cboModeTransport }
           />
           {/* <CustomFormField
             control={form.control}
             name="fuelEfficiency"
             fieldType={FormFieldType.INPUT}
-            label="FUEL EFFICIENCY"
-            placeholder="Fuel efficiency"
+            label={dictionary.label6}
+            placeholder={dictionary.fuel}
           /> */}
         </div>
         <div className="flex items-center justify-end w-32 float-end">
@@ -168,7 +179,7 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
             isLoading={ isLoading }
             onClick={ () => onSubmit(form.getValues()) }
           >
-            { !commuting ? 'create' : 'update' }
+            { dictionary.up }
           </SubmitButton>
         </div>
       </form>

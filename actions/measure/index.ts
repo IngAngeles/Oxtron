@@ -5,7 +5,6 @@ import { MEASURE_ROUTES } from '@/constants/measure'
 import {
   ICboBrand,
   ICboModel,
-  ICboModeTransport,
   ICboStatus,
   ICboType,
   ICommuting,
@@ -49,7 +48,7 @@ export async function createFacility(facility: Facility) {
 
     const response = await axiosInstance.post('/Facilities/Registrar_Facilities', {
       ...facility,
-      idUserControl,
+      idUserControl: session?.user?.id
     })
     return response.status
   } catch (error) {
@@ -122,23 +121,6 @@ export async function deleteFacility(idFacility: string) {
   }
 }
 
-export async function getVehiclesByUserId() : Promise<IVehicle[] | undefined> {
-  try {
-    const session = await auth()
-    const idUser: number = Number(session?.user?.id) ?? 0
-
-    if (idUser === 0) return
-
-    const response = await axiosInstance.get('/Vehicles/Mostrar_Vehicles_User', {
-      params: {idUser}
-    })
-    const data = response.data as IVehicle[]
-    return data.filter(value => value.active === 1)
-  } catch (error) {
-    throw error
-  }
-}
-
 export async function getVehicleById(name: string): Promise<IVehicle | undefined> {
   try {
     const session = await auth()
@@ -157,6 +139,7 @@ export async function getVehicleById(name: string): Promise<IVehicle | undefined
   }
 }
 
+// TODO: Status 500
 export async function createVehicle(vehicle: Vehicle) {
   try {
     const session = await auth()
@@ -164,10 +147,8 @@ export async function createVehicle(vehicle: Vehicle) {
 
     if (idUserControl === 0) return
 
-    const response = await axiosInstance.post('/Vehicles/Registrar_Vehicles', {
-      ...vehicle,
-      idUserControl,
-    })
+    const data = { ...vehicle, idUserControl }
+    const response = await axiosInstance.post('/Vehicles/Registrar_Vehicles', data)
     return response.status
   } catch (error) {
     throw error
@@ -227,10 +208,10 @@ export async function createTravel(travel: Travel) {
 
     if (idUserControl === 0) return
 
-    const response = await axiosInstance.post('/Travels/Registrar_Travels', {
-      ...travel,
-      idUserControl,
-    })
+    if (!idUserControl) return
+
+    const data = { ...travel, idUserControl }
+    const response = await axiosInstance.post('/Travels/Registrar_Travels', data)
     return response.status
   } catch (error) {
     console.error('Error en createTravel:', error)
@@ -291,10 +272,8 @@ export async function createLogistic(logistic: Logistic) {
 
     if (idUserControl === 0) return
 
-    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {
-      ...logistic,
-      idUserControl,
-    })
+    const data = { ...logistic, idUserControl }
+    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', data)
     return response.status
   } catch (error) {
     throw error
@@ -354,10 +333,10 @@ export async function createManufacturing(manufacturing: Manufacturing) {
 
     if (idUserControl === 0) return
 
-    const response = await axiosInstance.post('/Manufacturing/Registrar_Manufacturing', {
-      ...manufacturing,
-      idUserControl,
-    })
+    if (!idUserControl) return
+
+    const data = { ...manufacturing, idUserControl }
+    const response = await axiosInstance.post('/Manufacturing/Registrar_Manufacturing', data)
     return response.status
   } catch (error) {
     throw error
@@ -418,10 +397,8 @@ export async function createCommuting(commuting: Commuting) {
 
     if (idUserControl === 0) return
 
-    const response = await axiosInstance.post('/Commuting/Registrar_Commuting', {
-      ...commuting,
-      idUserControl,
-    })
+    const data = { ...commuting, idUserControl }
+    const response = await axiosInstance.post('/Commuting/Registrar_Commuting', data)
     return response.status
   } catch (error) {
     throw error
@@ -497,16 +474,5 @@ export async function getCboTypes(): Promise<ICboType[]> {
     return data.filter(type => type.active === 1)
   } catch (error) {
     throw error
-  }
-}
-
-export async function getCboModeTransport(): Promise<ICboModeTransport[]> {
-  try {
-    const response = await axiosInstance.get('/CommutingCboModeTransporte/Mostrar_CommutingCboModeTransporte')
-    const data: ICboModeTransport[] = response.data as ICboModeTransport[]
-
-    return data.filter(transport => transport.active === 1)
-  } catch (error) {
-    return []
   }
 }

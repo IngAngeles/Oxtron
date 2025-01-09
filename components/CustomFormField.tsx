@@ -18,8 +18,6 @@ import { /* CalendarIcon, */Eye, EyeOff } from 'lucide-react' // Importa los íc
 import 'react-phone-number-input/style.css'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
-import '@/components/react-datepicker.css'
-import "react-datepicker/dist/react-datepicker.css";
 
 export enum FormFieldType {
   INPUT = 'input',

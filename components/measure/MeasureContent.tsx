@@ -1,11 +1,46 @@
 import { TabsContent } from '@/components/ui/tabs'
 import MeasureCard from '@/components/measure/MeasureCard'
+import Loading from '@/components/loading/LoadingBlack';  
+import { getDictionary } from "@/lib/dictionary";  
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import { useEffect, useState } from 'react';
 
-type Props = { cards: IMeasureCard[]; scope: string; appendTitle: boolean };
+type Props = { cards: IMeasureCard[]; scope: string };
 
-const MeasureContent = ({ scope, cards, appendTitle = false }: Props) => {
+const MeasureContent = ({ scope, cards }: Props) => {
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en"; 
+  const [loading, setLoading] = useState(true); 
+  const [dictionary, setDictionary] = useState<any>(null); 
+  
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
+  
   const filterCards = (cards: IMeasureCard[], scope: string): IMeasureCard[] => {
-    if (scope === 'All') {
+    if (scope === dictionary.bar.option1) {
       return cards;
     }
     return cards.filter(card => card.footerCard?.scope.includes(scope));
@@ -17,7 +52,6 @@ const MeasureContent = ({ scope, cards, appendTitle = false }: Props) => {
         { cards.length !== 0 ? filterCards(cards, scope).map((card) => (
           <MeasureCard
             { ...card }
-            appendTitle={ appendTitle }
             key={ card.id }/>
         )): <p className="text-black">No data available</p> }
       </div>

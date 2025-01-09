@@ -4,6 +4,7 @@ export interface SidebarProps {
     children: React.ReactNode;
     name: string;
     isOpen: boolean;
+    route: string;
   }
 
 // --------------------------- Measure
@@ -91,13 +92,6 @@ export interface ICboType {
     active: number;
 }
 
-export interface ICboModeTransport {
-    idCommutingCboModeTransport: number;
-    description: string;
-    units: string;
-    active: number;
-}
-
 export interface IVehicle {
     idControlVehicle: number;
     idUserControl: number;
@@ -164,13 +158,6 @@ export interface VLabel {
 
 export interface IFacilityState {
     facilities: Facility;
-}
-
-export interface ILicenseType {
-    idTypeLicense: number;
-    description: string;
-    acronym: string;
-    active: number;
 }
 
 /*
@@ -241,7 +228,29 @@ export interface EmissionPercentageProps {
 export interface CircleChartProps {
     EmissionTons: EmissionTonsProps | null;
     EmissionPercentage: EmissionPercentageProps | null;
-}
+    translations: {
+      title: string;
+      scope: string;
+      circle1: {
+        stationary: string;
+        mobile: string;
+        refrigerants: string;
+        biogenic: string;
+      };
+      circle2: {
+        location: string;
+        market: string;
+        heat: string;
+      };
+      circle3: {
+        transport: string;
+        bussiness: string;
+        employee: string;
+        biogenic: string;
+      };
+    };
+  }
+  
 
 export interface BarChartProps {
     gasTons: GasTons | null;

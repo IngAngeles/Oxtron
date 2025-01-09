@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ReportHeaderValidation } from '@/lib/validation'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
-// import { SendHorizonal } from 'lucide-react'
+import { SendHorizonal } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
 import { createReport, updateReport } from '@/actions/communicate'
 import { getCboTypes } from '@/actions/communicate'
@@ -112,6 +112,7 @@ export const CreateReport = ({ reportHeader }: Props) => {
   return (
     <Modal
       title="New Report"
+      Icon={ SendHorizonal }
       open={ showCreateReportModal }
       onClose={ handleHideCreateReportModal }
       className="w-10/12 xl:w-1/4 lg:w-1/3 md:w-1/2 h-[90vh] md:h-[65vh]"

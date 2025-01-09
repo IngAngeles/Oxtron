@@ -19,6 +19,10 @@ import { ILogistic, IMeasureContextType, IMeasureResponse, VLabel } from '@/cons
 import { MeasureContext } from '@/context/measure'
 import { Logistic, LogisticValidation } from '@/lib/validation'
 import { Button } from '@/components/ui/button'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
 
 type Props = Readonly<{ logisticMeasure?: ILogistic }>
 
@@ -32,13 +36,33 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
   const [vehicles, setVehicles] = useState<VLabel[]>([])
   const { setData, setMeasure, handleHideModal, addMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
   const { toast } = useToast()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.modall);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
 
   const handleCreateLogistic = async (logistic: Logistic) => {
     await createLogistic(logistic)
     addMeasure(logistic as unknown as IMeasureResponse)
     toast({
-      title: 'Success',
-      description: 'This logistic has been inserted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.descri1,
       className: 'bg-black',
     })
   }
@@ -74,8 +98,8 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
       })
     )
     toast({
-      title: 'Success',
-      description: 'This logistic has been deleted successfully',
+      title: dictionary.messages.succ,
+      description: dictionary.messages.descri3,
       className: 'bg-black',
     })
   }
@@ -97,28 +121,9 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
       destinationzc: logisticMeasure?.destinationzc ?? '',
       originzc: logisticMeasure?.originzc ?? '',
       loadLogistic: logisticMeasure?.loadLogistic ?? '',
-      active: logisticMeasure?.active ?? 1,
-      propertyStatus: logisticMeasure?.propertyStatus ?? ''
+      active: logisticMeasure?.active ?? 1
     },
   })
-
-  const watchedFields = form.watch([
-    'origin',
-    'destination',
-    'originzc',
-    'destinationzc',
-    'idCboStatus',
-    'idTravelCboType',
-    'idCboBrand',
-    'propertyStatus',
-    'selectVehicle',
-  ])
-
-  const isNextDisabled = currentStep === 1
-    ? watchedFields[0]!.length === 0 || watchedFields[1]!.length === 0 || watchedFields[2]!.length === 0 || watchedFields[3]!.length === 0
-    : currentStep === 2
-      ? watchedFields[4] === 0 || watchedFields[5] === 0 || watchedFields[6] === 0
-      : false
 
   async function onSubmit(logistic: Logistic) {
     setIsLoading(true)
@@ -134,8 +139,8 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messages.title,
+        description: dictionary.messages.there,
         className: 'bg-[#7f1d1d]',
       })
       console.error('LogisticsForm', error)
@@ -212,39 +217,39 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
                 name="origin"
-                label="ORIGIN"
-                placeholder="Origin"
+                label={dictionary.origin}
+                placeholder={dictionary.label}
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
                 name="destination"
-                label="DESTINATION"
-                placeholder="Destination"
+                label={dictionary.desti}
+                placeholder={dictionary.label1}
                 control={ form.control }/>
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Origin Zip Code"
+                placeholder={dictionary.zip}
                 name="originzc"
-                label="ORIGIN ZIP CODE"
+                label={dictionary.label2}
                 control={ form.control }/>
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Destination Zip Code"
+                placeholder={dictionary.code}
                 name="destinationzc"
-                label="DESTINATION ZIP CODE"
+                label={dictionary.label3}
                 control={ form.control }/>
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Load"
+                placeholder={dictionary.load}
                 name="loadLogistic"
-                label="LOAD (Optional)"
+                label={dictionary.label4}
                 control={ form.control }/>
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Client"
+                placeholder={dictionary.client}
                 name="client"
-                label="CLIENT (Optional)"
+                label={dictionary.label5}
                 control={ form.control }/>
             </>
           ) }
@@ -253,46 +258,46 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="idCboStatus"
-                label="PROPERTY STATUS"
-                placeholder="Select Status"
+                label={dictionary.label6}
+                placeholder={dictionary.status}
                 options={ status }
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Name"
+                placeholder={dictionary.name}
                 name="name"
-                label="NAME (Optional)"
+                label={dictionary.label7}
                 control={ form.control }/>
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="idTravelCboType"
-                label="TYPE"
-                placeholder="Select Type"
+                label={dictionary.label8}
+                placeholder={dictionary.type}
                 options={ type }
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="idCboModel"
-                label="MODEL (OPTIONAL)"
-                placeholder="Select Model"
+                label={dictionary.label19}
+                placeholder={dictionary.model}
                 options={ models }
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="idCboBrand"
-                label="BRAND (OPTIONAL)"
-                placeholder="Select Brand"
+                label={dictionary.label10}
+                placeholder={dictionary.brand}
                 options={ brands }
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.INPUT }
-                placeholder="Client"
+                placeholder={dictionary.licen}
                 name="licensePlate"
-                label="LICENSE PLATE (OPTIONAL)"
+                label={dictionary.label11}
                 control={ form.control }/>
             </>
           ) }
@@ -301,16 +306,16 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="propertyStatus"
-                label="PROPERTY STATUS"
-                placeholder="Select Status"
+                label={dictionary.label12}
+                placeholder={dictionary.proper}
                 options={ status }
                 control={ form.control }
               />
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
                 name="selectVehicle"
-                label="SELECT VEHICLE"
-                placeholder="Select Vehicle"
+                label={dictionary.label13}
+                placeholder={dictionary.vehi}
                 options={ vehicles }
                 control={ form.control }
               />
@@ -323,13 +328,12 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
               type="button"
               className={ 'bg-[#9FA2B4] w-full py-6 hover:scale-95 transition duration-300 text-white' }
               onClick={ nextStep }
-              disabled={ isNextDisabled }
             >
               Next
             </Button>
           ) : (
             <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-              { !logisticMeasure ? 'Add' : 'Update' }
+              { !logisticMeasure ? dictionary.add : dictionary.up }
             </SubmitButton>
           ) }
         </div>

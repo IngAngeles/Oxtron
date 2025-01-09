@@ -25,16 +25,9 @@ type Props<T> = {
 };
 
 const isDate = (value: any): boolean => {
-  console.log()
-  console.log({
-    value,
-    type: typeof value,
-    isDate: typeof value === 'string' &&
-      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z)?$/.test(value)
-  })
-    return typeof value === 'string' &&
-      /^\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)$/.test(value);
-};
+  return typeof value === 'string' &&
+    /^\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)$/.test(value);
+}
 
 export const SimpleTable = <T, >({ columns, data, caption, options }: Props<T>) => {
   return Array.isArray(data) ? (
