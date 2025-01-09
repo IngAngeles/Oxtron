@@ -52,7 +52,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       idEmissionFactorDescription: facility?.idEmissionFactorDescription,
       startDate: facility?.startDate,
       endDate: facility?.endDate,
-      invoiceId: facility?.invoiceId,
+      invoiceId: facility?.invoiceId || '',
       idTypeDetails: facility?.idTypeDetails ?? optValue,
       idTypeDetailsDescription: facility?.idTypeDetailsDescription,
       amount: facility?.amount,
