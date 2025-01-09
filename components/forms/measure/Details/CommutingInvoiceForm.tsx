@@ -92,6 +92,7 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     }
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const loadData = async () => {
       const data = await getCboModeTransport()

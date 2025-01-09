@@ -7,7 +7,8 @@ import {
   getCboBrands,
   getCboModels,
   getCboStatuses,
-  getCboTypes, getVehiclesByUserId,
+  getCboTypes,
+  getVehiclesByUserId,
   updateLogistic,
 } from '@/actions/measure'
 import { Form } from '@/components/ui/form'
@@ -207,6 +208,10 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
 
     loadData()
   }, [])
+
+  if (loading || !dictionary) {
+    return Loading();
+  }
 
   return (
     <Form { ...form }>

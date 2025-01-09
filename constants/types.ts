@@ -92,6 +92,13 @@ export interface ICboType {
     active: number;
 }
 
+export interface ICboModeTransport {
+    idCommutingCboModeTransport: number;
+    description: string;
+    units: string;
+    active: number;
+}
+
 export interface IVehicle {
     idControlVehicle: number;
     idUserControl: number;

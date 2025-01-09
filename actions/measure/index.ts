@@ -5,6 +5,7 @@ import { MEASURE_ROUTES } from '@/constants/measure'
 import {
   ICboBrand,
   ICboModel,
+  ICboModeTransport,
   ICboStatus,
   ICboType,
   ICommuting,
@@ -116,6 +117,23 @@ export async function deleteFacility(idFacility: string) {
       params: { idFacility }
     })
     return response.status
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getVehiclesByUserId() : Promise<IVehicle[] | undefined> {
+  try {
+    const session = await auth()
+    const idUser: number = Number(session?.user?.id) ?? 0
+
+    if (idUser === 0) return
+
+    const response = await axiosInstance.get('/Vehicles/Mostrar_Vehicles_User', {
+      params: {idUser}
+    })
+    const data = response.data as IVehicle[]
+    return data.filter(value => value.active === 1)
   } catch (error) {
     throw error
   }
@@ -474,5 +492,16 @@ export async function getCboTypes(): Promise<ICboType[]> {
     return data.filter(type => type.active === 1)
   } catch (error) {
     throw error
+  }
+}
+
+export async function getCboModeTransport(): Promise<ICboModeTransport[]> {
+  try {
+    const response = await axiosInstance.get('/CommutingCboModeTransporte/Mostrar_CommutingCboModeTransporte')
+    const data: ICboModeTransport[] = response.data as ICboModeTransport[]
+
+    return data.filter(transport => transport.active === 1)
+  } catch (error) {
+    return []
   }
 }
