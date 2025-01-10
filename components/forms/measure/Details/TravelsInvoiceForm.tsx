@@ -1,42 +1,42 @@
-import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
-import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import { Form } from "@/components/ui/form";
-import { TravelDetails, TravelDetailsValidation } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
+import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
+import {Form} from "@/components/ui/form";
+import {TravelDetails, TravelDetailsValidation, VehicleDetails} from "@/lib/validation";
+import {zodResolver} from "@hookform/resolvers/zod";
+import React, {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
 import SubmitButton from '@/components/SubmitButton'
-import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
+import {getDictionary} from "@/lib/dictionary";
+import {usePathname} from "next/navigation";
+import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
-type Props = { idControlTravel: number };
+type Props = { idControlTravel: number; travel?: TravelDetails; reloadData: () => void };
 
-export const TravelsInvoiceForm = ({idControlTravel}: Props) => {
+export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props) => {
   const [emissionsFactor, setEmissionsFactor] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
-    
-      useEffect(() => {
-        const loadDictionary = async () => {
-          try {
-            setLoading(true);
-            const dict = await getDictionary(lang);
-            setDictionary(dict.pages.measure.createm.man);
-          } catch (error) {
-            console.error("Error loading dictionary:", error);
-          } finally {
-              setLoading(false);
-            }
-        };
-            
-          loadDictionary();
-        }, [lang]);
-        
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.createm.man);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
   const form = useForm<TravelDetails>({
     resolver: zodResolver(TravelDetailsValidation),
     defaultValues: {
@@ -55,7 +55,7 @@ export const TravelsInvoiceForm = ({idControlTravel}: Props) => {
   if (loading || !dictionary) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        <Loading />
+        <Loading/>
       </div>
     );
   }
@@ -63,10 +63,10 @@ export const TravelsInvoiceForm = ({idControlTravel}: Props) => {
   async function onSubmit(vehicleDetails: TravelDetails) {
     setIsLoading(true);
     try {
-      console.log({ vehicleDetails })
+      console.log({vehicleDetails})
     } catch (error) {
 
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   }
@@ -83,8 +83,8 @@ export const TravelsInvoiceForm = ({idControlTravel}: Props) => {
               value={emissionsFactor}
               onChange={setEmissionsFactor}
               options={[
-                { value: "1", label: dictionary.lab1 },
-                { value: "2", label: dictionary.lab2 },
+                {value: "1", label: dictionary.lab1},
+                {value: "2", label: dictionary.lab2},
               ]}
               cols={2}
               label={dictionary.label}
@@ -153,7 +153,7 @@ export const TravelsInvoiceForm = ({idControlTravel}: Props) => {
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            { dictionary.up }
+            {dictionary.up}
           </SubmitButton>
         </div>
       </form>

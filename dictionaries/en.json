@@ -474,8 +474,8 @@
                     "up": "Update"
                 },
                 "man":{
-                    "lab1": "Option 1",
-                    "lab2": "Option 2",
+                    "lab1": "Default",
+                    "lab2": "Personalized",
                     "label": "EMISSIONS FACTOR",
                     "id": "Invoice ID",
                     "label1": "INVOICE ID (OPTIONAL)",

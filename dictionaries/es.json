@@ -474,8 +474,8 @@
                     "up": "Actualizar"
                 },
                 "man": {
-                    "lab1": "Opción 1",
-                    "lab2": "Opción 2",
+                    "lab1": "Por defecto",
+                    "lab2": "Personalizado",
                     "label": "FACTOR DE EMISIONES",
                     "id": "ID de factura",
                     "label1": "ID DE FACTURA (OPCIONAL)",

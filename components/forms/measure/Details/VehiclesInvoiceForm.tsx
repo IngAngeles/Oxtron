@@ -1,76 +1,115 @@
-import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
-import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import { Form } from "@/components/ui/form";
-import { VehicleDetails, VehicleDetailsValidation } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
+import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
+import {Form} from "@/components/ui/form";
+import {VehicleDetails, VehicleDetailsValidation} from "@/lib/validation";
+import {zodResolver} from "@hookform/resolvers/zod";
+import React, {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
 import SubmitButton from '@/components/SubmitButton'
-import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
+import {getDictionary} from "@/lib/dictionary";
+import {usePathname} from "next/navigation";
+import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
+import {toast} from "@/components/ui/use-toast";
+import {createVehicleDetails, updateVehicleDetails} from "@/actions/measure/details";
+import {getCboTypes} from "@/actions/measure";
+import {VLabel} from "@/constants/types";
 
-type Props = { idControlVehicle: number };
+type Props = { idControlVehicle: number; vehicle?: VehicleDetails; reloadData: () => void };
 
-export const VehiclesInvoiceForm = ({idControlVehicle}: Props) => {
+export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Props) => {
+  const [vehiclesCboTypes, setVehiclesCboTypes] = useState<VLabel[]>([])
   const [emissionsFactor, setEmissionsFactor] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
-      
+
   useEffect(() => {
     const loadDictionary = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.measure.createm.man);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
-          setLoading(false);
-        }
+        setIsLoading(false);
+      }
     };
-              
-      loadDictionary();
-    }, [lang]);
+
+    loadDictionary();
+  }, [lang]);
 
   const form = useForm<VehicleDetails>({
     resolver: zodResolver(VehicleDetailsValidation),
     defaultValues: {
-      active: 1,
-      amount: 0,
-      endDate: new Date().toISOString(),
+      active: vehicle?.active ?? 1,
+      // @ts-ignore
+      amount: vehicle?.amount ?? '0',
+      endDate: vehicle?.endDate ?? new Date().toISOString(),
       idControlVehicle,
-      idEmissionFactor: 0,
-      idVehicleCboType: 0,
-      invoiceId: "",
-      startDate: new Date().toISOString(),
+      idEmissionFactor: vehicle?.idEmissionFactor ?? 0,
+      // @ts-ignore
+      idVehicleCboType: vehicle?.idVehicleCboType ?? '0',
+      invoiceId: vehicle?.invoiceId ?? "",
+      startDate: vehicle?.startDate ?? new Date().toISOString(),
+      unit: vehicle?.unit ?? '',
+      idControlVehicleDetails: vehicle?.idControlVehicleDetails,
     },
   });
-
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
-  }
 
   async function onSubmit(vehicleDetails: VehicleDetails) {
     setIsLoading(true);
     try {
-      console.log({ vehicleDetails })
-    } catch (error) {
+      const data = !vehicle
+        ? await createVehicleDetails(vehicleDetails)
+        : await updateVehicleDetails(vehicleDetails)
 
-    } finally{
+      console.log({data})
+
+      if (data.success) {
+        toast({
+          title: 'Success',
+          description: `This invoice has been ${!vehicle ? 'created' : 'updated'} successfully`,
+          className: 'bg-black',
+        })
+        form.reset()
+        reloadData()
+      }
+    } catch (error) {
+      console.error({error})
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+    } finally {
       setIsLoading(false);
     }
   }
 
-  return (
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getCboTypes()
+      setVehiclesCboTypes(
+        data.map(value => ({
+          value: value.idVehicleCboType.toString(),
+          label: value.description,
+        }))
+      )
+    }
+
+    loadData()
+  }, [])
+
+  return isLoading || !dictionary ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -82,8 +121,8 @@ export const VehiclesInvoiceForm = ({idControlVehicle}: Props) => {
               value={emissionsFactor}
               onChange={setEmissionsFactor}
               options={[
-                { value: "1", label: dictionary.lab1 },
-                { value: "2", label: dictionary.lab2 },
+                {value: "1", label: dictionary.lab1},
+                // {value: "2", label: dictionary.lab2},
               ]}
               cols={2}
               label={dictionary.label}
@@ -126,6 +165,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle}: Props) => {
               name="fuelType"
               label={dictionary.label7}
               placeholder={dictionary.cal}
+              options={vehiclesCboTypes}
             />
           </div>
           <div>
@@ -143,6 +183,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle}: Props) => {
                 name="unit"
                 placeholder={dictionary.unit}
                 label={dictionary.label5}
+                disabled
               />
             </div>
           </div>
@@ -152,7 +193,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle}: Props) => {
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            { dictionary.up }
+            {dictionary.up}
           </SubmitButton>
         </div>
       </form>
