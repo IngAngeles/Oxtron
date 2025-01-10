@@ -10,6 +10,8 @@ import {getDictionary} from "@/lib/dictionary";
 import {usePathname} from "next/navigation";
 import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
+import {createTravelDetails, updateTravelDetails} from "@/actions/measure/details";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { idControlTravel: number; travel?: TravelDetails; reloadData: () => void };
 
@@ -39,25 +41,45 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
   const form = useForm<TravelDetails>({
     resolver: zodResolver(TravelDetailsValidation),
     defaultValues: {
-      active: 1,
-      destiny: '',
-      endDate: new Date().toISOString(),
+      active: travel?.active ?? 1,
+      destiny: travel?.destiny ?? '',
+      endDate: travel?.endDate ?? new Date().toISOString(),
       idControlTravel,
-      idEmissionFactor: 0,
-      idTravelCboType: 0,
-      invoiceId: "",
-      origin: '',
-      startDate: new Date().toISOString(),
+      idEmissionFactor: travel?.idEmissionFactor ?? Number(emissionsFactor),
+      // @ts-ignore
+      idTravelCboType: travel?.idTravelCboType ?? '0',
+      invoiceId: travel?.invoiceId ?? "",
+      origin: travel?.origin ?? '',
+      startDate: travel?.startDate ?? new Date().toISOString(),
+      idControlTravelDetails: travel?.idControlTravelDetails,
     },
   });
 
-  async function onSubmit(vehicleDetails: TravelDetails) {
+  async function onSubmit(travelDetails: TravelDetails) {
     setIsLoading(true);
     try {
-      console.log({vehicleDetails})
-    } catch (error) {
+      const data = !travel
+        ? await createTravelDetails(travelDetails)
+        : await updateTravelDetails(travelDetails)
 
-    } finally {
+      if (data.success) {
+        toast({
+          title: 'Success',
+          description: `This invoice has been ${ !travel ? 'created' : 'updated' } successfully`,
+          className: 'bg-black',
+        })
+        form.reset()
+        reloadData()
+      }
+    } catch (error) {
+      console.error({ error })
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+    } finally{
       setIsLoading(false);
     }
   }
@@ -79,7 +101,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               onChange={setEmissionsFactor}
               options={[
                 {value: "1", label: dictionary.lab1},
-                {value: "2", label: dictionary.lab2},
+                // {value: "2", label: dictionary.lab2},
               ]}
               cols={2}
               label={dictionary.label}

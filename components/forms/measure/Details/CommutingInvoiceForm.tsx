@@ -38,6 +38,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
 
     loadDictionary();
   }, [lang]);
+
   const form = useForm<CommutingDetails>({
     resolver: zodResolver(CommutingDetailsValidation),
     defaultValues: {
@@ -172,6 +173,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
             fieldType={FormFieldType.INPUT}
             label={dictionary.label4}
             placeholder={dictionary.dis}
+            disabled
           />
           <CustomFormField
             control={form.control}

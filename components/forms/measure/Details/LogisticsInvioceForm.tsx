@@ -121,7 +121,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
     }
   }, [form.getValues('origin'), form.getValues('destiny')]);
 
-  return isLoading || !dictionary ? (
+  return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>

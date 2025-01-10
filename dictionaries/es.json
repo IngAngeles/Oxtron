@@ -434,23 +434,85 @@
                     "up": "Actualizar"
                 },
                 "fac": {
+                    "type": "SELECCIONAR TIPO",
                     "emi": "FACTOR DE EMISIONES",
-                    "lab1": "Opción 1",
-                    "lab2": "Opción 2",
-                    "label1": "CANTIDAD AL INICIO DEL AÑO",
-                    "label2": "CANTIDAD AL FINAL DEL AÑO",
-                    "label3": "COMPRADO",
-                    "label4": "ENTREGADO",
-                    "label5": "CARGADO AL EQUIPO",
-                    "label6": "No sé",
-                    "label7": "DEVUELTO A LOS PRODUCTORES",
-                    "label8": "DEVUELTO POR LOS USUARIOS",
-                    "label9": "FUERA DEL SITIO PARA RECICLAJE",
-                    "label10": "FUERA DEL SITIO PARA DESTRUCCIÓN",
-                    "label11": "DEVUELTO DESPUÉS DEL RECICLAJE FUERA DEL SITIO",
-                    "label12": "CAPACIDAD PARCIAL DE PLACA NOMBRE CARGADA",
-                    "label13": "DENSIDAD O PRESIÓN DEL CAMBIO PARCIAL",
-                    "label14": "DENSIDAD O PRESIÓN DE LA CARGA COMPLETA",
+                    "equipment": {
+                        "label": "TIPO DE EQUIPO",
+                        "placeholder": "Escribe el tipo de equipo"
+                    },
+                    "startDate": {
+                        "label": "FECHA DE INICIO"
+                    },
+                    "endDate": {
+                        "label": "FECHA DE FINALIZACIÓN"
+                    },
+                    "invoiceId": {
+                        "label": "ID DE FACTURA (OPCIONAL)",
+                        "placeholder": "ID de factura"
+                    },
+                    "selectType": {
+                        "label": "SELECCIONA UNA OPCIÓN",
+                        "placeholder": "Selecciona una opción"
+                    },
+                    "amount": {
+                        "label": "CANTIDAD",
+                        "placeholder": "Cantidad"
+                    },
+                    "unit": {
+                        "label": "UNIDAD",
+                        "placeholder": "Unidad"
+                    },
+                    "fugitiveEmissions": {
+                        "label": "MEDIR EMISIONES FUGITIVAS",
+                        "options": {
+                            "yes": "sí",
+                            "no": "no"
+                        }
+                    },
+                    "amountYearsBeginning": {
+                        "label": "CANTIDAD AL INICIO DEL AÑO"
+                    },
+                    "amountYearsEnd": {
+                        "label": "CANTIDAD AL FINAL DEL AÑO"
+                    },
+                    "purchased": {
+                        "label": "COMPRADO"
+                    },
+                    "delivered": {
+                        "label": "ENTREGADO"
+                    },
+                    "chargedIntoEquipment": {
+                        "label": "CARGADO EN EL EQUIPO",
+                        "options": {
+                            "idk": "No lo sé"
+                        }
+                    },
+                    "returnsProducers": {
+                        "label": "DEVUELTO A LOS PRODUCTORES"
+                    },
+                    "returnedUsers": {
+                        "label": "DEVUELTO POR LOS USUARIOS"
+                    },
+                    "offSiteRecycling": {
+                        "label": "FUERA DEL SITIO PARA RECICLAJE"
+                    },
+                    "offSiteDestruction": {
+                        "label": "FUERA DEL SITIO PARA DESTRUCCIÓN"
+                    },
+                    "returnedOffsiteRecycling": {
+                        "label": "DEVUELTO DESPUÉS DE RECICLAJE FUERA DEL SITIO"
+                    },
+                    "partialNAmeplateCharged": {
+                        "label": "CARGADO CON CAPACIDAD PARCIAL DE PLACA"
+                    },
+                    "densityPressurePartial": {
+                        "label": "DENSIDAD O PRESIÓN DEL CAMBIO PARCIAL"
+                    },
+                    "densityPressureFull": {
+                        "label": "DENSIDAD O PRESIÓN DE LA CARGA COMPLETA"
+                    },
+                    "next": "Siguiente",
+                    "create": "Crear",
                     "up": "Actualizar"
                 },
                 "log": {

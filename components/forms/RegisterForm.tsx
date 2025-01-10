@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { toast } from '@/components/ui/use-toast'
 import { register } from '@/actions/auth'
 import { Button } from '../ui/button'
+
 interface RegisterFormProps {
   dictionary: {
     title: string;
@@ -84,24 +85,21 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
       state: '',
       country: '',
       postalCode: '',
-      typeLicense: 0,
+      typeLicense: 1,
       telephoneUser: '0000000000',
-      timeZone: 'UTC',
+      timeZone: timeZone,
       language: 'Por definir',
-      // idUSerType: 1,
-      // active: '0',
     },
   })
+
   const [arePasswordsMatch, setArePasswordMatch] = useState<boolean>(true)
 
   const nextStep = async () => {
     const isFormValid = await form.trigger(["firstName", "lastName", "password", "confirmPassword"])
-    const { password, confirmPassword } = form.getValues()
+    const {password, confirmPassword} = form.getValues()
     setArePasswordMatch(password === confirmPassword)
 
-    console.log({ isFormValid, arePasswordsMatch, password, confirmPassword })
-
-    if (!isFormValid || password != confirmPassword) return
+    if (!isFormValid || password !== confirmPassword) return
 
     setCurrentStep(2)
   }
@@ -120,7 +118,7 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
       form.reset()
       router.push(`/register-success`)
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',

@@ -285,7 +285,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     setOptValue(Number(value))
   }
 
-  return isLoading || !dictionary ? (
+  return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>
@@ -304,7 +304,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                   onChange={setIdType}
                   options={cboTypes}
                   cols={4}
-                  label={dictionary.emi}
+                  label={dictionary.type}
                   defaultSelected={0}/>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -314,7 +314,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     onChange={setEmissionsFactor}
                     options={emissionsFactorOptions}
                     cols={2}
-                    label="EMISSIONS FACTOR"
+                    label={dictionary.emi}
                     defaultSelected={0}/>
                 </div>
                 <div className="flex justify-center w-full gap-4">
@@ -322,8 +322,9 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="typeEquipment"
                     fieldType={FormFieldType.INPUT}
-                    label="TYPE OF EQUIPMENT"
-                    placeholder="Write Type of Equipment"/>
+                    label={dictionary.equipment.label}
+                    placeholder={dictionary.equipment.placeholder}
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -332,34 +333,38 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     fieldType={FormFieldType.DATE_PICKER}
                     name="startDate"
-                    label="START DATE"
-                    placeholder="dd/mm/yyyy"/>
+                    label={dictionary.startDate.label}
+                    placeholder={dictionary.startDate.placeholder}
+                  />
                   <CustomFormField
                     control={form.control}
                     fieldType={FormFieldType.DATE_PICKER}
                     name="endDate"
-                    label="END DATE"
-                    placeholder="dd/mm/yyyy"/>
+                    label={dictionary.endDate.label}
+                    placeholder={dictionary.endDate.placeholder}
+                  />
                 </div>
                 <div>
                   <CustomFormField
                     control={form.control}
                     fieldType={FormFieldType.INPUT}
                     name="invoiceId"
-                    label="INVOICE ID (OPTIONAL)"
-                    placeholder="Invoice ID"/>
+                    label={dictionary.invoiceId.label}
+                    placeholder={dictionary.invoiceId.placeholder}
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col justify-center w-full gap-4 text-black">
-                  <label htmlFor="idTypeDetails"
-                         className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[12px] uppercase title-century-gothic-bold text-[#9FA2B4]">
-                    {label}
+                  <label
+                    htmlFor="idTypeDetails"
+                    className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[12px] uppercase title-century-gothic-bold text-[#9FA2B4]">
+                    {dictionary.selectType.label}
                   </label>
                   <select name="idTypeDetails" value={optValue} onChange={(e) => handleTypeChange(e)}
                           className="flex h-10 w-full rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 title-century-gothic-regular undefined bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]">
                     <option value="" hidden>
-                      select an option
+                      {dictionary.selectType.placeholder}
                     </option>
                     {options.map((opt) => (
                       <option key={opt.value} value={String(opt.value)}>
@@ -374,14 +379,15 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                       control={form.control}
                       fieldType={FormFieldType.INPUT}
                       name="amount"
-                      label="AMOUNT"
-                      placeholder="Amount"/>
+                      label={dictionary.amount.label}
+                      placeholder={dictionary.amount.placeholder}
+                    />
                     <CustomFormField
                       control={form.control}
                       fieldType={FormFieldType.INPUT}
                       name="unit"
-                      placeholder="Unit"
-                      label="UNIT"
+                      label={dictionary.unit.label}
+                      placeholder={dictionary.unit.placeholder}
                       disabled
                     />
                   </div>
@@ -389,10 +395,10 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                 {idType === '4' && (
                   <div className="flex justify-center w-full gap-4">
                     <CustomRadioButton
-                      label="MEASURE FUGITIVE EMISSIONS"
+                      label={dictionary.fugitiveEmissions.label}
                       value={measureFugitiveEmissionsFactor}
                       onChange={setMeasureFugitiveEmissionsFactor}
-                      options={[{value: '1', label: 'Yes'}, {value: '0', label: 'No'}]}
+                      options={[{value: '1', label: dictionary.fugitiveEmissions.options.yes}, {value: '0', label: dictionary.fugitiveEmissions.options.no}]}
                       defaultSelected={1}
                       cols={2}/>
                   </div>
@@ -406,10 +412,10 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                 {idType !== '4' && (
                   <div className="flex justify-center w-full gap-4">
                     <CustomRadioButton
-                      label="MEASURE FUGITIVE EMISSIONS"
+                      label={dictionary.fugitiveEmissions.label}
                       value={measureFugitiveEmissionsFactor}
                       onChange={setMeasureFugitiveEmissionsFactor}
-                      options={[{value: '1', label: 'Yes'}, {value: '0', label: 'No'}]}
+                      options={[{value: '1', label: dictionary.fugitiveEmissions.options.yes}, {value: '0', label: dictionary.fugitiveEmissions.options.no}]}
                       cols={2}/>
                   </div>
                 )}
@@ -418,13 +424,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="amountYearsBeginning"
                     fieldType={FormFieldType.INPUT}
-                    label="AMOUNT AT YEAR'S BEGINNING"
+                    label={dictionary.amountYearsBeginning.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="amountYearsEnd"
                     fieldType={FormFieldType.INPUT}
-                    label="AMOUNT AT YEAR'S END"
+                    label={dictionary.amountYearsEnd.label}
                     placeholder="000"/>
                 </div>
               </div>
@@ -434,13 +440,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="purchased"
                     fieldType={FormFieldType.INPUT}
-                    label="PURCHASED"
+                    label={dictionary.purchased.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="delivered"
                     fieldType={FormFieldType.INPUT}
-                    label="DELIVERED"
+                    label={dictionary.delivered.label}
                     placeholder="000"/>
                 </div>
                 <div className="flex justify-center w-full gap-4">
@@ -448,12 +454,11 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="chargedIntoEquipment"
                     fieldType={FormFieldType.INPUT}
-                    label="CHARGED INTO THE EQUIPMENT"
+                    label={dictionary.chargedIntoEquipment.label}
                     placeholder="000"/>
                   <CustomRadioButton
-                    label="CHARGED INTO THE EQUIPMENT"
                     value={dontKnow}
-                    options={[{value: '1', label: 'I don\'t know'}]}
+                    options={[{value: '1', label: dictionary.chargedIntoEquipment.options.idk}]}
                     onChange={setDontKnow}
                     cols={1}/>
                 </div>
@@ -464,13 +469,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="returnsProducers"
                     fieldType={FormFieldType.INPUT}
-                    label="RETURNS TO PRODUCERS"
+                    label={dictionary.returnsProducers.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="returnedUsers"
                     fieldType={FormFieldType.INPUT}
-                    label="RETURNED BY USERS"
+                    label={dictionary.returnedUsers.label}
                     placeholder="000"/>
                 </div>
                 <div className="flex justify-center w-full gap-4">
@@ -478,13 +483,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="offSiteRecycling"
                     fieldType={FormFieldType.INPUT}
-                    label="OFF-SITE FOR RECYCLING"
+                    label={dictionary.offSiteRecycling.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="offSiteDestruction"
                     fieldType={FormFieldType.INPUT}
-                    label="OFF-SITE FOR DESTRUCTION"
+                    label={dictionary.offSiteDestruction.label}
                     placeholder="000"/>
                 </div>
               </div>
@@ -494,13 +499,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="returnedOffsiteRecycling"
                     fieldType={FormFieldType.INPUT}
-                    label="RETURN AFTER OFFSITE RECYCLING"
+                    label={dictionary.returnedOffsiteRecycling.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="partialNAmeplateCharged"
                     fieldType={FormFieldType.INPUT}
-                    label="PARTIAL NAMEPLATE CAPACITY CHARGED"
+                    label={dictionary.partialNAmeplateCharged.label}
                     placeholder="000"/>
                 </div>
                 <div className="flex justify-center w-full gap-4">
@@ -508,13 +513,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     control={form.control}
                     name="densityPressurePartial"
                     fieldType={FormFieldType.INPUT}
-                    label="DENSITY OR PRESSURE OF PARTIAL CHANGE"
+                    label={dictionary.densityPressurePartial.label}
                     placeholder="000"/>
                   <CustomFormField
                     control={form.control}
                     name="densityPressureFull"
                     fieldType={FormFieldType.INPUT}
-                    label="DENSITY OR PRESSURE OF FULL CHARGE"
+                    label={dictionary.densityPressureFull.label}
                     placeholder="000"/>
                 </div>
               </div>
@@ -523,7 +528,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
           <div className="flex justify-end w-32 float-end">
             {idType === '4' && measureFugitiveEmissionsFactor === '0' || idType === '4' && measureFugitiveEmissionsFactor === '1' && currentStep === 2 || idType !== '4' && currentStep === 2 ? (
               <SubmitButton isLoading={isLoading} onClick={() => onSubmit(form.getValues())}>
-                {!facility ? 'create' : 'update'}
+                {!facility ? dictionary.create : dictionary.update}
               </SubmitButton>
             ) : (
               <Button
@@ -531,7 +536,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                 className={'bg-[#9FA2B4] w-full py-6 hover:scale-95 transition duration-300 text-white'}
                 onClick={nextStep}
               >
-                Next
+                {dictionary.next}
               </Button>
             )}
           </div>

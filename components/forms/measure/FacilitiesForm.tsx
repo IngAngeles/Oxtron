@@ -143,15 +143,11 @@ const FacilitiesForm = ({ facilityMeasure }: Props) => {
     loadDictionary();
   }, [lang]);
 
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
-  }
-
-  return (
+  return (isLoading || !dictionary) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading />
+    </div>
+  ) : (
     <Form { ...form }>
       <form onSubmit={ form.handleSubmit(onSubmit) } className="space-y-6 flex-1 text-neutral-500 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-">

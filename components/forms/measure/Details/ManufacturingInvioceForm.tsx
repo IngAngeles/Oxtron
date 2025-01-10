@@ -39,21 +39,22 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
     };
 
     loadDictionary();
-  }, [lang]);
+  }, [lang])
 
   const form = useForm<ManufacturingDetails>({
     resolver: zodResolver(ManufacturingDetailsValidation),
     defaultValues: {
-      active: 1,
-      amount: 0,
-      endDate: new Date().toISOString(),
+      active: manufacturing?.active ?? 1,
+      endDate: manufacturing?.endDate ?? new Date().toISOString(),
       idControlManufacturing,
-      idEmissionFactor: 0,
-      invoiceId: '',
-      startDate: new Date().toISOString(),
-      unit: '',
+      idEmissionFactor: manufacturing?.idEmissionFactor ?? Number(emissionsFactor),
+      startDate: manufacturing?.startDate ?? new Date().toISOString(),
+      invoiceId: manufacturing?.invoiceId,
+      unit: manufacturing?.unit,
+      amount: manufacturing?.amount,
+      idControlManufacturingDetails: manufacturing?.idControlManufacturingDetails,
     },
-  });
+  })
 
   async function onSubmit(manufacturingDetails: ManufacturingDetails) {
     setIsLoading(true)
@@ -84,7 +85,7 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
     }
   }
 
-  return isLoading || !dictionary ? (
+  return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>

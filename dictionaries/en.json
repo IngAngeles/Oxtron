@@ -433,24 +433,86 @@
                     "label6": "FUELL EFFICIENCY",
                     "up": "Update"
                 },
-                "fac":{
+                "fac": {
+                    "type": "SELECT TYPE",
                     "emi": "EMISSIONS FACTOR",
-                    "lab1": "Option 1",
-                    "lab2": "Option 2",
-                    "label1": "AMOUNT AT YEAR'S BEGINNING",
-                    "label2": "AMOUNT AT YEAR'S END",
-                    "label3": "PURCHASED",
-                    "label4": "DELIVERED",
-                    "label5": "CHARGED INTO THE EQUIPMENT",
-                    "label6": "I don't know",
-                    "label7": "RETURNS TO PRODUCERS",
-                    "label8": "RETURNED BY USERS",
-                    "label9": "OFF-SITE FOR RECYCLING",
-                    "label10": "OFF-SITE FOR DESTRUCTION",
-                    "label11": "RETURN AFTER OFFSITE RECYCLING",
-                    "label12": "PARTIAL NAMEPLATE CAPACITY CHARGED",
-                    "label13": "DENSITY OR PRESSURE OF PARTIAL CHANGE",
-                    "label14": "DENSITY OR PRESSURE OF FULL CHARGE",
+                    "equipment": {
+                        "label": "TYPE OF EQUIPMENT",
+                        "placeholder": "Write type of equipment"
+                    },
+                    "startDate": {
+                        "label": "START DATE"
+                    },
+                    "endDate": {
+                        "label": "END DATE"
+                    },
+                    "invoiceId": {
+                        "label": "INVOICE ID (OPTIONAL)",
+                        "placeholder": "Invoice ID"
+                    },
+                    "selectType": {
+                        "label": "SELECT AN OPTION",
+                        "placeholder": "Select an option"
+                    },
+                    "amount": {
+                        "label": "AMOUNT",
+                        "placeholder": "Amount"
+                    },
+                    "unit": {
+                        "label": "UNIT",
+                        "placeholder": "Unit"
+                    },
+                    "fugitiveEmissions": {
+                        "label": "MEASURE FUGITIVE EMISSIONS",
+                        "options": {
+                            "yes": "yes",
+                            "no": "no"
+                        }
+                    },
+                    "amountYearsBeginning":  {
+                        "label": "AMOUNT AT YEAR'S BEGINNING"
+                    },
+                    "amountYearsEnd":  {
+                        "label": "AMOUNT AT YEAR'S END"
+                    },
+                    "purchased": {
+                        "label": "PURCHASED"
+                    },
+                    "delivered": {
+                        "label": "DELIVERED"
+                    },
+                    "chargedIntoEquipment":  {
+                        "label": "CHARGED INTO THE EQUIPMENT",
+                        "options": {
+                            "idk": "I don't know"
+                        }
+                    },
+                    "returnsProducers": {
+                        "label": "RETURNS TO PRODUCERS"
+                    },
+                    "returnedUsers":  {
+                        "label": "RETURNED BY USERS"
+                    },
+                    "offSiteRecycling": {
+                        "label": "OFF-SITE FOR RECYCLING"
+                    },
+                    "offSiteDestruction":  {
+                        "label": "OFF-SITE FOR DESTRUCTION"
+                    },
+                    "returnedOffsiteRecycling": {
+                        "label": "RETURN AFTER OFFSITE RECYCLING"
+                    },
+                    "partialNAmeplateCharged":  {
+                        "label": "PARTIAL NAMEPLATE CAPACITY CHARGED"
+                    },
+                    "densityPressurePartial": {
+                        "label": "DENSITY OR PRESSURE OF PARTIAL CHANGE"
+                    },
+                    "densityPressureFull":  {
+                        "label": "DENSITY OR PRESSURE OF FULL CHARGE"
+                    },
+                    "next": "Next",
+                    "create": "Create",
                     "up": "Update"
                 },
                 "log":{
