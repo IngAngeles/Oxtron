@@ -23,20 +23,19 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
   const [fuelType, setFuelType] = useState<VLabel[]>([])
 
   useEffect(() => {
     const loadDictionary = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.measure.createm.log);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -62,14 +61,6 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       unit: logistic?.unit ?? '',
     },
   });
-
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
-  }
 
   async function onSubmit(logisticsDetails: LogisticDetails) {
     setIsLoading(true);
@@ -130,7 +121,11 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
     }
   }, [form.getValues('origin'), form.getValues('destiny')]);
 
-  return (
+  return isLoading || !dictionary ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}

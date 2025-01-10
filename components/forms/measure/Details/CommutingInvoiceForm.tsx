@@ -1,45 +1,43 @@
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Form } from '@/components/ui/form'
-import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
+import {useEffect, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Form} from '@/components/ui/form'
+import CustomFormField, {FormFieldType} from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
-import { CommutingDetails, CommutingDetailsValidation } from '@/lib/validation'
-import { VLabel } from '@/constants/types'
-import { getCboModeTransport } from '@/actions/measure'
-import { createCommutingDetails, updateCommutingDetails } from '@/actions/measure/details'
-import { toast } from '@/components/ui/use-toast'
-import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
+import {CommutingDetails, CommutingDetailsValidation} from '@/lib/validation'
+import {VLabel} from '@/constants/types'
+import {getCboModeTransport} from '@/actions/measure'
+import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
+import {toast} from '@/components/ui/use-toast'
+import {getDictionary} from "@/lib/dictionary";
+import {usePathname} from "next/navigation";
+import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
-type Props = { idControlCommuting: number; commuting?: CommutingDetails; reloadData: () => void  };
+type Props = { idControlCommuting: number; commuting?: CommutingDetails; reloadData: () => void };
 
-export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData }: Props) => {
+export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}: Props) => {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
   const [cboModeTransport, setCboModeTransport] = useState<VLabel[]>([])
 
   useEffect(() => {
     const loadDictionary = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.measure.createm.comm);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     loadDictionary();
   }, [lang]);
-
   const form = useForm<CommutingDetails>({
     resolver: zodResolver(CommutingDetailsValidation),
     defaultValues: {
@@ -54,14 +52,6 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
       idControlCommutingDetails: commuting?.idControlCommutingDetails,
     },
   })
-
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
-  }
 
   async function onSubmit(commutingDetails: CommutingDetails) {
     setIsLoading(true)
@@ -92,7 +82,6 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     }
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const loadData = async () => {
       const data = await getCboModeTransport()
@@ -107,45 +96,70 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
     loadData()
   }, [])
 
-  return (
-    <Form { ...form }>
+  useEffect(() => {
+    const origin = form.getValues('originZipCode');
+    const destiny = form.getValues('distinationZipCode');
+
+    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+      getDistance(Number(origin), Number(destiny)).then((result) => {
+        if (result?.success) {
+          // @ts-ignore
+          form.setValue('distance', result?.data?.distance);
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: 'It was not possible to calculate the distance between these postal codes.',
+            className: 'bg-[#7f1d1d]',
+          })
+        }
+      });
+    }
+  }, [form.getValues('originZipCode'), form.getValues('distinationZipCode')]);
+
+  return isLoading || !dictionary ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
+    <Form {...form}>
       <form
-        onSubmit={ form.handleSubmit(onSubmit) }
+        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 flex-1 text-neutral-500 w-full"
       >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
-              control={ form.control }
+              control={form.control}
               name="origin"
-              fieldType={ FormFieldType.INPUT }
+              fieldType={FormFieldType.INPUT}
               label={dictionary.label}
               placeholder={dictionary.origin}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
-              control={ form.control }
+              control={form.control}
               name="originZipCode"
-              fieldType={ FormFieldType.INPUT }
+              fieldType={FormFieldType.INPUT}
               label={dictionary.label1}
               placeholder={dictionary.zip}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
-              control={ form.control }
+              control={form.control}
               name="destination"
-              fieldType={ FormFieldType.INPUT }
+              fieldType={FormFieldType.INPUT}
               label={dictionary.label2}
               placeholder={dictionary.desti}
             />
           </div>
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
-              control={ form.control }
+              control={form.control}
               name="destinationZipCode"
-              fieldType={ FormFieldType.INPUT }
+              fieldType={FormFieldType.INPUT}
               label={dictionary.label3}
               placeholder={dictionary.code}
             />
@@ -153,19 +167,19 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <CustomFormField
-            control={ form.control }
+            control={form.control}
             name="distance"
-            fieldType={ FormFieldType.INPUT }
+            fieldType={FormFieldType.INPUT}
             label={dictionary.label4}
             placeholder={dictionary.dis}
           />
           <CustomFormField
-            control={ form.control }
+            control={form.control}
             name="idCommutingCboModeTransport"
-            fieldType={ FormFieldType.SELECT }
+            fieldType={FormFieldType.SELECT}
             label={dictionary.label5}
             placeholder={dictionary.mode}
-            options={ cboModeTransport }
+            options={cboModeTransport}
           />
           {/* <CustomFormField
             control={form.control}
@@ -177,10 +191,10 @@ export const CommutingInvoiceForm = ({ idControlCommuting, commuting, reloadData
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton
-            isLoading={ isLoading }
-            onClick={ () => onSubmit(form.getValues()) }
+            isLoading={isLoading}
+            onClick={() => onSubmit(form.getValues())}
           >
-            { dictionary.up }
+            {dictionary.up}
           </SubmitButton>
         </div>
       </form>

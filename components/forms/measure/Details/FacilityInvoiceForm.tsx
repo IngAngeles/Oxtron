@@ -18,6 +18,10 @@ import {VLabel} from '@/constants/types'
 import {getCboElectricityType, getCboFuelType, getCboGasType, getCboRefrigerantsType} from '@/actions/shared'
 import {fetchHeader} from '@/actions/dashboard'
 import {createFacilityDetails, updateFacilityDetails} from '@/actions/measure/details'
+import {usePathname} from "next/navigation";
+import {Locale} from "date-fns";
+import {getDictionary} from "@/lib/dictionary";
+import Loading from "@/components/loading/LoadingBlack";
 
 type Props = { idControlFacility: number; facility?: FacilityDescriptionDetails; reloadData: () => void };
 
@@ -38,6 +42,27 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState([])
   const {toast} = useToast()
+  const pathname = usePathname();
+  // @ts-ignore
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setIsLoading(true);
+        // @ts-ignore
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.createm.fac);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
 
   const form = useForm<FacilityDescriptionDetails>({
     resolver: zodResolver(FacilityDescriptionDetailsValidation),
@@ -250,10 +275,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
 
-    // console.log('FacilityInvoiceForm->value:', value)
-
     const unitSelected = data.find((type: any) => type.idControl.toString() === value.toString())
-    // console.log('FacilityInvoiceForm->unitSelected:', unitSelected)
     // @ts-ignore
     form.setValue('unit', unitSelected?.units);
     form.setValue('idTypeDetails', Number(value));
@@ -263,7 +285,11 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     setOptValue(Number(value))
   }
 
-  return (
+  return isLoading || !dictionary ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <>
       <Form {...form}>
         <form
@@ -277,7 +303,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                   value={idType}
                   onChange={setIdType}
                   options={cboTypes}
-                  label="SELECT TYPE"
+                  cols={4}
+                  label={dictionary.emi}
                   defaultSelected={0}/>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

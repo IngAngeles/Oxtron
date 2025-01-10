@@ -18,19 +18,18 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
 
   useEffect(() => {
     const loadDictionary = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.measure.createm.man);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -52,14 +51,6 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
     },
   });
 
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading/>
-      </div>
-    );
-  }
-
   async function onSubmit(vehicleDetails: TravelDetails) {
     setIsLoading(true);
     try {
@@ -71,7 +62,11 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
     }
   }
 
-  return (
+  return (isLoading || !dictionary) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}

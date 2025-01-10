@@ -14,7 +14,7 @@ import {
   createManufacturingDetails,
   updateManufacturingDetails
 } from "@/actions/measure/details";
-import { toast } from "@/components/ui/use-toast";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { idControlManufacturing: number; manufacturing?: ManufacturingDetails; reloadData: () => void };
 
@@ -23,19 +23,18 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
 
   useEffect(() => {
     const loadDictionary = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.measure.createm.man);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -56,14 +55,6 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
     },
   });
 
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading/>
-      </div>
-    );
-  }
-
   async function onSubmit(manufacturingDetails: ManufacturingDetails) {
     setIsLoading(true)
     try {
@@ -74,14 +65,14 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
       if (data.success) {
         toast({
           title: 'Success',
-          description: `This invoice has been ${ !manufacturing ? 'created' : 'updated' } successfully`,
+          description: `This invoice has been ${!manufacturing ? 'created' : 'updated'} successfully`,
           className: 'bg-black',
         })
         form.reset()
         reloadData()
       }
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
@@ -93,7 +84,11 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
     }
   }
 
-  return (
+  return isLoading || !dictionary ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -106,7 +101,7 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
               onChange={setEmissionsFactor}
               options={[
                 {value: "1", label: dictionary.lab1},
-                {value: "2", label: dictionary.lab2},
+                // {value: "2", label: dictionary.lab2},
               ]}
               cols={2}
               label={dictionary.label}

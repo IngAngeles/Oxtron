@@ -90,7 +90,6 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
     }
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const loadData = async () => {
       const data = await getCboTypes()
