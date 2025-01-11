@@ -191,12 +191,99 @@
             "create": "Crear una factura manualmente",
             "search": "Buscar",
             "add": "Agregar",
-            "bar": {
-                "option1": "Todo",
-                "option2": "Alcance 1",
-                "option3": "Alcance 2",
-                "option4": "Alcance 3"
-            },
+            "bar": [
+                "Todo",
+                "Alcance 1",
+                "Alcance 2",
+                "Alcance 3"
+            ],
+            "cards": [
+                {
+                    "id": 1,
+                    "title": "Instalaciones",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Facility.png",
+                        "position": "body"
+                    },
+                    "link": "/facilities",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 1", "Alcance 2", "Alcance 3"]
+                    }
+                },
+                {
+                    "id": 2,
+                    "title": "Vehículos",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Vehicles.png",
+                        "position": "body"
+                    },
+                    "link": "/vehicles",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 1"]
+                    }
+                },
+                {
+                    "id": 3,
+                    "title": "Viajes",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Travel.png",
+                        "position": "body"
+                    },
+                    "link": "/travels",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 3"]
+                    }
+                },
+                {
+                    "id": 4,
+                    "title": "Logística",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Logistics.png",
+                        "position": "body"
+                    },
+                    "link": "/logistics",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 3"]
+                    }
+                },
+                {
+                    "id": 5,
+                    "title": "Manufactura",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Manufacturing.png",
+                        "position": "body"
+                    },
+                    "link": "/manufacturing",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 1"]
+                    }
+                },
+                {
+                    "id": 6,
+                    "title": "Desplazamientos",
+                    "description": "Información sobre este tipo de emisiones",
+                    "icon": {
+                        "src": "/assets/icons/black/Commuting.png",
+                        "position": "body"
+                    },
+                    "link": "/commuting",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Alcance 3"]
+                    }
+                }
+            ],
+            "nodata": "Sin información disponible",
             "all": {
                 "facilities": {
                     "title": "Instalaciones",

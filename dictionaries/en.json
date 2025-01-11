@@ -191,12 +191,99 @@
             "create": "Create an invoice manually",
             "search": "Search",
             "add": "Add",
-            "bar": {
-                "option1": "All",
-                "option2": "Scope 1",
-                "option 3": "Scope 2",
-                "option 4": "Scope 3"
-            },
+            "bar": [
+                "All",
+                "Scope 1",
+                "Scope 2",
+                "Scope 3"
+            ],
+            "cards": [
+                {
+                    "id": 1,
+                    "title": "Facilities",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Facility.png",
+                        "position": "body"
+                    },
+                    "link": "/facilities",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 1", "Scope 2", "Scope 3"]
+                    }
+                },
+                {
+                    "id": 2,
+                    "title": "Vehicles",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Vehicles.png",
+                        "position": "body"
+                    },
+                    "link": "/vehicles",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 1"]
+                    }
+                },
+                {
+                    "id": 3,
+                    "title": "Travels",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Travel.png",
+                        "position": "body"
+                    },
+                    "link": "/travels",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 3"]
+                    }
+                },
+                {
+                    "id": 4,
+                    "title": "Logistics",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Logistics.png",
+                        "position": "body"
+                    },
+                    "link": "/logistics",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 3"]
+                    }
+                },
+                {
+                    "id": 5,
+                    "title": "Manufacturing",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Manufacturing.png",
+                        "position": "body"
+                    },
+                    "link": "/manufacturing",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 1"]
+                    }
+                },
+                {
+                    "id": 6,
+                    "title": "Commuting",
+                    "description": "Information about this type of emissions",
+                    "icon": {
+                        "src": "/assets/icons/black/Commuting.png",
+                        "position": "body"
+                    },
+                    "link": "/commuting",
+                    "lastUpdated": "2022-11-23",
+                    "footerCard": {
+                        "scope": ["Scope 3"]
+                    }
+                }
+            ],
+            "nodata": "No data available",
             "all": {
                 "facilities":{
                     "title": "Facilities",

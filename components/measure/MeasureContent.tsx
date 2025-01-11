@@ -12,8 +12,7 @@ const MeasureContent = ({ scope, cards }: Props) => {
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en"; 
   const [loading, setLoading] = useState(true); 
-  const [dictionary, setDictionary] = useState<any>(null); 
-  
+  const [dictionary, setDictionary] = useState<any>(null);
 
   useEffect(() => {
     const loadDictionary = async () => {
@@ -31,29 +30,25 @@ const MeasureContent = ({ scope, cards }: Props) => {
     loadDictionary();
   }, [lang]);
 
-  if (loading || !dictionary) {
-    return (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading />
-      </div>
-    );
-  }
-  
   const filterCards = (cards: IMeasureCard[], scope: string): IMeasureCard[] => {
-    if (scope === dictionary.bar.option1) {
+    if (scope === dictionary.bar[0]) {
       return cards;
     }
     return cards.filter(card => card.footerCard?.scope.includes(scope));
   };
 
-  return (
+  return (loading || !dictionary) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading />
+    </div>
+  ) : (
     <TabsContent value={ scope }>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-12">
         { cards.length !== 0 ? filterCards(cards, scope).map((card) => (
           <MeasureCard
             { ...card }
             key={ card.id }/>
-        )): <p className="text-black">No data available</p> }
+        )): <p className="text-black">dictionary.nodata</p> }
       </div>
     </TabsContent>
   )
