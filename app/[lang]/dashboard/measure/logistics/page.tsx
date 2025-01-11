@@ -1,4 +1,4 @@
-export default function Logistics() {
+export default function LogisticsPage() {
   return (
     <></>
   );

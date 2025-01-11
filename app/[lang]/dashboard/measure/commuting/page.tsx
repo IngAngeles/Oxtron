@@ -1,4 +1,4 @@
-export default function Commuting() {
+export default function CommutingPage() {
   return (
     <></>
   );

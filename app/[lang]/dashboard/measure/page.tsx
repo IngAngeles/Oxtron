@@ -1,11 +1,30 @@
 "use client";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import TitleHandler from "@/components/TitleHandler";
 import TabMenu from "@/components/measure/TabMenu";
 import Loading from "@/components/loading/LoadingBlack";
-import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
+import {getDictionary} from "@/lib/dictionary";
+import {usePathname} from "next/navigation";
+import {Locale} from "@/i18n.config";
+
+declare global {
+  type Cards = {
+    id: string | number
+    title?: string
+    lastUpdated: Date | string
+    description: string
+    icon: {
+      src: string
+      position?: 'head' | 'body'
+      onClick?: () => void
+    }
+    footerCard?: {
+      scope: string[]
+    }
+    link?: string
+    onClick?: () => void
+  }
+}
 
 export default function Measure() {
   const pathname = usePathname();
@@ -28,14 +47,14 @@ export default function Measure() {
 
   const items: string[] = dictionary?.bar || [];
 
-  return (isLoading || !dictionary)  ? (
+  return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
-      <Loading />
+      <Loading/>
     </div>
   ) : (
     <div className="flex flex-col gap-4 lg:ml-64 p-6 ml-0">
-      <TitleHandler title={dictionary.title} text={dictionary.subtitle} />
-      <TabMenu items={items} cards={dictionary.cards} />
+      <TitleHandler title={dictionary.title} text={dictionary.subtitle}/>
+      <TabMenu items={items} cards={dictionary.cards}/>
     </div>
   );
 }

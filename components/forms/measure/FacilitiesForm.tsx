@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { createFacility, deleteFacility, getCboStatuses, updateFacility } from '@/actions/measure'
+import { createFacility, deleteFacility, getCboStatuses, updateFacility } from '@/actions/measure/facilities'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'

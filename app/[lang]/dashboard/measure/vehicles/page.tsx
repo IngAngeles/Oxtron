@@ -1,4 +1,4 @@
-export default function Vehicles() {
+export default function VehiclesPage() {
   return (
     <></>
   );

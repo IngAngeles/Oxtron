@@ -1,17 +1,20 @@
-import { TabsContent } from '@/components/ui/tabs'
+import {useEffect, useState} from 'react';
+import {usePathname} from "next/navigation";
+import {Locale} from "@/i18n.config";
+import {TabsContent} from '@/components/ui/tabs'
 import MeasureCard from '@/components/measure/MeasureCard'
-import Loading from '@/components/loading/LoadingBlack';  
-import { getDictionary } from "@/lib/dictionary";  
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
-import { useEffect, useState } from 'react';
+import Loading from '@/components/loading/LoadingBlack';
+import {getDictionary} from "@/lib/dictionary";
 
-type Props = { cards: IMeasureCard[]; scope: string };
+type Props = {
+  cards: Cards[]
+  scope: string
+};
 
-const MeasureContent = ({ scope, cards }: Props) => {
+const MeasureContent = ({scope, cards}: Props) => {
   const pathname = usePathname();
-  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en"; 
-  const [loading, setLoading] = useState(true); 
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const MeasureContent = ({ scope, cards }: Props) => {
     loadDictionary();
   }, [lang]);
 
-  const filterCards = (cards: IMeasureCard[], scope: string): IMeasureCard[] => {
+  const filterCards = (cards: Cards[], scope: string): Cards[] => {
     if (scope === dictionary.bar[0]) {
       return cards;
     }
@@ -39,16 +42,16 @@ const MeasureContent = ({ scope, cards }: Props) => {
 
   return (loading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
-      <Loading />
+      <Loading/>
     </div>
   ) : (
-    <TabsContent value={ scope }>
+    <TabsContent value={scope}>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-12">
-        { cards.length !== 0 ? filterCards(cards, scope).map((card) => (
+        {cards.length !== 0 ? filterCards(cards, scope).map((card) => (
           <MeasureCard
-            { ...card }
-            key={ card.id }/>
-        )): <p className="text-black">dictionary.nodata</p> }
+            {...card}
+            key={card.id}/>
+        )) : <p className="text-black">{dictionary.nodata}</p>}
       </div>
     </TabsContent>
   )

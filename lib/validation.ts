@@ -100,10 +100,10 @@ export const FacilityValidation = z.object({
     return parsed
   }).nullable(),
   idUserControl: z.number().nullable(),
-  idFacility: z.string().min(1, 'Facility ID is required').nullable(),
+  idFacility: z.string().min(1, 'Facility ID is required'),
   propertyStatus: z.number().positive('Property status is required'),
-  city: z.string().min(1, 'City is required').nullable(),
-  country: z.string().min(1, 'Country is required').nullable(),
+  city: z.string().min(1, 'City is required'),
+  country: z.string().min(1, 'Country is required'),
   description: z.string().nullable(),
   active: z.number().max(1).min(0).default(1),
 })

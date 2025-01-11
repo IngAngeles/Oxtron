@@ -1,4 +1,4 @@
-export default function Travels() {
+export default function TravelsPage() {
   return (
     <></>
   );

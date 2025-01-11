@@ -1,7 +1,43 @@
 'use server'
 
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
+import {auth} from "@/auth";
 import axiosInstance from '@/lib/axios-instance'
+
+declare global {
+  type ApiResponse<T> = {
+    success: boolean;
+    data?: T;
+    message: string;
+    status: number;
+  };
+}
+
+export async function handleError(error: unknown): Promise<ApiResponse<any>> {
+  if (axios.isAxiosError(error)) {
+    console.error(`Axios error: ${error.message}`, error.response?.data);
+    return {
+      success: false,
+      message: error.response?.data?.message || 'An error occurred while processing the request.',
+      status: error.response?.status || 500,
+    };
+  } else {
+    console.error('Unexpected error:', error);
+    return {
+      success: false,
+      message: (error as Error)?.message || 'An unknown error occurred.',
+      status: 500,
+    };
+  }
+}
+
+export async function getAuthenticatedUserId(): Promise<number> {
+  const session = await auth();
+  const idUser: number = Number(session?.user?.id ?? 0);
+
+  if (idUser === 0) throw new Error('User session not found or invalid');
+  return idUser;
+}
 
 export async function getCboElectricityType() {
   try {

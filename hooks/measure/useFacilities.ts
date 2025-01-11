@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getFacilitiesByUserId } from '@/actions/measure'
+import { getFacilitiesByUserId } from '@/actions/measure/facilities'
 import { VLabel } from '@/constants/types'
 
 export const useFacilities = () => {

@@ -8,7 +8,7 @@ import {
   getCboModels,
   getCboStatuses, getCboTypes,
   updateVehicle
-} from '@/actions/measure'
+} from '@/actions/measure/facilities'
 import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
 import CustomFormField from '@/components/CustomFormField'

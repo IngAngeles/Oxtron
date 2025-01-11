@@ -6,7 +6,7 @@ import CustomFormField, {FormFieldType} from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import {CommutingDetails, CommutingDetailsValidation} from '@/lib/validation'
 import {VLabel} from '@/constants/types'
-import {getCboModeTransport} from '@/actions/measure'
+import {getCboModeTransport} from '@/actions/measure/facilities'
 import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
 import {toast} from '@/components/ui/use-toast'
 import {getDictionary} from "@/lib/dictionary";

@@ -285,14 +285,12 @@
             ],
             "nodata": "Sin información disponible",
             "all": {
-                "facilities": {
-                    "title": "Instalaciones",
-                    "vehicles": "Vehículos",
-                    "travels": "Viajes",
-                    "logistics": "Logística",
-                    "manufacturing": "Manufactura",
-                    "comuuting": "Desplazamientos"
-                },
+                "facilities": "Instalaciones",
+                "vehicles": "Vehículos",
+                "travels": "Viajes",
+                "logistics": "Logística",
+                "manufacturing": "Manufactura",
+                "commuting": "Desplazamientos",
                 "date": "Última Actualización: 22 de nov de 2022",
                 "label1": "Información sobre este tipo de emisiones",
                 "label2": "Alcance 1, 2 y 3",

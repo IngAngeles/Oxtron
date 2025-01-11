@@ -23,11 +23,8 @@ declare global {
       scope: string[]
     }
     link?: string
-    measure?: IMeasureResponse
   }
 }
-
-type Props = Readonly<IMeasureCard>
 
 const MeasureCard = ({
   title = '',
@@ -36,11 +33,10 @@ const MeasureCard = ({
   description,
   footerCard,
   link,
-  measure,
-}: Props) => {
+  // measure,
+}: Cards) => {
   const pathname = usePathname()
   const router = useRouter()
-  const { dateOnly } = formatDateTime(lastUpdated)
   const { setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
 
   return (
@@ -64,12 +60,7 @@ const MeasureCard = ({
               src={ src }
               alt="Edit icon"
               size="md"
-              onClick={ () => {
-                if (onClick) {
-                  onClick()
-                  setMeasure(measure)
-                }
-              } }
+              onClick={ onClick }
             />
           }
         </div>

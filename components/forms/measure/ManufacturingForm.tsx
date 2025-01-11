@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { createManufacturing, deleteManufacturing, updateManufacturing } from '@/actions/measure'
+import { createManufacturing, deleteManufacturing, updateManufacturing } from '@/actions/measure/facilities'
 import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
 import CustomFormField from '@/components/CustomFormField'

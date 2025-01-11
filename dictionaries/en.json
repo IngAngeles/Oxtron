@@ -285,14 +285,12 @@
             ],
             "nodata": "No data available",
             "all": {
-                "facilities":{
-                    "title": "Facilities",
-                    "vehicles": "Vehicles",
-                    "travels": "Travels",
-                    "logistics": "Logistics",
-                    "manufacturing": "Manufacturinf",
-                    "comuuting": "Commuting"
-                },
+                "facilities": "Facilities",
+                "vehicles": "Vehicles",
+                "travels": "Travels",
+                "logistics": "Logistics",
+                "manufacturing": "Manufacturing",
+                "commuting": "Commuting",
                 "date": "Last Update: Nov 22, 2022",
                 "label1": "Information about this type of emissions",
                 "label2": "Scope 1, 2 and 3",

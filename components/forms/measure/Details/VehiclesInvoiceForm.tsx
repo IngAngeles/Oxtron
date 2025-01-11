@@ -12,7 +12,7 @@ import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 import {toast} from "@/components/ui/use-toast";
 import {createVehicleDetails, updateVehicleDetails} from "@/actions/measure/details";
-import {getCboTypes} from "@/actions/measure";
+import {getCboTypes} from "@/actions/measure/facilities";
 import {VLabel} from "@/constants/types";
 
 type Props = { idControlVehicle: number; vehicle?: VehicleDetails; reloadData: () => void };
