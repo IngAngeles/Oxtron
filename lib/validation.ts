@@ -94,17 +94,13 @@ export type UpdateUser = z.infer<typeof UpdateUserValidation>
 // --------------------------- Measure
 
 export const FacilityValidation = z.object({
-  idControlFacility: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
+  idControlFacility: z.coerce.number().optional(),
+  idUserControl: z.number().optional(),
   idFacility: z.string().min(1, 'Facility ID is required'),
-  propertyStatus: z.number().positive('Property status is required'),
+  propertyStatus: z.coerce.number().positive('Property status is required'),
   city: z.string().min(1, 'City is required'),
   country: z.string().min(1, 'Country is required'),
-  description: z.string().nullable(),
+  description: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
 export type Facility = z.infer<typeof FacilityValidation>;
@@ -291,8 +287,8 @@ export const VehicleValidation = z.object({
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
+  }).optional(),
+  idUserControl: z.number().optional(),
   idStatus: z.string().transform((val) => {
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
@@ -414,8 +410,8 @@ export const TravelValidation = z.object({
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
+  }).optional(),
+  idUserControl: z.number().optional(),
   idTravel: z.string().min(1, 'Travel ID is required'),
   description: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
@@ -501,20 +497,20 @@ export const LogisticValidation = z.object({
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
-  origin: z.string().nullable(),
-  destination: z.string().nullable(),
-  originzc: z.string().nullable(),
-  destinationzc: z.string().nullable(),
-  loadLogistic: z.string().nullable(),
-  client: z.string().nullable(),
+  }).optional(),
+  idUserControl: z.number().optional(),
+  origin: z.string().optional(),
+  destination: z.string().optional(),
+  originzc: z.string().optional(),
+  destinationzc: z.string().optional(),
+  loadLogistic: z.string().optional(),
+  client: z.string().optional(),
   idCboStatus: z.number().positive('This field is required'),
-  name: z.string().nullable(),
+  name: z.string().optional(),
   idTravelCboType: z.number().positive('This field is required'),
   idCboModel: z.number().positive('This field is required'),
   idCboBrand: z.number().positive('This field is required'),
-  licensePlate: z.string().nullable(),
+  licensePlate: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
 export type Logistic = z.infer<typeof LogisticValidation>
@@ -608,9 +604,9 @@ export const ManufacturingValidation = z.object({
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
-  process: z.string().min(1, 'Process must be at least 1 character long').nullable(),
+  }).optional(),
+  idUserControl: z.number().optional(),
+  process: z.string().min(1, 'Process must be at least 1 character long').optional(),
   idFacility: z.string().min(1, 'Facility is required'),
   idTypeEquipment: z.number().positive('This field is required'),
   idTypeFuelUsed: z.number().positive('This field is required'),
@@ -694,10 +690,10 @@ export const CommutingValidation = z.object({
     const parsed = Number(val)
     if (isNaN(parsed)) throw new Error('Invalid number')
     return parsed
-  }).nullable(),
-  idUserControl: z.number().nullable(),
+  }).optional(),
+  idUserControl: z.number().optional(),
   idControlFacility: z.string().min(1, 'Facility is required'),
-  description: z.string().nullable(),
+  description: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
 export type Commuting = z.infer<typeof CommutingValidation>

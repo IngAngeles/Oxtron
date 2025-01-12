@@ -17,7 +17,7 @@ import SubmitButton from '@/components/SubmitButton'
 import {
   ICboBrand,
   ICboModel,
-  ICboStatus, ICboType,
+  Status, ICboType,
   IMeasureContextType,
   IMeasureResponse,
   IVehicle,
@@ -61,7 +61,7 @@ const VehiclesForm = ({ vehicleMeasure }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const statusResponse: ICboStatus[] = await getCboStatuses();
+        const statusResponse: Status[] = await getCboStatuses();
         const brandResponse: ICboBrand[] = await getCboBrands();
         const modelResponse: ICboModel[] = await getCboModels();
         const typeResponse: ICboType[] = await getCboTypes();

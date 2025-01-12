@@ -50,14 +50,16 @@ interface CustomProps {
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
-  switch (props.fieldType) {
+  const { fieldType, ...restProps } = props;
+
+  switch (fieldType) {
     case FormFieldType.INPUT:
       return (
         <FormControl className={`flex-1 title-century-gothic-regular bg-[#FCFDFE] ${props.className}`}>
           <Input
             placeholder={ props.placeholder }
             { ...field }
-            {...props}
+            {...restProps}
             className="bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]"
           />
         </FormControl>

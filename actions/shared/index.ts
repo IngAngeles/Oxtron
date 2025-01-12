@@ -3,6 +3,7 @@
 import axios, { AxiosError } from 'axios'
 import {auth} from "@/auth";
 import axiosInstance from '@/lib/axios-instance'
+import {Status} from "@/constants/types";
 
 declare global {
   type ApiResponse<T> = {
@@ -37,6 +38,22 @@ export async function getAuthenticatedUserId(): Promise<number> {
 
   if (idUser === 0) throw new Error('User session not found or invalid');
   return idUser;
+}
+
+export async function getCboStatuses(): Promise<ApiResponse<Status[]>> {
+  try {
+    const response = await axiosInstance.get('/cboStatus/Mostrar_cboStatus')
+    const data: Status[] = response.data as Status[]
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Success',
+      data: data.filter(status => status.active === 1),
+    }
+  } catch (error) {
+    return handleError(error)
+  }
 }
 
 export async function getCboElectricityType() {

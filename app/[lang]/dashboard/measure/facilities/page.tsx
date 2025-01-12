@@ -5,12 +5,28 @@ import {usePathname} from "next/navigation";
 import Loading from "@/components/loading/LoadingBlack";
 import TabMenu from "@/components/measure/TabMenu";
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useFacilityStore} from "@/store/measure/facilities";
+import {useModal} from "@/hooks/shared/useModal";
 import {Facility} from "@/lib/validation";
+import {useFacilityStore} from "@/store/measure/facilities";
+import Modal from "@/components/measure/Modal";
+import FacilitiesForm from "@/components/forms/measure/FacilitiesForm";
+import {useStatusStore} from "@/store/shared/combos/Status";
+import {Status} from "@/constants/types";
 
 export default function FacilitiesPage() {
   const {isLoading, dictionary} = useDictionary()
-  const {loading, facilities, fetchFacilities, setError, setLoading} = useFacilityStore()
+  const {showModal, handleShowModal, handleHideModal} = useModal()
+  const {
+    createFacility,
+    facilities,
+    facility,
+    fetchFacilities,
+    setFacility,
+    setLoading,
+    updateFacility
+  } = useFacilityStore()
+  const {statuses, fetchStatuses} = useStatusStore()
+  const [options, setOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Cards[]>([])
   const path = usePathname()
 
@@ -30,13 +46,13 @@ export default function FacilitiesPage() {
       alt: 'Add icon',
       size: 'xs',
       text: dictionary?.measure.add,
-      onClick: () => {
-      },
+      onClick: handleShowModal,
     },
   ]
 
   useEffect(() => {
     fetchFacilities()
+    fetchStatuses()
   }, [])
 
   useEffect(() => {
@@ -51,40 +67,66 @@ export default function FacilitiesPage() {
           src: '/assets/icons/black/Edit.png',
           position: 'head',
           onClick: () => {
+            setFacility(facility)
+            handleShowModal()
           },
         },
         link: `/${facility.idControlFacility}`,
         lastUpdated: new Date(2022, 10, 23),
+        onClick: () => setFacility(facility),
       }
     ))
     setCards(cards)
 
     setLoading(false)
-    setError('Test error')
   }, [facilities]);
 
-  return (isLoading || loading || !dictionary) ? (
-      <div className="flex items-center justify-center w-full h-full">
-        <Loading/>
-      </div>
-    ) : (
-      <>
-        <div className="flex flex-col  gap-4 p-6 lg:ml-64 ml-0">
-          <div>
-            <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
-              <Link
-                href={path.split('/').slice(0, -1).join('/')}
-                className="text-neutral-300"
-              >
-                {dictionary?.measure.title}
-              </Link> / {dictionary?.measure.all.facilities}
-            </h1>
-            <p className="font-light text-neutral-500">
-              {dictionary?.measure.subtitle}
-            </p>
-          </div>
-          <TabMenu items={items} cards={cards} iconButton={buttons}/>
+  useEffect(() => {
+    setLoading(true)
+
+    const options: Option[] = statuses.map((status: Status) => (
+      {
+        value: status.idStatus.toString(),
+        label: status.description,
+      }
+    ))
+    setOptions(options)
+
+    setLoading(false)
+  }, [statuses]);
+
+  return (isLoading || !dictionary) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
+    <>
+      <div className="flex flex-col  gap-4 p-6 lg:ml-64 ml-0">
+        <div>
+          <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
+            <Link
+              href={path.split('/').slice(0, -1).join('/')}
+              className="text-neutral-300"
+            >
+              {dictionary?.measure.title}
+            </Link> / {dictionary?.measure.all.facilities}
+          </h1>
+          <p className="font-light text-neutral-500">
+            {dictionary?.measure.subtitle}
+          </p>
         </div>
-      </>
-    )
+        <TabMenu items={items} cards={cards} iconButton={buttons}/>
+      </div>
+      {showModal && (
+        <Modal title={dictionary.measure.modal.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+          <FacilitiesForm
+            facility={facility}
+            options={options}
+            handleCreateFacility={createFacility}
+            handleUpdateFacility={updateFacility}
+          />
+        </Modal>
+      )}
+    </>
+  )
 }

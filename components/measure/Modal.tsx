@@ -10,14 +10,14 @@ type Props = {
   className?: string;
 };
 
-const Modal = ({ title, handleOnCloseModal, children, stepButtons, className = 'relative flex flex-col items-center justify-between w-full max-w-lg md:w-2/3 lg:w-1/3 h-auto bg-white rounded-md p-8 gap-4' }: Props) => {
+const Modal = ({ title, handleOnCloseModal, children, stepButtons, className = '' }: Props) => {
   return (
     <div
       className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-black/50 z-50"
       onClick={handleOnCloseModal}
     >
       <div
-        className={className}
+        className={cn('relative flex flex-col items-center justify-between w-full max-w-lg md:w-2/3 lg:w-1/3 h-auto bg-white rounded-md p-8 gap-4', className)}
         onClick={(e) => e.stopPropagation()}
       >
         <section className="flex items-center justify-between w-full">

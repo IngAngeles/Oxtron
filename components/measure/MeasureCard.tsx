@@ -8,39 +8,19 @@ import { IMeasureContextType, IMeasureResponse } from '@/constants/types'
 import { useContext } from 'react'
 import { MeasureContext } from '@/context/measure'
 
-declare global {
-  interface IMeasureCard {
-    id: string | number
-    title?: string
-    lastUpdated: Date
-    description: string
-    icon: {
-      src: string
-      position?: 'head' | 'body'
-      onClick?: () => void
-    }
-    footerCard?: {
-      scope: string[]
-    }
-    link?: string
-  }
-}
-
 const MeasureCard = ({
   title = '',
-  lastUpdated,
-  icon: { src, position = 'head', onClick },
+  icon: { src, position = 'head', onClick: iconOnClick },
   description,
   footerCard,
   link,
-  // measure,
+  onClick,
 }: Cards) => {
   const pathname = usePathname()
   const router = useRouter()
-  const { setMeasure } = useContext(MeasureContext) as IMeasureContextType || {}
 
   return (
-    <Card className="w-full text-neutral-500 rounded-[8px] !shadow-custom">
+    <Card className="w-full text-neutral-500 rounded-[8px] !shadow-custom" onClick={ onClick }>
       <CardHeader>
         <div className="flex items-center justify-between gap-2 ">
           <div>
@@ -53,14 +33,14 @@ const MeasureCard = ({
             >
               { title }
             </h3>
-            {/* <span className="font-light text-neutral-500 text-xs">{ `Last Update: ${ dateOnly }` }</span> */}
+            {/*<span className="font-light text-neutral-500 text-xs">{`Last Update: ${dateOnly}`}</span>*/}
           </div>
           { position === 'head' &&
             <IconButton
               src={ src }
               alt="Edit icon"
               size="md"
-              onClick={ onClick }
+              onClick={ iconOnClick }
             />
           }
         </div>

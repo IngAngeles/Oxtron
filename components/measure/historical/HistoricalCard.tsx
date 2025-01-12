@@ -12,13 +12,13 @@ import { Locale } from "@/i18n.config";
 import { useEffect, useState } from 'react'
 
 type Props = {
+  title: string,
   children: React.ReactNode
   registryCount: number,
   onClick: () => void,
 };
 
-export const HistoricalCard = ({ children, registryCount, onClick }: Props) => {
-
+export const HistoricalCard = ({ title, children, registryCount, onClick }: Props) => {
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
@@ -53,7 +53,7 @@ export const HistoricalCard = ({ children, registryCount, onClick }: Props) => {
       <CardHeader className="flex flex-col items-start md:flex-row md:items-center md:justify-between w-full">
         <div className="flex flex-row items-center justify-center gap-4">
           <Image src={ Facility.src } alt="Facility" width="96" height="96" className="w-16 h-16"/>
-          <h2 className="text-[#252733] text-3xl font-bold">{ dictionary.title }</h2>
+          <h2 className="text-[#252733] text-3xl font-bold">{ title }</h2>
         </div>
         <div className="flex flex-row items-center justify-between gap-8">
           <Button className="text-[#FDFDFD] bg-[#03133A]" onClick={ onClick }>{dictionary.new}</Button>

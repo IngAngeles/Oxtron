@@ -3,33 +3,44 @@ import {
   createFacility,
   deleteFacility,
   getFacilitiesByUserId,
-  getFacilityById,
   updateFacility
 } from "@/actions/measure/facilities";
 import {Facility} from "@/lib/validation";
 
 type FacilityStore = {
   facilities: Facility[];
+  facility: Facility | null;
   error: string | null;
   loading: boolean;
   setFacilities: (facilities: Facility[]) => void;
+  setFacility: (facility: Facility) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
   fetchFacilities: () => Promise<void>;
-  fetchFacilityById: (id: number) => Promise<void>;
+  fetchFacilityById: () => Promise<void>;
   createFacility: (facility: Facility) => Promise<void>;
-  updateFacility: (id: number, updatedFacility: Facility) => Promise<void>;
+  updateFacility: (updatedFacility: Facility) => Promise<void>;
   deleteFacility: (id: number) => Promise<void>;
 };
 
 export const useFacilityStore = create<FacilityStore>((set) => ({
   facilities: [],
+  facility: null,
   error: null,
   loading: false,
   setFacilities: (facilities) => set({facilities}),
+  setFacility: (facility: Facility | null) => {
+    set({loading: true})
+    if (facility) {
+      localStorage.setItem("selectedFacility", JSON.stringify(facility));
+    } else {
+      localStorage.removeItem("selectedFacility");
+    }
+    set({ facility });
+    set({loading: false})
+  },
   setError: (error) => set({error}),
   setLoading: (loading) => set({loading}),
-
   fetchFacilities: async () => {
     set({loading: true});
     try {
@@ -39,17 +50,12 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
       set({error: 'Failed to fetch facilities', loading: false});
     }
   },
-
-  fetchFacilityById: async (id) => {
-    set({loading: true});
-    try {
-      const response = await getFacilityById(id);
-      set({facilities: response.data ? [response.data] : [], error: null, loading: false});
-    } catch (error) {
-      set({error: 'Failed to fetch facility', loading: false});
+  fetchFacilityById: async () => {
+    const savedFacility = localStorage.getItem("selectedFacility");
+    if (savedFacility) {
+      set({ facility: JSON.parse(savedFacility) });
     }
   },
-
   createFacility: async (facility) => {
     set({loading: true});
     try {
@@ -61,8 +67,7 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
       set({error: 'Failed to create facility', loading: false});
     }
   },
-
-  updateFacility: async (id, updatedFacility: Facility) => {
+  updateFacility: async (updatedFacility: Facility) => {
     set({loading: true});
     try {
       await updateFacility(updatedFacility);
@@ -73,7 +78,6 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
       set({error: 'Failed to update facility', loading: false});
     }
   },
-
   deleteFacility: async (id) => {
     set({loading: true});
     try {

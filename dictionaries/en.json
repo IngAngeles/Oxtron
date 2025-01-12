@@ -360,6 +360,7 @@
                 }
             },
             "modal": {
+                "create": "Add New Facility",
                 "title": "Update Facility",
                 "write": "Write Facility ID",
                 "id": "Facility ID",

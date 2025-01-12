@@ -1,18 +1,36 @@
 'use client'
 import Link from "next/link";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
+import {useFacilityStore} from "@/store/measure/facilities";
+import {useEffect} from "react";
 
 type Props = { params: { id: number } };
 
-export default function FacilitiesDetailPage({ params: { id } }: Props) {
-  const {isLoading, dictionary} = useDictionary();
+export default function FacilitiesDetailPage({params: {id}}: Props) {
+  const {loading, facility, fetchFacilityById} = useFacilityStore()
+  const {isLoading, dictionary} = useDictionary()
   const path = usePathname();
+  const router = useRouter();
+  const columns = [
+    {header: dictionary?.measure.table.facilities.type, accessor: 'idTypeDetailsDescription'},
+    {header: dictionary?.measure.table.facilities.sour, accessor: 'idTypeDescription'},
+    {header: dictionary?.measure.table.facilities.amo, accessor: 'amount'},
+    {header: dictionary?.measure.table.facilities.uni, accessor: 'unit'},
+    {header: dictionary?.measure.table.facilities.start, accessor: 'startDate'},
+    {header: dictionary?.measure.table.facilities.end, accessor: 'endDate'},
+    {header: dictionary?.measure.table.facilities.up, accessor: 'firstName'},
+    // { header: 'Status', accessor: 'active' },
+  ]
 
-  return (isLoading || !dictionary) ? (
+  useEffect(() => {
+    fetchFacilityById()
+  }, []);
+
+  return (isLoading || loading || !dictionary || !facility) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>
@@ -26,7 +44,7 @@ export default function FacilitiesDetailPage({ params: { id } }: Props) {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> / { ' ' }
+            </Link> / {' '}
 
             <Link
               href={path.split('/').slice(0, -1).join('/')}
@@ -34,16 +52,17 @@ export default function FacilitiesDetailPage({ params: { id } }: Props) {
             >
               {dictionary?.measure.all.facilities}
             </Link>
-            {' '} / {id}
+            {' '} / {facility?.idFacility}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={() => {}} registryCount={3}>
+        <HistoricalCard title={facility?.idFacility} onClick={() => {
+        }} registryCount={3}>
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={[]} data={[]}/>
+            <SimpleTable columns={columns} data={[]}/>
           }
         </HistoricalCard>
       </div>

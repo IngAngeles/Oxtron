@@ -360,6 +360,7 @@
                 }
             },
             "modal": {
+                "create": "Agregar Instalación",
                 "title": "Actualizar Instalación",
                 "write": "Escribir ID de instalación",
                 "id": "ID de la Instalación",
