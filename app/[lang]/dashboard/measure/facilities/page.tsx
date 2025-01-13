@@ -12,18 +12,18 @@ import Modal from "@/components/measure/Modal";
 import FacilitiesForm from "@/components/forms/measure/FacilitiesForm";
 import {useStatusStore} from "@/store/shared/combos/Status";
 import {Status} from "@/constants/types";
+import {useFacilityOnSubmit} from "@/hooks/measure/facilities";
 
 export default function FacilitiesPage() {
   const {isLoading, dictionary} = useDictionary()
   const {showModal, handleShowModal, handleHideModal} = useModal()
+  const {onSubmit} = useFacilityOnSubmit()
   const {
-    createFacility,
     facilities,
     facility,
     fetchFacilities,
     setFacility,
     setLoading,
-    updateFacility
   } = useFacilityStore()
   const {statuses, fetchStatuses} = useStatusStore()
   const [options, setOptions] = useState<Option[]>([])
@@ -122,8 +122,7 @@ export default function FacilitiesPage() {
           <FacilitiesForm
             facility={facility}
             options={options}
-            handleCreateFacility={createFacility}
-            handleUpdateFacility={updateFacility}
+            onSubmit={onSubmit}
           />
         </Modal>
       )}

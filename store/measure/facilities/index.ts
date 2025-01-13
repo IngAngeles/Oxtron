@@ -18,9 +18,9 @@ type FacilityStore = {
   setLoading: (loading: boolean) => void;
   fetchFacilities: () => Promise<void>;
   fetchFacilityById: () => Promise<void>;
-  createFacility: (facility: Facility) => Promise<void>;
-  updateFacility: (updatedFacility: Facility) => Promise<void>;
-  deleteFacility: (id: number) => Promise<void>;
+  createFacility: (facility: Facility) => Promise<string | undefined>;
+  updateFacility: (updatedFacility: Facility) => Promise<string | undefined>;
+  deleteFacility: (id: number) => Promise<string | undefined>;
 };
 
 export const useFacilityStore = create<FacilityStore>((set) => ({
@@ -59,10 +59,12 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
   createFacility: async (facility) => {
     set({loading: true});
     try {
-      await createFacility(facility);
+      const response = await createFacility(facility);
       const fetchResponse = await getFacilitiesByUserId();
 
       set({facilities: fetchResponse.data, error: null, loading: false});
+
+      return response.data;
     } catch (error) {
       set({error: 'Failed to create facility', loading: false});
     }
@@ -70,10 +72,12 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
   updateFacility: async (updatedFacility: Facility) => {
     set({loading: true});
     try {
-      await updateFacility(updatedFacility);
+      const response = await updateFacility(updatedFacility);
       const fetchResponse = await getFacilitiesByUserId();
 
       set({facilities: fetchResponse.data, error: null, loading: false});
+
+      return response.data;
     } catch (error) {
       set({error: 'Failed to update facility', loading: false});
     }
@@ -81,10 +85,12 @@ export const useFacilityStore = create<FacilityStore>((set) => ({
   deleteFacility: async (id) => {
     set({loading: true});
     try {
-      await deleteFacility(id);
+      const response = await deleteFacility(id);
       const fetchResponse = await getFacilitiesByUserId();
 
       set({facilities: fetchResponse.data, error: null, loading: false});
+
+      return response.data;
     } catch (error) {
       set({error: 'Failed to delete facility', loading: false});
     }

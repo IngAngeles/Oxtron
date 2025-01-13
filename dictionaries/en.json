@@ -369,7 +369,25 @@
                 "country": "Country",
                 "desc": "Description (Optional)",
                 "button": "Update",
-                "add": "Add"
+                "add": "Add",
+                "toast": {
+                    "create": {
+                        "title": "Success",
+                        "description": "This facility has been inserted successfully"
+                    },
+                    "update": {
+                        "title": "Success",
+                        "description": "This facility has been updated successfully"
+                    },
+                    "delete": {
+                        "title": "Success",
+                        "description": "This facility has been deleted successfully"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Something went wrong while processing the facility."
+                    }
+                }
             },
             "modalv":{
                 "proper": "Property Status",

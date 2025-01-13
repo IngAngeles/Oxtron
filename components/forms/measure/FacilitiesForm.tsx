@@ -1,28 +1,25 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import { Facility, FacilityValidation } from "@/lib/validation";
 import { useDictionary } from "@/hooks/shared/useDictionary";
-import { handleFacilitySubmit } from "@/services/measure/facility";
+import {useFacilityStore} from "@/store/measure/facilities";
 
 type Props = {
   facility: Facility | null;
   options: Option[];
-  handleCreateFacility: (facility: Facility) => Promise<void>;
-  handleUpdateFacility: (facility: Facility) => Promise<void>;
+  onSubmit: (facility: Facility) => Promise<void>;
 };
 
 const FacilitiesForm = ({
   facility,
   options,
-  handleCreateFacility,
-  handleUpdateFacility,
+  onSubmit,
 }: Props) => {
   const { isLoading, dictionary } = useDictionary();
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const { loading } = useFacilityStore()
   const form = useForm<Facility>({
     resolver: zodResolver(FacilityValidation),
     defaultValues: {
@@ -37,7 +34,7 @@ const FacilitiesForm = ({
     },
   });
 
-  const onSubmit = async (facility: Facility) => {
+  /* const onSubmit = async (facility: Facility) => {
     setIsSubmitted(true);
     await handleFacilitySubmit({
       facility,
@@ -45,7 +42,7 @@ const FacilitiesForm = ({
       handleUpdateFacility,
     });
     setIsSubmitted(false);
-  };
+  }; */
 
   return isLoading || !dictionary ? null : (
     <Form {...form}>
@@ -94,7 +91,7 @@ const FacilitiesForm = ({
           </div>
         </div>
         <SubmitButton
-          isLoading={isSubmitted}
+          isLoading={loading}
           className="flex items-center justify-center w-32 float-end"
         >
           {facility

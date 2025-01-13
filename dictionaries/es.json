@@ -369,7 +369,25 @@
                 "country": "País",
                 "desc": "Descripción (Opcional)",
                 "button": "Actualizar",
-                "add": "Agregar"
+                "add": "Agregar",
+                "toast": {
+                    "create": {
+                        "title": "Éxito",
+                        "description": "Esta instalación se ha insertado con éxito"
+                    },
+                    "update": {
+                        "title": "Éxito",
+                        "description": "Esta instalación se ha actualizado con éxito"
+                    },
+                    "delete": {
+                        "title": "Éxito",
+                        "description": "Esta instalación se ha eliminado con éxito"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Algo salió mal al procesar la instalación."
+                    }
+                }
             },
             "modalv": {
                 "proper": "Estado de la Propiedad",
