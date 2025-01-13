@@ -1,28 +1,37 @@
-import {toast} from "@/components/ui/use-toast";
-import {Facility} from "@/lib/validation";
-import {SubmitHandler} from "react-hook-form";
+import { toast } from "@/components/ui/use-toast";
+import { Facility } from "@/lib/validation";
 
 type Props = {
-  form: any;
+  facility: Facility;
   handleCreateFacility: (facility: Facility) => Promise<void>;
   handleUpdateFacility: (facility: Facility) => Promise<void>;
 };
 
-export function createOnSubmitFacility({handleCreateFacility, handleUpdateFacility}: Props): SubmitHandler<Facility> {
-  return async (facility: Facility) => {
-    try {
-      if (!facility.idFacility) {
-        await handleCreateFacility(facility);
-      } else {
-        await handleUpdateFacility(facility);
-      }
-    } catch (error) {
+export async function handleFacilitySubmit({
+  facility,
+  handleCreateFacility,
+  handleUpdateFacility,
+}: Props): Promise<void> {
+  try {
+    if (!facility.idFacility) {
+      await handleCreateFacility(facility);
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        className: "bg-[#7f1d1d]",
+        title: "Success",
+        description: "Facility created successfully!",
+      });
+    } else {
+      await handleUpdateFacility(facility);
+      toast({
+        title: "Success",
+        description: "Facility updated successfully!",
       });
     }
-  };
+  } catch (error) {
+    console.error(error);
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description: "Something went wrong while processing the facility.",
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import {Status} from "@/constants/types"
-import {getCboStatuses} from '@/actions/shared/index'
+import {getCboStatuses} from '@/actions/shared'
 
 type StatusStore = {
   statuses: Status[]

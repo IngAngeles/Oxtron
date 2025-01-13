@@ -1,53 +1,58 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
-import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
-import SubmitButton from '@/components/SubmitButton'
-import { Facility, FacilityValidation } from '@/lib/validation'
-import { createOnSubmitFacility } from '@/services/measure/facility'
-import {useDictionary} from "@/hooks/shared/useDictionary";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { Form } from "@/components/ui/form";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import SubmitButton from "@/components/SubmitButton";
+import { Facility, FacilityValidation } from "@/lib/validation";
+import { useDictionary } from "@/hooks/shared/useDictionary";
+import { handleFacilitySubmit } from "@/services/measure/facility";
 
 type Props = {
-  facility: Facility | null
-  options: Option[]
-  handleCreateFacility: (facility: Facility) => Promise<void>
-  handleUpdateFacility: (facility: Facility) => Promise<void>
-}
+  facility: Facility | null;
+  options: Option[];
+  handleCreateFacility: (facility: Facility) => Promise<void>;
+  handleUpdateFacility: (facility: Facility) => Promise<void>;
+};
 
-const FacilitiesForm = ({ facility, options, handleCreateFacility, handleUpdateFacility }: Props) => {
-  const { isLoading, dictionary } = useDictionary()
+const FacilitiesForm = ({
+  facility,
+  options,
+  handleCreateFacility,
+  handleUpdateFacility,
+}: Props) => {
+  const { isLoading, dictionary } = useDictionary();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const form = useForm<Facility>({
     resolver: zodResolver(FacilityValidation),
     defaultValues: {
       idControlFacility: facility?.idControlFacility ?? 0,
       idUserControl: facility?.idUserControl ?? 0,
-      idFacility: facility?.idFacility ?? '',
-      city: facility?.city ?? '',
-      country: facility?.country ?? '',
-      description: facility?.description ?? '',
+      idFacility: facility?.idFacility ?? "",
+      city: facility?.city ?? "",
+      country: facility?.country ?? "",
+      description: facility?.description ?? "",
       propertyStatus: facility?.propertyStatus ?? 0,
       active: facility?.active ?? 1,
     },
-  })
-  const { handleSubmit, watch } = form;
-  const onSubmit = createOnSubmitFacility({
-    form,
-    handleCreateFacility,
-    handleUpdateFacility,
   });
-  const fields = watch([
-    'idFacility',
-    'city',
-    'country',
-    'propertyStatus'
-  ])
-  const isValid = Object.values(fields).every(field => field.toString().length >= 1);
 
-  return (isLoading || !dictionary) ? (
-    <></>
-  ) : (
+  const onSubmit = async (facility: Facility) => {
+    setIsSubmitted(true);
+    await handleFacilitySubmit({
+      facility,
+      handleCreateFacility,
+      handleUpdateFacility,
+    });
+    setIsSubmitted(false);
+  };
+
+  return isLoading || !dictionary ? null : (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex-1 text-neutral-500 w-full">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 flex-1 text-neutral-500 w-full"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -88,12 +93,17 @@ const FacilitiesForm = ({ facility, options, handleCreateFacility, handleUpdateF
             />
           </div>
         </div>
-        <SubmitButton isLoading={false} className="flex items-center justify-center w-32 float-end" onClick={isValid ? () => onSubmit(form.getValues()) : undefined}>
-          {facility ? dictionary.measure.modal.button : dictionary.measure.modal.add}
+        <SubmitButton
+          isLoading={isSubmitted}
+          className="flex items-center justify-center w-32 float-end"
+        >
+          {facility
+            ? dictionary.measure.modal.button
+            : dictionary.measure.modal.add}
         </SubmitButton>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default FacilitiesForm
+export default FacilitiesForm;
