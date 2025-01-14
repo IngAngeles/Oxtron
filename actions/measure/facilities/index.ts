@@ -88,69 +88,6 @@ export async function deleteFacility(idFacility: number): Promise<ApiResponse<st
 }
 
 /*
-export async function getTravelById(idTravel: string): Promise<ITravel | undefined> {
-  try {
-    const session = await auth()
-    const idUser: number = Number(session?.user?.id) ?? 0
-
-    if (idUser === 0) return
-
-    const response = await axiosInstance.get('/Travels/Mostrar_Travels_ByTravel', {
-      params: {idTravel, idUser}
-    })
-
-    const data = response.data as ITravel
-    return data.active === 1 ? data : undefined
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function createTravel(travel: Travel) {
-  try {
-    const session = await auth()
-    const idUserControl: number = Number(session?.user?.id) ?? 0
-
-    if (idUserControl === 0) return
-
-    if (!idUserControl) return
-
-    const data = {...travel, idUserControl}
-    const response = await axiosInstance.post('/Travels/Registrar_Travels', data)
-    return response.status
-  } catch (error) {
-    console.error('Error en createTravel:', error)
-    return handleError(error)
-  }
-}
-
-export async function updateTravel(travel: ITravel) {
-  try {
-    const session = await auth()
-    const idUserControl: number = Number(session?.user?.id) ?? 0
-
-    if (idUserControl === 0) return
-
-    console.log('travel:', travel)
-
-    const data = {...travel, idUserControl}
-    const response = await axiosInstance.put('/Travels/Actualizar_Travels', data)
-    return response.status
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function deleteTravel(idTravels: string) {
-  try {
-    const response = await axiosInstance.delete('/Travels/Eliminar_Travels', {
-      params: {idTravels}
-    })
-    return response.status
-  } catch (error) {
-    return handleError(error)
-  }
-}
 
 export async function getLogisticById(origin: string, destination: string): Promise<ILogistic | undefined> {
   try {

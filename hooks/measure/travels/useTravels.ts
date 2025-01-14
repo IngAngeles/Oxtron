@@ -1,32 +1,23 @@
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useVehicleStore} from "@/store/measure/vehicles";
+import {useTravelStore} from "@/store/measure/travels";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Vehicle} from "@/lib/validation";
+import {Travel} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
 
-export const useVehicles = () => {
+export const useTravels = () => {
   const {isLoading, dictionary} = useDictionary()
   const {
-    vehicles,
-    vehicle,
-    brands,
-    models,
-    statuses,
-    types,
-    createVehicle,
-    fetchVehicles,
-    fetchFormData,
+    loading,
+    travels,
+    travel,
+    createTravel,
+    fetchTravels,
+    updateTravel,
     setLoading,
-    setVehicle,
-    updateVehicle,
-    loading
-  } = useVehicleStore()
+    setTravel,
+  } = useTravelStore()
   const {showModal, handleShowModal, handleHideModal} = useModal()
-  const [brandOptions, setBrandOptions] = useState<Option[]>([])
-  const [modelOptions, setModelOptions] = useState<Option[]>([])
-  const [statusOptions, setStatusOptions] = useState<Option[]>([])
-  const [typeOptions, setTypeOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Cards[]>([])
 
   const items: string[] = [dictionary?.measure.bar[0]]
@@ -47,62 +38,40 @@ export const useVehicles = () => {
       text: dictionary?.measure.add,
       onClick: () => {
         handleShowModal()
-        setVehicle(null)
-      }
+        setTravel(null)
+      },
     },
   ]
 
   useEffect(() => {
-    fetchVehicles()
-    fetchFormData()
+    fetchTravels()
   }, [])
 
   useEffect(() => {
     setLoading(true)
-    const cards: Cards[] = vehicles.map((vehicle) => ({
-      id: vehicle.idControlVehicle || 0,
-      title: `${vehicle.name}`,
+    const cards: Cards[] = travels.map((travel) => ({
+      id: travel.idControlTravel || 0,
+      title: `${travel.idTravel}`,
       description: 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
           handleShowModal()
-          setVehicle(vehicle!)
+          setTravel(travel)
         },
       },
-      link: `/${vehicle.idControlVehicle}`,
+      link: `/${travel.idControlTravel}`,
       lastUpdated: new Date(2022, 10, 23),
     }))
 
     setCards(cards)
-  }, [vehicles])
+  }, [travels])
 
-  useEffect(() => {
-    setLoading(true)
-    setBrandOptions(brands.map((brand) => ({
-      value: brand.idVehicleCboBrand.toString(),
-      label: brand.description
-    })))
-    setModelOptions(models.map((model) => ({
-      value: model.idVehicleCboModel.toString(),
-      label: model.description,
-    })))
-    setStatusOptions(statuses.map((status) => ({
-      value: status.idStatus.toString(),
-      label: status.description,
-    })))
-    setTypeOptions(types.map((type) => ({
-      value: type.idVehicleCboType.toString(),
-      label: type.description,
-    })))
-    setLoading(false)
-  }, [brands, models, statuses, types]);
-
-  const onSubmit = async (vehicle: Vehicle) => {
+  const onSubmit = async (travel: Travel) => {
     try {
-      if (vehicle.idControlVehicle) {
-        await updateVehicle(vehicle);
+      if (travel.idControlTravel) {
+        await updateTravel(travel);
 
         toast({
           title: dictionary?.measure.modal.toast.update.title,
@@ -110,7 +79,7 @@ export const useVehicles = () => {
           className: 'bg-black',
         });
       } else {
-        await createVehicle(vehicle);
+        await createTravel(travel);
 
         toast({
           title: dictionary?.measure.modal.toast.create.title,
@@ -131,28 +100,14 @@ export const useVehicles = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(dictionary,
-    isLoading,
-    showModal,
-    loading,)
-  }, [dictionary,
-    isLoading,
-    showModal,
-    loading])
-
   return {
+    travel,
+    travels,
     dictionary,
     isLoading,
-    vehicles,
-    vehicle,
     showModal,
     handleShowModal,
     handleHideModal,
-    brands: brandOptions,
-    models: modelOptions,
-    statuses: statusOptions,
-    types: typeOptions,
     cards,
     onSubmit,
     loading,

@@ -14,7 +14,7 @@ type VehiclesStore = {
   error: string | null;
   loading: boolean;
   setVehicles: (vehicles: Vehicle[]) => void;
-  setVehicle: (vehicle: Vehicle) => void;
+  setVehicle: (vehicle: Vehicle | null) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
   fetchFormData: () => Promise<void>;

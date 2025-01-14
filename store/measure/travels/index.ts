@@ -1,98 +1,98 @@
 import {create} from 'zustand';
 import {
-  createFacility,
-  deleteFacility,
-  getFacilitiesByUserId,
-  updateFacility
-} from "@/actions/measure/facilities";
-import {Facility} from "@/lib/validation";
+  createTravel,
+  deleteTravel,
+  getTravelsByUserId,
+  updateTravel
+} from "@/actions/measure/travels";
+import {Travel} from "@/lib/validation";
 
-type FacilityStore = {
-  facilities: Facility[];
-  facility: Facility | null;
+type TravelStore = {
+  travels: Travel[];
+  travel: Travel | null;
   error: string | null;
   loading: boolean;
-  setFacilities: (facilities: Facility[]) => void;
-  setFacility: (facility: Facility) => void;
+  setTravels: (travels: Travel[]) => void;
+  setTravel: (travel: Travel | null) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
-  fetchFacilities: () => Promise<void>;
-  fetchFacilityById: () => Promise<void>;
-  createFacility: (facility: Facility) => Promise<string | undefined>;
-  updateFacility: (updatedFacility: Facility) => Promise<string | undefined>;
-  deleteFacility: (id: number) => Promise<string | undefined>;
+  fetchTravels: () => Promise<void>;
+  fetchTravelById: () => Promise<void>;
+  createTravel: (travel: Travel) => Promise<string | undefined>;
+  updateTravel: (updatedTravel: Travel) => Promise<string | undefined>;
+  deleteTravel: (id: number) => Promise<string | undefined>;
 };
 
-export const useFacilityStore = create<FacilityStore>((set) => ({
-  facilities: [],
-  facility: null,
+export const useTravelStore = create<TravelStore>((set) => ({
+  travels: [],
+  travel: null,
   error: null,
   loading: false,
-  setFacilities: (facilities) => set({facilities}),
-  setFacility: (facility: Facility | null) => {
+  setTravels: (travels) => set({travels}),
+  setTravel: (travel: Travel | null) => {
     set({loading: true})
-    if (facility) {
-      localStorage.setItem("selectedFacility", JSON.stringify(facility));
+    if (travel) {
+      localStorage.setItem("selectedTravel", JSON.stringify(travel));
     } else {
-      localStorage.removeItem("selectedFacility");
+      localStorage.removeItem("selectedTravel");
     }
-    set({ facility });
+    set({ travel });
     set({loading: false})
   },
   setError: (error) => set({error}),
   setLoading: (loading) => set({loading}),
-  fetchFacilities: async () => {
+  fetchTravels: async () => {
     set({loading: true});
     try {
-      const response = await getFacilitiesByUserId();
-      set({facilities: response.data, error: null, loading: false});
+      const response = await getTravelsByUserId();
+      set({travels: response.data, error: null, loading: false});
     } catch (error) {
-      set({error: 'Failed to fetch facilities', loading: false});
+      set({error: 'Failed to fetch travels', loading: false});
     }
   },
-  fetchFacilityById: async () => {
-    const savedFacility = localStorage.getItem("selectedFacility");
-    if (savedFacility) {
-      set({ facility: JSON.parse(savedFacility) });
+  fetchTravelById: async () => {
+    const savedTravel = localStorage.getItem("selectedTravel");
+    if (savedTravel) {
+      set({ travel: JSON.parse(savedTravel) });
     }
   },
-  createFacility: async (facility) => {
+  createTravel: async (travel) => {
     set({loading: true});
     try {
-      const response = await createFacility(facility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await createTravel(travel);
+      const fetchResponse = await getTravelsByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({travels: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to create facility', loading: false});
+      set({error: 'Failed to create travel', loading: false});
     }
   },
-  updateFacility: async (updatedFacility: Facility) => {
+  updateTravel: async (updatedTravel: Travel) => {
     set({loading: true});
     try {
-      const response = await updateFacility(updatedFacility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await updateTravel(updatedTravel);
+      const fetchResponse = await getTravelsByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({travels: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to update facility', loading: false});
+      set({error: 'Failed to update travel', loading: false});
     }
   },
-  deleteFacility: async (id) => {
+  deleteTravel: async (id) => {
     set({loading: true});
     try {
-      const response = await deleteFacility(id);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await deleteTravel(id);
+      const fetchResponse = await getTravelsByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({travels: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to delete facility', loading: false});
+      set({error: 'Failed to delete travel', loading: false});
     }
   },
 }));
