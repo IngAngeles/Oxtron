@@ -1,6 +1,7 @@
-import { ICommuting, IFacility, ILogistic, IManufacturing, IMeasureResponse, ITravel, IVehicle } from './types'
+import { ICommuting, IFacility, ILogistic, IManufacturing, IMeasureResponse, ITravel } from './types'
+import {Vehicle} from "@/lib/validation";
 
-export const measureCards: IMeasureCard[] = [
+export const measureCards: Cards[] = [
   {
     id: 1,
     title: 'Facilities',
@@ -105,7 +106,7 @@ export const MEASURE_ROUTES = [
   '/Commuting/Mostrar_Commuting_User',
 ]
 
-export const getFacilities = (facilities: IFacility[], handleShowModal: () => void): IMeasureCard[] => facilities.map((facility) => ({
+export const getFacilities = (facilities: IFacility[], handleShowModal: () => void): Cards[] => facilities.map((facility) => ({
   id: facility.idControlFacility,
   title: facility.idFacility,
   description: `${ facility.city }, ${ facility.country }`,
@@ -118,7 +119,7 @@ export const getFacilities = (facilities: IFacility[], handleShowModal: () => vo
   lastUpdated: new Date(2022, 10, 23),
   measure: facility as unknown as IMeasureResponse,
 }))
-export const getVehicles = (vehicles: IVehicle[], handleShowModal: () => void): IMeasureCard[] => vehicles.map((vehicle) => ({
+export const getVehicles = (vehicles: Vehicle[], handleShowModal: () => void): Cards[] => vehicles.map((vehicle) => ({
   id: vehicle.idControlVehicle,
   title: `${ vehicle.name }`,
   description: 'Mexico City, Mexico',
@@ -129,10 +130,10 @@ export const getVehicles = (vehicles: IVehicle[], handleShowModal: () => void): 
   },
   link: `/${ vehicle.idControlVehicle }`,
   lastUpdated: new Date(2022, 10, 23),
-  measure: vehicle as unknown as IMeasureResponse,
+  // measure: vehicle as unknown as IMeasureResponse,
 }))
 
-export const getTravels = (travels: ITravel[], handleShowModal: () => void): IMeasureCard[] => travels.map((travel) => ({
+export const getTravels = (travels: ITravel[], handleShowModal: () => void): Cards[] => travels.map((travel) => ({
   id: travel.idControlTravel,
   title: travel.idTravel,
   description: 'Mexico City, Mexico',
@@ -146,7 +147,7 @@ export const getTravels = (travels: ITravel[], handleShowModal: () => void): IMe
   measure: travel as unknown as IMeasureResponse,
 }))
 
-export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void): IMeasureCard[] => logistics.map((logistic) => ({
+export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void): Cards[] => logistics.map((logistic) => ({
   id: logistic.idControlLogistics,
   title: `${ logistic.origin } - ${ logistic.destination }`,
   description: 'Mexico City, Mexico',
@@ -160,7 +161,7 @@ export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void
   measure: logistic as unknown as IMeasureResponse,
 }))
 
-export const getManufacturing = (manufacturing: IManufacturing[], handleShowModal: () => void): IMeasureCard[] => manufacturing.map((manufacture) => ({
+export const getManufacturing = (manufacturing: IManufacturing[], handleShowModal: () => void): Cards[] => manufacturing.map((manufacture) => ({
   id: manufacture.idControlManufacturing,
   title: manufacture.process,
   description: 'Mexico City, Mexico',
@@ -174,7 +175,7 @@ export const getManufacturing = (manufacturing: IManufacturing[], handleShowModa
   measure: manufacture as unknown as IMeasureResponse,
 }))
 
-export const getCommuting = (commuting: ICommuting[], handleShowModal: () => void): IMeasureCard[] => commuting.map((commute) => ({
+export const getCommuting = (commuting: ICommuting[], handleShowModal: () => void): Cards[] => commuting.map((commute) => ({
   id: commute.idControlCommuting,
   title: commute.idControlFacility,
   description: 'Mexico City, Mexico',

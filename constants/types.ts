@@ -68,13 +68,13 @@ export interface Status {
     active: number;
 }
 
-export interface ICboBrand {
+export interface ComboBrand {
     idVehicleCboBrand: number;
     description: string;
     active: number;
 }
 
-export interface ICboModel {
+export interface ComboModel {
     idVehicleCboModel: number;
     idVehicleCboBrand: number;
     year: string;
@@ -82,7 +82,7 @@ export interface ICboModel {
     active: number;
 }
 
-export interface ICboType {
+export interface ComboType {
     idVehicleCboType: number;
     description: string;
     units: string;

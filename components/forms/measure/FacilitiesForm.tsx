@@ -34,16 +34,6 @@ const FacilitiesForm = ({
     },
   });
 
-  /* const onSubmit = async (facility: Facility) => {
-    setIsSubmitted(true);
-    await handleFacilitySubmit({
-      facility,
-      handleCreateFacility,
-      handleUpdateFacility,
-    });
-    setIsSubmitted(false);
-  }; */
-
   return isLoading || !dictionary ? null : (
     <Form {...form}>
       <form

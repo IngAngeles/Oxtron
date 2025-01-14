@@ -283,33 +283,13 @@ export const FacilityDescriptionDetailsValidation = z.object({
 export type FacilityDescriptionDetails = z.infer<typeof FacilityDescriptionDetailsValidation>;
 
 export const VehicleValidation = z.object({
-  idControlVehicle: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+  idControlVehicle: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
-  idStatus: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
+  idStatus: z.coerce.number().positive('Status is required'),
   name: z.string().optional(),
-  idCboBrand: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  idCboModel: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
-  idCboType: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }),
+  idCboBrand: z.coerce.number().positive('Brand is required'),
+  idCboModel: z.coerce.number().positive('Model is required'),
+  idCboType: z.coerce.number().positive('Type is required'),
   licensePlate: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
@@ -406,11 +386,7 @@ export const VehicleDescriptionDetailsValidation = z.object({
 export type VehicleDescriptionDetails = z.infer<typeof VehicleDescriptionDetailsValidation>
 
 export const TravelValidation = z.object({
-  idControlTravel: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+  idControlTravel: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
   idTravel: z.string().min(1, 'Travel ID is required'),
   description: z.string().optional(),

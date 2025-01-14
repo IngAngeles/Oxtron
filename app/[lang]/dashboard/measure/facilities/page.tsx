@@ -12,12 +12,12 @@ import Modal from "@/components/measure/Modal";
 import FacilitiesForm from "@/components/forms/measure/FacilitiesForm";
 import {useStatusStore} from "@/store/shared/combos/Status";
 import {Status} from "@/constants/types";
-import {useFacilityOnSubmit} from "@/hooks/measure/facilities";
+import {useFacilities} from "@/hooks/measure";
 
 export default function FacilitiesPage() {
   const {isLoading, dictionary} = useDictionary()
   const {showModal, handleShowModal, handleHideModal} = useModal()
-  const {onSubmit} = useFacilityOnSubmit()
+  const {onSubmit} = useFacilities()
   const {
     facilities,
     facility,

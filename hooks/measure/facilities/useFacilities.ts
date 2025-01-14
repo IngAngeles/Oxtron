@@ -3,7 +3,7 @@ import { Facility } from "@/lib/validation";
 import {useFacilityStore} from "@/store/measure/facilities";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 
-export function useFacilityOnSubmit() {
+export function useFacilities() {
   const { fetchFacilities, createFacility, updateFacility } = useFacilityStore()
   const { dictionary } = useDictionary()
 

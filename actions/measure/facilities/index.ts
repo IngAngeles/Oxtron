@@ -4,36 +4,10 @@ import {getAuthenticatedUserId, handleError} from "@/actions/shared";
 import axiosInstance from '@/lib/axios-instance'
 import {Facility} from '@/lib/validation'
 
-/* export async function fetchData(scope: string): Promise<IMeasureResponse[]> {
-  const url: string = MEASURE_ROUTES.find(value => value.toLowerCase().includes(scope)) ?? ''
-
-  try {
-    const session = await auth()
-    const idUser: number = Number(session?.user?.id) ?? 0
-
-    if (idUser === 0) throw new Error('There is not user session')
-
-    const response = await axiosInstance.get(url, {
-      params: {idUser}
-    })
-    const data: IMeasureResponse[] = response.data as IMeasureResponse[]
-
-    // @ts-ignore
-    return data.filter(value => value.active === 1)
-  } catch (error) {
-    return handleError(error)
-  }
-} */
-
 export async function createFacility(facility: Facility): Promise<ApiResponse<string>> {
   try {
     const idUserControl = await getAuthenticatedUserId();
-
-    const response = await axiosInstance.post('/Facilities/Registrar_Facilities', {
-      ...facility,
-      idUserControl,
-    })
-
+    const response = await axiosInstance.post('/Facilities/Registrar_Facilities', {...facility, idUserControl,})
     const data = response.data as string
 
     return {
@@ -50,11 +24,7 @@ export async function createFacility(facility: Facility): Promise<ApiResponse<st
 export async function getFacilitiesByUserId(): Promise<ApiResponse<Facility[]>> {
   try {
     const idUser = await getAuthenticatedUserId();
-
-    const response = await axiosInstance.get('/Facilities/Mostrar_Facilities_User', {
-      params: {idUser}
-    })
-
+    const response = await axiosInstance.get('/Facilities/Mostrar_Facilities_User', {params: {idUser}})
     const data: Facility[] = response.data as Facility[]
 
     return {
@@ -68,21 +38,17 @@ export async function getFacilitiesByUserId(): Promise<ApiResponse<Facility[]>> 
   }
 }
 
-export async function getFacilityById(idFacility: number): Promise<ApiResponse<Facility>> {
+export async function getFacilityById(idFacility: number): Promise<ApiResponse<Facility | null>> {
   try {
     const idUser = await getAuthenticatedUserId();
-
-    const response = await axiosInstance.get('/Facilities/Mostrar_Facilities_ByFacility', {
-      params: {idFacility, idUser}
-    })
-
+    const response = await axiosInstance.get('/Facilities/Mostrar_Facilities_ByFacility', {params: {idFacility, idUser}})
     const data = response.data as Facility
 
     return {
       success: true,
       status: data.active === 1 ? 200 : 404,
       message: 'success',
-      data: data.active === 1 ? data : undefined,
+      data: data.active === 1 ? data : null,
     }
   } catch (error) {
     return handleError(error)
@@ -91,8 +57,6 @@ export async function getFacilityById(idFacility: number): Promise<ApiResponse<F
 
 export async function updateFacility(facility: Facility): Promise<ApiResponse<string>> {
   try {
-    await getAuthenticatedUserId();
-
     const response = await axiosInstance.put('/Facilities/Actualizar_Facilities', {...facility})
     const data = response.data as string
 
@@ -109,9 +73,7 @@ export async function updateFacility(facility: Facility): Promise<ApiResponse<st
 
 export async function deleteFacility(idFacility: number): Promise<ApiResponse<string>> {
   try {
-    const response = await axiosInstance.delete('/Facilities/Mostrar_Facilities_ByFacility', {
-      params: {idFacility}
-    })
+    const response = await axiosInstance.delete('/Facilities/Mostrar_Facilities_ByFacility', {params: {idFacility}})
     const data = response.data as string
 
     return {
@@ -125,85 +87,7 @@ export async function deleteFacility(idFacility: number): Promise<ApiResponse<st
   }
 }
 
-/* export async function getVehiclesByUserId(): Promise<IVehicle[] | undefined> {
-  try {
-    const session = await auth()
-    const idUser: number = Number(session?.user?.id) ?? 0
-
-    if (idUser === 0) return
-
-    const response = await axiosInstance.get('/Vehicles/Mostrar_Vehicles_User', {
-      params: {idUser}
-    })
-    const data = response.data as IVehicle[]
-    return data.filter(value => value.active === 1)
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function getVehicleById(name: string): Promise<IVehicle | undefined> {
-  try {
-    const session = await auth()
-    const idUser: number = Number(session?.user?.id) ?? 0
-
-    if (idUser === 0) return
-
-    const response = await axiosInstance.get('/Vehicles/Mostrar_Vehicles_ByVehicle', {
-      params: {name, idUser}
-    })
-
-    const data = response.data as IVehicle
-    return data.active === 1 ? data : undefined
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-// TODO: Status 500
-export async function createVehicle(vehicle: Vehicle) {
-  try {
-    const session = await auth()
-    const idUserControl: number = Number(session?.user?.id) ?? 0
-
-    if (idUserControl === 0) return
-
-    const data = {...vehicle, idUserControl}
-    const response = await axiosInstance.post('/Vehicles/Registrar_Vehicles', data)
-    return response.status
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function updateVehicle(vehicle: IVehicle) {
-  try {
-    const session = await auth()
-    const idUserControl: number = Number(session?.user?.id) ?? 0
-
-    if (idUserControl === 0) return
-
-    console.log('vehicle:', vehicle)
-
-    const data = {...vehicle, idUserControl}
-    const response = await axiosInstance.put('/Vehicles/Actualizar_Vehicles', data)
-    return response.status
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function deleteVehicle(idVehicles: string) {
-  try {
-    const response = await axiosInstance.delete('/Vehicles/Eliminar_Vehicles', {
-      params: {idVehicles}
-    })
-    return response.status
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
+/*
 export async function getTravelById(idTravel: string): Promise<ITravel | undefined> {
   try {
     const session = await auth()
@@ -454,57 +338,23 @@ export async function deleteCommuting(IdCommuting: string) {
   }
 }
 
-export async function getCboStatuses(): Promise<ICboStatus[]> {
-  try {
-    const response = await axiosInstance.get('/cboStatus/Mostrar_cboStatus')
-    const data: ICboStatus[] = response.data as ICboStatus[]
+/* export async function fetchData(scope: string): Promise<IMeasureResponse[]> {
+  const url: string = MEASURE_ROUTES.find(value => value.toLowerCase().includes(scope)) ?? ''
 
-    return data.filter(status => status.active === 1)
+  try {
+    const session = await auth()
+    const idUser: number = Number(session?.user?.id) ?? 0
+
+    if (idUser === 0) throw new Error('There is not user session')
+
+    const response = await axiosInstance.get(url, {
+      params: {idUser}
+    })
+    const data: IMeasureResponse[] = response.data as IMeasureResponse[]
+
+    // @ts-ignore
+    return data.filter(value => value.active === 1)
   } catch (error) {
     return handleError(error)
-  }
-}
-
-export async function getCboBrands(): Promise<ICboBrand[]> {
-  try {
-    const response = await axiosInstance.get('/VehiclesCboBrands/Mostrar_VehiclesCboBrands')
-    const data: ICboBrand[] = response.data as ICboBrand[]
-
-    return data.filter(brand => brand.active === 1)
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function getCboModels(): Promise<ICboModel[]> {
-  try {
-    const response = await axiosInstance.get('/VehiclesCboModels/Mostrar_VehiclesCboModels')
-    const data: ICboModel[] = response.data as ICboModel[]
-
-    return data.filter(model => model.active === 1)
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function getCboTypes(): Promise<ICboType[]> {
-  try {
-    const response = await axiosInstance.get('/VehiclesCboTypes/Mostrar_VehiclesCboTypes')
-    const data: ICboType[] = response.data as ICboType[]
-
-    return data.filter(type => type.active === 1)
-  } catch (error) {
-    return handleError(error)
-  }
-}
-
-export async function getCboModeTransport(): Promise<ICboModeTransport[]> {
-  try {
-    const response = await axiosInstance.get('/CommutingCboModeTransporte/Mostrar_CommutingCboModeTransporte')
-    const data: ICboModeTransport[] = response.data as ICboModeTransport[]
-
-    return data.filter(transport => transport.active === 1)
-  } catch (error) {
-    return []
   }
 } */

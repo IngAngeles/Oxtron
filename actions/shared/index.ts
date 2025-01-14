@@ -3,7 +3,7 @@
 import axios, { AxiosError } from 'axios'
 import {auth} from "@/auth";
 import axiosInstance from '@/lib/axios-instance'
-import {Status} from "@/constants/types";
+import {ComboBrand, ComboModel, ComboType, ICboModeTransport, Status} from "@/constants/types";
 
 declare global {
   type ApiResponse<T> = {
@@ -53,6 +53,70 @@ export async function getCboStatuses(): Promise<ApiResponse<Status[]>> {
     }
   } catch (error) {
     return handleError(error)
+  }
+}
+
+export async function getCboBrands(): Promise<ApiResponse<ComboBrand[]>> {
+  try {
+    const response = await axiosInstance.get('/VehiclesCboBrands/Mostrar_VehiclesCboBrands')
+    const data: ComboBrand[] = response.data as ComboBrand[]
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Success',
+      data: data.filter(status => status.active === 1),
+    }
+  } catch (error) {
+    return handleError(error)
+  }
+}
+
+export async function getCboModels(): Promise<ApiResponse<ComboModel[]>> {
+  try {
+    const response = await axiosInstance.get('/VehiclesCboModels/Mostrar_VehiclesCboModels')
+    const data: ComboModel[] = response.data as ComboModel[]
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Success',
+      data: data.filter(status => status.active === 1),
+    }
+  } catch (error) {
+    return handleError(error)
+  }
+}
+
+export async function getCboTypes(): Promise<ApiResponse<ComboType[]>> {
+  try {
+    const response = await axiosInstance.get('/VehiclesCboTypes/Mostrar_VehiclesCboTypes')
+    const data: ComboType[] = response.data as ComboType[]
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Success',
+      data: data.filter(status => status.active === 1),
+    }
+  } catch (error) {
+    return handleError(error)
+  }
+}
+
+export async function getCboModeTransport(): Promise<ApiResponse<ICboModeTransport[]>> {
+  try {
+    const response = await axiosInstance.get('/CommutingCboModeTransporte/Mostrar_CommutingCboModeTransporte')
+    const data: ICboModeTransport[] = response.data as ICboModeTransport[]
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Success',
+      data: data.filter(status => status.active === 1),
+    }
+  } catch (error) {
+    return handleError(error);
   }
 }
 
