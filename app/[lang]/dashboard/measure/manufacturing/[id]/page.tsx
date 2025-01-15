@@ -5,22 +5,56 @@ import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {getManufacturingDetails} from "@/actions/measure/details";
+import {deleteManufacturingDetails, getManufacturingDetails} from "@/actions/measure/details";
 import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import Modal from "@/components/measure/Modal";
-import {LogisticDetails} from "@/lib/validation";
+import {LogisticDetails, ManufacturingDetails} from "@/lib/validation";
 import {ManufacturingInvoiceForm} from "@/components/forms/measure/Details/ManufacturingInvioceForm";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { params: { id: number } }
 
 export default function ManufacturingDetailPage({ params: { id } }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(null)
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
+
+  const handleEdit = async (rowData: any) => {
+    setSelectedRow(rowData)
+    handleShowModal()
+  }
+
+  const handleDelete = async (rowData: any) => {
+    async function deleteData(rowData: any) {
+      const {idControlManufacturingDetails} = rowData as ManufacturingDetails
+      const manufacturing = await deleteManufacturingDetails(idControlManufacturingDetails || 0)
+      return manufacturing.success
+    }
+
+    const data = await deleteData(rowData)
+
+    if (!data) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+      return
+    }
+
+    toast({
+      title: 'Success',
+      description: 'This item has been deleted successfully',
+      className: 'bg-black',
+    })
+
+    await reloadData()
+  }
 
   const columns = [
     {header: dictionary?.measure.table.manufacturing.equi, accessor: 'invoiceId'},
@@ -68,7 +102,7 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> /
+            </Link> / {' '}
 
             <Link
               href={path.split('/').slice(0, -1).join('/')}
@@ -85,7 +119,14 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
         <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={columns} data={data}/>
+            <SimpleTable
+              columns={columns}
+              data={data}
+              options={ {
+                onEdit: handleEdit,
+                onDelete: handleDelete
+              } }
+            />
           }
         </HistoricalCard>
       </div>

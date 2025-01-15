@@ -10,13 +10,14 @@ import {useModal} from "@/hooks/shared/useModal";
 import Modal from "@/components/measure/Modal";
 import {LogisticDetails} from "@/lib/validation";
 import {LogisticsInvoiceForm} from "@/components/forms/measure/Details/LogisticsInvioceForm";
-import {getLogisticDetails} from "@/actions/measure/details";
+import {deleteLogisticDetails, getLogisticDetails} from "@/actions/measure/details";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { params: { id: number } };
 
 export default function LogisticsDetailPage({ params: { id } }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(null)
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -49,6 +50,39 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
     setIsLoading(false)
   }
 
+  const handleEdit = async (rowData: any) => {
+    setSelectedRow(rowData)
+    handleShowModal()
+  }
+
+  const handleDelete = async (rowData: any) => {
+    async function deleteData(rowData: any) {
+      const {idControlLogisticsDetails} = rowData as LogisticDetails
+      const logistic = await deleteLogisticDetails(idControlLogisticsDetails || 0)
+      return logistic.success
+    }
+
+    const data = await deleteData(rowData)
+
+    if (!data) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+      return
+    }
+
+    toast({
+      title: 'Success',
+      description: 'This item has been deleted successfully',
+      className: 'bg-black',
+    })
+
+    await reloadData()
+  }
+
   useEffect(() => {
     setIsLoading(true)
     reloadData()
@@ -64,7 +98,7 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
         <div>
           <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
             <Link
-              href={path.split('/').slice(0, -1).join('/').replace('commuting', '')}
+              href={path.split('/').slice(0, -1).join('/').replace('logistics', '')}
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
@@ -85,7 +119,14 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
         <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={columns} data={data}/>
+            <SimpleTable
+              columns={columns}
+              data={data}
+              options={ {
+                onEdit: handleEdit,
+                onDelete: handleDelete
+              } }
+            />
           }
         </HistoricalCard>
       </div>

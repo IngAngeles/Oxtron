@@ -7,16 +7,17 @@ import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
-import {getTravelDetails} from "@/actions/measure/details";
+import {deleteTravelDetails, getTravelDetails} from "@/actions/measure/details";
 import Modal from "@/components/measure/Modal";
-import {VehicleDetails} from "@/lib/validation";
+import {TravelDetails, VehicleDetails} from "@/lib/validation";
 import {TravelsInvoiceForm} from "@/components/forms/measure/Details/TravelsInvoiceForm";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { params: { id: number } };
 
 export default function TravelsDetailPage({params: {id}}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(null)
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -49,6 +50,39 @@ export default function TravelsDetailPage({params: {id}}: Props) {
     setIsLoading(false)
   }
 
+  const handleEdit = async (rowData: any) => {
+    setSelectedRow(rowData)
+    handleShowModal()
+  }
+
+  const handleDelete = async (rowData: any) => {
+    async function deleteData(rowData: any) {
+      const {idControlTravelDetails} = rowData as TravelDetails
+      const travels = await deleteTravelDetails(idControlTravelDetails || 0)
+      return travels.success
+    }
+
+    const data = await deleteData(rowData)
+
+    if (!data) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+      return
+    }
+
+    toast({
+      title: 'Success',
+      description: 'This item has been deleted successfully',
+      className: 'bg-black',
+    })
+
+    await reloadData()
+  }
+
   useEffect(() => {
     setIsLoading(true)
     reloadData()
@@ -68,7 +102,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> /
+            </Link> / {' '}
 
             <Link
               href={path.split('/').slice(0, -1).join('/')}
@@ -85,7 +119,14 @@ export default function TravelsDetailPage({params: {id}}: Props) {
         <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={columns} data={data}/>
+            <SimpleTable
+              columns={columns}
+              data={data}
+              options={ {
+                onEdit: handleEdit,
+                onDelete: handleDelete
+              } }
+            />
           }
         </HistoricalCard>
       </div>

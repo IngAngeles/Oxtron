@@ -7,16 +7,17 @@ import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useEffect, useState} from "react";
 import {CommutingDetails} from "@/lib/validation";
-import {getCommutingDetails} from "@/actions/measure/details";
+import {deleteCommutingDetails, getCommutingDetails} from "@/actions/measure/details";
 import {CommutingInvoiceForm} from "@/components/forms/measure/Details/CommutingInvoiceForm";
 import Modal from "@/components/measure/Modal";
 import {useModal} from "@/hooks/shared/useModal";
+import {toast} from "@/components/ui/use-toast";
 
 type Props = { params: { id: number } };
 
 export default function CommutingDetailPage({params: {id}}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const [selectedRow, setSelectedRow] = useState<any>(null)
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -46,6 +47,39 @@ export default function CommutingDetailPage({params: {id}}: Props) {
     setData(newData || [])
     console.log(data)
     setIsLoading(false)
+  }
+
+  const handleEdit = async (rowData: any) => {
+    setSelectedRow(rowData)
+    handleShowModal()
+  }
+
+  const handleDelete = async (rowData: any) => {
+    async function deleteData(rowData: any) {
+      const {idControlCommutingDetails} = rowData as CommutingDetails
+      const commuting = await deleteCommutingDetails(idControlCommutingDetails || 0)
+      return commuting.success
+    }
+
+    const data = await deleteData(rowData)
+
+    if (!data) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
+      return
+    }
+
+    toast({
+      title: 'Success',
+      description: 'This item has been deleted successfully',
+      className: 'bg-black',
+    })
+
+    await reloadData()
   }
 
   useEffect(() => {
@@ -84,7 +118,14 @@ export default function CommutingDetailPage({params: {id}}: Props) {
         <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={columns} data={data}/>
+            <SimpleTable
+              columns={columns}
+              data={data}
+              options={ {
+                onEdit: handleEdit,
+                onDelete: handleDelete
+              } }
+            />
           }
         </HistoricalCard>
       </div>
