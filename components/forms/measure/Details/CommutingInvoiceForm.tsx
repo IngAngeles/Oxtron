@@ -6,7 +6,7 @@ import CustomFormField, {FormFieldType} from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import {CommutingDetails, CommutingDetailsValidation} from '@/lib/validation'
 import {VLabel} from '@/constants/types'
-import {getCboModeTransport} from '@/actions/measure/facilities'
+import {getCboModeTransport} from '@/actions/shared'
 import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
 import {toast} from '@/components/ui/use-toast'
 import {getDictionary} from "@/lib/dictionary";
@@ -85,11 +85,12 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await getCboModeTransport()
+      const response = await getCboModeTransport()
+      const data = response.data || []
       setCboModeTransport(
         data.map(value => ({
-          value: value.idCommutingCboModeTransport.toString(),
-          label: value.description,
+          value: value?.idCommutingCboModeTransport?.toString() || '',
+          label: value?.description || '',
         }))
       )
     }

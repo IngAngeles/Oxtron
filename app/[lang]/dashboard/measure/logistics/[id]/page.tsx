@@ -5,12 +5,54 @@ import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
+import {useEffect, useState} from "react";
+import {useModal} from "@/hooks/shared/useModal";
+import Modal from "@/components/measure/Modal";
+import {LogisticDetails} from "@/lib/validation";
+import {LogisticsInvoiceForm} from "@/components/forms/measure/Details/LogisticsInvioceForm";
+import {getLogisticDetails} from "@/actions/measure/details";
 
 type Props = { params: { id: number } };
 
 export default function LogisticsDetailPage({ params: { id } }: Props) {
-  const {isLoading, dictionary} = useDictionary();
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const {showModal, handleHideModal, handleShowModal} = useModal()
+  const {dictionary} = useDictionary();
+  const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
+
+  const columns = [
+    {header: dictionary?.measure.table.logistics.trans, accessor: 'invoiceId'},
+    {header: dictionary?.measure.table.logistics.fuel, accessor: 'idEmissionFactorDescription'},
+    {header: dictionary?.measure.table.logistics.ori, accessor: 'origin'},
+    {header: dictionary?.measure.table.logistics.des, accessor: 'destiny'},
+    {header: dictionary?.measure.table.logistics.dis, accessor: 'amount'},
+    {header: dictionary?.measure.table.logistics.fue, accessor: 'fuelTypeDescription'},
+    {header: dictionary?.measure.table.logistics.up, accessor: 'firstName'},
+    // { header: 'Status', accessor: 'amount' },
+  ]
+
+  const reloadData = async () => {
+    setIsLoading(true)
+
+    async function getData(id: number) {
+      const logistics = await getLogisticDetails(id)
+      return logistics.data
+    }
+
+    const newData = await getData(id)
+
+    // @ts-ignore
+    setData(newData || [])
+    console.log(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    reloadData()
+  }, [id])
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -22,11 +64,11 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
         <div>
           <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
             <Link
-              href={path.split('/').slice(0, -1).join('/').replace('logistics', '')}
+              href={path.split('/').slice(0, -1).join('/').replace('commuting', '')}
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> /
+            </Link> / {' '}
 
             <Link
               href={path.split('/').slice(0, -1).join('/')}
@@ -40,13 +82,26 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={() => {}} registryCount={3}>
+        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={[]} data={[]}/>
+            <SimpleTable columns={columns} data={data}/>
           }
         </HistoricalCard>
       </div>
+      {showModal && (
+        <Modal
+          handleOnCloseModal={handleHideModal}
+          title="Create an invoice manually"
+          className="h-auto min-w-full lg:min-w-[70vw] xl:min-w-[700px] 2xl:min-w-[1000px]"
+        >
+          <LogisticsInvoiceForm
+            idControlLogistics={id}
+            // @ts-ignore
+            logistic={selectedRow as LogisticDetails}
+            reloadData={reloadData}/>
+        </Modal>
+      )}
     </>
   )
 }

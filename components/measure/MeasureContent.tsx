@@ -7,7 +7,7 @@ import Loading from '@/components/loading/LoadingBlack';
 import {getDictionary} from "@/lib/dictionary";
 
 type Props = {
-  cards: Cards[]
+  cards: Card[]
   scope: string
 };
 
@@ -33,7 +33,7 @@ const MeasureContent = ({scope, cards}: Props) => {
     loadDictionary();
   }, [lang]);
 
-  const filterCards = (cards: Cards[], scope: string): Cards[] => {
+  const filterCards = (cards: Card[], scope: string): Card[] => {
     if (scope === dictionary.bar[0]) {
       return cards;
     }

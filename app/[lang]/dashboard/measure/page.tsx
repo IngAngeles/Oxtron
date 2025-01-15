@@ -5,7 +5,7 @@ import Loading from "@/components/loading/LoadingBlack";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 
 declare global {
-  type Cards = {
+  type Card = {
     id: string | number
     title?: string
     lastUpdated: Date | string

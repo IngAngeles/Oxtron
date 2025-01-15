@@ -5,12 +5,53 @@ import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
+import {useEffect, useState} from "react";
+import {CommutingDetails} from "@/lib/validation";
+import {getCommutingDetails} from "@/actions/measure/details";
+import {CommutingInvoiceForm} from "@/components/forms/measure/Details/CommutingInvoiceForm";
+import Modal from "@/components/measure/Modal";
+import {useModal} from "@/hooks/shared/useModal";
 
 type Props = { params: { id: number } };
 
-export default function CommutingDetailPage({ params: { id } }: Props) {
-  const {isLoading, dictionary} = useDictionary();
+export default function CommutingDetailPage({params: {id}}: Props) {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const {showModal, handleHideModal, handleShowModal} = useModal()
+  const {dictionary} = useDictionary();
+  const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
+  const columns = [
+    {header: dictionary?.measure.table.commuting.trans, accessor: 'cboModeTransportDescription'},
+    {header: dictionary?.measure.table.commuting.acti, accessor: 'activity'},
+    {header: dictionary?.measure.table.commuting.dis, accessor: 'distance'},
+    {header: dictionary?.measure.table.commuting.unit, accessor: 'active'},
+    {header: dictionary?.measure.table.commuting.ori, accessor: 'origin'},
+    {header: dictionary?.measure.table.commuting.dest, accessor: 'destination'},
+    {header: dictionary?.measure.table.commuting.user, accessor: 'idUserControl'},
+    {header: dictionary?.measure.table.commuting.status, accessor: 'status'},
+  ]
+
+  const reloadData = async () => {
+    setIsLoading(true)
+
+    async function getData(id: number) {
+      const commuting = await getCommutingDetails(id)
+      return commuting.data
+    }
+
+    const newData = await getData(id)
+
+    // @ts-ignore
+    setData(newData || [])
+    console.log(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    reloadData()
+  }, [id])
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -26,7 +67,7 @@ export default function CommutingDetailPage({ params: { id } }: Props) {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> /
+            </Link> / {' '}
 
             <Link
               href={path.split('/').slice(0, -1).join('/')}
@@ -40,13 +81,25 @@ export default function CommutingDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={() => {}} registryCount={3}>
+        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={[]} data={[]}/>
+            <SimpleTable columns={columns} data={data}/>
           }
         </HistoricalCard>
       </div>
+      {showModal && (
+        <Modal
+          handleOnCloseModal={handleHideModal}
+          title="Create an invoice manually"
+          className="h-auto min-w-full lg:min-w-[70vw] xl:min-w-[700px] 2xl:min-w-[1000px]"
+        >
+          <CommutingInvoiceForm
+            idControlCommuting={id}
+            commuting={selectedRow as CommutingDetails}
+            reloadData={reloadData}/>
+        </Modal>
+      )}
     </>
   )
 }

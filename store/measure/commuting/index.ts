@@ -1,98 +1,115 @@
 import {create} from 'zustand';
 import {
-  createFacility,
-  deleteFacility,
-  getFacilitiesByUserId,
-  updateFacility
-} from "@/actions/measure/facilities";
-import {Facility} from "@/lib/validation";
+  createCommuting,
+  deleteCommuting,
+  getCommutingByUserId,
+  updateCommuting
+} from "@/actions/measure/commuting";
+import {Facility, Commuting} from "@/lib/validation";
+import {getFacilitiesByUserId} from "@/actions/measure/facilities";
 
-type FacilityStore = {
+type CommutingStore = {
+  commuting: Commuting[];
   facilities: Facility[];
-  facility: Facility | null;
+  commute: Commuting | null;
   error: string | null;
   loading: boolean;
-  setFacilities: (facilities: Facility[]) => void;
-  setFacility: (facility: Facility) => void;
+  setCommuting: (commuting: Commuting[]) => void;
+  setCommute: (commuting: Commuting | null) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
-  fetchFacilities: () => Promise<void>;
-  fetchFacilityById: () => Promise<void>;
-  createFacility: (facility: Facility) => Promise<string | undefined>;
-  updateFacility: (updatedFacility: Facility) => Promise<string | undefined>;
-  deleteFacility: (id: number) => Promise<string | undefined>;
+  fetchFormData: () => Promise<void>;
+  fetchCommuting: () => Promise<void>;
+  fetchCommutingById: () => Promise<void>;
+  createCommuting: (commuting: Commuting) => Promise<string | undefined>;
+  updateCommuting: (commuting: Commuting) => Promise<string | undefined>;
+  deleteCommuting: (id: number) => Promise<string | undefined>;
 };
 
-export const useFacilityStore = create<FacilityStore>((set) => ({
+export const useCommutingStore = create<CommutingStore>((set) => ({
+  commuting: [],
   facilities: [],
-  facility: null,
+  commute: null,
   error: null,
   loading: false,
-  setFacilities: (facilities) => set({facilities}),
-  setFacility: (facility: Facility | null) => {
+  setCommuting: (commuting) => set({commuting}),
+  setCommute: (commuting: Commuting | null) => {
     set({loading: true})
-    if (facility) {
-      localStorage.setItem("selectedFacility", JSON.stringify(facility));
+    if (commuting) {
+      localStorage.setItem("selectedCommuting", JSON.stringify(commuting));
     } else {
-      localStorage.removeItem("selectedFacility");
+      localStorage.removeItem("selectedCommuting");
     }
-    set({ facility });
+    set({commute: commuting});
     set({loading: false})
   },
   setError: (error) => set({error}),
   setLoading: (loading) => set({loading}),
-  fetchFacilities: async () => {
+  fetchFormData: async () => {
     set({loading: true});
     try {
-      const response = await getFacilitiesByUserId();
-      set({facilities: response.data, error: null, loading: false});
+      const facilitiesResponse = await getFacilitiesByUserId();
+      set({
+        facilities: facilitiesResponse.data,
+        error: null,
+        loading: false,
+      });
     } catch (error) {
-      set({error: 'Failed to fetch facilities', loading: false});
+      set({error: 'Failed to fetch commuting', loading: false});
     }
   },
-  fetchFacilityById: async () => {
-    const savedFacility = localStorage.getItem("selectedFacility");
-    if (savedFacility) {
-      set({ facility: JSON.parse(savedFacility) });
-    }
-  },
-  createFacility: async (facility) => {
+  fetchCommuting: async () => {
     set({loading: true});
     try {
-      const response = await createFacility(facility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await getCommutingByUserId();
+      set({commuting: response.data, error: null, loading: false});
+    } catch (error) {
+      set({error: 'Failed to fetch commuting', loading: false});
+    }
+  },
+  fetchCommutingById: async () => {
+    const savedCommuting = localStorage.getItem("selectedCommuting");
+    if (savedCommuting) {
+      set({commute: JSON.parse(savedCommuting)});
+    }
+  },
+  createCommuting: async (commute) => {
+    set({loading: true});
+    try {
+      const response = await createCommuting(commute);
+      const fetchResponse = await getCommutingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({commuting: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to create facility', loading: false});
+      set({error: 'Failed to create commuting', loading: false});
     }
   },
-  updateFacility: async (updatedFacility: Facility) => {
+  updateCommuting: async (updatedCommuting: Commuting) => {
     set({loading: true});
     try {
-      const response = await updateFacility(updatedFacility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await updateCommuting(updatedCommuting);
+      const fetchResponse = await getCommutingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({commuting: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to update facility', loading: false});
+      set({error: 'Failed to update commuting', loading: false});
     }
   },
-  deleteFacility: async (id) => {
+  deleteCommuting: async (id) => {
     set({loading: true});
     try {
-      const response = await deleteFacility(id);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await deleteCommuting(id);
+      const fetchResponse = await getCommutingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({commuting: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to delete facility', loading: false});
+      set({error: 'Failed to delete commuting', loading: false});
     }
   },
 }));

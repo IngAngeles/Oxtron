@@ -1,23 +1,30 @@
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useTravelStore} from "@/store/measure/travels";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Travel} from "@/lib/validation";
+import {Manufacturing} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
+import {useManufacturingStore} from "@/store/measure/manufacturing";
 
-export const useTravels = () => {
+export const useManufacturing = () => {
   const {isLoading, dictionary} = useDictionary()
   const {
-    loading,
-    travels,
-    travel,
-    createTravel,
-    fetchTravels,
-    updateTravel,
+    manufacturing,
+    manufacture,
+    facilities,
+    fuel,
+    equipment,
+    createManufacturing,
+    fetchManufacturing,
+    fetchFormData,
     setLoading,
-    setTravel,
-  } = useTravelStore()
+    setManufacture,
+    updateManufacturing,
+    loading,
+  } = useManufacturingStore()
   const {showModal, handleShowModal, handleHideModal} = useModal()
+  const [facilityOptions, setFacilityOptions] = useState<Option[]>([])
+  const [fuelOptions, setFuelOptions] = useState<Option[]>([])
+  const [equipmentOptions, setEquipmentOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
 
   const items: string[] = [dictionary?.measure.bar[0]]
@@ -38,40 +45,58 @@ export const useTravels = () => {
       text: dictionary?.measure.add,
       onClick: () => {
         handleShowModal()
-        setTravel(null)
-      },
+        setManufacture(null)
+      }
     },
   ]
 
   useEffect(() => {
-    fetchTravels()
+    fetchManufacturing()
+    fetchFormData()
   }, [])
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = travels.map((travel) => ({
-      id: travel.idControlTravel || 0,
-      title: `${travel.idTravel}`,
+    const cards: Card[] = manufacturing.map((manufacturing) => ({
+      id: manufacturing.idControlManufacturing || 0,
+      title: `${manufacturing.process}`,
       description: 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
           handleShowModal()
-          setTravel(travel)
+          setManufacture(manufacturing!)
         },
       },
-      link: `/${travel.idControlTravel}`,
+      link: `/${manufacturing.idControlManufacturing}`,
       lastUpdated: new Date(2022, 10, 23),
     }))
 
     setCards(cards)
-  }, [travels])
+  }, [manufacturing])
 
-  const onSubmit = async (travel: Travel) => {
+  useEffect(() => {
+    setLoading(true)
+    setFacilityOptions(facilities.map((facility) => ({
+      value: facility?.idControlFacility?.toString() || '0',
+      label: facility.idFacility,
+    })))
+    setFuelOptions(fuel.map((f) => ({
+      value: f.idControl.toString(),
+      label: f.description,
+    })))
+    setEquipmentOptions(equipment.map((eq) => ({
+      value: '1',
+      label: 'Mundo'
+    })))
+    setLoading(false)
+  }, [facilities, fuel, equipment]);
+
+  const onSubmit = async (manufacturing: Manufacturing) => {
     try {
-      if (travel.idControlTravel) {
-        await updateTravel(travel);
+      if (manufacturing.idControlManufacturing) {
+        await updateManufacturing(manufacturing);
 
         toast({
           title: dictionary?.measure.modal.toast.update.title,
@@ -79,7 +104,7 @@ export const useTravels = () => {
           className: 'bg-black',
         });
       } else {
-        await createTravel(travel);
+        await createManufacturing(manufacturing);
 
         toast({
           title: dictionary?.measure.modal.toast.create.title,
@@ -101,13 +126,16 @@ export const useTravels = () => {
   }
 
   return {
-    travel,
-    travels,
     dictionary,
     isLoading,
+    manufacturing,
+    manufacture,
     showModal,
     handleShowModal,
     handleHideModal,
+    facilityOptions,
+    fuelOptions,
+    equipmentOptions,
     cards,
     onSubmit,
     loading,

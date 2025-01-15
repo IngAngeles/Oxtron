@@ -468,27 +468,27 @@ export const TravelDescriptionDetailsValidation = z.object({
 })
 export type TravelDescriptionDetails = z.infer<typeof TravelDescriptionDetailsValidation>;
 
-export const LogisticValidation = z.object({
-  idControlLogistics: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+export const FirstStepLogisticValidation = z.object({
+  idControlLogistics: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
-  origin: z.string().optional(),
-  destination: z.string().optional(),
-  originzc: z.string().optional(),
-  destinationzc: z.string().optional(),
+  origin: z.string().min(1, 'This field is required'),
+  destination: z.string().min(1, 'This field is required'),
+  originzc: z.string().min(1, 'This field is required'),
+  destinationzc: z.string().min(1, 'This field is required'),
   loadLogistic: z.string().optional(),
   client: z.string().optional(),
-  idCboStatus: z.number().positive('This field is required'),
+})
+
+export const SecondStepLogisticValidation = z.object({
+  idCboStatus: z.coerce.number().positive('This field is required'),
   name: z.string().optional(),
-  idTravelCboType: z.number().positive('This field is required'),
-  idCboModel: z.number().positive('This field is required'),
-  idCboBrand: z.number().positive('This field is required'),
+  idTravelCboType: z.coerce.number().positive('This field is required'),
+  idCboModel: z.coerce.number().optional(),
+  idCboBrand: z.coerce.number().optional(),
   licensePlate: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
+export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLogisticValidation)
 export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
@@ -576,17 +576,13 @@ export const LogisticDescriptionDetailsValidation = z.object({
 export type LogisticDescriptionDetails = z.infer<typeof LogisticDescriptionDetailsValidation>
 
 export const ManufacturingValidation = z.object({
-  idControlManufacturing: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+  idControlManufacturing: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
-  process: z.string().min(1, 'Process must be at least 1 character long').optional(),
-  idFacility: z.string().min(1, 'Facility is required'),
-  idTypeEquipment: z.number().positive('This field is required'),
-  idTypeFuelUsed: z.number().positive('This field is required'),
-  idTypeEquipmentCode: z.number().positive('This field is required'),
+  process: z.string().min(1, 'Process is required'),
+  idFacility: z.coerce.number().min(1, 'Facility is required'),
+  idTypeEquipment: z.number().positive('Type of equipment is required'),
+  idTypeFuelUsed: z.number().positive('Type of fuel used is required'),
+  idTypeEquipmentCode: z.number().positive('Type of equipment code is required'),
   active: z.number().max(1).min(0).default(1),
 })
 export type Manufacturing = z.infer<typeof ManufacturingValidation>
@@ -668,7 +664,7 @@ export const CommutingValidation = z.object({
     return parsed
   }).optional(),
   idUserControl: z.number().optional(),
-  idControlFacility: z.string().min(1, 'Facility is required'),
+  idControlFacility: z.coerce.number().min(1, 'Facility is required'),
   description: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })

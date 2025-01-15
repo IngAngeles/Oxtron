@@ -1,92 +1,4 @@
-import { ICommuting, IFacility, ILogistic, IManufacturing, IMeasureResponse, ITravel } from './types'
-import {Vehicle} from "@/lib/validation";
-
-export const measureCards: Cards[] = [
-  {
-    id: 1,
-    title: 'Facilities',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Facility.png',
-      position: 'body'
-    },
-    link: '/facilities',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 1', 'Scope 2', 'Scope 3']
-    }
-  },
-  {
-    id: 2,
-    title: 'Vehicles',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Vehicles.png',
-      position: 'body'
-    },
-    link: '/vehicles',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 1']
-    }
-  },
-  {
-    id: 3,
-    title: 'Travels',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Travel.png',
-      position: 'body'
-    },
-    link: '/travels',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 3']
-    }
-  },
-  {
-    id: 4,
-    title: 'Logistics',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Logistics.png',
-      position: 'body'
-    },
-    link: '/logistics',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 3']
-    }
-  },
-  {
-    id: 5,
-    title: 'Manufacturing',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Manufacturing.png',
-      position: 'body'
-    },
-    link: '/manufacturing',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 1']
-    }
-  },
-  {
-    id: 6,
-    title: 'Commuting',
-    description: 'Information about this type of emissions',
-    icon: {
-      src: '/assets/icons/black/Commuting.png',
-      position: 'body'
-    },
-    link: '/commuting',
-    lastUpdated: new Date(2022, 10, 23),
-    footerCard: {
-      scope: ['Scope 3']
-    }
-  },
-]
+import { ICommuting, IFacility, ILogistic, IManufacturing, IMeasureResponse, ITravel, IVehicle } from './types'
 
 export enum EMeasureScope {
   Facilities = 'facilities',
@@ -106,7 +18,7 @@ export const MEASURE_ROUTES = [
   '/Commuting/Mostrar_Commuting_User',
 ]
 
-export const getFacilities = (facilities: IFacility[], handleShowModal: () => void): Cards[] => facilities.map((facility) => ({
+export const getFacilities = (facilities: IFacility[], handleShowModal: () => void): Card[] => facilities.map((facility) => ({
   id: facility.idControlFacility,
   title: facility.idFacility,
   description: `${ facility.city }, ${ facility.country }`,
@@ -119,7 +31,7 @@ export const getFacilities = (facilities: IFacility[], handleShowModal: () => vo
   lastUpdated: new Date(2022, 10, 23),
   measure: facility as unknown as IMeasureResponse,
 }))
-export const getVehicles = (vehicles: Vehicle[], handleShowModal: () => void): Cards[] => vehicles.map((vehicle) => ({
+export const getVehicles = (vehicles: IVehicle[], handleShowModal: () => void): Card[] => vehicles.map((vehicle) => ({
   id: vehicle.idControlVehicle,
   title: `${ vehicle.name }`,
   description: 'Mexico City, Mexico',
@@ -130,10 +42,10 @@ export const getVehicles = (vehicles: Vehicle[], handleShowModal: () => void): C
   },
   link: `/${ vehicle.idControlVehicle }`,
   lastUpdated: new Date(2022, 10, 23),
-  // measure: vehicle as unknown as IMeasureResponse,
+  measure: vehicle as unknown as IMeasureResponse,
 }))
 
-export const getTravels = (travels: ITravel[], handleShowModal: () => void): Cards[] => travels.map((travel) => ({
+export const getTravels = (travels: ITravel[], handleShowModal: () => void): Card[] => travels.map((travel) => ({
   id: travel.idControlTravel,
   title: travel.idTravel,
   description: 'Mexico City, Mexico',
@@ -147,7 +59,7 @@ export const getTravels = (travels: ITravel[], handleShowModal: () => void): Car
   measure: travel as unknown as IMeasureResponse,
 }))
 
-export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void): Cards[] => logistics.map((logistic) => ({
+export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void): Card[] => logistics.map((logistic) => ({
   id: logistic.idControlLogistics,
   title: `${ logistic.origin } - ${ logistic.destination }`,
   description: 'Mexico City, Mexico',
@@ -161,7 +73,7 @@ export const getLogistics = (logistics: ILogistic[], handleShowModal: () => void
   measure: logistic as unknown as IMeasureResponse,
 }))
 
-export const getManufacturing = (manufacturing: IManufacturing[], handleShowModal: () => void): Cards[] => manufacturing.map((manufacture) => ({
+export const getManufacturing = (manufacturing: IManufacturing[], handleShowModal: () => void): Card[] => manufacturing.map((manufacture) => ({
   id: manufacture.idControlManufacturing,
   title: manufacture.process,
   description: 'Mexico City, Mexico',
@@ -175,7 +87,7 @@ export const getManufacturing = (manufacturing: IManufacturing[], handleShowModa
   measure: manufacture as unknown as IMeasureResponse,
 }))
 
-export const getCommuting = (commuting: ICommuting[], handleShowModal: () => void): Cards[] => commuting.map((commute) => ({
+export const getCommuting = (commuting: ICommuting[], handleShowModal: () => void): Card[] => commuting.map((commute) => ({
   id: commute.idControlCommuting,
   title: commute.idControlFacility,
   description: 'Mexico City, Mexico',

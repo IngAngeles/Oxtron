@@ -5,12 +5,54 @@ import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
+import {useEffect, useState} from "react";
+import {useModal} from "@/hooks/shared/useModal";
+import {getTravelDetails} from "@/actions/measure/details";
+import Modal from "@/components/measure/Modal";
+import {VehicleDetails} from "@/lib/validation";
+import {TravelsInvoiceForm} from "@/components/forms/measure/Details/TravelsInvoiceForm";
 
 type Props = { params: { id: number } };
 
-export default function TravelsDetailPage({ params: { id } }: Props) {
-  const {isLoading, dictionary} = useDictionary();
+export default function TravelsDetailPage({params: {id}}: Props) {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const {showModal, handleHideModal, handleShowModal} = useModal()
+  const {dictionary} = useDictionary();
+  const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
+
+  const columns = [
+    {header: dictionary?.measure.table.travels.vehi, accessor: 'idTravelCboType'},
+    {header: dictionary?.measure.table.travels.sou, accessor: 'invoiceId'},
+    {header: dictionary?.measure.table.travels.ori, accessor: 'origin'},
+    {header: dictionary?.measure.table.travels.desti, accessor: 'destiny'},
+    {header: dictionary?.measure.table.travels.km, accessor: 'idEmissionFactor'},
+    {header: dictionary?.measure.table.travels.date, accessor: 'startDate'},
+    {header: dictionary?.measure.table.travels.up, accessor: 'firstName'},
+    // { header: 'Status', accessor: 'idControlTravel' },
+  ]
+
+  const reloadData = async () => {
+    setIsLoading(true)
+
+    async function getData(id: number) {
+      const vehicles = await getTravelDetails(id)
+      return vehicles.data
+    }
+
+    const newData = await getData(id)
+
+    // @ts-ignore
+    setData(newData || [])
+    console.log(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    reloadData()
+  }, [id])
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -40,13 +82,26 @@ export default function TravelsDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={() => {}} registryCount={3}>
+        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={[]} data={[]}/>
+            <SimpleTable columns={columns} data={data}/>
           }
         </HistoricalCard>
       </div>
+      {showModal && (
+        <Modal
+          handleOnCloseModal={handleHideModal}
+          title="Create an invoice manually"
+          className="h-auto min-w-full lg:min-w-[70vw] xl:min-w-[700px] 2xl:min-w-[1000px]"
+        >
+          <TravelsInvoiceForm
+            idControlTravel={id}
+            // @ts-ignore
+            travel={selectedRow as VehicleDetails}
+            reloadData={reloadData}/>
+        </Modal>
+      )}
     </>
   )
 }

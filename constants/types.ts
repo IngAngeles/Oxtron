@@ -21,7 +21,7 @@ export type IMeasureResponse = {
 };
 
 export interface IMeasureContextType {
-    cards: Cards[];
+    cards: Card[];
     showModal: boolean;
     handleShowModal: () => void;
     handleHideModal: () => void;
@@ -87,6 +87,11 @@ export interface ComboType {
     description: string;
     units: string;
     active: number;
+}
+export interface ComboFuel {
+    idControl: number;
+    description: string;
+    units: string;
 }
 
 export interface ICboModeTransport {

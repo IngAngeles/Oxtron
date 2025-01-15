@@ -1,7 +1,6 @@
 import { E164Number } from 'libphonenumber-js/core'
 import Image from 'next/image'
 import ReactDatePicker from 'react-datepicker'
-import {v4 as uuid} from 'uuid'
 // import { format } from 'date-fns'
 import { Control } from 'react-hook-form'
 import PhoneInput from 'react-phone-number-input'
@@ -194,8 +193,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               </SelectTrigger>
             </FormControl>
             <SelectContent className="bg-[#FCFDFE] border-[#DFE0EB] text-[#4B506D]">
-              { props.options?.map(option => (
-                <SelectItem key={ uuid() } value={ option.value } className="text-[#4B506D]">
+              {props.options?.map((option, index) => (
+                <SelectItem
+                  key={`${option.value}-${index}`}
+                  value={option.value}>
                   { option.label }
                 </SelectItem>
               )) }

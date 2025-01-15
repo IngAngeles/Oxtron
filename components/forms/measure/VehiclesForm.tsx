@@ -19,8 +19,8 @@ type Props = {
 }
 
 const VehiclesForm = ({vehicle, statuses, brands, models, types, onSubmit}: Props) => {
-  const { dictionary } = useDictionary();
-  const { loading } = useVehicleStore()
+  const {dictionary} = useDictionary();
+  const {loading} = useVehicleStore()
 
   const form = useForm<Vehicle>({
     resolver: zodResolver(VehicleValidation),
@@ -37,7 +37,7 @@ const VehiclesForm = ({vehicle, statuses, brands, models, types, onSubmit}: Prop
     },
   });
 
-  return (!dictionary) ? (
+  return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>

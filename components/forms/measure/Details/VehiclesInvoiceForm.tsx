@@ -12,7 +12,7 @@ import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 import {toast} from "@/components/ui/use-toast";
 import {createVehicleDetails, updateVehicleDetails} from "@/actions/measure/details";
-import {getCboTypes} from "@/actions/measure/facilities";
+import {getCboTypes} from "@/actions/shared";
 import {VLabel} from "@/constants/types";
 
 type Props = { idControlVehicle: number; vehicle?: VehicleDetails; reloadData: () => void };
@@ -92,7 +92,8 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await getCboTypes()
+      const response = await getCboTypes()
+      const data = response.data || []
       setVehiclesCboTypes(
         data.map(value => ({
           value: value.idVehicleCboType.toString(),

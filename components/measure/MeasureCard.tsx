@@ -3,10 +3,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import IconButton from '@/components/measure/IconButton'
 import ScopeBadge from '@/components/measure/ScopeBadge'
-import { cn, formatDateTime } from '@/lib/utils'
-import { IMeasureContextType, IMeasureResponse } from '@/constants/types'
-import { useContext } from 'react'
-import { MeasureContext } from '@/context/measure'
+import { cn } from '@/lib/utils'
 
 const MeasureCard = ({
   title = '',
@@ -15,7 +12,7 @@ const MeasureCard = ({
   footerCard,
   link,
   onClick,
-}: Cards) => {
+}: Card) => {
   const pathname = usePathname()
   const router = useRouter()
 

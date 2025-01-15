@@ -5,12 +5,54 @@ import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
+import {getManufacturingDetails} from "@/actions/measure/details";
+import {useEffect, useState} from "react";
+import {useModal} from "@/hooks/shared/useModal";
+import Modal from "@/components/measure/Modal";
+import {LogisticDetails} from "@/lib/validation";
+import {ManufacturingInvoiceForm} from "@/components/forms/measure/Details/ManufacturingInvioceForm";
 
 type Props = { params: { id: number } }
 
 export default function ManufacturingDetailPage({ params: { id } }: Props) {
-  const {isLoading, dictionary} = useDictionary();
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const {showModal, handleHideModal, handleShowModal} = useModal()
+  const {dictionary} = useDictionary();
+  const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
+
+  const columns = [
+    {header: dictionary?.measure.table.manufacturing.equi, accessor: 'invoiceId'},
+    {header: dictionary?.measure.table.manufacturing.cd, accessor: 'idEmissionFactor'},
+    {header: dictionary?.measure.table.manufacturing.amo, accessor: 'amount'},
+    {header: dictionary?.measure.table.manufacturing.unit, accessor: 'unit'},
+    {header: dictionary?.measure.table.manufacturing.start, accessor: 'startDate'},
+    {header: dictionary?.measure.table.manufacturing.end, accessor: 'endDate'},
+    {header: dictionary?.measure.table.manufacturing.up, accessor: 'firstName'},
+    // { header: 'Status', accessor: 'idControlManufacturing' },
+  ]
+
+  const reloadData = async () => {
+    setIsLoading(true)
+
+    async function getData(id: number) {
+      const manufacturing = await getManufacturingDetails(id)
+      return manufacturing.data
+    }
+
+    const newData = await getData(id)
+
+    // @ts-ignore
+    setData(newData || [])
+    console.log(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    reloadData()
+  }, [id])
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -40,13 +82,26 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={() => {}} registryCount={3}>
+        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={[]} data={[]}/>
+            <SimpleTable columns={columns} data={data}/>
           }
         </HistoricalCard>
       </div>
+      {showModal && (
+        <Modal
+          handleOnCloseModal={handleHideModal}
+          title="Create an invoice manually"
+          className="h-auto min-w-full lg:min-w-[70vw] xl:min-w-[700px] 2xl:min-w-[1000px]"
+        >
+          <ManufacturingInvoiceForm
+            idControlManufacturing={id}
+            // @ts-ignore
+            manufacturing={selectedRow as LogisticDetails}
+            reloadData={reloadData}/>
+        </Modal>
+      )}
     </>
   )
 }

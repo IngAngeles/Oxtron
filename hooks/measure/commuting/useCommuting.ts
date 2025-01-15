@@ -1,23 +1,26 @@
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useTravelStore} from "@/store/measure/travels";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Travel} from "@/lib/validation";
+import {Commuting} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
+import {useCommutingStore} from "@/store/measure/commuting";
 
-export const useTravels = () => {
+export const useCommuting = () => {
   const {isLoading, dictionary} = useDictionary()
   const {
-    loading,
-    travels,
-    travel,
-    createTravel,
-    fetchTravels,
-    updateTravel,
+    commuting,
+    commute,
+    facilities,
+    createCommuting,
+    fetchCommuting,
+    fetchFormData,
     setLoading,
-    setTravel,
-  } = useTravelStore()
+    setCommute,
+    updateCommuting,
+    loading,
+  } = useCommutingStore()
   const {showModal, handleShowModal, handleHideModal} = useModal()
+  const [facilityOptions, setFacilityOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
 
   const items: string[] = [dictionary?.measure.bar[0]]
@@ -38,40 +41,50 @@ export const useTravels = () => {
       text: dictionary?.measure.add,
       onClick: () => {
         handleShowModal()
-        setTravel(null)
-      },
+        setCommute(null)
+      }
     },
   ]
 
   useEffect(() => {
-    fetchTravels()
+    fetchCommuting()
+    fetchFormData()
   }, [])
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = travels.map((travel) => ({
-      id: travel.idControlTravel || 0,
-      title: `${travel.idTravel}`,
+    const cards: Card[] = commuting.map((commute) => ({
+      id: commute.idControlCommuting || 0,
+      title: `${facilities.find((facility) => commute.idControlFacility === facility.idControlFacility)?.idFacility}`,
       description: 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
           handleShowModal()
-          setTravel(travel)
+          setCommute(commute!)
         },
       },
-      link: `/${travel.idControlTravel}`,
+      link: `/${commute.idControlCommuting}`,
       lastUpdated: new Date(2022, 10, 23),
     }))
 
     setCards(cards)
-  }, [travels])
+  }, [commuting])
 
-  const onSubmit = async (travel: Travel) => {
+  useEffect(() => {
+    setLoading(true)
+    setFacilityOptions(facilities.map((facility) => ({
+      value: facility?.idControlFacility?.toString() || '0',
+      label: facility.idFacility,
+    })))
+    setLoading(false)
+  }, [facilities]);
+
+  const onSubmit = async (commuting: Commuting) => {
     try {
-      if (travel.idControlTravel) {
-        await updateTravel(travel);
+      if (commuting.idControlCommuting) {
+        await updateCommuting(commuting);
 
         toast({
           title: dictionary?.measure.modal.toast.update.title,
@@ -79,7 +92,7 @@ export const useTravels = () => {
           className: 'bg-black',
         });
       } else {
-        await createTravel(travel);
+        await createCommuting(commuting);
 
         toast({
           title: dictionary?.measure.modal.toast.create.title,
@@ -101,13 +114,14 @@ export const useTravels = () => {
   }
 
   return {
-    travel,
-    travels,
     dictionary,
     isLoading,
+    commuting,
+    commute,
     showModal,
     handleShowModal,
     handleHideModal,
+    facilityOptions,
     cards,
     onSubmit,
     loading,

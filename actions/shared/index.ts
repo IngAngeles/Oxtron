@@ -3,7 +3,7 @@
 import axios, { AxiosError } from 'axios'
 import {auth} from "@/auth";
 import axiosInstance from '@/lib/axios-instance'
-import {ComboBrand, ComboModel, ComboType, ICboModeTransport, Status} from "@/constants/types";
+import {ComboBrand, ComboFuel, ComboModel, ComboType, ICboModeTransport, Status} from "@/constants/types";
 
 declare global {
   type ApiResponse<T> = {
@@ -134,17 +134,19 @@ export async function getCboElectricityType() {
   }
 }
 
-export async function getCboFuelType() {
+export async function getCboFuelType(): Promise<ApiResponse<ComboFuel[]>> {
   try {
     const response = await axiosInstance.get('/cboFuelType/Mostrar_cboFuelType');
+    const data: ComboFuel[] = response.data as ComboFuel[]
+
     return {
-      status: response.status,
       success: true,
-      data: response.data
+      status: 200,
+      message: 'Success',
+      data,
     }
   } catch (error) {
-    const axiosError = error as unknown as AxiosError
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return handleError(error)
   }
 }
 

@@ -1,98 +1,124 @@
 import {create} from 'zustand';
+import {getCboFuelType} from "@/actions/shared";
 import {
-  createFacility,
-  deleteFacility,
-  getFacilitiesByUserId,
-  updateFacility
-} from "@/actions/measure/facilities";
-import {Facility} from "@/lib/validation";
+  createManufacturing,
+  deleteManufacturing,
+  getManufacturingByUserId,
+  updateManufacturing
+} from "@/actions/measure/manufacturing";
+import {Facility, Manufacturing} from "@/lib/validation";
+import {getFacilitiesByUserId} from "@/actions/measure/facilities";
+import {ComboFuel} from "@/constants/types";
 
-type FacilityStore = {
+type ManufacturingStore = {
+  manufacturing: Manufacturing[];
   facilities: Facility[];
-  facility: Facility | null;
+  fuel: ComboFuel[];
+  equipment: object[];
+  manufacture: Manufacturing | null;
   error: string | null;
   loading: boolean;
-  setFacilities: (facilities: Facility[]) => void;
-  setFacility: (facility: Facility) => void;
+  setManufacturing: (manufacturing: Manufacturing[]) => void;
+  setManufacture: (manufacturing: Manufacturing | null) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
-  fetchFacilities: () => Promise<void>;
-  fetchFacilityById: () => Promise<void>;
-  createFacility: (facility: Facility) => Promise<string | undefined>;
-  updateFacility: (updatedFacility: Facility) => Promise<string | undefined>;
-  deleteFacility: (id: number) => Promise<string | undefined>;
+  fetchFormData: () => Promise<void>;
+  fetchManufacturing: () => Promise<void>;
+  fetchManufacturingById: () => Promise<void>;
+  createManufacturing: (manufacturing: Manufacturing) => Promise<string | undefined>;
+  updateManufacturing: (manufacturing: Manufacturing) => Promise<string | undefined>;
+  deleteManufacturing: (id: number) => Promise<string | undefined>;
 };
 
-export const useFacilityStore = create<FacilityStore>((set) => ({
+export const useManufacturingStore = create<ManufacturingStore>((set) => ({
+  manufacturing: [],
   facilities: [],
-  facility: null,
+  fuel: [],
+  equipment: [],
+  manufacture: null,
   error: null,
   loading: false,
-  setFacilities: (facilities) => set({facilities}),
-  setFacility: (facility: Facility | null) => {
+  setManufacturing: (manufacturing) => set({manufacturing}),
+  setManufacture: (manufacturing: Manufacturing | null) => {
     set({loading: true})
-    if (facility) {
-      localStorage.setItem("selectedFacility", JSON.stringify(facility));
+    if (manufacturing) {
+      localStorage.setItem("selectedManufacturing", JSON.stringify(manufacturing));
     } else {
-      localStorage.removeItem("selectedFacility");
+      localStorage.removeItem("selectedManufacturing");
     }
-    set({ facility });
+    set({manufacture: manufacturing});
     set({loading: false})
   },
   setError: (error) => set({error}),
   setLoading: (loading) => set({loading}),
-  fetchFacilities: async () => {
+  fetchFormData: async () => {
     set({loading: true});
     try {
-      const response = await getFacilitiesByUserId();
-      set({facilities: response.data, error: null, loading: false});
+      const facilitiesResponse = await getFacilitiesByUserId();
+      const fuelResponse = await getCboFuelType();
+      set({
+        facilities: facilitiesResponse.data,
+        fuel: fuelResponse.data,
+        equipment: [],
+        error: null,
+        loading: false,
+      });
     } catch (error) {
-      set({error: 'Failed to fetch facilities', loading: false});
+      set({error: 'Failed to fetch manufacturing', loading: false});
     }
   },
-  fetchFacilityById: async () => {
-    const savedFacility = localStorage.getItem("selectedFacility");
-    if (savedFacility) {
-      set({ facility: JSON.parse(savedFacility) });
-    }
-  },
-  createFacility: async (facility) => {
+  fetchManufacturing: async () => {
     set({loading: true});
     try {
-      const response = await createFacility(facility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await getManufacturingByUserId();
+      set({manufacturing: response.data, error: null, loading: false});
+    } catch (error) {
+      set({error: 'Failed to fetch manufacturing', loading: false});
+    }
+  },
+  fetchManufacturingById: async () => {
+    const savedManufacturing = localStorage.getItem("selectedManufacturing");
+    if (savedManufacturing) {
+      set({manufacture: JSON.parse(savedManufacturing)});
+    }
+  },
+  createManufacturing: async (manufacture) => {
+    set({loading: true});
+    try {
+      const response = await createManufacturing(manufacture);
+      const fetchResponse = await getManufacturingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({manufacturing: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to create facility', loading: false});
+      set({error: 'Failed to create manufacturing', loading: false});
     }
   },
-  updateFacility: async (updatedFacility: Facility) => {
+  updateManufacturing: async (updatedManufacturing: Manufacturing) => {
     set({loading: true});
     try {
-      const response = await updateFacility(updatedFacility);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await updateManufacturing(updatedManufacturing);
+      const fetchResponse = await getManufacturingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({manufacturing: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to update facility', loading: false});
+      set({error: 'Failed to update manufacturing', loading: false});
     }
   },
-  deleteFacility: async (id) => {
+  deleteManufacturing: async (id) => {
     set({loading: true});
     try {
-      const response = await deleteFacility(id);
-      const fetchResponse = await getFacilitiesByUserId();
+      const response = await deleteManufacturing(id);
+      const fetchResponse = await getManufacturingByUserId();
 
-      set({facilities: fetchResponse.data, error: null, loading: false});
+      set({manufacturing: fetchResponse.data, error: null, loading: false});
 
       return response.data;
     } catch (error) {
-      set({error: 'Failed to delete facility', loading: false});
+      set({error: 'Failed to delete manufacturing', loading: false});
     }
   },
 }));

@@ -1,20 +1,26 @@
 'use client'
 import Link from "next/link";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import Loading from "@/components/loading/LoadingBlack";
 import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useFacilityStore} from "@/store/measure/facilities";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {useModal} from "@/hooks/shared/useModal";
+import {getFacilityDetails} from "@/actions/measure/details";
+import Modal from "@/components/measure/Modal";
+import {FacilityDetails} from "@/lib/validation";
+import {FacilityInvoiceForm} from "@/components/forms/measure/Details/FacilityInvoiceForm";
 
 type Props = { params: { id: number } };
 
 export default function FacilitiesDetailPage({params: {id}}: Props) {
-  const {loading, facility, fetchFacilityById} = useFacilityStore()
-  const {isLoading, dictionary} = useDictionary()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedRow, _setSelectedRow] = useState<any>(null)
+  const {showModal, handleHideModal, handleShowModal} = useModal()
+  const {dictionary} = useDictionary();
+  const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
-  const router = useRouter();
   const columns = [
     {header: dictionary?.measure.table.facilities.type, accessor: 'idTypeDetailsDescription'},
     {header: dictionary?.measure.table.facilities.sour, accessor: 'idTypeDescription'},
@@ -26,11 +32,28 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
     // { header: 'Status', accessor: 'active' },
   ]
 
-  useEffect(() => {
-    fetchFacilityById()
-  }, []);
+  const reloadData = async () => {
+    setIsLoading(true)
 
-  return (isLoading || loading || !dictionary || !facility) ? (
+    async function getData(id: number) {
+      const facilities = await getFacilityDetails(id)
+      return facilities.data
+    }
+
+    const newData = await getData(id)
+
+    // @ts-ignore
+    setData(newData || [])
+    console.log(data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    reloadData()
+  }, [id])
+
+  return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
     </div>
@@ -40,7 +63,7 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
         <div>
           <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
             <Link
-              href={path.split('/').slice(0, -1).join('/').replace('facilities', '')}
+              href={path.split('/').slice(0, -1).join('/').replace('commuting', '')}
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
@@ -52,20 +75,32 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
             >
               {dictionary?.measure.all.facilities}
             </Link>
-            {' '} / {facility?.idFacility}
+            {' '} / {id}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard title={facility?.idFacility} onClick={() => {
-        }} registryCount={3}>
+        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
-            <SimpleTable columns={columns} data={[]}/>
+            <SimpleTable columns={columns} data={data}/>
           }
         </HistoricalCard>
       </div>
+      {showModal && (
+        <Modal
+          handleOnCloseModal={handleHideModal}
+          title="Create an invoice manually"
+          className="h-auto min-w-full lg:min-w-[70vw] xl:min-w-[700px] 2xl:min-w-[1000px]"
+        >
+          <FacilityInvoiceForm
+            idControlFacility={id}
+            // @ts-ignore
+            facility={selectedRow as FacilityDetails}
+            reloadData={reloadData}/>
+        </Modal>
+      )}
     </>
   )
 }

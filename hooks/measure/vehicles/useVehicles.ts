@@ -27,7 +27,7 @@ export const useVehicles = () => {
   const [modelOptions, setModelOptions] = useState<Option[]>([])
   const [statusOptions, setStatusOptions] = useState<Option[]>([])
   const [typeOptions, setTypeOptions] = useState<Option[]>([])
-  const [cards, setCards] = useState<Cards[]>([])
+  const [cards, setCards] = useState<Card[]>([])
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -59,7 +59,7 @@ export const useVehicles = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Cards[] = vehicles.map((vehicle) => ({
+    const cards: Card[] = vehicles.map((vehicle) => ({
       id: vehicle.idControlVehicle || 0,
       title: `${vehicle.name}`,
       description: 'Mexico City, Mexico',
@@ -130,16 +130,6 @@ export const useVehicles = () => {
       });
     }
   }
-
-  useEffect(() => {
-    console.log(dictionary,
-    isLoading,
-    showModal,
-    loading,)
-  }, [dictionary,
-    isLoading,
-    showModal,
-    loading])
 
   return {
     dictionary,

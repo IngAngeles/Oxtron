@@ -1,11 +1,12 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {Form} from "@/components/ui/form";
+import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
-import { Facility, FacilityValidation } from "@/lib/validation";
-import { useDictionary } from "@/hooks/shared/useDictionary";
+import {Facility, FacilityValidation} from "@/lib/validation";
+import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useFacilityStore} from "@/store/measure/facilities";
+import Loading from "@/components/loading/LoadingBlack";
 
 type Props = {
   facility: Facility | null;
@@ -14,12 +15,12 @@ type Props = {
 };
 
 const FacilitiesForm = ({
-  facility,
-  options,
-  onSubmit,
-}: Props) => {
-  const { isLoading, dictionary } = useDictionary();
-  const { loading } = useFacilityStore()
+                          facility,
+                          options,
+                          onSubmit,
+                        }: Props) => {
+  const {dictionary} = useDictionary();
+  const {loading} = useFacilityStore()
   const form = useForm<Facility>({
     resolver: zodResolver(FacilityValidation),
     defaultValues: {
@@ -34,7 +35,11 @@ const FacilitiesForm = ({
     },
   });
 
-  return isLoading || !dictionary ? null : (
+  return (!dictionary || loading) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}

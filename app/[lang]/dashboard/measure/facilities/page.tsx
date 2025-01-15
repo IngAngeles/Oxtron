@@ -27,7 +27,7 @@ export default function FacilitiesPage() {
   } = useFacilityStore()
   const {statuses, fetchStatuses} = useStatusStore()
   const [options, setOptions] = useState<Option[]>([])
-  const [cards, setCards] = useState<Cards[]>([])
+  const [cards, setCards] = useState<Card[]>([])
   const path = usePathname()
 
   const items: string[] = [dictionary?.measure.bar[0]]
@@ -58,7 +58,7 @@ export default function FacilitiesPage() {
   useEffect(() => {
     setLoading(true)
 
-    const cards: Cards[] = facilities.map((facility: Facility) => (
+    const cards: Card[] = facilities.map((facility: Facility) => (
       {
         id: facility.idControlFacility || 0,
         title: facility?.idFacility,

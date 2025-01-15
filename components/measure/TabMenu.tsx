@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 
 type Props = {
   items: string[];
-  cards: Cards[];
+  cards: Card[];
   iconButton?: IIconButton[];
 };
 
