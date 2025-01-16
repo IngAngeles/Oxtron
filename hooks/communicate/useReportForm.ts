@@ -1,5 +1,7 @@
 import { z } from 'zod'
-import { ReportHeaderValidation } from '@/lib/validation'
+import { useFormValidation } from '@/lib/validation'
+
+const { ReportHeaderValidation } = useFormValidation();
 
 type ReportHeader = z.infer<typeof ReportHeaderValidation>
 type Props = { reportHeader?: ReportHeader }

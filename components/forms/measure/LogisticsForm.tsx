@@ -18,7 +18,7 @@ import { FormFieldType } from '@/components/forms/LoginForm'
 import SubmitButton from '@/components/SubmitButton'
 import { ILogistic, IMeasureContextType, IMeasureResponse, VLabel } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
-import { Logistic, LogisticValidation } from '@/lib/validation'
+import { Logistic, useFormValidation } from '@/lib/validation'
 import { Button } from '@/components/ui/button'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
@@ -41,6 +41,7 @@ const TravelsForm = ({ logisticMeasure }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const { LogisticValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

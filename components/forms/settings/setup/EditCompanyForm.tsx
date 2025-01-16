@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Company, CompanyValidation } from '@/lib/validation'
+import { Company, useFormValidation } from '@/lib/validation'
 import { updateCompany } from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
@@ -22,6 +22,7 @@ export const EditCompanyForm = ({ company }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const { CompanyValidation } = useFormValidation();
 
   const form = useForm<Company>({
     resolver: zodResolver(CompanyValidation),

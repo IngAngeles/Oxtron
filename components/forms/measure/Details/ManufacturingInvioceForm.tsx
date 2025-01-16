@@ -2,7 +2,7 @@ import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton"
 import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import {Form} from "@/components/ui/form";
-import {ManufacturingDetails, ManufacturingDetailsValidation} from "@/lib/validation";
+import {ManufacturingDetails, useFormValidation} from "@/lib/validation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
@@ -24,6 +24,7 @@ export const ManufacturingInvoiceForm = ({idControlManufacturing, manufacturing,
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
+  const { ManufacturingDetailsValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

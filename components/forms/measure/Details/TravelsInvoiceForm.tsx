@@ -1,7 +1,7 @@
 import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
 import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
 import {Form} from "@/components/ui/form";
-import {TravelDetails, TravelDetailsValidation, VehicleDetails} from "@/lib/validation";
+import {TravelDetails, useFormValidation, VehicleDetails} from "@/lib/validation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
@@ -21,6 +21,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
+  const { TravelDetailsValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

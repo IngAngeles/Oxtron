@@ -3,7 +3,7 @@ import { CustomRadioButton } from "@/components/controls/radio-button/RadioButto
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import { Form } from "@/components/ui/form";
-import { LogisticDetails, LogisticDetailsValidation } from "@/lib/validation";
+import { LogisticDetails, useFormValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
   const [fuelType, setFuelType] = useState<VLabel[]>([])
+  const { LogisticDetailsValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

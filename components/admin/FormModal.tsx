@@ -1,23 +1,24 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { register } from '@/actions/auth'
-import { Form } from '@/components/ui/form'
-import { useToast } from '@/components/ui/use-toast'
-import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
-import { Modal } from '@/components/shared/Modal'
-import SubmitButton from '@/components/SubmitButton'
-import { roles } from '@/constants/auth'
-import { UserRegisterValidation } from '@/lib/validation'
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { register } from '@/actions/auth';
+import { Form } from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import CustomFormField, { FormFieldType } from '@/components/CustomFormField';
+import { Modal } from '@/components/shared/Modal';
+import SubmitButton from '@/components/SubmitButton';
+import { roles } from '@/constants/auth';
+import { useFormValidation } from '@/lib/validation';
 
 declare global {
-  type UserRegister = z.infer<typeof UserRegisterValidation>
+  type UserRegister = z.infer<ReturnType<typeof useFormValidation>['UserRegisterValidation']>;
 }
 
-const FormModal: React.FC<{ open: boolean; onClose: () => void; }> = ({ open, onClose }) => {
-  const [isLoading, setIsLoading] = React.useState(false)
-  const { toast } = useToast()
+const FormModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { toast } = useToast();
+  const { UserRegisterValidation } = useFormValidation();
 
   const form = useForm<UserRegister>({
     resolver: zodResolver(UserRegisterValidation),
@@ -37,27 +38,27 @@ const FormModal: React.FC<{ open: boolean; onClose: () => void; }> = ({ open, on
       telephoneUser: '',
       timeZone: '',
       language: '',
-    }
-  })
+    },
+  });
 
-  async function onSubmit(user: z.infer<typeof UserRegisterValidation>) {
-    setIsLoading(true)
+  async function onSubmit(user: UserRegister) {
+    setIsLoading(true);
 
     try {
-      await register(user)
+      await register(user);
       toast({
         title: 'Success',
         description: 'This user has been inserted successfully',
-      })
-      form.reset()
+      });
+      form.reset();
     } catch (error) {
       toast({
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
-      })
-      console.error(error)
+      });
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 

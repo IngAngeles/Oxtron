@@ -4,7 +4,7 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {Form} from '@/components/ui/form'
 import CustomFormField, {FormFieldType} from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
-import {CommutingDetails, CommutingDetailsValidation} from '@/lib/validation'
+import {CommutingDetails, useFormValidation} from '@/lib/validation'
 import {VLabel} from '@/constants/types'
 import {getCboModeTransport} from '@/actions/measure/facilities'
 import {createCommutingDetails, getDistance, updateCommutingDetails} from '@/actions/measure/details'
@@ -22,6 +22,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
   const [cboModeTransport, setCboModeTransport] = useState<VLabel[]>([])
+  const { CommutingDetailsValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

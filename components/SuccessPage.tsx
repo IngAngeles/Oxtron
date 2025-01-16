@@ -2,11 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useFormValidation } from "@/lib/validation";
 import { Form } from "@/components/ui/form";
 import { useState } from "react";
-import { UserFormValidation } from "@/lib/validation";
 import Link from "next/link";
+import { z } from "zod";
 
 interface SuccessPageProps {
   dictionary: {
@@ -23,6 +23,8 @@ interface SuccessPageProps {
 
 const SuccessPage = ({ dictionary }: SuccessPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { UserFormValidation } = useFormValidation(); // Obtén la validación desde useFormValidation
+
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
     defaultValues: {

@@ -9,7 +9,7 @@ import { FormFieldType } from '@/components/forms/LoginForm'
 import SubmitButton from '@/components/SubmitButton'
 import { IMeasureContextType, IMeasureResponse, ITravel } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
-import { Travel, TravelValidation } from '@/lib/validation'
+import { Travel, useFormValidation } from '@/lib/validation'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
@@ -25,6 +25,7 @@ const TravelsForm = ({ travelMeasure }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const { TravelValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {

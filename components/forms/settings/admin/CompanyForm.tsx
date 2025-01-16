@@ -6,13 +6,14 @@ import { updateCompany } from '@/actions/company'
 import { useToast } from '@/components/ui/use-toast'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
-import { Company, CompanyValidation } from '@/lib/validation'
+import { Company, useFormValidation } from '@/lib/validation'
 
 type Props = { company?: Company }
 
 export const CompanyForm = ({ company }: Props) => {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const { CompanyValidation } = useFormValidation();
 
   const form = useForm<Company>({
     resolver: zodResolver(CompanyValidation),

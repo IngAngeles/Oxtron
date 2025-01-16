@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
-import { Facility, FacilityValidation } from "@/lib/validation";
+import { useFormValidation, Facility } from "@/lib/validation";
 import { useDictionary } from "@/hooks/shared/useDictionary";
 import { handleFacilitySubmit } from "@/services/measure/facility";
 
@@ -22,6 +22,7 @@ const FacilitiesForm = ({
   handleUpdateFacility,
 }: Props) => {
   const { isLoading, dictionary } = useDictionary();
+  const { FacilityValidation } = useFormValidation();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const form = useForm<Facility>({
     resolver: zodResolver(FacilityValidation),

@@ -6,7 +6,7 @@ import { Form } from '@/components/ui/form'
 import { Modal } from '@/components/shared/Modal'
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReportHeaderValidation } from '@/lib/validation'
+import { useFormValidation } from '@/lib/validation'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import { SendHorizonal } from 'lucide-react'
@@ -14,6 +14,8 @@ import { toast } from '@/components/ui/use-toast'
 import { createReport, updateReport } from '@/actions/communicate'
 import { getCboTypes } from '@/actions/communicate'
 import { VLabel } from '@/constants/types'
+
+const { ReportHeaderValidation } = useFormValidation();
 
 type ReportHeader = z.infer<typeof ReportHeaderValidation>
 type Props = { reportHeader?: ReportHeader }

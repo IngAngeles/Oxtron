@@ -10,7 +10,7 @@ import SubmitButton from '@/components/SubmitButton'
 import { ICommuting, IMeasureContextType, IMeasureResponse } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
 import { useFacilities } from '@/hooks/measure/useFacilities'
-import { Commuting, CommutingValidation } from '@/lib/validation'
+import { Commuting, useFormValidation } from '@/lib/validation'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
@@ -27,6 +27,7 @@ const CommutingForm = ({ commutingMeasure }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const { CommutingValidation } = useFormValidation();
 
   useEffect(() => {
           const loadDictionary = async () => {

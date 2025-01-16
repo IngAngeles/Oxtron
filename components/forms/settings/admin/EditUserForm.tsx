@@ -3,7 +3,7 @@ import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/adm
 import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
+import { Company, UpdateUser, useFormValidation } from '@/lib/validation'
 import { getUserBySession, updateUser } from '@/actions/auth'
 import { getCompanyById } from '@/actions/company'
 import { Form } from '@/components/ui/form'
@@ -16,6 +16,7 @@ export const EditUserForm = () => {
   const [_, setCompany] = useState<Company>()
   const { user } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
+  const { UpdateUserValidation } = useFormValidation();
 
   console.log('admin->EditUser', { user })
 

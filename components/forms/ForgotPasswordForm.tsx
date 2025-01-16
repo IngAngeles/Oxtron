@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
-import { ForgotPasswordValidation } from "@/lib/validation"
+import { useFormValidation } from "@/lib/validation";
 import Link from "next/link"
 import { forgotPassword } from "@/actions/auth"
 import Lottie from "lottie-react";
@@ -47,6 +47,7 @@ const ForgotPassword = ({ dictionary }: ForgotPasswordProps) => {
     const [isLoading, setIsLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
+    const { ForgotPasswordValidation } = useFormValidation();
     const form = useForm<z.infer<typeof ForgotPasswordValidation>>({
         resolver: zodResolver(ForgotPasswordValidation),
         defaultValues: {

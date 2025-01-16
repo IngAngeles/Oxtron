@@ -8,7 +8,7 @@ import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserFormValidation } from "@/lib/validation";
+import { useFormValidation } from "@/lib/validation";
 import Link from "next/link";
 import { login } from "@/actions/auth";
 
@@ -37,6 +37,7 @@ const LoginForm = ({ dictionary }: LoginFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { UserFormValidation } = useFormValidation();
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
     defaultValues: {

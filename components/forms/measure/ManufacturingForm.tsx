@@ -10,7 +10,7 @@ import SubmitButton from '@/components/SubmitButton'
 import { IManufacturing, IMeasureContextType, IMeasureResponse } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
 import { useFacilities } from '@/hooks/measure/useFacilities'
-import { Manufacturing, ManufacturingValidation } from '@/lib/validation'
+import { Manufacturing, useFormValidation } from '@/lib/validation'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
@@ -27,6 +27,7 @@ const TravelsForm = ({ manufacturingMeasure }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const { ManufacturingValidation } = useFormValidation();
 
   useEffect(() => {
         const loadDictionary = async () => {

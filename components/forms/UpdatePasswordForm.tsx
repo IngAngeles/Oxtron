@@ -9,7 +9,7 @@ import SubmitButton from "../SubmitButton"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { updatePassword } from '@/actions/auth'
-import { UpdatePasswordValidation } from '@/lib/validation'
+import { useFormValidation } from '@/lib/validation'
 import CustomFormField from '../CustomFormField'
 import Lottie from 'lottie-react'
 import animationData from "@/public/assets/lotties/success.json"
@@ -26,7 +26,7 @@ export enum FormFieldType {
     SKELETON = 'skeleton'
 }
 
-type UpdatePasswordFormValues = z.infer<typeof UpdatePasswordValidation>;
+
 
 const UpdatePassword = () => {
     const router = useRouter();
@@ -36,6 +36,7 @@ const UpdatePassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
+    const { UpdatePasswordValidation } = useFormValidation();
 
     const form = useForm<UpdatePasswordFormValues>({
         resolver: zodResolver(UpdatePasswordValidation),
@@ -46,7 +47,8 @@ const UpdatePassword = () => {
             confirmPassword: ""
         },
     });
-
+    
+    type UpdatePasswordFormValues = z.infer<typeof UpdatePasswordValidation>;
   
     async function onSubmit({ email, passwordOld, passwordNew }: z.infer<typeof UpdatePasswordValidation>) {
         setIsLoading(true);

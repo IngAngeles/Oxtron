@@ -24,7 +24,7 @@ import {
   VLabel,
 } from '@/constants/types'
 import { MeasureContext } from '@/context/measure'
-import { Vehicle, VehicleValidation } from '@/lib/validation'
+import { Vehicle, useFormValidation } from '@/lib/validation'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
@@ -38,6 +38,7 @@ const VehiclesForm = ({ vehicleMeasure }: Props) => {
   const [CboBrands, setCboBrands] = useState<VLabel[]>([]);
   const [CboModels, setCboModels] = useState<VLabel[]>([]);
   const [cboTypes, setCboTypes] = useState<VLabel[]>([]);
+  const { VehicleValidation } = useFormValidation();
   const { addMeasure, handleHideModal, setData, setMeasure } =
     (useContext(MeasureContext) as IMeasureContextType) || {};
   const { toast } = useToast();

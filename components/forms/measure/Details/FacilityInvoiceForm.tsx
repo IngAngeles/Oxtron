@@ -10,7 +10,7 @@ import {Button} from '@/components/ui/button'
 import {
   ComboType,
   FacilityDescriptionDetails,
-  FacilityDescriptionDetailsValidation,
+  useFormValidation,
   FacilityDetails,
 } from '@/lib/validation'
 import {getCboTypes} from '@/actions/communicate'
@@ -46,6 +46,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   // @ts-ignore
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
+  const { FacilityDescriptionDetailsValidation } = useFormValidation();
 
   useEffect(() => {
     const loadDictionary = async () => {
