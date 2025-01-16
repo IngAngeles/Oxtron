@@ -283,6 +283,7 @@
                     }
                 }
             ],
+            "and": "y",
             "nodata": "Sin información disponible",
             "all": {
                 "facilities": "Instalaciones",
@@ -373,19 +374,19 @@
                 "toast": {
                     "create": {
                         "title": "Éxito",
-                        "description": "Esta instalación se ha insertado con éxito"
+                        "description": "Este item se ha insertado con éxito"
                     },
                     "update": {
                         "title": "Éxito",
-                        "description": "Esta instalación se ha actualizado con éxito"
+                        "description": "Este item se ha actualizado con éxito"
                     },
                     "delete": {
                         "title": "Éxito",
-                        "description": "Esta instalación se ha eliminado con éxito"
+                        "description": "Este item se ha eliminado con éxito"
                     },
                     "error": {
                         "title": "Error",
-                        "description": "Algo salió mal al procesar la instalación."
+                        "description": "Algo salió mal al procesar el item."
                     }
                 }
             },

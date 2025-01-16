@@ -283,6 +283,7 @@
                     }
                 }
             ],
+            "and": "and",
             "nodata": "No data available",
             "all": {
                 "facilities": "Facilities",
@@ -373,19 +374,19 @@
                 "toast": {
                     "create": {
                         "title": "Success",
-                        "description": "This facility has been inserted successfully"
+                        "description": "This item has been inserted successfully"
                     },
                     "update": {
                         "title": "Success",
-                        "description": "This facility has been updated successfully"
+                        "description": "This item has been updated successfully"
                     },
                     "delete": {
                         "title": "Success",
-                        "description": "This facility has been deleted successfully"
+                        "description": "This item has been deleted successfully"
                     },
                     "error": {
                         "title": "Error",
-                        "description": "Something went wrong while processing the facility."
+                        "description": "Something went wrong while processing the item."
                     }
                 }
             },
@@ -421,6 +422,7 @@
                 }
             },
             "modalt":{
+                "create": "Create Travel",
                 "title": "Update Travel",
                 "id": "TRAVEL ID",
                 "write": "Write Travel ID",
@@ -438,6 +440,7 @@
                 }
             },
             "modall":{
+                "create": "Create Logistic",
                 "title": "Update Logistic",
                 "origin": "ORIGIN",
                 "label": "Origin",
@@ -479,6 +482,8 @@
                 }
             },
             "modalm":{
+                "create": "Create Manufacturing",
+                "title": "Update Manufacturing",
                 "process": "Process",
                 "label": "PROCESS",
                 "faci": "Select Facility",

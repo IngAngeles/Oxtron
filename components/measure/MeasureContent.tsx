@@ -50,6 +50,7 @@ const MeasureContent = ({scope, cards}: Props) => {
         {cards.length !== 0 ? filterCards(cards, scope).map((card) => (
           <MeasureCard
             {...card}
+            and={dictionary.and}
             key={card.id}/>
         )) : <p className="text-black">{dictionary.nodata}</p>}
       </div>

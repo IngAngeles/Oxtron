@@ -12,7 +12,8 @@ const MeasureCard = ({
   footerCard,
   link,
   onClick,
-}: Card) => {
+  and = 'and',
+}: Card & {and?: string}) => {
   const pathname = usePathname()
   const router = useRouter()
 
@@ -49,7 +50,7 @@ const MeasureCard = ({
       <CardFooter className="flex items-center justify-between mt-4">
         { position === 'body' && footerCard &&
           <>
-            <ScopeBadge scope={ footerCard.scope }/>
+            <ScopeBadge scope={ footerCard.scope } and={and}/>
             <IconButton src={ src } alt={ src } size="xl"/>
           </>
         }
