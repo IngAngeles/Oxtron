@@ -8,7 +8,18 @@ import TabMenu from "@/components/measure/TabMenu";
 import {useTravels} from "@/hooks/measure/travels/useTravels";
 
 export default function TravelsPage() {
-  const {dictionary, items, cards, buttons, showModal, handleHideModal, onSubmit, travel} = useTravels()
+  const {
+    dictionary,
+    items,
+    cards,
+    buttons,
+    showModal,
+    handleHideModal,
+    onSubmit,
+    form,
+    loading,
+    travel,
+  } = useTravels()
   const path = usePathname()
 
   return (!dictionary) ? (
@@ -34,8 +45,14 @@ export default function TravelsPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={dictionary.measure.modal.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
-          <TravelsForm travel={travel} onSubmit={onSubmit}/>
+        <Modal title={!travel ? dictionary.measure.modalt.create : dictionary.measure.modalt.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+          <TravelsForm
+            travel={travel}
+            loading={loading}
+            dictionary={dictionary}
+            form={form}
+            onSubmit={onSubmit}
+          />
         </Modal>
       )}
     </>

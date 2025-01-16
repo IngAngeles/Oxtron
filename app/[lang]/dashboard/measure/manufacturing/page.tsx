@@ -10,6 +10,7 @@ import {useManufacturing} from "@/hooks/measure/manufacturing/useManufaturing";
 export default function ManufacturingPage() {
   const {
     dictionary,
+    loading,
     items,
     cards,
     buttons,
@@ -19,6 +20,7 @@ export default function ManufacturingPage() {
     facilityOptions,
     fuelOptions,
     equipmentOptions,
+    form,
     onSubmit,
   } = useManufacturing();
   const path = usePathname()
@@ -46,13 +48,15 @@ export default function ManufacturingPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={dictionary.measure.modal.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+        <Modal title={!manufacture ? dictionary.measure.modalm.create : dictionary.measure.modalm.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
           <ManufacturingForm
             manufacturing={manufacture}
+            loading={loading}
             equipmentOptions={equipmentOptions}
             facilityOptions={facilityOptions}
             fuelOptions={fuelOptions}
             dictionary={dictionary?.measure.modalc}
+            form={form}
             onSubmit={onSubmit}
           />
         </Modal>

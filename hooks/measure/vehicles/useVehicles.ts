@@ -2,8 +2,10 @@ import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useVehicleStore} from "@/store/measure/vehicles";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Vehicle} from "@/lib/validation";
+import {Vehicle, VehicleValidation} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 export const useVehicles = () => {
   const {isLoading, dictionary} = useDictionary()
@@ -28,6 +30,21 @@ export const useVehicles = () => {
   const [statusOptions, setStatusOptions] = useState<Option[]>([])
   const [typeOptions, setTypeOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
+
+  const form = useForm<Vehicle>({
+    resolver: zodResolver(VehicleValidation),
+    defaultValues: {
+      idControlVehicle: vehicle?.idControlVehicle ?? 0,
+      idUserControl: vehicle?.idUserControl ?? 0,
+      idCboBrand: vehicle?.idCboBrand ?? 0,
+      idCboModel: vehicle?.idCboModel ?? 0,
+      idCboType: vehicle?.idCboType ?? 0,
+      idStatus: vehicle?.idStatus ?? 0,
+      licensePlate: vehicle?.licensePlate ?? "",
+      name: vehicle?.name ?? "",
+      active: vehicle?.active ?? 1,
+    },
+  });
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -99,6 +116,22 @@ export const useVehicles = () => {
     setLoading(false)
   }, [brands, models, statuses, types]);
 
+  useEffect(() => {
+    if (vehicle) {
+      form.reset({
+        idControlVehicle: vehicle?.idControlVehicle ?? 0,
+        idUserControl: vehicle?.idUserControl ?? 0,
+        idCboBrand: vehicle?.idCboBrand ?? 0,
+        idCboModel: vehicle?.idCboModel ?? 0,
+        idCboType: vehicle?.idCboType ?? 0,
+        idStatus: vehicle?.idStatus ?? 0,
+        licensePlate: vehicle?.licensePlate ?? "",
+        name: vehicle?.name ?? "",
+        active: vehicle?.active ?? 1,
+      })
+    }
+  }, [vehicle]);
+
   const onSubmit = async (vehicle: Vehicle) => {
     try {
       if (vehicle.idControlVehicle) {
@@ -148,5 +181,6 @@ export const useVehicles = () => {
     loading,
     items,
     buttons,
+    form,
   }
 }

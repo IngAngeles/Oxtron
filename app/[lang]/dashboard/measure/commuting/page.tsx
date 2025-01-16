@@ -11,12 +11,14 @@ export default function CommutingPage() {
   const {
     dictionary,
     commute,
+    loading,
     facilityOptions,
     onSubmit,
     items,
     cards,
     buttons,
     showModal,
+    form,
     handleHideModal
   } = useCommuting()
   const path = usePathname()
@@ -35,7 +37,7 @@ export default function CommutingPage() {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> / {dictionary?.measure.all.vehicles}
+            </Link> / {dictionary?.measure.all.commuting}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
@@ -44,11 +46,13 @@ export default function CommutingPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={dictionary.measure.modal.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+        <Modal title={commute ? dictionary.measure.modalc.title : dictionary.measure.modalc.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
           <CommutingForm
+            loading={loading}
             commuting={commute}
             options={facilityOptions}
-            dictionary={dictionary?.measure.modal}
+            dictionary={dictionary?.measure.modalc}
+            form={form}
             onSubmit={onSubmit}
           />
         </Modal>

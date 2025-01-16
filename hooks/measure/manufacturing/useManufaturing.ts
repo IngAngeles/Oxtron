@@ -1,9 +1,11 @@
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Manufacturing} from "@/lib/validation";
+import {Manufacturing, ManufacturingValidation} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
 import {useManufacturingStore} from "@/store/measure/manufacturing";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 export const useManufacturing = () => {
   const {isLoading, dictionary} = useDictionary()
@@ -26,6 +28,20 @@ export const useManufacturing = () => {
   const [fuelOptions, setFuelOptions] = useState<Option[]>([])
   const [equipmentOptions, setEquipmentOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
+
+  const form = useForm<Manufacturing>({
+    resolver: zodResolver(ManufacturingValidation),
+    defaultValues: {
+      idControlManufacturing: manufacture?.idControlManufacturing ?? 0,
+      idUserControl: manufacture?.idUserControl ?? 0,
+      idFacility: manufacture?.idFacility ?? 0,
+      idTypeEquipment: manufacture?.idTypeEquipment ?? 0,
+      idTypeEquipmentCode: manufacture?.idTypeEquipmentCode ?? 0,
+      idTypeFuelUsed: manufacture?.idTypeFuelUsed ?? 0,
+      process: manufacture?.process ?? '',
+      active: manufacture?.active ?? 1,
+    },
+  })
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -93,6 +109,21 @@ export const useManufacturing = () => {
     setLoading(false)
   }, [facilities, fuel, equipment]);
 
+  useEffect(() => {
+    if (manufacture){
+      form.reset({
+        idControlManufacturing: manufacture?.idControlManufacturing ?? 0,
+        idUserControl: manufacture?.idUserControl ?? 0,
+        idFacility: manufacture?.idFacility ?? 0,
+        idTypeEquipment: manufacture?.idTypeEquipment ?? 0,
+        idTypeEquipmentCode: manufacture?.idTypeEquipmentCode ?? 0,
+        idTypeFuelUsed: manufacture?.idTypeFuelUsed ?? 0,
+        process: manufacture?.process ?? '',
+        active: manufacture?.active ?? 1,
+      })
+    }
+  }, [manufacture]);
+
   const onSubmit = async (manufacturing: Manufacturing) => {
     try {
       if (manufacturing.idControlManufacturing) {
@@ -141,5 +172,6 @@ export const useManufacturing = () => {
     loading,
     items,
     buttons,
+    form,
   }
 }

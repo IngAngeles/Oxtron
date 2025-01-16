@@ -2,11 +2,13 @@ import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useTravelStore} from "@/store/measure/travels";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Travel} from "@/lib/validation";
+import {Travel, TravelValidation} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 export const useTravels = () => {
-  const {isLoading, dictionary} = useDictionary()
+  const {dictionary} = useDictionary()
   const {
     loading,
     travels,
@@ -19,6 +21,17 @@ export const useTravels = () => {
   } = useTravelStore()
   const {showModal, handleShowModal, handleHideModal} = useModal()
   const [cards, setCards] = useState<Card[]>([])
+
+  const form = useForm<Travel>({
+    resolver: zodResolver(TravelValidation),
+    defaultValues: {
+      idControlTravel: travel?.idControlTravel ?? 0,
+      idUserControl: travel?.idUserControl ?? 0,
+      idTravel: travel?.idTravel ?? '',
+      description: travel?.description ?? '',
+      active: travel?.active ?? 1,
+    },
+  })
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -68,6 +81,18 @@ export const useTravels = () => {
     setCards(cards)
   }, [travels])
 
+  useEffect(() => {
+    if (travel) {
+      form.reset({
+        idControlTravel: travel?.idControlTravel ?? 0,
+        idUserControl: travel?.idUserControl ?? 0,
+        idTravel: travel?.idTravel ?? '',
+        description: travel?.description ?? '',
+        active: travel?.active ?? 1,
+      });
+    }
+  }, [travel]);
+
   const onSubmit = async (travel: Travel) => {
     try {
       if (travel.idControlTravel) {
@@ -104,7 +129,6 @@ export const useTravels = () => {
     travel,
     travels,
     dictionary,
-    isLoading,
     showModal,
     handleShowModal,
     handleHideModal,
@@ -113,5 +137,6 @@ export const useTravels = () => {
     loading,
     items,
     buttons,
+    form,
   }
 }

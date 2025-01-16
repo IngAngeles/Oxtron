@@ -5,10 +5,10 @@ import SubmitButton from '@/components/SubmitButton'
 import {Logistic} from '@/lib/validation'
 import {Button} from '@/components/ui/button'
 import Loading from '@/components/loading/LoadingBlack';
-import {useLogisticStore} from '@/store/measure/logistics'
 
 type Props = {
   logistic: Logistic | null,
+  loading: boolean;
   dictionary: any,
   currentStep: number,
   nextStep: () => void,
@@ -28,6 +28,7 @@ type StepProps = { dictionary: any, form: any }
 
 const TravelsForm = ({
   logistic,
+  loading = false,
   dictionary,
   statuses,
   types,
@@ -42,7 +43,6 @@ const TravelsForm = ({
   isDisabled,
   onSubmit,
 }: Props) => {
-  const {loading} = useLogisticStore()
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>

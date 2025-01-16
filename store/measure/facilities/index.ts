@@ -13,7 +13,7 @@ type FacilityStore = {
   error: string | null;
   loading: boolean;
   setFacilities: (facilities: Facility[]) => void;
-  setFacility: (facility: Facility) => void;
+  setFacility: (facility: Facility | null) => void;
   setError: (error: string) => void;
   setLoading: (loading: boolean) => void;
   fetchFacilities: () => Promise<void>;

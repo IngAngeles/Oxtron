@@ -10,36 +10,25 @@ import {useManufacturing} from "@/hooks/measure/manufacturing/useManufaturing";
 
 type Props = {
   manufacturing: Manufacturing | null,
+  loading: boolean;
   facilityOptions: Option[],
   fuelOptions: Option[],
   equipmentOptions: Option[],
   dictionary: any,
+  form: any,
   onSubmit: (manufacturing: Manufacturing) => void,
 }
 
 const TravelsForm = ({
-                       manufacturing,
-                       facilityOptions,
-                       fuelOptions,
-                       equipmentOptions,
-                       dictionary,
-                       onSubmit,
-                     }: Props) => {
-  const {loading} = useManufacturing()
-  const form = useForm<Manufacturing>({
-    resolver: zodResolver(ManufacturingValidation),
-    defaultValues: {
-      idControlManufacturing: manufacturing?.idControlManufacturing ?? 0,
-      idUserControl: manufacturing?.idUserControl ?? 0,
-      idFacility: manufacturing?.idFacility ?? 0,
-      idTypeEquipment: manufacturing?.idTypeEquipment ?? 0,
-      idTypeEquipmentCode: manufacturing?.idTypeEquipmentCode ?? 0,
-      idTypeFuelUsed: manufacturing?.idTypeFuelUsed ?? 0,
-      process: manufacturing?.process ?? '',
-      active: manufacturing?.active ?? 1,
-    },
-  })
-
+  manufacturing,
+  loading = false,
+  facilityOptions,
+  fuelOptions,
+  equipmentOptions,
+  dictionary,
+  form,
+  onSubmit,
+}: Props) => {
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>

@@ -150,6 +150,28 @@ export const useLogistics = () => {
     }
   }, [watchedFirstStepItems]);
 
+  useEffect(() => {
+    if (logistic) {
+      form.reset({
+        idControlLogistics: logistic?.idControlLogistics ?? 0,
+        idUserControl: logistic?.idUserControl ?? 0,
+        idCboModel: logistic?.idCboModel ?? 0,
+        idCboBrand: logistic?.idCboBrand ?? 0,
+        idCboStatus: logistic?.idCboStatus ?? 0,
+        idTravelCboType: logistic?.idTravelCboType ?? 0,
+        licensePlate: logistic?.licensePlate ?? '',
+        client: logistic?.client ?? '',
+        name: logistic?.name ?? '',
+        destination: logistic?.destination ?? '',
+        origin: logistic?.origin ?? '',
+        destinationzc: logistic?.destinationzc ?? '',
+        originzc: logistic?.originzc ?? '',
+        loadLogistic: logistic?.loadLogistic ?? '',
+        active: logistic?.active ?? 1
+      })
+    }
+  }, [logistic]);
+
   const nextStep = () => {
     const allFieldsSet = Object.values(watchedFirstStepItems).every(
       (value) => value !== undefined && value !== null && value !== ''

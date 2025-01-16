@@ -1,9 +1,11 @@
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useModal} from "@/hooks/shared/useModal";
 import {useEffect, useState} from "react";
-import {Commuting} from "@/lib/validation";
+import {Commuting, CommutingValidation} from "@/lib/validation";
 import {toast} from "@/components/ui/use-toast";
 import {useCommutingStore} from "@/store/measure/commuting";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 export const useCommuting = () => {
   const {isLoading, dictionary} = useDictionary()
@@ -22,6 +24,17 @@ export const useCommuting = () => {
   const {showModal, handleShowModal, handleHideModal} = useModal()
   const [facilityOptions, setFacilityOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
+
+  const form = useForm<Commuting>({
+    resolver: zodResolver(CommutingValidation),
+    defaultValues: {
+      idControlCommuting: commute?.idControlCommuting ?? 0,
+      idUserControl: commute?.idUserControl ?? 0,
+      description: commute?.description ?? '',
+      idControlFacility: commute?.idControlFacility ?? 0,
+      active: commute?.active ?? 1,
+    },
+  })
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -81,6 +94,18 @@ export const useCommuting = () => {
     setLoading(false)
   }, [facilities]);
 
+  useEffect(() => {
+    if (commute) {
+      form.reset({
+        idControlCommuting: commute?.idControlCommuting ?? 0,
+        idUserControl: commute?.idUserControl ?? 0,
+        description: commute?.description ?? '',
+        idControlFacility: commute?.idControlFacility ?? 0,
+        active: commute?.active ?? 1,
+      })
+    }
+  }, [commute]);
+
   const onSubmit = async (commuting: Commuting) => {
     try {
       if (commuting.idControlCommuting) {
@@ -127,5 +152,6 @@ export const useCommuting = () => {
     loading,
     items,
     buttons,
+    form,
   }
 }

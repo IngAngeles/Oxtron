@@ -16,6 +16,7 @@ export default function LogisticsPage() {
     showModal,
     handleHideModal,
     logistic,
+    loading,
     brands,
     models,
     statuses,
@@ -45,7 +46,7 @@ export default function LogisticsPage() {
               className="text-neutral-300"
             >
               {dictionary?.measure.title}
-            </Link> / {dictionary?.measure.all.vehicles}
+            </Link> / {dictionary?.measure.all.logistics}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
@@ -54,9 +55,10 @@ export default function LogisticsPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={dictionary.measure.modall.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+        <Modal title={!logistic ? dictionary.measure.modall.create : dictionary.measure.modall.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
           <LogisticsForm
             logistic={logistic}
+            loading={loading}
             dictionary={dictionary.measure.modall}
             brands={brands}
             models={models}

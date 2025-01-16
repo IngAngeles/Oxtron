@@ -1,33 +1,20 @@
-import {zodResolver} from '@hookform/resolvers/zod'
-import {useForm} from 'react-hook-form'
 import {Form} from '@/components/ui/form'
 import CustomFormField from '@/components/CustomFormField'
 import {FormFieldType} from '@/components/forms/LoginForm'
 import SubmitButton from '@/components/SubmitButton'
-import {Commuting, CommutingValidation} from '@/lib/validation'
-import {useCommuting} from "@/hooks/measure/commuting/useCommuting";
+import {Commuting} from '@/lib/validation'
 import Loading from "@/components/loading/LoadingBlack";
 
 type Props = {
   commuting: Commuting | null;
+  loading: boolean;
   options: Option[],
   dictionary: any,
+  form: any,
   onSubmit: (commuting: Commuting) => void
 };
 
-const CommutingForm = ({commuting, options, dictionary, onSubmit}: Props) => {
-  const {loading} = useCommuting()
-  const form = useForm<Commuting>({
-    resolver: zodResolver(CommutingValidation),
-    defaultValues: {
-      idControlCommuting: commuting?.idControlCommuting ?? 0,
-      idUserControl: commuting?.idUserControl ?? 0,
-      description: commuting?.description ?? '',
-      idControlFacility: commuting?.idControlFacility ?? 0,
-      active: commuting?.active ?? 1,
-    },
-  })
-
+const CommutingForm = ({commuting, loading = false, options, dictionary, form, onSubmit}: Props) => {
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>

@@ -1,42 +1,23 @@
-import {zodResolver} from '@hookform/resolvers/zod'
-import {useForm} from 'react-hook-form'
 import {Form} from '@/components/ui/form'
 import CustomFormField from '@/components/CustomFormField'
 import {FormFieldType} from '@/components/forms/LoginForm'
 import SubmitButton from '@/components/SubmitButton'
-import {Vehicle, VehicleValidation} from '@/lib/validation'
+import {Vehicle} from '@/lib/validation'
 import Loading from '@/components/loading/LoadingBlack'
-import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useVehicleStore} from "@/store/measure/vehicles";
 
 type Props = {
   vehicle: Vehicle | null;
+  loading: boolean;
   statuses: Option[]
   brands: Option[]
   models: Option[]
   types: Option[]
+  dictionary: any;
+  form: any;
   onSubmit: (vehicle: Vehicle) => Promise<void>;
 }
 
-const VehiclesForm = ({vehicle, statuses, brands, models, types, onSubmit}: Props) => {
-  const {dictionary} = useDictionary();
-  const {loading} = useVehicleStore()
-
-  const form = useForm<Vehicle>({
-    resolver: zodResolver(VehicleValidation),
-    defaultValues: {
-      idControlVehicle: vehicle?.idControlVehicle ?? 0,
-      idUserControl: vehicle?.idUserControl ?? 0,
-      idCboBrand: vehicle?.idCboBrand ?? 0,
-      idCboModel: vehicle?.idCboModel ?? 0,
-      idCboType: vehicle?.idCboType ?? 0,
-      idStatus: vehicle?.idStatus ?? 0,
-      licensePlate: vehicle?.licensePlate ?? "",
-      name: vehicle?.name ?? "",
-      active: vehicle?.active ?? 1,
-    },
-  });
-
+const VehiclesForm = ({vehicle, loading = false, statuses, brands, models, types, onSubmit, dictionary, form}: Props) => {
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>

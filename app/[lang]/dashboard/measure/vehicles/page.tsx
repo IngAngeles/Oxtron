@@ -10,6 +10,7 @@ import {useVehicles} from "@/hooks/measure/vehicles/useVehicles";
 export default function VehiclesPage() {
   const {
     onSubmit,
+    loading,
     dictionary,
     vehicle,
     cards,
@@ -21,6 +22,7 @@ export default function VehiclesPage() {
     statuses,
     items,
     buttons,
+    form,
   } = useVehicles()
   const path = usePathname()
 
@@ -47,13 +49,16 @@ export default function VehiclesPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={dictionary.measure.modal.create} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+        <Modal title={!vehicle ? dictionary.measure.modalv.create : dictionary.measure.modalv.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
           <VehiclesForm
             vehicle={vehicle}
+            loading={loading}
             brands={brands}
             models={models}
             statuses={statuses}
             types={types}
+            dictionary={dictionary}
+            form={form}
             onSubmit={onSubmit}
           />
         </Modal>

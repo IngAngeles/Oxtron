@@ -390,6 +390,8 @@
                 }
             },
             "modalv":{
+                "create": "Create Vehicle",
+                "title": "Update Vehicle",
                 "proper": "Property Status",
                 "select": "Select Status",
                 "opt": "NAME (OPTIONAL)",
@@ -499,6 +501,8 @@
                 }
             },
             "modalc":{
+                "create": "Create Commuting",
+                "title": "Update Commuting",
                 "faci": "Select Facility",
                 "label": "Facility",
                 "des": "Description",

@@ -1,30 +1,19 @@
-import {zodResolver} from '@hookform/resolvers/zod'
-import {useForm} from 'react-hook-form'
 import {Form} from '@/components/ui/form'
 import CustomFormField from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import {FormFieldType} from '@/components/forms/LoginForm'
-import {Travel, TravelValidation} from '@/lib/validation'
-import {useDictionary} from "@/hooks/shared/useDictionary";
-import {useTravelStore} from "@/store/measure/travels";
+import {Travel} from '@/lib/validation'
 import Loading from "@/components/loading/LoadingBlack";
 
-type Props = { travel: Travel | null; onSubmit: (travel: Travel) => void }
+type Props = {
+  travel: Travel | null;
+  loading: boolean;
+  dictionary: any,
+  form: any,
+  onSubmit: (travel: Travel) => void,
+}
 
-const TravelsForm = ({travel, onSubmit}: Props) => {
-  const {dictionary} = useDictionary();
-  const {loading} = useTravelStore();
-  const form = useForm<Travel>({
-    resolver: zodResolver(TravelValidation),
-    defaultValues: {
-      idControlTravel: travel?.idControlTravel ?? 0,
-      idUserControl: travel?.idUserControl ?? 0,
-      idTravel: travel?.idTravel ?? '',
-      description: travel?.description ?? '',
-      active: travel?.active ?? 1,
-    },
-  })
-
+const TravelsForm = ({travel, loading = false, dictionary, form, onSubmit}: Props) => {
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
