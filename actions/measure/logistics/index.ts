@@ -6,12 +6,9 @@ import {Logistic} from "@/lib/validation"
 
 export async function createLogistic(logistic: Logistic): Promise<ApiResponse<string>> {
   try {
-    console.log('logistic:', logistic)
-    const idUser = await getAuthenticatedUserId();
-    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {...logistic, idUser})
+    const idUserControl = await getAuthenticatedUserId();
+    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {...logistic, idUserControl})
     const data = response.data as string
-
-    console.log(data)
 
     return {
       success: true,
