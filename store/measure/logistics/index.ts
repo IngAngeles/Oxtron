@@ -33,7 +33,7 @@ type LogisticsStore = {
 };
 
 export const useLogisticStore = create<LogisticsStore>((set) => ({
-  steps: 2,
+  steps: 3,
   currentStep: 0,
   logistics: [],
   statuses: [],
@@ -98,10 +98,9 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
   },
   createLogistic: async (logistic) => {
     set({loading: true});
-    console.log(logistic)
     try {
+      console.log('logistic:', logistic)
       const response = await createLogistic(logistic);
-      console.log('response:', response)
       const fetchResponse = await getLogisticsByUserId();
 
       set({logistics: fetchResponse.data, error: null, loading: false});

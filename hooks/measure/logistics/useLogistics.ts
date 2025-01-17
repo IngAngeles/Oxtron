@@ -26,7 +26,6 @@ export const useLogistics = () => {
     setLogistic,
     updateLogistic,
     loading,
-    setLastStep,
     setResetCurrentStep,
     currentStep,
   } = useLogisticStore()
@@ -55,6 +54,8 @@ export const useLogistics = () => {
       destinationzc: logistic?.destinationzc ?? '',
       originzc: logistic?.originzc ?? '',
       loadLogistic: logistic?.loadLogistic ?? '',
+      PropertyStatus: logistic?.PropertyStatus ?? 0,
+      idControlVehicle: logistic?.idControlVehicle ?? 0,
       active: logistic?.active ?? 1
     },
   })
@@ -63,6 +64,10 @@ export const useLogistics = () => {
     'destination',
     'originzc',
     'destinationzc',
+  ])
+  const watchedSecondStepItems = form.watch([
+    'PropertyStatus',
+    'idControlVehicle',
   ])
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -96,7 +101,7 @@ export const useLogistics = () => {
     setLoading(true)
     const cards: Card[] = logistics.map((logistic) => ({
       id: logistic.idControlLogistics || 0,
-      title: `${logistic.name}`,
+      title: `${logistic.origin} - ${logistic.destination}`,
       description: 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
@@ -149,6 +154,16 @@ export const useLogistics = () => {
       setIsDisabled(false)
     }
   }, [watchedFirstStepItems]);
+
+  useEffect(() => {
+    const allFieldsSet = Object.values(watchedSecondStepItems).every(
+      (value) => value !== undefined && value !== null && value !== 0
+    );
+
+    if (allFieldsSet) {
+      setIsDisabled(false)
+    }
+  }, [watchedSecondStepItems]);
 
   useEffect(() => {
     if (logistic) {

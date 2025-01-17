@@ -34,7 +34,7 @@ const TravelsForm = ({
   types,
   models,
   brands,
-  // vehicles,
+  vehicles,
   currentStep,
   nextStep,
   // prevStep,
@@ -56,6 +56,9 @@ const TravelsForm = ({
           )}
           {currentStep === 1 && (
             <StepTwo dictionary={dictionary} form={form} statuses={statuses} types={types} models={models} brands={brands}/>
+          )}
+          {currentStep === 2 && (
+            <StepThree dictionary={dictionary} form={form} statuses={statuses} vehicles={vehicles}/>
           )}
         </div>
         <div className="flex items-center justify-end w-32 float-end">
@@ -175,6 +178,32 @@ const StepTwo = ({dictionary, form, statuses, types, models, brands,}: Readonly<
         name="licensePlate"
         label={dictionary.label11}
         control={form.control}/>
+    </>
+  )
+}
+
+const StepThree = ({dictionary, form, statuses, vehicles}: Readonly<StepProps & {
+  statuses: Option[],
+  vehicles: Option[],
+}>) => {
+  return (
+    <>
+      <CustomFormField
+        fieldType={FormFieldType.SELECT}
+        name="PropertyStatus"
+        label={dictionary.label6}
+        placeholder={dictionary.status}
+        options={statuses}
+        control={form.control}
+      />
+      <CustomFormField
+        fieldType={FormFieldType.SELECT}
+        name="idControlVehicle"
+        label={dictionary.label6}
+        placeholder={dictionary.status}
+        options={vehicles}
+        control={form.control}
+      />
     </>
   )
 }

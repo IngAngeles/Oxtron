@@ -488,7 +488,11 @@ export const SecondStepLogisticValidation = z.object({
   licensePlate: z.string().optional(),
   active: z.number().max(1).min(0).default(1),
 })
-export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLogisticValidation)
+export const ThirdStepLogisticValidation = z.object({
+  PropertyStatus: z.coerce.number().positive('This field is required'),
+  idControlVehicle: z.coerce.number().positive('This field is required'),
+})
+export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLogisticValidation).merge(ThirdStepLogisticValidation)
 export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
