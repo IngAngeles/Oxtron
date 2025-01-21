@@ -32,7 +32,10 @@
                 "country": "País",
                 "postal": "Código Postal",
                 "license": "Tipo de Licencia",
-                "account": "¿Ya tienes una cuenta?"
+                "account": "¿Ya tienes una cuenta?",
+                "pass": "Contraseña",
+                "passc": "Confirmar Contraseña",
+                "not": "Las contraseñas no coinciden"
             },
             "placeholders": {
                 "firstname": "Ingresa tu nombre",
@@ -44,7 +47,9 @@
                 "state": "Ingresa tu estado",
                 "country": "Ingresa tu país",
                 "postal": "Ingresa tu código postal",
-                "license": "Selecciona tu tipo de licencia"
+                "license": "Selecciona tu tipo de licencia",
+                "pass": "Password",
+                "passc": "Confirm Password"
             },
             "buttons": {
                 "next": "Siguiente",
@@ -1029,6 +1034,479 @@
                 "find": "¿No encuentras tu respuesta?",
                 "contact": "Contáctanos",
                 "email": "info@oxtron.mx"
+            },
+            "validation": {
+                "userForm": {
+                    "email": "Correo electrónico incorrecto",
+                    "password": {
+                        "min": "La contraseña debe tener al menos 7 caracteres",
+                        "max": "La contraseña debe tener menos de 15 caracteres"
+                        }
+                },
+                "userRegister": {
+                    "firstName": "El nombre es obligatorio",
+                    "lastName": "El apellido es obligatorio",
+                    "role": "El rol es obligatorio",
+                    "email": {
+                        "invalid": "Dirección de correo electrónico inválida",
+                        "required": "El correo electrónico es obligatorio"
+                    },
+                    "password": {
+                        "min": "La contraseña debe tener al menos 6 caracteres",
+                        "confirm": "La confirmación de la contraseña debe tener al menos 6 caracteres",
+                        "mismatch": "Las contraseñas no coinciden"
+                    },
+                    "organisationName": "El nombre de la organización es obligatorio",
+                    "city": "La ciudad es obligatoria",
+                    "state": "El estado es obligatorio",
+                    "country": "El país es obligatorio",
+                    "postalCode": "El código postal es obligatorio",
+                    "typeLicense": "Número inválido",
+                    "telephoneUser": "Debe ingresar su número de teléfono",
+                    "timeZone": "Debe ingresar su zona horaria",
+                    "language": "El idioma es obligatorio"
+                },
+                "userRegisterByCompanyId": {
+                    "idCompany": "idCompany es obligatorio",
+                    "firstName": "El nombre es obligatorio",
+                    "lastName": "El apellido es obligatorio",
+                    "role": "El rol es obligatorio",
+                    "email": {
+                        "invalid": "Dirección de correo electrónico inválida",
+                        "required": "El correo electrónico es obligatorio"
+                    },
+                    "password": {
+                        "min": "La contraseña debe tener al menos 6 caracteres",
+                        "confirm": "La confirmación de la contraseña debe tener al menos 6 caracteres",
+                        "mismatch": "Las contraseñas no coinciden"
+                    },
+                    "telephoneUser": "Debe ingresar su número de teléfono",
+                    "timeZone": "Debe ingresar su zona horaria",
+                    "language": "El idioma es obligatorio"
+                },
+                "forgotPassword": {
+                    "email": {
+                        "invalid": "Dirección de correo electrónico inválida",
+                        "required": "El correo electrónico es obligatorio"
+                    }
+                },
+                "updatePassword": {
+                    "email": {
+                        "invalid": "Dirección de correo electrónico inválida",
+                        "required": "El correo electrónico es obligatorio"
+                    },
+                    "passwordOld": "La contraseña actual es obligatoria",
+                    "passwordNew": "La nueva contraseña es obligatoria",
+                    "confirmPassword": "Por favor confirme su nueva contraseña",
+                    "mismatch": "Las contraseñas deben coincidir"
+                },
+                "updateUser": {
+                    "idUSerControl": "idUSerControl es obligatorio",
+                    "idCompany": "idCompany es obligatorio",
+                    "firstName": "El nombre es obligatorio",
+                    "lastName": "El apellido es obligatorio",
+                    "role": "El rol es obligatorio",
+                    "email": "El correo electrónico es obligatorio",
+                    "password": "La contraseña es obligatoria",
+                    "confirmPassword": "La confirmación de la contraseña debe tener al menos 6 caracteres",
+                    "active": "El estado activo es obligatorio",
+                    "idUSerType": "idUSerType es obligatorio",
+                    "telephoneUser": "El número de teléfono es obligatorio",
+                    "timeZone": "La zona horaria es obligatoria",
+                    "language": "El idioma es obligatorio",
+                    "mismatch": "Las contraseñas no coinciden"
+                },
+                "companyV": {
+                    "firstName": "El nombre es obligatorio",
+                    "lastName": "El apellido es obligatorio",
+                    "role": "El rol es obligatorio",
+                    "email": "El correo electrónico es obligatorio",
+                    "password": "La contraseña es obligatoria",
+                    "organisatioName": "El nombre de la organización es obligatorio",
+                    "city": "La ciudad es obligatoria",
+                    "state": "El estado es obligatorio",
+                    "country": "El país es obligatorio",
+                    "postalCode": "El código postal es obligatorio",
+                    "active": "El estado activo es obligatorio",
+                    "registrationDate": "La fecha de registro es obligatoria",
+                    "address": "La dirección es obligatoria",
+                    "telephoneCompany": "El número de teléfono de la empresa es obligatorio",
+                    "size": "El tamaño es obligatorio"
+                },
+                "facility": {
+                    "idControlFacility": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idFacility": {
+                        "required": "El ID de la instalación es obligatorio"
+                    },
+                    "propertyStatus": {
+                        "required": "El estado de la propiedad es obligatorio"
+                    },
+                    "city": {
+                        "required": "La ciudad es obligatoria"
+                    },
+                    "country": {
+                        "required": "El país es obligatorio"
+                    }
+                },
+                "facilityDetails": {
+                    "idControlFacility": {
+                        "required": "Se requiere el Id de Control de la Instalación"
+                    },
+                    "idType": {
+                        "required": "Se requiere el Tipo de Id",
+                        "invalidNumber": "El Tipo de Id debe ser un número válido"
+                    },
+                    "idEmissionFactor": {
+                        "required": "Se requiere el Id del Factor de Emisión"
+                    },
+                    "startDate": {
+                        "required": "Se requiere la Fecha de Inicio"
+                    },
+                    "endDate": {
+                        "required": "Se requiere la Fecha de Finalización"
+                    },
+                    "idTypeDetails": {
+                        "required": "Se requieren los Detalles del Tipo de Id"
+                    },
+                    "amount": {
+                        "required": "Se requiere el Monto"
+                    },
+                    "measureFugitive": {
+                        "required": "Se requiere la Medida de Fugitivos"
+                    },
+                    "purchased": {
+                        "required": "Se requiere la Compra"
+                    },
+                    "delivered": {
+                        "required": "Se requiere la Entrega"
+                    },
+                    "returnsProducers": {
+                        "required": "Se requiere la Devolución a los Productores",
+                        "invalidNumber": "La Devolución a los Productores debe ser un número válido"
+                    },
+                    "returnedUsers": {
+                        "required": "Se requiere la Devolución de los Usuarios",
+                        "invalidNumber": "La Devolución de los Usuarios debe ser un número válido"
+                    },
+                    "returnedOffsiteRecycling": {
+                        "required": "Se requiere la Devolución para Reciclaje Fuera del Sitio"
+                    },
+                    "partialNAmeplateCharged": {
+                        "required": "Se requiere la Carga Parcial de la Placa de Identificación"
+                    },
+                    "amountYearsBeginning": {
+                        "required": "Se requiere el Monto al Inicio del Año"
+                    },
+                    "amountYearsEnd": {
+                        "required": "Se requiere el Monto al Final del Año",
+                        "charged": "Se requiere la Carga en el Equipo",
+                        "dont": "Se requiere el No Saber"
+                    },
+                    "offSiteRecycling": {
+                        "required": "Se requiere el Reciclaje Fuera del Sitio",
+                        "invalidNumber": "El Reciclaje Fuera del Sitio debe ser un número válido"
+                    },
+                    "offSiteDestruction": {
+                        "required": "Se requiere la Destrucción Fuera del Sitio",
+                        "valid": "La Destrucción Fuera del Sitio debe ser un número válido"
+                    },
+                    "densityPressurePartial": {
+                        "required": "Se requiere la Densidad de Presión Parcial",
+                        "valid": "La Presión Parcial de Densidad debe ser un número válido"
+                    },
+                    "densityPressureFull": {
+                        "required": "Se requiere la Densidad de Presión Completa",
+                        "valid": "La Presión Completa de Densidad debe ser un número válido"
+                    },
+                    "active": {
+                        "required": "Se requiere el Estado Activo"
+                    }
+                },
+                "facilityDescriptionDetails": {
+                    "idControlFacility": {
+                        "required": "Se requiere el Id del Control de la Instalación"
+                    },
+                    "idEmissionFactor": {
+                        "required": "Se requiere el Id del Factor de Emisión"
+                    },
+                    "startDate": {
+                        "required": "Se requiere la Fecha de Inicio"
+                    },
+                    "endDate": {
+                        "required": "Se requiere la Fecha de Finalización"
+                    },
+                    "idTypeDetails": {
+                        "required": "Se requieren los Detalles del Tipo de Id"
+                    },
+                    "amount": {
+                        "required": "Se requiere la Cantidad"
+                    },
+                    "fugitive": {
+                        "required": "Se requiere la Medida Fugitiva",
+                        "active": "Se requiere que esté Activo",
+                        "first": "Se requiere el Primer Nombre"
+                    }
+                },
+                "vehicle": {
+                    "idControlVehicle": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idStatus": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idCboBrand": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idCboModel": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idCboType": {
+                        "invalidNumber": "Número inválido"
+                    }
+                },
+                "vehicleDetails": {
+                    "idControlVehicle": {
+                        "required": "El campo Id Control Vehículo es obligatorio.",
+                        "integer": "Debe ser un número entero."
+                    },
+                    "idEmissionFactor": {
+                        "required": "El campo Id Factor De Emisión es obligatorio.",
+                        "integer": "Debe ser un número entero."
+                    },
+                    "startDate": {
+                        "required": "El campo Fecha De Inicio es obligatorio.",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601."
+                    },
+                    "endDate": {
+                        "required": "El campo Fecha De Fin es obligatorio.",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601.",
+                        "active": "El campo activo es requerido."
+                    }
+                },
+                "travel": {
+                    "idControlTravel": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idTravel": {
+                        "required": "El ID de viaje es obligatorio"
+                    }
+                },
+                "travelDetails": {
+                    "idControlTravelDetails": {
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idControlTravel": {
+                        "required": "El campo 'ID Control de Viaje' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idEmissionFactor": {
+                        "required": "El campo 'ID del Factor de Emisión' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "startDate": {
+                        "required": "El campo 'Fecha de Inicio' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "endDate": {
+                        "required": "El campo 'Fecha de Fin' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "active": {
+                        "required": "El campo 'Activo' es requerido",
+                        "integer": "Debe ser un número entero"
+                    }
+                },
+                "travelDescriptionDetails": {
+                    "idControlTravelDetails": {
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idControlTravel": {
+                        "required": "El campo 'Id Control de Viaje' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idEmissionFactor": {
+                        "required": "El campo 'Id del Factor de Emisión' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idEmissionFactorDescription": {
+                        "required": "El campo 'Descripción del Id del Factor de Emisión' es requerido"
+                    },
+                    "idTravelCboType": {
+                        "required": "El campo 'Id Tipo de Viaje Cbo' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "travelCboTypeDescription": {
+                        "required": "El campo 'Descripción del Tipo de Viaje Cbo' es requerido"
+                    },
+                    "startDate": {
+                        "required": "El campo 'Fecha de Inicio' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "endDate": {
+                        "required": "El campo 'Fecha de Fin' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "active": {
+                        "required": "El campo 'Activo' es requerido",
+                        "integer": "Debe ser un número entero"
+                    }
+                },
+                "logistic": {
+                    "idControlLogistics": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "idCboStatus": {
+                        "positive": "Este campo es obligatorio"
+                    },
+                    "idTravelCboType": {
+                        "positive": "Este campo es obligatorio"
+                    },
+                    "idCboModel": {
+                        "positive": "Este campo es obligatorio"
+                    },
+                    "idCboBrand": {
+                        "positive": "Este campo es obligatorio"
+                    }
+                },
+                "logisticDetails": {
+                    "idControlLogisticsDetails": {
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idControlLogistics": {
+                        "required": "El campo 'Id Control de Logística' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idEmissionFactor": {
+                        "required": "El campo 'Id del Factor de Emisión' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "startDate": {
+                        "required": "El campo 'Fecha de Inicio' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "endDate": {
+                        "required": "El campo 'Fecha de Fin' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "idFuelType": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "amount": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "active": {
+                        "required": "El campo 'Activo' es requerido",
+                        "integer": "Debe ser un número entero"
+                    }
+                },
+                "manufacturing": {
+                    "idControlManufacturing": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "process": {
+                        "minLength": "El proceso debe tener al menos 1 carácter"
+                    },
+                    "idFacility": {
+                        "required": "El campo 'Facility' es obligatorio"
+                    },
+                    "idTypeEquipment": {
+                        "positive": "Este campo es obligatorio"
+                    },
+                    "idTypeFuelUsed": {
+                        "positive": "Este campo es obligatorio"
+                    },
+                    "idTypeEquipmentCode": {
+                        "positive": "Este campo es obligatorio"
+                    }
+                },
+                "manufacturingDetails": {
+                    "idControlManufacturingDetails": {
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idControlManufacturing": {
+                        "required": "El campo 'Id Control de Manufactura' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "idEmissionFactor": {
+                        "required": "El campo 'Id del Factor de Emisión' es requerido",
+                        "integer": "Debe ser un número entero"
+                    },
+                    "startDate": {
+                        "required": "El campo 'Fecha de Inicio' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "endDate": {
+                        "required": "El campo 'Fecha de Fin' es requerido",
+                        "datetime": "Debe ser una fecha válida en formato ISO 8601"
+                    },
+                    "amount": {
+                        "invalidNumber": "Número inválido"
+                    },
+                    "active": {
+                        "required": "El campo 'Activo' es requerido",
+                        "integer": "Debe ser un número entero"
+                    }
+                },
+                "commuting": {
+                    "facilityRequired": "El campo 'Facility' es obligatorio",
+                    "invalidNumber": "Número inválido"
+                },
+                "commutingDetails": {
+                    "control": "El campo 'Id Control de Detalles de Commuting' es requerido.",
+                    "integer": "Debe ser un número entero.",
+                    "required": "El campo 'Id Control de Commuting' es requerido.",
+                    "fuel": "El campo 'Eficiencia de Combustible' es requerido.",
+                    "number": "Número inválido."
+                },
+                "details": {
+                    "control": "El campo 'Id Control de Detalles de Commuting' es requerido.",
+                    "commu": "El campo 'Id Control de Commuting' es requerido.",
+                    "fuel": "El campo 'Eficiencia de Combustible' es requerido.",
+                    "number": "Número inválido.",
+                    "positive": "Debe ser un número entero positivo.",
+                    "mode": "Este campo es requerido."
+                },
+                "company": {
+                    "first": "El Nombre es requerido",
+                    "last": "El Apellido es requerido",
+                    "role": "El Rol es requerido",
+                    "email": "El Correo Electrónico es requerido",
+                    "passw": "La Contraseña es requerida",
+                    "organ": "El Nombre de la Organización es requerido",
+                    "city": "La Ciudad es requerida",
+                    "state": "El Estado es requerido",
+                    "country": "El País es requerido",
+                    "postal": "El Código Postal es requerido",
+                    "active": "El Estado Activo es requerido",
+                    "regis": "La Fecha de Registro es requerida",
+                    "add": "La Dirección es requerida",
+                    "tel": "El Teléfono de la Empresa es requerido",
+                    "size": "El Tamaño es requerido"
+                },
+                "report": {
+                    "id": "El campo 'ID' es obligatorio",
+                    "start": "Fecha de inicio inválida",
+                    "end": "Fecha de finalización inválida",
+                    "active": "El campo 'active' es obligatorio",
+                    "number": "Número inválido."
+                },
+                "combo": {
+                    "des": "La descripción es obligatoria.",
+                    "unit": "Las unidades son obligatorias."
+                },
+                "logistics": {
+                    "number": "Debe ser un número entero",
+                    "control": "El campo 'Id Control Logística' es requerido",
+                    "emi": "El campo 'Id Factor de Emisiones' es requerido",
+                    "start": "El campo 'Fecha de Inicio' es requerido",
+                    "date": "Debe ser una fecha válida en formato ISO 8601",
+                    "end": "El campo 'Fecha de Fin' es requerido",
+                    "in": "Número inválido",
+                    "active": "El campo 'Activo' es requerido",
+                    "fac": "El campo 'Id Control Manufactura' es requerido"
+                }
             }
         }
     }

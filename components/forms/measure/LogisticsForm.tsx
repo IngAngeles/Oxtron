@@ -190,17 +190,17 @@ const StepThree = ({dictionary, form, statuses, vehicles}: Readonly<StepProps & 
     <>
       <CustomFormField
         fieldType={FormFieldType.SELECT}
-        name="PropertyStatus"
-        label={dictionary.label6}
-        placeholder={dictionary.status}
+        name="propertyStatus"
+        label={dictionary.label12}
+        placeholder={dictionary.proper}
         options={statuses}
         control={form.control}
       />
       <CustomFormField
         fieldType={FormFieldType.SELECT}
         name="idControlVehicle"
-        label={dictionary.label6}
-        placeholder={dictionary.status}
+        label={dictionary.label13}
+        placeholder={dictionary.vehi}
         options={vehicles}
         control={form.control}
       />

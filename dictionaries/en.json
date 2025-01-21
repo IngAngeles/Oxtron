@@ -32,7 +32,10 @@
                 "country": "Country",
                 "postal": "Postal Code",
                 "license": "Type of License",
-                "account": "Already have an account?"
+                "account": "Already have an account?",
+                "pass": "Password",
+                "passc": "Confirm Password",
+                "not": "Passwords don't match"
             },
             "placeholders":{
                 "firstname": "Enter your first name",
@@ -44,7 +47,9 @@
                 "state": "Enter your state",
                 "country": "Enter your country",
                 "postal": "Enter your postal code",
-                "license": "Select your type of license"
+                "license": "Select your type of license",
+                "pass": "Password",
+                "passc": "Confirm Password"
             },
             "buttons":{
                 "next": "Next",
@@ -1031,14 +1036,477 @@
                 "email": "info@oxtron.mx"
             }
         },
-        "validation":{
-            "user": {
-                "least": "The password must be at least 7 characters",
-                "less": "The password must be less than 15 characters"
+        "validation": {
+            "userForm": {
+                "email": "Wrong email",
+                "password": {
+                    "min": "The password must be at least 7 characters",
+                    "max": "The password must be less than 15 characters"
+                }
             },
-            "register": {
-                "first": "First name is required",
-                "last": "Last name is required"
+            "userRegister": {
+                "firstName": "First name is required",
+                "lastName": "Last name is required",
+                "role": "Role is required",
+                "email": {
+                    "invalid": "Invalid email address",
+                    "required": "Email is required"
+                },
+                "password": {
+                    "min": "Password must be at least 6 characters long",
+                    "confirm": "Confirm password must be at least 6 characters long",
+                    "mismatch": "Passwords don't match"
+                },
+                "organisationName": "Organisation name is required",
+                "city": "City is required",
+                "state": "State is required",
+                "country": "Country is required",
+                "postalCode": "Postal code is required",
+                "typeLicense": "Invalid number",
+                "telephoneUser": "You must enter your phone number",
+                "timeZone": "You must enter your phone time zone",
+                "language": "Language is required"
+                },
+            "userRegisterByCompanyId": {
+                "idCompany": "idCompany is required",
+                "firstName": "First name is required",
+                "lastName": "Last name is required",
+                "role": "Role is required",
+                "email": {
+                    "invalid": "Invalid email address",
+                    "required": "Email is required"
+                },
+                "password": {
+                    "min": "Password must be at least 6 characters long",
+                    "confirm": "Confirm password must be at least 6 characters long",
+                    "mismatch": "Passwords don't match"
+                },
+                "telephoneUser": "You must enter your phone number",
+                "timeZone": "You must enter your phone time zone",
+                "language": "Language is required"
+            },
+            "forgotPassword": {
+                "email": {
+                    "invalid": "Invalid email address",
+                    "required": "Email is required"
+                }
+            },
+            "updatePassword": {
+                "email": {
+                    "invalid": "Invalid email address",
+                    "required": "Email is required"
+                },
+                "passwordOld": "Current password is required",
+                "passwordNew": "New password is required",
+                "confirmPassword": "Please confirm your new password",
+                "mismatch": "Passwords must match"
+            },
+            "updateUser": {
+                "idUSerControl": "idUSerControl is required",
+                "idCompany": "idCompany is required",
+                "firstName": "firstName is required",
+                "lastName": "lastName is required",
+                "role": "role is required",
+                "email": "email is required",
+                "password": "password is required",
+                "confirmPassword": "Confirm password must be at least 6 characters long",
+                "active": "active is required",
+                "idUSerType": "idUSerTyp is required",
+                "telephoneUser": "telephoneUser is required",
+                "timeZone": "timeZone is required",
+                "language": "language is required",
+                "mismatch": "Passwords don't match"
+            },
+            "companyV": {
+                "firstName": "First name is required",
+                "lastName": "Last Name is required",
+                "role": "Role is required",
+                "email": "Email is required",
+                "password": "Password is required",
+                "organisatioName": "Organisation Name is required",
+                "city": "City is required",
+                "state": "State is required",
+                "country": "Country is required",
+                "postalCode": "Postal Code is required",
+                "active": "Active is required",
+                "registrationDate": "Registration Date is required",
+                "address": "Address is required",
+                "telephoneCompany": "TelephoneCompany is required",
+                "size": "Size is required"
+            },
+            "facility": {
+                "idControlFacility": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idFacility": {
+                    "required": "Facility ID is required"
+                },
+                "propertyStatus": {
+                    "required": "Property status is required"
+                },
+                "city": {
+                    "required": "City is required"
+                },
+                "country": {
+                    "required": "Country is required"
+                }
+            },
+            "facilityDetails": {
+                "idControlFacility": {
+                    "required": "Id Control Facility is required"
+                },
+                "idType": {
+                    "required": "Id Type is required",
+                    "invalidNumber": "Id Type must be a valid number"
+                },
+                "idEmissionFactor": {
+                    "required": "Id Emission Factor is required"
+                },
+                "startDate": {
+                    "required": "Start Date is required"
+                },
+                "endDate": {
+                    "required": "End Date is required"
+                },
+                "idTypeDetails": {
+                    "required": "Id Type Details is required"
+                },
+                "amount": {
+                    "required": "Amount is required"
+                },
+                "measureFugitive": {
+                    "required": "Measure Fugitive is required"
+                },
+                "purchased": {
+                    "required": "Purchased is required"
+                },
+                "delivered": {
+                    "required": "Delivered is required"
+                },
+                "returnsProducers": {
+                    "required": "Returns Producers is required",
+                    "invalidNumber": "Returns Producers must be a valid number"
+                },
+                "returnedUsers": {
+                    "required": "Returned Users is required",
+                    "invalidNumber": "Returned Users must be a valid number"
+                },
+                "returnedOffsiteRecycling": {
+                    "required": "Returned Off Site Recycling is required"
+                },
+                "partialNAmeplateCharged": {
+                    "required": "Partial Name Plate Charged is required"
+                },
+                "amountYearsBeginning": {
+                    "required": "Amount Years Beginning is required"
+                },
+                "amountYearsEnd": {
+                    "required": "Amount Years End is required",
+                    "charged": "Charged Into Equipment is required",
+                    "dont": "Dont Know is required"
+                },
+                "offSiteRecycling": {
+                    "required": "Off Site Recycling is required",
+                    "invalidNumber": "Off Site Recycling must be a valid number"
+                },
+                "offSiteDestruction": {
+                    "required": "Off Site Destruction is required",
+                    "valid": "Off Site Destruction must be a valid number"
+                },
+                "densityPressurePartial": {
+                    "required": "Density Pressure Partial is required",
+                    "valid": "Density Pressure Partial must be a valid number"
+                },
+                "densityPressureFull": {
+                    "required": "Density Pressure Full is required",
+                    "valid": "Density Pressure Full must be a valid number"
+                },
+                "active": {
+                    "required": "Active is required"
+                }
+            },
+            "facilityDescriptionDetails": {
+                "idControlFacility": {
+                    "required": "Id Control Facility is required"
+                },
+                "idEmissionFactor": {
+                    "required": "Id Emission Factor is required"
+                },
+                "startDate": {
+                    "required": "Start Date is required"
+                },
+                "endDate": {
+                    "required": "End Date is required"
+                },
+                "idTypeDetails": {
+                    "required": "Id Type Details is required"
+                },
+                "amount": {
+                    "required": "Amount is required"
+                },
+                "fugitive": {
+                    "required": "Measure Fugitive is required",
+                    "active": "Active is required",
+                    "first": "First name ir required"
+                }
+            },
+            "vehicle": {
+                "idControlVehicle": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idStatus": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idCboBrand": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idCboModel": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idCboType": {
+                    "invalidNumber": "Invalid number"
+                }
+            },
+            "vehicleDetails": {
+                "idControlVehicle": {
+                    "required": "The Id Control Vehicle field is required.",
+                    "integer": "It must be an integer."
+                },
+                "idEmissionFactor": {
+                    "required": "The Id Emission Factor field is required.",
+                    "integer": "It must be an integer."
+                },
+                "startDate": {
+                    "required": "The Start Date field is required.",
+                    "datetime": "It must be a valid date in ISO 8601 format."
+                },
+                "endDate": {
+                    "required": "The End Date field is required.",
+                    "datetime": "It must be a valid date in ISO 8601 format.",
+                    "active": "The active field is required."
+                }
+            },
+            "travel": {
+                "idControlTravel": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idTravel": {
+                    "required": "Travel ID is required"
+                }
+            },
+            "travelDetails": {
+                "idControlTravelDetails": {
+                    "integer": "Must be an integer"
+                },
+                "idControlTravel": {
+                    "required": "The Id 'Control Travel' field is required",
+                    "integer": "Must be an integer"
+                },
+                "idEmissionFactor": {
+                    "required": "The Id 'Emission Factor' field is required",
+                    "integer": "Must be an integer"
+                },
+                "startDate": {
+                    "required": "The 'Start Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "endDate": {
+                    "required": "The 'End Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "active": {
+                    "required": "The 'Active' field is required",
+                    "integer": "Must be an integer"
+                }
+            },
+            "travelDescriptionDetails": {
+                "idControlTravelDetails": {
+                    "integer": "Must be an integer"
+                },
+                "idControlTravel": {
+                    "required": "The 'Id Control Travel' field is required",
+                    "integer": "Must be an integer"
+                },
+                "idEmissionFactor": {
+                    "required": "The 'Id Emission Factor' field is required",
+                    "integer": "Must be an integer"
+                },
+                "idEmissionFactorDescription": {
+                    "required": "The 'Id Emission Factor Description' field is required"
+                },
+                "idTravelCboType": {
+                    "required": "The 'Id Travel Cbo Type' field is required",
+                    "integer": "Must be an integer"
+                },
+                "travelCboTypeDescription": {
+                    "required": "The 'Travel Cbo Type Description' field is required"
+                },
+                "startDate": {
+                    "required": "The 'Start Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "endDate": {
+                    "required": "The 'End Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "active": {
+                    "required": "The 'Active' field is required",
+                    "integer": "Must be an integer"
+                }
+            },
+            "logistic": {
+                "idControlLogistics": {
+                    "invalidNumber": "Invalid number"
+                },
+                "idCboStatus": {
+                    "positive": "This field is required"
+                },
+                "idTravelCboType": {
+                    "positive": "This field is required"
+                },
+                "idCboModel": {
+                    "positive": "This field is required"
+                },
+                "idCboBrand": {
+                    "positive": "This field is required"
+                }
+            },
+            "logisticDetails": {
+                "idControlLogisticsDetails": {
+                    "integer": "Must be an integer"
+                },
+                "idControlLogistics": {
+                    "required": "The 'Id Control Logistics' field is required",
+                    "integer": "Must be an integer"
+                },
+                "idEmissionFactor": {
+                    "required": "The 'Id Emission Factor' field is required",
+                    "integer": "Must be an integer"
+                },
+                "startDate": {
+                    "required": "The 'Start Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "endDate": {
+                    "required": "The 'End Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "idFuelType": {
+                    "invalidNumber": "Invalid number"
+                },
+                "amount": {
+                    "invalidNumber": "Invalid number"
+                },
+                "active": {
+                    "required": "The 'Active' field is required",
+                    "integer": "Must be an integer"
+                }
+            },
+            "manufacturing": {
+                "idControlManufacturing": {
+                    "invalidNumber": "Invalid number"
+                },
+                "process": {
+                    "minLength": "Process must be at least 1 character long"
+                },
+                "idFacility": {
+                    "required": "Facility is required"
+                },
+                "idTypeEquipment": {
+                    "positive": "This field is required"
+                },
+                "idTypeFuelUsed": {
+                    "positive": "This field is required"
+                },
+                "idTypeEquipmentCode": {
+                    "positive": "This field is required"
+                }
+            },
+            "manufacturingDetails": {
+                "idControlManufacturingDetails": {
+                    "integer": "Must be an integer"
+                },
+                "idControlManufacturing": {
+                    "required": "The 'Id Control Manufacturing' field is required",
+                    "integer": "Must be an integer"
+                },
+                "idEmissionFactor": {
+                    "required": "The 'Id Emission Factor' field is required",
+                    "integer": "Must be an integer"
+                },
+                "startDate": {
+                    "required": "The 'Start Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "endDate": {
+                    "required": "The 'End Date' field is required",
+                    "datetime": "Must be a valid ISO 8601 date"
+                },
+                "amount": {
+                    "invalidNumber": "Invalid number"
+                },
+                "active": {
+                    "required": "The 'Active' field is required",
+                    "integer": "Must be an integer"
+                }
+            },
+            "commuting": {
+                "facilityRequired": "Facility is required",
+                "invalidNumber": "Invalid number"
+            },
+            "commutingDetails": {
+                "control": "The field 'Id Control Commuting Details' is required.",
+                "integer": "Must be an integer.",
+                "required": "The field 'Id Control Commuting' is required.",
+                "fuel": "The field 'Fuel Efficiency' is required.",
+                "number": "Invalid number"
+            },
+            "details": {
+                "control": "The field 'Id Control Commuting Details' is required.",
+                "commu": "The field 'Id Control Commuting' is required.",
+                "fuel": "The field 'Fuel Efficiency' is required.",
+                "number": "Invalid number",
+                "positive": "Must be a positive integer.",
+                "mode": "This field is required."
+            },
+            "company": {
+                "first": "First Name is required",
+                "last": "Last Name is required",
+                "role": "Role is required",
+                "email": "Email is required",
+                "passw": "Password is required",
+                "organ": "Organisation Name is required",
+                "city": "City is required",
+                "state": "State is required",
+                "country": "Country is required",
+                "postal": "Postal Code is required",
+                "active": "Active is required",
+                "regis": "Registration Date is required",
+                "add": "Address is required",
+                "tel": "Telephone Company is required",
+                "size": "Size is required"
+            },
+            "report": {
+                "id": "ID is required",
+                "start": "Invalid start date",
+                "end": "Invalid end date",
+                "active": "Active is required",
+                "number": "Invalid number"
+            },
+            "combo": {
+                "des": "Description is required.",
+                "unit": "Units are required."
+            },
+            "logistics": {
+                "number": "Must be an integer",
+                "control": "The 'Id Control Logistics' field is required",
+                "emi": "The 'Id Emissions Factor' field is required",
+                "start": "The 'Start Date' field is required",
+                "date": "Must be a valid date in ISO 8601 format",
+                "end": "The 'End Date' field is required",
+                "in": "Invalid number",
+                "active": "The 'Active' field is required",
+                "fac": "The 'Id Control Manufacturing' field is required"
             }
         }
     }
