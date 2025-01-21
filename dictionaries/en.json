@@ -288,6 +288,7 @@
                     }
                 }
             ],
+            "and": "and",
             "nodata": "No data available",
             "all": {
                 "facilities": "Facilities",
@@ -374,9 +375,29 @@
                 "country": "Country",
                 "desc": "Description (Optional)",
                 "button": "Update",
-                "add": "Add"
+                "add": "Add",
+                "toast": {
+                    "create": {
+                        "title": "Success",
+                        "description": "This item has been inserted successfully"
+                    },
+                    "update": {
+                        "title": "Success",
+                        "description": "This item has been updated successfully"
+                    },
+                    "delete": {
+                        "title": "Success",
+                        "description": "This item has been deleted successfully"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Something went wrong while processing the item."
+                    }
+                }
             },
             "modalv":{
+                "create": "Create Vehicle",
+                "title": "Update Vehicle",
                 "proper": "Property Status",
                 "select": "Select Status",
                 "opt": "NAME (OPTIONAL)",
@@ -406,6 +427,7 @@
                 }
             },
             "modalt":{
+                "create": "Create Travel",
                 "title": "Update Travel",
                 "id": "TRAVEL ID",
                 "write": "Write Travel ID",
@@ -423,6 +445,7 @@
                 }
             },
             "modall":{
+                "create": "Create Logistic",
                 "title": "Update Logistic",
                 "origin": "ORIGIN",
                 "label": "Origin",
@@ -464,6 +487,8 @@
                 }
             },
             "modalm":{
+                "create": "Create Manufacturing",
+                "title": "Update Manufacturing",
                 "process": "Process",
                 "label": "PROCESS",
                 "faci": "Select Facility",
@@ -486,6 +511,8 @@
                 }
             },
             "modalc":{
+                "create": "Create Commuting",
+                "title": "Update Commuting",
                 "faci": "Select Facility",
                 "label": "Facility",
                 "des": "Description",

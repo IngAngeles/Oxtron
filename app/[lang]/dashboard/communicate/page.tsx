@@ -20,6 +20,8 @@ const Communicate = () => {
 
   useEffect(() => {
     const loadDictionary = async () => {
+
+      
       try {
         setLoading(true);
         const dict = await getDictionary(lang);

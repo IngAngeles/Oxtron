@@ -288,6 +288,7 @@
                     }
                 }
             ],
+            "and": "y",
             "nodata": "Sin información disponible",
             "all": {
                 "facilities": "Instalaciones",
@@ -374,9 +375,29 @@
                 "country": "País",
                 "desc": "Descripción (Opcional)",
                 "button": "Actualizar",
-                "add": "Agregar"
+                "add": "Agregar",
+                "toast": {
+                    "create": {
+                        "title": "Éxito",
+                        "description": "Este item se ha insertado con éxito"
+                    },
+                    "update": {
+                        "title": "Éxito",
+                        "description": "Este item se ha actualizado con éxito"
+                    },
+                    "delete": {
+                        "title": "Éxito",
+                        "description": "Este item se ha eliminado con éxito"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "description": "Algo salió mal al procesar el item."
+                    }
+                }
             },
             "modalv": {
+                "create": "Crear Vehículo",
+                "title": "Actualizar Vehículo",
                 "proper": "Estado de la Propiedad",
                 "select": "Seleccionar Estado",
                 "opt": "NOMBRE (OPCIONAL)",
@@ -406,6 +427,7 @@
                 }
             },
             "modalt": {
+                "create": "Crear Viaje",
                 "title": "Actualizar Viaje",
                 "id": "ID DEL VIAJE",
                 "write": "Escribe el ID del Viaje",
@@ -423,6 +445,7 @@
                 }
             },
             "modall": {
+                "create": "Crear Logística",
                 "title": "Actualizar Logística",
                 "origin": "ORIGEN",
                 "label": "Origen",
@@ -464,6 +487,8 @@
                 }
             },
             "modalm": {
+                "create": "Crear Manufactura",
+                "title": "Actualizar Manufactura",
                 "process": "Proceso",
                 "label": "PROCESO",
                 "faci": "Seleccionar Instalación",
@@ -486,6 +511,8 @@
                 }
             },
             "modalc": {
+                "create": "Crear Desplazamiento",
+                "title": "Actualizar Desplazamiento",
                 "faci": "Seleccionar Instalación",
                 "label": "Instalación",
                 "des": "Descripción",

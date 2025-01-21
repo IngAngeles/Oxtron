@@ -2,6 +2,55 @@
 import { z } from "zod";
 import { useDictionary } from "@/hooks/shared/useDictionary";
 
+const {
+  FacilityValidation,
+  FacilityDetailsValidation,
+  FacilityDescriptionDetailsValidation,
+  ComboValidation,
+  VehicleValidation,
+  VehicleDetailsValidation,
+  VehicleDescriptionDetailsValidation,
+  TravelValidation,
+  TravelDetailsValidation,
+  TravelDescriptionDetailsValidation,
+  LogisticValidation,
+  LogisticDetailsValidation,
+  ManufacturingValidation,
+  ManufacturingDetailsValidation,
+  CommutingValidation,
+  CommutingDetailsValidation,
+  CommutingDescriptionDetailsValidation,
+  CompanyValidation,
+  ReportHeaderValidation,
+  UpdateUserValidation,
+  LogisticDescriptionDetailsValidation,
+  ManufacturingDescriptionDetailsValidation,
+// eslint-disable-next-line react-hooks/rules-of-hooks
+} = useFormValidation()
+
+  export type Facility = z.infer<typeof FacilityValidation>;
+  export type FacilityDetails = z.infer<typeof FacilityDetailsValidation>;
+  export type FacilityDescriptionDetails = z.infer<typeof FacilityDescriptionDetailsValidation>;
+  export type ComboType = z.infer<typeof ComboValidation>;
+  export type Vehicle = z.infer<typeof VehicleValidation>
+  export type VehicleDetails = z.infer<typeof VehicleDetailsValidation>
+  export type VehicleDescriptionDetails = z.infer<typeof VehicleDescriptionDetailsValidation>
+  export type Travel = z.infer<typeof TravelValidation>
+  export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
+  export type TravelDescriptionDetails = z.infer<typeof TravelDescriptionDetailsValidation>;
+  export type Logistic = z.infer<typeof LogisticValidation>
+  export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
+  export type Manufacturing = z.infer<typeof ManufacturingValidation>
+  export type ManufacturingDetails = z.infer<typeof ManufacturingDetailsValidation>
+  export type Commuting = z.infer<typeof CommutingValidation>
+  export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
+  export type CommutingDescriptionDetails = z.infer<typeof CommutingDescriptionDetailsValidation>;
+  export type Company = z.infer<typeof CompanyValidation>;
+  export type ReportHeader = z.infer<typeof ReportHeaderValidation>
+  export type UpdateUser = z.infer<typeof UpdateUserValidation>
+  export type LogisticDescriptionDetails = z.infer<typeof LogisticDescriptionDetailsValidation>
+  export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
+
 export function useFormValidation() {
   const { dictionary } = useDictionary();
 
@@ -704,25 +753,25 @@ export function useFormValidation() {
       idUserControl: z.string().min(1),
     }),
 
-    CompanyValidation: z.object({
-      idCompany: z.number().optional(),
-      firstName: z.string().min(1, dictionary?.validation.company.first),
-      lastName: z.string().min(1, dictionary?.validation.company.last),
-      role: z.string().min(1, dictionary?.validation.company.role),
-      email: z.string().min(1, dictionary?.validation.company.email),
-      password: z.string().min(1, dictionary?.validation.company.passw),
-      organisatioName: z.string().min(1, dictionary?.validation.company.organ),
-      city: z.string().min(1, dictionary?.validation.company.city),
-      state: z.string().min(1, dictionary?.validation.company.state),
-      country: z.string().min(1, dictionary?.validation.company.country),
-      postalCode: z.string().min(1, dictionary?.validation.company.postal),
-      active: z.string().min(1, dictionary?.validation.company.active),
-      registrationDate: z.string().min(1, dictionary?.validation.company.regis),
-      idTypeLicense: z.number(),
-      address: z.string().min(1, dictionary?.validation.company.add),
-      telephoneCompany: z.string().min(1, dictionary?.validation.company.tel),
-      size: z.string().min(1, dictionary?.validation.company.size),
-    }),
+    // CompanyValidation: z.object({
+    //   idCompany: z.number().optional(),
+    //   firstName: z.string().min(1, dictionary?.validation.company.first),
+    //   lastName: z.string().min(1, dictionary?.validation.company.last),
+    //   role: z.string().min(1, dictionary?.validation.company.role),
+    //   email: z.string().min(1, dictionary?.validation.company.email),
+    //   password: z.string().min(1, dictionary?.validation.company.passw),
+    //   organisatioName: z.string().min(1, dictionary?.validation.company.organ),
+    //   city: z.string().min(1, dictionary?.validation.company.city),
+    //   state: z.string().min(1, dictionary?.validation.company.state),
+    //   country: z.string().min(1, dictionary?.validation.company.country),
+    //   postalCode: z.string().min(1, dictionary?.validation.company.postal),
+    //   active: z.string().min(1, dictionary?.validation.company.active),
+    //   registrationDate: z.string().min(1, dictionary?.validation.company.regis),
+    //   idTypeLicense: z.number(),
+    //   address: z.string().min(1, dictionary?.validation.company.add),
+    //   telephoneCompany: z.string().min(1, dictionary?.validation.company.tel),
+    //   size: z.string().min(1, dictionary?.validation.company.size),
+    // }),
 
     ReportHeaderValidation: z.object({
       idControl: z.number().optional(),
@@ -828,28 +877,28 @@ export function useFormValidation() {
   }
 }
 
-export type Facility = z.infer<typeof FacilityValidation>;
-export type FacilityDetails = z.infer<typeof FacilityDetailsValidation>;
-export type FacilityDescriptionDetails = z.infer<typeof FacilityDescriptionDetailsValidation>; 
-export type ComboType = z.infer<typeof ComboValidation>; 
-export type Vehicle = z.infer<typeof VehicleValidation>
-export type VehicleDetails = z.infer<typeof VehicleDetailsValidation>
-export type VehicleDescriptionDetails = z.infer<typeof VehicleDescriptionDetailsValidation>
-export type Travel = z.infer<typeof TravelValidation>
-export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
-export type TravelDescriptionDetails = z.infer<typeof TravelDescriptionDetailsValidation>;
-export type Logistic = z.infer<typeof LogisticValidation>
-export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
-export type Manufacturing = z.infer<typeof ManufacturingValidation>
-export type ManufacturingDetails = z.infer<typeof ManufacturingDetailsValidation>
-export type Commuting = z.infer<typeof CommutingValidation>
-export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
-export type CommutingDescriptionDetails = z.infer<typeof CommutingDescriptionDetailsValidation>;
-export type Company = z.infer<typeof CompanyValidation>;
-export type ReportHeader = z.infer<typeof ReportHeaderValidation>
-export type UpdateUser = z.infer<typeof UpdateUserValidation>
-export type LogisticDescriptionDetails = z.infer<typeof LogisticDescriptionDetailsValidation>
-export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
+// export type Facility = z.infer<typeof FacilityValidation>;
+// export type FacilityDetails = z.infer<typeof FacilityDetailsValidation>;
+// export type FacilityDescriptionDetails = z.infer<typeof FacilityDescriptionDetailsValidation>; 
+// export type ComboType = z.infer<typeof ComboValidation>; 
+// export type Vehicle = z.infer<typeof VehicleValidation>
+// export type VehicleDetails = z.infer<typeof VehicleDetailsValidation>
+// export type VehicleDescriptionDetails = z.infer<typeof VehicleDescriptionDetailsValidation>
+// export type Travel = z.infer<typeof TravelValidation>
+// export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
+// export type TravelDescriptionDetails = z.infer<typeof TravelDescriptionDetailsValidation>;
+// export type Logistic = z.infer<typeof LogisticValidation>
+// export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
+// export type Manufacturing = z.infer<typeof ManufacturingValidation>
+// export type ManufacturingDetails = z.infer<typeof ManufacturingDetailsValidation>
+// export type Commuting = z.infer<typeof CommutingValidation>
+// export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
+// export type CommutingDescriptionDetails = z.infer<typeof CommutingDescriptionDetailsValidation>;
+// export type Company = z.infer<typeof CompanyValidation>;
+// export type ReportHeader = z.infer<typeof ReportHeaderValidation>
+// export type UpdateUser = z.infer<typeof UpdateUserValidation>
+// export type LogisticDescriptionDetails = z.infer<typeof LogisticDescriptionDetailsValidation>
+// export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
 
 
 
