@@ -788,91 +788,91 @@ export function useFormValidation() {
 
   return {
     UserFormValidation: UserFormValidation.extend({
-      email: z.string().email(dictionary?.validation.userForm.email || 'Invalid email'),
+      email: z.string().email(dictionary?.validation?.userForm?.email || 'Invalid email'),
       password: z
         .string()
-        .min(7, dictionary?.validation.userForm.password.min || 'Password too short')
-        .max(15, dictionary?.validation.userForm.password.max || 'Password too long'),
+        .min(7, dictionary?.validation?.userForm?.password?.min || 'Password too short')
+        .max(15, dictionary?.validation?.userForm?.password?.max || 'Password too long'),
     }),
     UserRegisterValidation: UserRegisterValidation.extend({
-      firstName: z.string().min(1, dictionary?.validation.userRegister.firstName),
-      lastName: z.string().min(1, dictionary?.validation.userRegister.lastName),
-      role: z.string().min(1, dictionary?.validation.userRegister.role || 'Role is required'),
+      firstName: z.string().min(1, dictionary?.validation?.userRegister.firstName),
+      lastName: z.string().min(1, dictionary?.validation?.userRegister.lastName),
+      role: z.string().min(1, dictionary?.validation?.userRegister.role || 'Role is required'),
       email: z.string()
-        .email(dictionary?.validation.userRegister.email.invalid)
-        .min(1, dictionary?.validation.userRegister.email.required || 'Email is required'),
-      password: z.string().min(6, dictionary?.validation.userRegister.password.min || 'Password must be at least 6 characters long'),
-      confirmPassword: z.string().min(6, dictionary?.validation.userRegister.password.confirm || 'Confirm password must be at least 6 characters long'),
-      organisationName: z.string().min(1, dictionary?.validation.userRegister.organisationName || 'Organisation name is required'),
-      city: z.string().min(1, dictionary?.validation.userRegister.city || 'City is required'),
-      state: z.string().min(1, dictionary?.validation.userRegister.state || 'State is required'),
-      country: z.string().min(1, dictionary?.validation.userRegister.country || 'Country is required'),
-      postalCode: z.string().min(1, dictionary?.validation.userRegister.postalCode || 'Postal code is required'),
-      telephoneUser: z.string().min(10, dictionary?.validation.userRegister.telephoneUser || 'Phone number is required'),
-      timeZone: z.string().min(1, dictionary?.validation.userRegister.timeZone || 'Time zone is required'),
-      language: z.string().min(1, dictionary?.validation.userRegister.language || 'Language is required'),
+        .email(dictionary?.validation?.userRegister.email.invalid)
+        .min(1, dictionary?.validation?.userRegister.email.required || 'Email is required'),
+      password: z.string().min(6, dictionary?.validation?.userRegister.password.min || 'Password must be at least 6 characters long'),
+      confirmPassword: z.string().min(6, dictionary?.validation?.userRegister.password.confirm || 'Confirm password must be at least 6 characters long'),
+      organisationName: z.string().min(1, dictionary?.validation?.userRegister.organisationName || 'Organisation name is required'),
+      city: z.string().min(1, dictionary?.validation?.userRegister.city || 'City is required'),
+      state: z.string().min(1, dictionary?.validation?.userRegister.state || 'State is required'),
+      country: z.string().min(1, dictionary?.validation?.userRegister.country || 'Country is required'),
+      postalCode: z.string().min(1, dictionary?.validation?.userRegister.postalCode || 'Postal code is required'),
+      telephoneUser: z.string().min(10, dictionary?.validation?.userRegister.telephoneUser || 'Phone number is required'),
+      timeZone: z.string().min(1, dictionary?.validation?.userRegister.timeZone || 'Time zone is required'),
+      language: z.string().min(1, dictionary?.validation?.userRegister.language || 'Language is required'),
     }),
     UserRegisterByCompanyIdValidation: UserRegisterByCompanyIdValidation.extend({
       idCompany: z.number(),
-      firstName: z.string().min(1, dictionary?.validation.userRegisterByCompanyId.firstName),
-      lastName: z.string().min(1, dictionary?.validation.userRegisterByCompanyId.lastName),
-      role: z.string().min(1, dictionary?.validation.userRegisterByCompanyId.role),
-      email: z.string().email(dictionary?.validation.userRegisterByCompanyId.email.invalid).min(1, dictionary?.validation.userRegisterByCompanyId.required),
-      password: z.string().min(6, dictionary?.validation.userRegisterByCompanyId.password.min),
-      confirmPassword: z.string().min(6, dictionary?.validation.userRegisterByCompanyId.password.confirm),
-      telephoneUser: z.string().min(10, dictionary?.validation.userRegisterByCompanyId.telephoneUser),
-      timeZone: z.string().min(1, dictionary?.validation.userRegisterByCompanyId.timeZone),
-      language: z.string().min(1, dictionary?.validation.userRegisterByCompanyId.language),
+      firstName: z.string().min(1, dictionary?.validation?.userRegisterByCompanyId.firstName),
+      lastName: z.string().min(1, dictionary?.validation?.userRegisterByCompanyId.lastName),
+      role: z.string().min(1, dictionary?.validation?.userRegisterByCompanyId.role),
+      email: z.string().email(dictionary?.validation?.userRegisterByCompanyId.email.invalid).min(1, dictionary?.validation?.userRegisterByCompanyId.required),
+      password: z.string().min(6, dictionary?.validation?.userRegisterByCompanyId.password.min),
+      confirmPassword: z.string().min(6, dictionary?.validation?.userRegisterByCompanyId.password.confirm),
+      telephoneUser: z.string().min(10, dictionary?.validation?.userRegisterByCompanyId.telephoneUser),
+      timeZone: z.string().min(1, dictionary?.validation?.userRegisterByCompanyId.timeZone),
+      language: z.string().min(1, dictionary?.validation?.userRegisterByCompanyId.language),
     }),
     ForgotPasswordValidation: ForgotPasswordValidation.extend({
-      email: z.string().email(dictionary?.validation.forgotPassword.email.invalid).nonempty(dictionary?.validation.forgotPassword.email.required),
+      email: z.string().email(dictionary?.validation?.forgotPassword.email.invalid).nonempty(dictionary?.validation?.forgotPassword.email.required),
     }),
     UpdatePasswordValidation: UpdatePasswordValidation.extend({
-      email: z.string().email(dictionary?.validation.updatePassword.email.invalid).nonempty(dictionary?.validation.updatePassword.email.required),
-      passwordOld: z.string().min(6, dictionary?.validation.updatePassword.passwordOld),
-      passwordNew: z.string().min(6, dictionary?.validation.updatePassword.passwordNew),
-      confirmPassword: z.string().min(6, dictionary?.validation.updatePassword.confirmPassword),
+      email: z.string().email(dictionary?.validation?.updatePassword.email.invalid).nonempty(dictionary?.validation?.updatePassword.email.required),
+      passwordOld: z.string().min(6, dictionary?.validation?.updatePassword.passwordOld),
+      passwordNew: z.string().min(6, dictionary?.validation?.updatePassword.passwordNew),
+      confirmPassword: z.string().min(6, dictionary?.validation?.updatePassword.confirmPassword),
     }),
     UpdateUserValidation: UpdateUserValidation.extend({
       idUSerControl: z.number().positive(),
-      idCompany: z.number({ message: dictionary?.validation.updateUser.idCompany }),
-      firstName: z.string().min(1, dictionary?.validation.updateUser.firstName),
-      lastName: z.string().min(1, dictionary?.validation.updateUser.lastName),
-      role: z.string().min(1, dictionary?.validation.updateUser.role),
-      email: z.string().min(1, dictionary?.validation.updateUser.email),
-      password: z.string().min(1, dictionary?.validation.updateUser.password),
-      confirmPassword: z.string().min(6, dictionary?.validation.updateUser.confirmPassword),
-      active: z.string().min(1, dictionary?.validation.updateUser.active),
-      idUSerType: z.number({ message: dictionary?.validation.updateUser.idUSerType }),
-      telephoneUser: z.string().min(1, dictionary?.validation.updateUser.telephoneUser),
-      timeZone: z.string().min(1, dictionary?.validation.updateUser.timeZone),
-      language: z.string().min(1, dictionary?.validation.updateUser.language)
+      idCompany: z.number({ message: dictionary?.validation?.updateUser.idCompany }),
+      firstName: z.string().min(1, dictionary?.validation?.updateUser.firstName),
+      lastName: z.string().min(1, dictionary?.validation?.updateUser.lastName),
+      role: z.string().min(1, dictionary?.validation?.updateUser.role),
+      email: z.string().min(1, dictionary?.validation?.updateUser.email),
+      password: z.string().min(1, dictionary?.validation?.updateUser.password),
+      confirmPassword: z.string().min(6, dictionary?.validation?.updateUser.confirmPassword),
+      active: z.string().min(1, dictionary?.validation?.updateUser.active),
+      idUSerType: z.number({ message: dictionary?.validation?.updateUser.idUSerType }),
+      telephoneUser: z.string().min(1, dictionary?.validation?.updateUser.telephoneUser),
+      timeZone: z.string().min(1, dictionary?.validation?.updateUser.timeZone),
+      language: z.string().min(1, dictionary?.validation?.updateUser.language)
     }),
     CompanyValidation: CompanyValidation.extend({
       idCompany: z.number().optional(),
-      firstName: z.string().min(1, dictionary?.validation.companyV.firstName),
-      lastName: z.string().min(1, dictionary?.validation.companyV.lastName),
-      role: z.string().min(1, dictionary?.validation.companyV.role),
-      email: z.string().min(1, dictionary?.validation.companyV.email),
-      password: z.string().min(1, dictionary?.validation.companyV.password),
-      organisatioName: z.string().min(1, dictionary?.validation.companyV.organisatioName),
-      city: z.string().min(1, dictionary?.validation.companyV.city),
-      state: z.string().min(1, dictionary?.validation.companyV.state),
-      country: z.string().min(1, dictionary?.validation.companyV.country),
-      postalCode: z.string().min(1, dictionary?.validation.companyV.postalCode),
-      active: z.string().min(1, dictionary?.validation.companyV.active),
-      registrationDate: z.string().min(1, dictionary?.validation.companyV.registrationDate),
+      firstName: z.string().min(1, dictionary?.validation?.companyV.firstName),
+      lastName: z.string().min(1, dictionary?.validation?.companyV.lastName),
+      role: z.string().min(1, dictionary?.validation?.companyV.role),
+      email: z.string().min(1, dictionary?.validation?.companyV.email),
+      password: z.string().min(1, dictionary?.validation?.companyV.password),
+      organisatioName: z.string().min(1, dictionary?.validation?.companyV.organisatioName),
+      city: z.string().min(1, dictionary?.validation?.companyV.city),
+      state: z.string().min(1, dictionary?.validation?.companyV.state),
+      country: z.string().min(1, dictionary?.validation?.companyV.country),
+      postalCode: z.string().min(1, dictionary?.validation?.companyV.postalCode),
+      active: z.string().min(1, dictionary?.validation?.companyV.active),
+      registrationDate: z.string().min(1, dictionary?.validation?.companyV.registrationDate),
       idTypeLicense: z.number(),
-      address: z.string().min(1, dictionary?.validation.companyV.address),
-      telephoneCompany: z.string().min(1, dictionary?.validation.companyV.telephoneCompany),
-      size: z.string().min(1, dictionary?.validation.companyV.size),
+      address: z.string().min(1, dictionary?.validation?.companyV.address),
+      telephoneCompany: z.string().min(1, dictionary?.validation?.companyV.telephoneCompany),
+      size: z.string().min(1, dictionary?.validation?.companyV.size),
     }),
     FacilityValidation: FacilityValidation.extend({
       idUserControl: z.number().nullable(),
-      idFacility: z.string().min(1, dictionary?.validation.facility.idFacility.required).nullable(),
-      propertyStatus: z.number().positive(dictionary?.validation.facility.propertyStatus.required),
-      city: z.string().min(1, dictionary?.validation.facility.city.required).nullable(),
-      country: z.string().min(1, dictionary?.validation.facility.country.required).nullable(),
+      idFacility: z.string().min(1, dictionary?.validation?.facility.idFacility.required).nullable(),
+      propertyStatus: z.number().positive(dictionary?.validation?.facility.propertyStatus.required),
+      city: z.string().min(1, dictionary?.validation?.facility.city.required).nullable(),
+      country: z.string().min(1, dictionary?.validation?.facility.country.required).nullable(),
       description: z.string().nullable(),
       active: z.number().max(1).min(0).default(1),
     }),
@@ -882,198 +882,198 @@ export function useFormValidation() {
       unit: z.string().optional(),
       typeEquipment: z.string().optional(),
 
-      idControlFacility: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.idControlFacility.required }),
+      idControlFacility: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.idControlFacility.required }),
       idType: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.idType.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.idType.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.idType.invalidNumber);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.idType.invalidNumber);
           return parsed;
         }),
-      idEmissionFactor: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.idEmissionFactor.required }),
-      startDate: z.string().nonempty({ message: dictionary?.validation.facilityDetails.startDate.required }),
-      endDate: z.string().nonempty({ message: dictionary?.validation.facilityDetails.endDate.required }),
-      idTypeDetails: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.idTypeDetails.required }),
-      amount: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.amount.required }),
-      measureFugitive: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.measureFugitive.required }),
-      purchased: z.number().min(1, { message: dictionary?.validation.facilityDetails.purchased.required }),
-      delivered: z.number().min(1, { message: dictionary?.validation.facilityDetails.delivered.required }),
+      idEmissionFactor: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.idEmissionFactor.required }),
+      startDate: z.string().nonempty({ message: dictionary?.validation?.facilityDetails.startDate.required }),
+      endDate: z.string().nonempty({ message: dictionary?.validation?.facilityDetails.endDate.required }),
+      idTypeDetails: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.idTypeDetails.required }),
+      amount: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.amount.required }),
+      measureFugitive: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.measureFugitive.required }),
+      purchased: z.number().min(1, { message: dictionary?.validation?.facilityDetails.purchased.required }),
+      delivered: z.number().min(1, { message: dictionary?.validation?.facilityDetails.delivered.required }),
       returnsProducers: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.returnsProducers.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.returnsProducers.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.returnsProducers.invalidNumber);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.returnsProducers.invalidNumber);
           return parsed;
         }),
       returnedUsers: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.returnedUsers.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.returnedUsers.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.returnedUsers.invalidNumber);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.returnedUsers.invalidNumber);
           return parsed;
         }),
-      returnedOffsiteRecycling: z.number().min(1, { message: dictionary?.validation.facilityDetails.returnedOffsiteRecycling.required }),
-      partialNAmeplateCharged: z.number().min(1, { message: dictionary?.validation.facilityDetails.partialNAmeplateCharged.required }),
-      amountYearsBeginning: z.number().min(1, { message: dictionary?.validation.facilityDetails.amountYearsBeginning.required }),
-      amountYearsEnd: z.number().min(1, { message: dictionary?.validation.facilityDetails.amountYearsEnd.required }),
-      chargedIntoEquipment: z.number().min(1, { message: dictionary?.validation.facilityDetails.amountYearsEnd.charged }),
-      dontKnow: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.amountYearsEnd.dont }),
+      returnedOffsiteRecycling: z.number().min(1, { message: dictionary?.validation?.facilityDetails.returnedOffsiteRecycling.required }),
+      partialNAmeplateCharged: z.number().min(1, { message: dictionary?.validation?.facilityDetails.partialNAmeplateCharged.required }),
+      amountYearsBeginning: z.number().min(1, { message: dictionary?.validation?.facilityDetails.amountYearsBeginning.required }),
+      amountYearsEnd: z.number().min(1, { message: dictionary?.validation?.facilityDetails.amountYearsEnd.required }),
+      chargedIntoEquipment: z.number().min(1, { message: dictionary?.validation?.facilityDetails.amountYearsEnd.charged }),
+      dontKnow: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.amountYearsEnd.dont }),
       offSiteRecycling: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.offSiteRecycling.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.offSiteRecycling.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.offSiteRecycling.invalidNumber);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.offSiteRecycling.invalidNumber);
           return parsed;
         }),
       offSiteDestruction: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.offSiteDestruction.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.offSiteDestruction.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.offSiteDestruction.valid);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.offSiteDestruction.valid);
           return parsed;
         }),
       densityPressurePartial: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.densityPressurePartial.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.densityPressurePartial.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.densityPressurePartial.valid);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.densityPressurePartial.valid);
           return parsed;
         }),
       densityPressureFull: z
         .string()
-        .nonempty({ message: dictionary?.validation.facilityDetails.densityPressureFull.required })
+        .nonempty({ message: dictionary?.validation?.facilityDetails.densityPressureFull.required })
         .transform((val) => {
           const parsed = Number(val);
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.facilityDetails.densityPressureFull.valid);
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.facilityDetails.densityPressureFull.valid);
           return parsed;
         }),
-      active: z.number().int().min(1, { message: dictionary?.validation.facilityDetails.active.required }),
+      active: z.number().int().min(1, { message: dictionary?.validation?.facilityDetails.active.required }),
     }),
     FacilityDescriptionDetailsValidation: FacilityDescriptionDetailsValidation.extend({
       idControlFacilityDetails: z.number().int().optional(),
-      idControlFacility: z.number().int().min(1, dictionary?.validation.facilityDescriptionDetails.idControlFacility.required),
+      idControlFacility: z.number().int().min(1, dictionary?.validation?.facilityDescriptionDetails.idControlFacility.required),
       idType: z.union([z.string(), z.number()]).transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       idTypeDescription: z.string().optional(),
-      idEmissionFactor: z.number().int().min(1, dictionary?.validation.facilityDescriptionDetails.idEmissionFactor.required),
+      idEmissionFactor: z.number().int().min(1, dictionary?.validation?.facilityDescriptionDetails.idEmissionFactor.required),
       idEmissionFactorDescription: z.string().optional(),
-      startDate: z.string().min(1, dictionary?.validation.facilityDescriptionDetails.startDate.required),
-      endDate: z.string().min(1, dictionary?.validation.facilityDescriptionDetails.endDate.required),
+      startDate: z.string().min(1, dictionary?.validation?.facilityDescriptionDetails.startDate.required),
+      endDate: z.string().min(1, dictionary?.validation?.facilityDescriptionDetails.endDate.required),
       invoiceId: z.string().optional(),
-      idTypeDetails: z.number().int().min(1, dictionary?.validation.facilityDescriptionDetails.idTypeDetails.required),
+      idTypeDetails: z.number().int().min(1, dictionary?.validation?.facilityDescriptionDetails.idTypeDetails.required),
       idTypeDetailsDescription: z.string().optional(),
-      amount: z.number().int().min(1, dictionary?.validation.facilityDescriptionDetails.amount.required),
+      amount: z.number().int().min(1, dictionary?.validation?.facilityDescriptionDetails.amount.required),
       unit: z.string().optional(),
       typeEquipment: z.string().optional(),
-      measureFugitive: z.number().int().min(0, dictionary?.validation.facilityDescriptionDetails.fugitive.required),
+      measureFugitive: z.number().int().min(0, dictionary?.validation?.facilityDescriptionDetails.fugitive.required),
       purchased: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       delivered: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       returnsProducers: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       returnedUsers: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       returnedOffsiteRecycling: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       partialNAmeplateCharged: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       amountYearsBeginning: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       amountYearsEnd: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       chargedIntoEquipment: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       dontKnow: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       offSiteRecycling: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       offSiteDestruction: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       densityPressurePartial: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       densityPressureFull: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
-      active: z.number().int().min(0, dictionary?.validation.facilityDescriptionDetails.fugitive.active),
-      firstName: z.string().min(0, dictionary?.validation.facilityDescriptionDetails.fugitive.first),
+      active: z.number().int().min(0, dictionary?.validation?.facilityDescriptionDetails.fugitive.active),
+      firstName: z.string().min(0, dictionary?.validation?.facilityDescriptionDetails.fugitive.first),
     }),
     VehicleValidation: VehicleValidation.extend({
       idControlVehicle: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }).nullable(),
       idUserControl: z.number().nullable(),
       idStatus: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       name: z.string().optional(),
       idCboBrand: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       idCboModel: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       idCboType: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.vehicle.idStatus.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.vehicle.idStatus.invalidNumber)
         return parsed
       }),
       licensePlate: z.string().optional(),
@@ -1082,20 +1082,20 @@ export function useFormValidation() {
     VehicleDetailsValidation: VehicleDetailsValidation.extend({
       idControlVehicleDetails: z
         .number()
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer)
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer)
         .optional(),
       idControlVehicle: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.idControlVehicle.required })
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.idControlVehicle.required })
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.vehicleDetails.idEmissionFactor.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.vehicleDetails.idEmissionFactor.integer),
       startDate: z
-        .string({ required_error: dictionary?.validation.vehicleDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.vehicleDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.vehicleDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.vehicleDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.vehicleDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.vehicleDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.vehicleDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.vehicleDetails.endDate.datetime }),
       invoiceId: z
         .string()
         .optional()
@@ -1118,27 +1118,27 @@ export function useFormValidation() {
         .string()
         .optional(),
       active: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.endDate.active })
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.endDate.active })
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer),
     }),
     VehicleDescriptionDetailsValidation: VehicleDescriptionDetailsValidation.extend({
       idControlVehicleDetails: z
         .number()
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer)
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer)
         .optional(),
       idControlVehicle: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.idControlVehicle.required })
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.idControlVehicle.required })
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer),
       idEmissionFactorDescription: z.string().min(1),
       startDate: z
-        .string({ required_error: dictionary?.validation.vehicleDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.vehicleDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.vehicleDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.vehicleDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.vehicleDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.vehicleDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.vehicleDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.vehicleDetails.endDate.datetime }),
       invoiceId: z
         .string()
         .optional()
@@ -1162,37 +1162,37 @@ export function useFormValidation() {
         .string()
         .optional(),
       active: z
-        .number({ required_error: dictionary?.validation.vehicleDetails.endDate.active })
-        .int(dictionary?.validation.vehicleDetails.idControlVehicle.integer),
+        .number({ required_error: dictionary?.validation?.vehicleDetails.endDate.active })
+        .int(dictionary?.validation?.vehicleDetails.idControlVehicle.integer),
     }),
     TravelValidation: TravelValidation.extend({
       idControlTravel: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.travel.idControlTravel.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.travel.idControlTravel.invalidNumber)
         return parsed
       }).nullable(),
       idUserControl: z.number().nullable(),
-      idTravel: z.string().min(1, dictionary?.validation.travel.idTravel.required),
+      idTravel: z.string().min(1, dictionary?.validation?.travel.idTravel.required),
       description: z.string().optional(),
       active: z.number().max(1).min(0).default(1),
     }),
     TravelDetailsValidation: TravelDetailsValidation.extend({
       idControlTravelDetails: z
         .number()
-        .int(dictionary?.validation.travelDetails.idControlTravelDetails.integer)
+        .int(dictionary?.validation?.travelDetails.idControlTravelDetails.integer)
         .optional(),
       idControlTravel: z
-        .number({ required_error: dictionary?.validation.travelDetails.idControlTravel.required })
-        .int(dictionary?.validation.travelDetails.idControlTravel.required),
+        .number({ required_error: dictionary?.validation?.travelDetails.idControlTravel.required })
+        .int(dictionary?.validation?.travelDetails.idControlTravel.required),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.travelDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.travelDetails.idEmissionFactor.integer),
+        .number({ required_error: dictionary?.validation?.travelDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.travelDetails.idEmissionFactor.integer),
       startDate: z
-        .string({ required_error: dictionary?.validation.travelDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.travelDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.travelDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.travelDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.travelDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.travelDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.travelDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.travelDetails.endDate.datetime }),
       invoiceId: z
         .string()
         .optional(),
@@ -1208,33 +1208,33 @@ export function useFormValidation() {
         .string()
         .optional(),
       active: z
-        .number({ required_error: dictionary?.validation.travelDetails.active.required })
-        .int(dictionary?.validation.travelDetails.integer),
+        .number({ required_error: dictionary?.validation?.travelDetails.active.required })
+        .int(dictionary?.validation?.travelDetails.integer),
     }),
     TravelDescriptionDetailsValidation: TravelDescriptionDetailsValidation.extend({
       idControlTravelDetails: z
         .number()
-        .int(dictionary?.validation.travelDescriptionDetails.idControlTravelDetails.integer)
+        .int(dictionary?.validation?.travelDescriptionDetails.idControlTravelDetails.integer)
         .optional(),
       idControlTravel: z
-        .number({ required_error: dictionary?.validation.travelDescriptionDetails.idControlTravel.required })
-        .int(dictionary?.validation.travelDescriptionDetails.idControlTravel.integer),
+        .number({ required_error: dictionary?.validation?.travelDescriptionDetails.idControlTravel.required })
+        .int(dictionary?.validation?.travelDescriptionDetails.idControlTravel.integer),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.travelDescriptionDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.travelDescriptionDetails.idEmissionFactor.integer),
+        .number({ required_error: dictionary?.validation?.travelDescriptionDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.travelDescriptionDetails.idEmissionFactor.integer),
       idEmissionFactorDescription: z.string().min(1),
       startDate: z
-        .string({ required_error: dictionary?.validation.travelDescriptionDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.travelDescriptionDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.travelDescriptionDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.travelDescriptionDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.travelDescriptionDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.travelDescriptionDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.travelDescriptionDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.travelDescriptionDetails.endDate.datetime }),
       invoiceId: z
         .string()
         .optional(),
       idTravelCboType: z
-        .number({ required_error: dictionary?.validation.travelDescriptionDetails.idTravelCboType.required })
-        .int(dictionary?.validation.travelDescriptionDetails.idTravelCboType.integer),
+        .number({ required_error: dictionary?.validation?.travelDescriptionDetails.idTravelCboType.required })
+        .int(dictionary?.validation?.travelDescriptionDetails.idTravelCboType.integer),
       travelCboTypeDescription: z.string().min(1),
       origin: z
         .string()
@@ -1243,13 +1243,13 @@ export function useFormValidation() {
         .string()
         .optional(),
       active: z
-        .number({ required_error: dictionary?.validation.travelDescriptionDetails.active.required })
-        .int(dictionary?.validation.travelDescriptionDetails.active.integer),
+        .number({ required_error: dictionary?.validation?.travelDescriptionDetails.active.required })
+        .int(dictionary?.validation?.travelDescriptionDetails.active.integer),
     }),
     LogisticValidation: LogisticValidation.extend({
       idControlLogistics: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.logistic.idControlLogistics.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.logistic.idControlLogistics.invalidNumber)
         return parsed
       }).nullable(),
       idUserControl: z.number().nullable(),
@@ -1259,33 +1259,33 @@ export function useFormValidation() {
       destinationzc: z.string().nullable(),
       loadLogistic: z.string().nullable(),
       client: z.string().nullable(),
-      idCboStatus: z.number().positive(dictionary?.validation.logistic.idCboStatus.positive),
+      idCboStatus: z.number().positive(dictionary?.validation?.logistic.idCboStatus.positive),
       name: z.string().nullable(),
-      idTravelCboType: z.number().positive(dictionary?.validation.logistic.idCboStatus.positive),
-      idCboModel: z.number().positive(dictionary?.validation.logistic.idCboStatus.positive),
-      idCboBrand: z.number().positive(dictionary?.validation.logistic.idCboStatus.positive),
+      idTravelCboType: z.number().positive(dictionary?.validation?.logistic.idCboStatus.positive),
+      idCboModel: z.number().positive(dictionary?.validation?.logistic.idCboStatus.positive),
+      idCboBrand: z.number().positive(dictionary?.validation?.logistic.idCboStatus.positive),
       licensePlate: z.string().nullable(),
       active: z.number().max(1).min(0).default(1),
     }),
     LogisticDetailsValidation: LogisticDetailsValidation.extend({
       idControlLogisticsDetails: z
         .number()
-        .int(dictionary?.validation.logisticDetails.idControlLogisticsDetails.integer)
+        .int(dictionary?.validation?.logisticDetails.idControlLogisticsDetails.integer)
         .optional(),
       idControlLogistics: z
-        .number({ required_error: dictionary?.validation.logisticDetails.idControlLogistics.required })
-        .int(dictionary?.validation.logisticDetails.idControlLogistics.integer),
+        .number({ required_error: dictionary?.validation?.logisticDetails.idControlLogistics.required })
+        .int(dictionary?.validation?.logisticDetails.idControlLogistics.integer),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.logisticDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.logisticDetails.idEmissionFactor.integer),
+        .number({ required_error: dictionary?.validation?.logisticDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.logisticDetails.idEmissionFactor.integer),
       origin: z.string().optional(),
       destiny: z.string().optional(),
       startDate: z
-        .string({ required_error: dictionary?.validation.logisticDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.logisticDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.logisticDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.logisticDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.logisticDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.logisticDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.logisticDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.logisticDetails.endDate.datetime }),
       invoiceId: z.string().optional(),
       idFuelType: z
         .string()
@@ -1303,47 +1303,47 @@ export function useFormValidation() {
         }),
       unit: z.string().optional(),
       active: z
-        .number({ required_error: dictionary?.validation.logisticDetails.active.required })
-        .int(dictionary?.validation.logisticDetails.active.integer),
+        .number({ required_error: dictionary?.validation?.logisticDetails.active.required })
+        .int(dictionary?.validation?.logisticDetails.active.integer),
     }),
     ManufacturingValidation: ManufacturingValidation.extend({
       idControlManufacturing: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.manufacturing.idControlManufacturing.invalidNumber)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.manufacturing.idControlManufacturing.invalidNumber)
         return parsed
       }).nullable(),
       idUserControl: z.number().nullable(),
-      process: z.string().min(1, dictionary?.validation.manufacturing.process.minLength).nullable(),
-      idFacility: z.string().min(1, dictionary?.validation.manufacturing.idFacility.required),
-      idTypeEquipment: z.number().positive(dictionary?.validation.manufacturing.idTypeEquipment.positive),
-      idTypeFuelUsed: z.number().positive(dictionary?.validation.manufacturing.idTypeFuelUsed.positive),
-      idTypeEquipmentCode: z.number().positive(dictionary?.validation.manufacturing.idTypeEquipmentCode.positive),
+      process: z.string().min(1, dictionary?.validation?.manufacturing.process.minLength).nullable(),
+      idFacility: z.string().min(1, dictionary?.validation?.manufacturing.idFacility.required),
+      idTypeEquipment: z.number().positive(dictionary?.validation?.manufacturing.idTypeEquipment.positive),
+      idTypeFuelUsed: z.number().positive(dictionary?.validation?.manufacturing.idTypeFuelUsed.positive),
+      idTypeEquipmentCode: z.number().positive(dictionary?.validation?.manufacturing.idTypeEquipmentCode.positive),
       active: z.number().max(1).min(0).default(1),
     }),
     ManufacturingDetailsValidation: ManufacturingDetailsValidation.extend({
       idControlManufacturingDetails: z
         .number()
-        .int(dictionary?.validation.manufacturingDetails.idControlManufacturingDetails.integer)
+        .int(dictionary?.validation?.manufacturingDetails.idControlManufacturingDetails.integer)
         .optional(),
       idControlManufacturing: z
-        .number({ required_error: dictionary?.validation.manufacturingDetails.idControlManufacturing.required })
-        .int(dictionary?.validation.manufacturingDetails.idControlManufacturing.integer),
+        .number({ required_error: dictionary?.validation?.manufacturingDetails.idControlManufacturing.required })
+        .int(dictionary?.validation?.manufacturingDetails.idControlManufacturing.integer),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.manufacturingDetails.idEmissionFactor.required })
-        .int(dictionary?.validation.manufacturingDetails.idEmissionFactor.integer),
+        .number({ required_error: dictionary?.validation?.manufacturingDetails.idEmissionFactor.required })
+        .int(dictionary?.validation?.manufacturingDetails.idEmissionFactor.integer),
       invoiceId: z
         .string()
         .optional(),
       startDate: z
-        .string({ required_error: dictionary?.validation.manufacturingDetails.startDate.required })
-        .datetime({ message: dictionary?.validation.manufacturingDetails.startDate.datetime }),
+        .string({ required_error: dictionary?.validation?.manufacturingDetails.startDate.required })
+        .datetime({ message: dictionary?.validation?.manufacturingDetails.startDate.datetime }),
       endDate: z
-        .string({ required_error: dictionary?.validation.manufacturingDetails.endDate.required })
-        .datetime({ message: dictionary?.validation.manufacturingDetails.endDate.datetime }),
+        .string({ required_error: dictionary?.validation?.manufacturingDetails.endDate.required })
+        .datetime({ message: dictionary?.validation?.manufacturingDetails.endDate.datetime }),
       amount: z
         .string().transform(val => {
           const parsed = Number(val)
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.manufacturingDetails.amount.invalidNumber)
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.manufacturingDetails.amount.invalidNumber)
           return parsed
         })
         .optional(),
@@ -1351,28 +1351,28 @@ export function useFormValidation() {
         .string()
         .optional(),
       active: z
-        .number({ required_error: dictionary?.validation.manufacturingDetails.active.required })
-        .int(dictionary?.validation.manufacturingDetails.active.integer),
+        .number({ required_error: dictionary?.validation?.manufacturingDetails.active.required })
+        .int(dictionary?.validation?.manufacturingDetails.active.integer),
     }),
     CommutingValidation: CommutingValidation.extend({
       idControlCommuting: z.string().transform(val => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.commuting.facilityRequired)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.commuting.facilityRequired)
         return parsed
       }).nullable(),
       idUserControl: z.number().nullable(),
-      idControlFacility: z.string().min(1, dictionary?.validation.commuting.invalidNumber),
+      idControlFacility: z.string().min(1, dictionary?.validation?.commuting.invalidNumber),
       description: z.string().nullable(),
       active: z.number().max(1).min(0).default(1),
     }),
     CommutingDetailsValidation: CommutingDetailsValidation.extend({
       idControlCommutingDetails: z
-        .number({ required_error: dictionary?.validation.commutingDetails.control })
-        .int(dictionary?.validation.commutingDetails.integer)
+        .number({ required_error: dictionary?.validation?.commutingDetails.control })
+        .int(dictionary?.validation?.commutingDetails.integer)
         .optional(),
       idControlCommuting: z
-        .number({ required_error: dictionary?.validation.commutingDetails.required })
-        .int(dictionary?.validation.commutingDetails.integer),
+        .number({ required_error: dictionary?.validation?.commutingDetails.required })
+        .int(dictionary?.validation?.commutingDetails.integer),
       origin: z
         .string()
         .optional(),
@@ -1389,24 +1389,24 @@ export function useFormValidation() {
         .string()
         .optional(),
       fuelEfficiency: z
-        .string({ required_error: dictionary?.validation.commutingDetails.fuel })
+        .string({ required_error: dictionary?.validation?.commutingDetails.fuel })
         .transform(val => {
           const parsed = Number(val)
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.commutingDetails.number)
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.commutingDetails.number)
           return parsed
         })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
       active: z
         .number()
-        .int(dictionary?.validation.commutingDetails.integer)
+        .int(dictionary?.validation?.commutingDetails.integer)
         .default(1),
     }),
     CommutingDescriptionDetailsValidation: CommutingDescriptionDetailsValidation.extend({
       idControlCommutingDetails: z
-        .number({ required_error: dictionary?.validation.details.control })
-        .int(dictionary?.validation.details.mode),
+        .number({ required_error: dictionary?.validation?.details.control })
+        .int(dictionary?.validation?.details.mode),
       idControlCommuting: z
-        .number({ required_error: dictionary?.validation.details.commu })
-        .int(dictionary?.validation.details.mode),
+        .number({ required_error: dictionary?.validation?.details.commu })
+        .int(dictionary?.validation?.details.mode),
       origin: z
         .string()
         .optional(),
@@ -1423,15 +1423,15 @@ export function useFormValidation() {
         .string()
         .optional(),
       fuelEfficiency: z
-        .string({ required_error: dictionary?.validation.details.fuel })
+        .string({ required_error: dictionary?.validation?.details.fuel })
         .transform(val => {
           const parsed = Number(val)
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.details.number)
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.details.number)
           return parsed
         })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
       active: z
         .number()
-        .int(dictionary?.validation.details.positive)
+        .int(dictionary?.validation?.details.positive)
         .default(1),
       idCommutingCboModeTransport: z.number().positive().int(),
       cboModeTransportDescription: z.string().min(1),
@@ -1442,22 +1442,22 @@ export function useFormValidation() {
     }),
     ReportHeaderValidation: ReportHeaderValidation.extend({
       idControl: z.number().optional(),
-      idUserControl: z.number().min(1, dictionary?.validation.report.id),
+      idUserControl: z.number().min(1, dictionary?.validation?.report.id),
       preparedBy: z.string().optional(),
       facilityId: z.string().optional(),
       idType: z.string().transform((val) => {
         const parsed = Number(val)
-        if (isNaN(parsed)) throw new Error(dictionary?.validation.report.number)
+        if (isNaN(parsed)) throw new Error(dictionary?.validation?.report.number)
         return parsed
       }),
       typeDescription: z.string().optional(),
       startDate: z.string().refine(value => !isNaN(Date.parse(value)), {
-        message: dictionary?.validation.report.start,
+        message: dictionary?.validation?.report.start,
       }),
       endDate: z.string().refine(value => !isNaN(Date.parse(value)), {
-        message: dictionary?.validation.report.end,
+        message: dictionary?.validation?.report.end,
       }),
-      active: z.number().min(1, dictionary?.validation.report.active).default(() => 1),
+      active: z.number().min(1, dictionary?.validation?.report.active).default(() => 1),
     }), ComboValidation: ComboValidation.extend({
       idControl: z.number(),
       description: z.string(),
@@ -1465,29 +1465,29 @@ export function useFormValidation() {
     }), LogisticDescriptionDetailsValidation: LogisticDescriptionDetailsValidation.extend({
       idControlLogisticsDetails: z
         .number()
-        .int(dictionary?.validation.logistics.number)
+        .int(dictionary?.validation?.logistics.number)
         .optional(),
       idControlLogistics: z
-        .number({ required_error: dictionary?.validation.logistics.control })
-        .int(dictionary?.validation.logistics.number),
+        .number({ required_error: dictionary?.validation?.logistics.control })
+        .int(dictionary?.validation?.logistics.number),
       idEmissionFactor: z
-        .number({ required_error: dictionary?.validation.logistics.emi })
-        .int(dictionary?.validation.logistics.number),
+        .number({ required_error: dictionary?.validation?.logistics.emi })
+        .int(dictionary?.validation?.logistics.number),
       idEmissionFactorDescription: z.string().optional(),
       origin: z.string().optional(),
       destiny: z.string().optional(),
       startDate: z
-        .string({ required_error: dictionary?.validation.logistics.start })
-        .datetime({ message: dictionary?.validation.logistics.date }),
+        .string({ required_error: dictionary?.validation?.logistics.start })
+        .datetime({ message: dictionary?.validation?.logistics.date }),
       endDate: z
-        .string({ required_error: dictionary?.validation.logistics.end })
-        .datetime({ message: dictionary?.validation.logistics.date }),
+        .string({ required_error: dictionary?.validation?.logistics.end })
+        .datetime({ message: dictionary?.validation?.logistics.date }),
       invoiceId: z.string().optional(),
       idFuelType: z
         .union([z.string(), z.number()])
         .transform(val => {
           const parsed = Number(val)
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.logistics.in)
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.logistics.in)
           return parsed
         }),
       fuelTypeDescription: z.string().optional(),
@@ -1495,45 +1495,45 @@ export function useFormValidation() {
         .union([z.string(), z.number()])
         .transform(val => {
           const parsed = Number(val)
-          if (isNaN(parsed)) throw new Error(dictionary?.validation.logistics.in)
+          if (isNaN(parsed)) throw new Error(dictionary?.validation?.logistics.in)
           return parsed
         }),
       unit: z.union([z.string(), z.null()]).optional(),
       active: z
-        .number({ required_error: dictionary?.validation.logistics.active })
-        .int(dictionary?.validation.logistics.number),
+        .number({ required_error: dictionary?.validation?.logistics.active })
+        .int(dictionary?.validation?.logistics.number),
     }),
     ManufacturingDescriptionDetailsValidation: ManufacturingDescriptionDetailsValidation.extend({
         idControlManufacturingDetails: z
           .number()
-          .int(dictionary?.validation.logistics.number)
+          .int(dictionary?.validation?.logistics.number)
           .optional(),
         idControlManufacturing: z
-          .number({ required_error: dictionary?.validation.logistics.fac })
-          .int(dictionary?.validation.logistics.number),
+          .number({ required_error: dictionary?.validation?.logistics.fac })
+          .int(dictionary?.validation?.logistics.number),
         idEmissionFactor: z
-          .number({ required_error: dictionary?.validation.logistics.emi })
-          .int(dictionary?.validation.logistics.number),
+          .number({ required_error: dictionary?.validation?.logistics.emi })
+          .int(dictionary?.validation?.logistics.number),
         idEmissionFactorDescription: z.string().optional(),
         invoiceId: z.string().optional(),
         startDate: z
-          .string({ required_error: dictionary?.validation.logistics.start})
-          .datetime({ message: dictionary?.validation.logistics.date }),
+          .string({ required_error: dictionary?.validation?.logistics.start})
+          .datetime({ message: dictionary?.validation?.logistics.date }),
         endDate: z
-          .string({ required_error: dictionary?.validation.logistics.end })
-          .datetime({ message: dictionary?.validation.logistics.date }),
+          .string({ required_error: dictionary?.validation?.logistics.end })
+          .datetime({ message: dictionary?.validation?.logistics.date }),
         amount: z
           .union([z.string(), z.number()])
           .transform(val => {
             const parsed = Number(val)
-            if (isNaN(parsed)) throw new Error(dictionary?.validation.logistics.in)
+            if (isNaN(parsed)) throw new Error(dictionary?.validation?.logistics.in)
             return parsed
           })
           .optional(),
         unit: z.string().optional(),
         active: z
-          .number({ required_error: dictionary?.validation.logistics.active })
-          .int(dictionary?.validation.logistics.number),
+          .number({ required_error: dictionary?.validation?.logistics.active })
+          .int(dictionary?.validation?.logistics.number),
       }
     )
   }

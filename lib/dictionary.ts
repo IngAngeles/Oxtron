@@ -9,7 +9,7 @@ const dictionaries = {
 };
 
 export const getDictionary = async (locale?: Locale) => {
-    console.log("Locale recibido:", locale); 
+    // console.log("Locale recibido:", locale);
     if (!locale) {
         throw new Error("Locale is undefined. Make sure to pass the correct locale.");
     }
