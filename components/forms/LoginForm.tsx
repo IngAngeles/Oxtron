@@ -48,19 +48,20 @@ const LoginForm = ({ dictionary }: LoginFormProps) => {
   async function onSubmit({ email, password }: z.infer<typeof UserFormValidation>) {
     setIsLoading(true);
     try {
-      const response = await login({ email, password });
+      const isAuthenticated = await login({ email, password });
 
-      if (!response) {
-        console.log("Error en la autenticación");
+      if (!isAuthenticated) {
+        console.error("Authentication failed");
       } else {
-        router.push("/dashboard"); 
+        router.push("/dashboard");
       }
-    } catch (e) {
-      console.error("Error en el login:", e);
+    } catch (error) {
+      console.error("Error during login:", error);
     } finally {
       setIsLoading(false);
     }
   }
+
 
   return (
     <Form {...form}>

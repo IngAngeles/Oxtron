@@ -1,23 +1,27 @@
 'use server'
-import { revalidatePath } from 'next/cache'
 import { auth, signIn, signOut } from '@/auth'
 import { forgotPasswordProps, IUser, updatePasswordProps } from '@/constants/types'
 import axiosInstance from '@/lib/axios-instance'
 import { UpdateUser, UserRegister, UserRegisterByCompanyId } from '@/lib/validation'
 import { AxiosError } from 'axios'
 
-export async function login({email, password}: Readonly<{ email: string, password: string }>) {
+export async function login({ email, password }: { email: string; password: string }) {
   try {
-    const response = await signIn('credentials', {
+    const result = await signIn("credentials", {
       email,
       password,
-      redirect: true,
-      redirectTo: '/dashboard'
-    })
-    revalidatePath('/')
-    return response
-  } catch (err) {
-    throw err
+      redirect: false,
+    });
+
+    if (result?.error) {
+      console.error("Login error:", result.error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Login error:", error);
+    return false;
   }
 }
 
