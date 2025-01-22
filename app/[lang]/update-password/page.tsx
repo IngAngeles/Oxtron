@@ -1,7 +1,14 @@
 import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
 import Image from "next/image";
+import { getDictionary } from "@/lib/dictionary";
+import { Locale } from "@/i18n.config";
 
-export default function Home() { 
+interface RegisterPageProps {
+  params: { lang: Locale }; 
+}
+
+export default async function Update({ params: { lang } }: RegisterPageProps) {
+  const dictionary = await getDictionary(lang); 
 
   return (
     <div className="bg-register flex min-h-screen md:h-full md:py-10">
@@ -15,7 +22,7 @@ export default function Home() {
             alt="oxtron"
             className="mb-6 h-[64px] w-[336px] ml-auto mr-auto "
           />
-          <UpdatePasswordForm />
+          <UpdatePasswordForm dictionary={dictionary.pages.update}/>
       </section>
     </div>
   );

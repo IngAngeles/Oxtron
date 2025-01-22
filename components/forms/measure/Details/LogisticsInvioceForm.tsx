@@ -71,8 +71,8 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: `This invoice has been ${!logistic ? 'created' : 'updated'} successfully`,
+          title: dictionary.messages.succ,
+          description: `${dictionary.messagess.inv} ${!logistic ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -82,8 +82,8 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       console.error({error})
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messages.wrong,
+        description: dictionary.messages.was,
         className: 'bg-[#7f1d1d]',
       })
     } finally {
@@ -112,8 +112,8 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
         } else {
           toast({
             variant: 'destructive',
-            title: 'Uh oh! Something went wrong.',
-            description: 'It was not possible to calculate the distance between these postal codes.',
+            title: dictionary.messages.wrong,
+            description: dictionary.messages.des,
             className: 'bg-[#7f1d1d]',
           })
         }

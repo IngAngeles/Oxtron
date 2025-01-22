@@ -63,8 +63,8 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: `This invoice has been ${ !commutingDetails ? 'created' : 'updated' } successfully`,
+          title: dictionary.messagess.succ,
+          description: `${dictionary.messagess.inv} ${!commutingDetails ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -74,8 +74,8 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
       console.error({ error })
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messagess.wrong,
+        description: dictionary.messagess.was,
         className: 'bg-[#7f1d1d]',
       })
     } finally {
@@ -110,8 +110,8 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
         } else {
           toast({
             variant: 'destructive',
-            title: 'Uh oh! Something went wrong.',
-            description: 'It was not possible to calculate the distance between these postal codes.',
+            title: dictionary.messagess.wrong,
+            description: dictionary.messagess.des,
             className: 'bg-[#7f1d1d]',
           })
         }

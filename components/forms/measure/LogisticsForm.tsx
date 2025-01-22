@@ -69,7 +69,7 @@ const TravelsForm = ({
               disabled={isDisabled}
               onClick={nextStep}
             >
-              Next
+              {dictionary.ne}
             </Button>
           ) : (
             <SubmitButton isLoading={loading} onClick={() => onSubmit(form.getValues())}>
