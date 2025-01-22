@@ -145,6 +145,11 @@
                 "label1":"Produced",
                 "label2":"Captured"
             },
+            "error":{
+                "title": "Welcome to your Carbon Capture Dashboard",
+                "subtitle": "Start recording your measurements to see a summary here",
+                "button": "Go To Measures"
+            },
             "bar": {
                 "greenhouseGasEmissions": "Greenhouse Gas Emissions",
                 "co2": "CO2",

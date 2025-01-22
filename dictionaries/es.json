@@ -145,6 +145,11 @@
                 "label1": "Producido",
                 "label2": "Capturado"
             },
+            "error": {
+                "title": "Bienvenido a tu Panel de Captura de Carbono",
+                "subtitle": "Comienza a registrar tus mediciones para ver un resumen aquí",
+                "button": "Ir a Mediciones"
+            },
             "bar": {
                 "greenhouseGasEmissions": "Emisiones de Gases de Efecto Invernadero",
                 "co2": "CO2",
