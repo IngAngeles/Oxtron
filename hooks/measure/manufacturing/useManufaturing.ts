@@ -32,14 +32,14 @@ export const useManufacturing = () => {
   const form = useForm<Manufacturing>({
     resolver: zodResolver(ManufacturingValidation),
     defaultValues: {
-      idControlManufacturing: manufacture?.idControlManufacturing ?? 0,
-      idUserControl: manufacture?.idUserControl ?? 0,
-      idFacility: manufacture?.idFacility ?? 0,
-      idTypeEquipment: manufacture?.idTypeEquipment ?? 0,
-      idTypeEquipmentCode: manufacture?.idTypeEquipmentCode ?? 0,
-      idTypeFuelUsed: manufacture?.idTypeFuelUsed ?? 0,
-      process: manufacture?.process ?? '',
-      active: manufacture?.active ?? 1,
+      idControlManufacturing: 0,
+      idUserControl: 0,
+      idFacility: 0,
+      idTypeEquipment: 0,
+      idTypeEquipmentCode: 0,
+      idTypeFuelUsed: 0,
+      process: '',
+      active: 1,
     },
   })
 
@@ -62,6 +62,16 @@ export const useManufacturing = () => {
       onClick: () => {
         handleShowModal()
         setManufacture(null)
+        form.reset({
+          idControlManufacturing: 0,
+          idUserControl: 0,
+          idFacility: 0,
+          idTypeEquipment: 0,
+          idTypeEquipmentCode: 0,
+          idTypeFuelUsed: 0,
+          process: '',
+          active: 1,
+        })
       }
     },
   ]
@@ -73,7 +83,7 @@ export const useManufacturing = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = manufacturing.map((manufacturing) => ({
+    const cards: Card[] = manufacturing?.map((manufacturing) => ({
       id: manufacturing.idControlManufacturing || 0,
       title: `${manufacturing.process}`,
       description: 'Mexico City, Mexico',
@@ -87,25 +97,25 @@ export const useManufacturing = () => {
       },
       link: `/${manufacturing.idControlManufacturing}`,
       lastUpdated: new Date(2022, 10, 23),
-    }))
+    })) || []
 
     setCards(cards)
   }, [manufacturing])
 
   useEffect(() => {
     setLoading(true)
-    setFacilityOptions(facilities.map((facility) => ({
+    setFacilityOptions(facilities?.map((facility) => ({
       value: facility?.idControlFacility?.toString() || '0',
       label: facility.idFacility,
-    })))
-    setFuelOptions(fuel.map((f) => ({
+    })) || [])
+    setFuelOptions(fuel?.map((f) => ({
       value: f.idControl.toString(),
       label: f.description,
-    })))
-    setEquipmentOptions(equipment.map((eq) => ({
+    })) || [])
+    setEquipmentOptions(equipment?.map((eq) => ({
       value: '1',
       label: 'Mundo'
-    })))
+    })) || [])
     setLoading(false)
   }, [facilities, fuel, equipment]);
 

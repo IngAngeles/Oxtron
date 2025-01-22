@@ -11,7 +11,7 @@ type Props = {
   scope: string
 };
 
-const MeasureContent = ({scope, cards}: Props) => {
+const MeasureContent = ({scope, cards = []}: Props) => {
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);

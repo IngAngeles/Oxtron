@@ -65,6 +65,17 @@ export const useVehicles = () => {
       onClick: () => {
         handleShowModal()
         setVehicle(null)
+        form.reset({
+          idControlVehicle: 0,
+          idUserControl: 0,
+          idCboBrand: 0,
+          idCboModel: 0,
+          idCboType: 0,
+          idStatus: 0,
+          licensePlate: "",
+          name: "",
+          active: 1,
+        })
       }
     },
   ]
@@ -76,7 +87,7 @@ export const useVehicles = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = vehicles.map((vehicle) => ({
+    const cards: Card[] = vehicles?.map((vehicle) => ({
       id: vehicle.idControlVehicle || 0,
       title: `${vehicle.name}`,
       description: 'Mexico City, Mexico',
@@ -90,29 +101,29 @@ export const useVehicles = () => {
       },
       link: `/${vehicle.idControlVehicle}`,
       lastUpdated: new Date(2022, 10, 23),
-    }))
+    })) || []
 
     setCards(cards)
   }, [vehicles])
 
   useEffect(() => {
     setLoading(true)
-    setBrandOptions(brands.map((brand) => ({
+    setBrandOptions(brands?.map((brand) => ({
       value: brand.idVehicleCboBrand.toString(),
       label: brand.description
-    })))
-    setModelOptions(models.map((model) => ({
+    })) || [])
+    setModelOptions(models?.map((model) => ({
       value: model.idVehicleCboModel.toString(),
       label: model.description,
-    })))
-    setStatusOptions(statuses.map((status) => ({
+    })) || [])
+    setStatusOptions(statuses?.map((status) => ({
       value: status.idStatus.toString(),
       label: status.description,
-    })))
-    setTypeOptions(types.map((type) => ({
+    })) || [])
+    setTypeOptions(types?.map((type) => ({
       value: type.idVehicleCboType.toString(),
       label: type.description,
-    })))
+    })) || [])
     setLoading(false)
   }, [brands, models, statuses, types]);
 

@@ -29,14 +29,14 @@ export function useFacilities() {
   const form = useForm<Facility>({
     resolver: zodResolver(FacilityValidation),
     defaultValues: {
-      idControlFacility: facility?.idControlFacility ?? 0,
-      idUserControl: facility?.idUserControl ?? 0,
-      idFacility: facility?.idFacility ?? "",
-      city: facility?.city ?? "",
-      country: facility?.country ?? "",
-      description: facility?.description ?? "",
-      propertyStatus: facility?.propertyStatus ?? 0,
-      active: facility?.active ?? 1,
+      idControlFacility: 0,
+      idUserControl: 0,
+      idFacility: "",
+      city: "",
+      country: "",
+      description: "",
+      propertyStatus: 0,
+      active: 1,
     },
   });
 
@@ -59,6 +59,16 @@ export function useFacilities() {
       onClick: () => {
         handleShowModal()
         setFacility(null)
+        form.reset({
+          idControlFacility: 0,
+          idUserControl: 0,
+          idFacility: "",
+          city: "",
+          country: "",
+          description: "",
+          propertyStatus: 0,
+          active: 1,
+        })
       },
     },
   ]
@@ -71,7 +81,7 @@ export function useFacilities() {
   useEffect(() => {
     setLoading(true)
 
-    const cards: Card[] = facilities.map((facility: Facility) => (
+    const cards: Card[] = facilities?.map((facility: Facility) => (
       {
         id: facility.idControlFacility || 0,
         title: facility?.idFacility,
@@ -88,7 +98,7 @@ export function useFacilities() {
         lastUpdated: new Date(2022, 10, 23),
         onClick: () => setFacility(facility),
       }
-    ))
+    )) || []
     setCards(cards)
 
     setLoading(false)
@@ -97,12 +107,12 @@ export function useFacilities() {
   useEffect(() => {
     setLoading(true)
 
-    const options: Option[] = statuses.map((status: Status) => (
+    const options: Option[] = statuses?.map((status: Status) => (
       {
         value: status.idStatus.toString(),
         label: status.description,
       }
-    ))
+    )) || []
     setOptions(options)
 
     setLoading(false)

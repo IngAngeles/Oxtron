@@ -28,11 +28,11 @@ export const useCommuting = () => {
   const form = useForm<Commuting>({
     resolver: zodResolver(CommutingValidation),
     defaultValues: {
-      idControlCommuting: commute?.idControlCommuting ?? 0,
-      idUserControl: commute?.idUserControl ?? 0,
-      description: commute?.description ?? '',
-      idControlFacility: commute?.idControlFacility ?? 0,
-      active: commute?.active ?? 1,
+      idControlCommuting: 0,
+      idUserControl: 0,
+      description: '',
+      idControlFacility: 0,
+      active: 1,
     },
   })
 
@@ -55,6 +55,13 @@ export const useCommuting = () => {
       onClick: () => {
         handleShowModal()
         setCommute(null)
+        form.reset({
+          idControlCommuting: 0,
+          idUserControl: 0,
+          description: '',
+          idControlFacility: 0,
+          active: 1,
+        })
       }
     },
   ]
@@ -66,7 +73,7 @@ export const useCommuting = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = commuting.map((commute) => ({
+    const cards: Card[] = commuting?.map((commute) => ({
       id: commute.idControlCommuting || 0,
       title: `${facilities.find((facility) => commute.idControlFacility === facility.idControlFacility)?.idFacility}`,
       description: 'Mexico City, Mexico',
@@ -80,17 +87,18 @@ export const useCommuting = () => {
       },
       link: `/${commute.idControlCommuting}`,
       lastUpdated: new Date(2022, 10, 23),
-    }))
+    })) || []
 
     setCards(cards)
+    setLoading(false)
   }, [commuting])
 
   useEffect(() => {
     setLoading(true)
-    setFacilityOptions(facilities.map((facility) => ({
+    setFacilityOptions(facilities?.map((facility) => ({
       value: facility?.idControlFacility?.toString() || '0',
       label: facility.idFacility,
-    })))
+    })) || [])
     setLoading(false)
   }, [facilities]);
 

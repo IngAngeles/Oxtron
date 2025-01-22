@@ -52,6 +52,13 @@ export const useTravels = () => {
       onClick: () => {
         handleShowModal()
         setTravel(null)
+        form.reset({
+          idControlTravel: 0,
+          idUserControl: 0,
+          idTravel: '',
+          description: '',
+          active: 1,
+        });
       },
     },
   ]
@@ -62,7 +69,7 @@ export const useTravels = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = travels.map((travel) => ({
+    const cards: Card[] = travels?.map((travel) => ({
       id: travel.idControlTravel || 0,
       title: `${travel.idTravel}`,
       description: 'Mexico City, Mexico',
@@ -76,7 +83,7 @@ export const useTravels = () => {
       },
       link: `/${travel.idControlTravel}`,
       lastUpdated: new Date(2022, 10, 23),
-    }))
+    })) || []
 
     setCards(cards)
   }, [travels])

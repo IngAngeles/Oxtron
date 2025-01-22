@@ -40,23 +40,23 @@ export const useLogistics = () => {
   const form = useForm<Logistic>({
     resolver: zodResolver(LogisticValidation),
     defaultValues: {
-      idControlLogistics: logistic?.idControlLogistics ?? 0,
-      idUserControl: logistic?.idUserControl ?? 0,
-      idCboModel: logistic?.idCboModel ?? 0,
-      idCboBrand: logistic?.idCboBrand ?? 0,
-      idCboStatus: logistic?.idCboStatus ?? 0,
-      idTravelCboType: logistic?.idTravelCboType ?? 0,
-      licensePlate: logistic?.licensePlate ?? '',
-      client: logistic?.client ?? '',
-      name: logistic?.name ?? '',
-      destination: logistic?.destination ?? '',
-      origin: logistic?.origin ?? '',
-      destinationzc: logistic?.destinationzc ?? '',
-      originzc: logistic?.originzc ?? '',
-      loadLogistic: logistic?.loadLogistic ?? '',
-      PropertyStatus: logistic?.PropertyStatus ?? 0,
-      idControlVehicle: logistic?.idControlVehicle ?? 0,
-      active: logistic?.active ?? 1
+      idControlLogistics: 0,
+      idUserControl: 0,
+      idCboModel: 0,
+      idCboBrand: 0,
+      idCboStatus: 0,
+      idTravelCboType: 0,
+      licensePlate: '',
+      client: '',
+      name: '',
+      destination: '',
+      origin: '',
+      destinationzc: '',
+      originzc: '',
+      loadLogistic: '',
+      PropertyStatus: 0,
+      idControlVehicle: 0,
+      active: 1,
     },
   })
   const watchedFirstStepItems = form.watch([
@@ -88,6 +88,25 @@ export const useLogistics = () => {
       onClick: () => {
         handleShowModal()
         setLogistic(null)
+        form.reset({
+          idControlLogistics: 0,
+          idUserControl: 0,
+          idCboModel: 0,
+          idCboBrand: 0,
+          idCboStatus: 0,
+          idTravelCboType: 0,
+          licensePlate: '',
+          client: '',
+          name: '',
+          destination: '',
+          origin: '',
+          destinationzc: '',
+          originzc: '',
+          loadLogistic: '',
+          PropertyStatus: 0,
+          idControlVehicle: 0,
+          active: 1,
+        })
       }
     },
   ]
@@ -99,7 +118,7 @@ export const useLogistics = () => {
 
   useEffect(() => {
     setLoading(true)
-    const cards: Card[] = logistics.map((logistic) => ({
+    const cards: Card[] = logistics?.map((logistic) => ({
       id: logistic.idControlLogistics || 0,
       title: `${logistic.origin} - ${logistic.destination}`,
       description: 'Mexico City, Mexico',
@@ -113,32 +132,33 @@ export const useLogistics = () => {
       },
       link: `/${logistic.idControlLogistics}`,
       lastUpdated: new Date(2022, 10, 23),
-    }))
+    })) || []
 
     setCards(cards)
+    setLoading(false)
   }, [logistics])
 
   useEffect(() => {
     setLoading(true)
-    setBrandOptions(brands.map((brand) => ({
+    setBrandOptions(brands?.map((brand) => ({
       value: brand.idVehicleCboBrand.toString(),
       label: brand.description
-    })))
-    setModelOptions(models.map((model) => ({
+    })) || [])
+    setModelOptions(models?.map((model) => ({
       value: model.idVehicleCboModel.toString(),
       label: model.description,
-    })))
-    setStatusOptions(statuses.map((status) => ({
+    })) || [])
+    setStatusOptions(statuses?.map((status) => ({
       value: status.idStatus.toString(),
       label: status.description,
-    })))
-    setTypeOptions(types.map((type) => ({
+    })) || [])
+    setTypeOptions(types?.map((type) => ({
       value: type.idVehicleCboType.toString(),
       label: type.description,
-    })))
+    })) || [])
     setVehicleOptions(
       vehicles?.map(vehicle => ({
-        value: vehicle?.idControlVehicle?.toString() || '0' ,
+        value: vehicle?.idControlVehicle?.toString() || '0',
         label: vehicle.name || '',
       })) || []
     )

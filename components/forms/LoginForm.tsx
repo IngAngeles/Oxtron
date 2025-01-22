@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { UserFormValidation } from "@/lib/validation";
 import Link from "next/link";
 import { login } from "@/actions/auth";
+import {toast} from "@/components/ui/use-toast";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -51,17 +52,26 @@ const LoginForm = ({ dictionary }: LoginFormProps) => {
       const isAuthenticated = await login({ email, password });
 
       if (!isAuthenticated) {
-        console.error("Authentication failed");
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'There was a problem with your request.',
+          className: 'bg-[#7f1d1d]',
+        })
       } else {
         router.push("/dashboard");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'There was a problem with your request.',
+        className: 'bg-[#7f1d1d]',
+      })
     } finally {
       setIsLoading(false);
     }
   }
-
 
   return (
     <Form {...form}>

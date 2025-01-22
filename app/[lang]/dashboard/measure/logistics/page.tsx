@@ -55,7 +55,13 @@ export default function LogisticsPage() {
         <TabMenu items={items} cards={cards} iconButton={buttons}/>
       </div>
       {showModal && (
-        <Modal title={!logistic ? dictionary.measure.modall.create : dictionary.measure.modall.title} handleOnCloseModal={handleHideModal} className="max-h-[80vh]">
+        <Modal
+          title={!logistic ? dictionary.measure.modall.create : dictionary.measure.modall.title}
+          handleOnCloseModal={handleHideModal}
+          stepper={{
+            steps: 3, currentStep: 0, setCurrentStep: () => {}
+          }}
+          className="max-h-[80vh]">
           <LogisticsForm
             logistic={logistic}
             loading={loading}
