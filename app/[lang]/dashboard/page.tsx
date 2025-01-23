@@ -216,6 +216,7 @@ const Home = () => {
         eD_Business_T: firstItem.eD_Business_T ?? 0,
         eD_Employee_T: firstItem.eD_Employee_T ?? 0,
         eD_Biogenic2_T: firstItem.eD_Biogenic2_T ?? 0,
+        total: ''
       };
 
       const emissionPercentageData: EmissionPercentageProps = {
@@ -233,6 +234,7 @@ const Home = () => {
         eD_Business_P: firstItem.eD_Business_P ?? 0,
         eD_Employee_P: firstItem.eD_Employee_P ?? 0,
         eD_Biogenic2_P: firstItem.eD_Biogenic2_P ?? 0,
+        total: ''
       };
 
       setEmissionTons(emissionTonsData);
@@ -287,8 +289,10 @@ const Home = () => {
         </div>
         <div className="w-full flex gap-8 flex-wrap lg:flex-nowrap">
           <BarChart gasPercentage={gasPercentage} gasTons={gasTons} translations={dictionary.bar}/>
-          <CircleChart EmissionTons={emissionTons} EmissionPercentage={emissionPercentage} translations={dictionary.circle} />
-        </div>
+
+            <CircleChart EmissionTons={emissionTons} EmissionPercentage={emissionPercentage} dictionary={dictionary.circle}/>
+
+                  </div>
         <div className='mt-4 flex flex-col lg:flex-row gap-10 justify-between flex-wrap'>
         <DataStats name={dictionary.totalEmissions} stats={totalEmissions} unit="CO2e"/>
         <DataStats name={dictionary.impactEquivalence} stats={impactEquivalence} unit={dictionary.bottles}/>
