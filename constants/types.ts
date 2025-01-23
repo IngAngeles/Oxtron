@@ -197,6 +197,7 @@ export interface TableDataProps {
 }
 
 export interface EmissionTonsProps {
+    total: string;
     eD_Scope1_T: number;
     eD_Stationary_T: number;
     eD_Mobile_T: number;
@@ -214,6 +215,7 @@ export interface EmissionTonsProps {
 }
 
 export interface EmissionPercentageProps {
+    total: string;
     eD_Scope1_P: number;
     eD_Stationary_P: number;
     eD_Mobile_P: number;
@@ -233,26 +235,26 @@ export interface EmissionPercentageProps {
 export interface CircleChartProps {
     EmissionTons: EmissionTonsProps | null;
     EmissionPercentage: EmissionPercentageProps | null;
-    translations: {
-      title: string;
-      scope: string;
-      circle1: {
-        stationary: string;
-        mobile: string;
-        refrigerants: string;
-        biogenic: string;
-      };
-      circle2: {
-        location: string;
-        market: string;
-        heat: string;
-      };
-      circle3: {
-        transport: string;
-        bussiness: string;
-        employee: string;
-        biogenic: string;
-      };
+    dictionary: {
+        title: string;
+        scope: string;
+        circle1: {
+          stationary: string;
+          mobile: string;
+          refrigerants: string;
+          biogenic: string;
+        };
+        circle2: {
+          location: string;
+          market: string;
+          heat: string;
+        };
+        circle3: {
+          transport: string;
+          bussiness: string;
+          employee: string;
+          biogenic: string;
+        };
     };
   }
 
