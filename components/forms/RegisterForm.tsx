@@ -29,6 +29,9 @@ interface RegisterFormProps {
       postal: string;
       license: string;
       account: string;
+      pass: string;
+      passc: string;
+      not: string;
     };
     placeholders: {
       firstname: string;
@@ -41,6 +44,8 @@ interface RegisterFormProps {
       country: string;
       postal: string;
       license: string;
+      pass: string;
+      passc: string;
     };
     buttons: {
       next: string;
@@ -54,6 +59,12 @@ interface RegisterFormProps {
       carbon: string;
       advanced: string;
     };
+    toast: {
+      succ: string;
+      been: string;
+      wrong: string;
+      was: string;
+    }
   };
 }
 
@@ -110,8 +121,8 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
       const response = await register(data)
       if (response?.success) {
         toast({
-          title: 'Success',
-          description: 'You have been registered successfully',
+          title: dictionary.toast.succ,
+          description: dictionary.toast.been,
           className: 'bg-black',
         })
       }
@@ -121,8 +132,8 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
       console.error({error})
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.toast.wrong,
+        description: dictionary.toast.was,
         className: 'bg-[#7f1d1d]',
       })
     } finally {
@@ -176,29 +187,29 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
             <CustomFormField
             fieldType={ FormFieldType.PASSWORD }
             control={ form.control }
-            placeholder="Password"
-            label="Password"
+            placeholder={dictionary.labels.pass}
+            label={dictionary.labels.pass}
             name="password"
             showPassword={ showPassword }
             onPasswordToggle={ () => setShowPassword(!showPassword) }
             showPasswordToggle/>
             { !arePasswordsMatch && (
               <p id=":R8l7rmj6:-form-item-message" className="text-sm font-medium text-destructive shad-error">
-                Passwords don&apos;t match
+                {dictionary.labels.not}
               </p>
             ) }
             <CustomFormField
               fieldType={ FormFieldType.PASSWORD }
               control={ form.control }
-              placeholder="Confirm Password"
-              label="Confirm Password"
+              placeholder={dictionary.labels.passc}
+              label={dictionary.labels.passc}
               name="confirmPassword"
               showPassword={ showConfirmPassword }
               onPasswordToggle={ () => setShowConfirmPassword(!showConfirmPassword) }
               showPasswordToggle/>
             { !arePasswordsMatch && (
               <p id=":R8l7rmj6:-form-item-message" className="text-sm font-medium text-destructive shad-error">
-                Passwords don&apos;t match
+                {dictionary.labels.not}
               </p>
             ) }
           </>
@@ -257,7 +268,7 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
           </Button> }
 
         <Link href="/" className="text-black text-sm w-full font-extralight">
-          <p className="mt-4">¿Already have an account? <b>Log In</b></p>
+          <p className="mt-4">{dictionary.labels.account} <b>{dictionary.buttons.login}</b></p>
         </Link>
       </form>
     </Form>

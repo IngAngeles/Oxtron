@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { UserFormValidation } from "@/lib/validation";
 import Link from "next/link";
 import { login } from "@/actions/auth";
-import {toast} from "@/components/ui/use-toast";
+import { toast } from "../ui/use-toast";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -31,6 +31,7 @@ interface LoginFormProps {
     labels: { email: string; password: string; forgot: string; account: string };
     placeholders: { email: string; password: string };
     buttons: { login: string; signup: string };
+    toast: { title: string; description: string };
   };
 }
 
@@ -54,8 +55,8 @@ const LoginForm = ({ dictionary }: LoginFormProps) => {
       if (!isAuthenticated) {
         toast({
           variant: 'destructive',
-          title: 'Uh oh! Something went wrong.',
-          description: 'There was a problem with your request.',
+          title: (dictionary.toast.title),
+          description: (dictionary.toast.description),
           className: 'bg-[#7f1d1d]',
         })
       } else {
@@ -64,14 +65,14 @@ const LoginForm = ({ dictionary }: LoginFormProps) => {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: (dictionary.toast.title),
+        description: (dictionary.toast.description),
         className: 'bg-[#7f1d1d]',
       })
     } finally {
       setIsLoading(false);
-    }
-  }
+    }
+  }
 
   return (
     <Form {...form}>

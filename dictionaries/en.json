@@ -16,6 +16,10 @@
             "buttons": {
                 "login": "Log In",
                 "signup": "Sign up"
+            },
+            "toast": {
+                "title": "Uh oh! Something went wrong.",
+                "description": "There was a problem with your request."
             }
         },
         "signup":{
@@ -62,6 +66,12 @@
                 "footprint": "Basic Carbon Footprint",
                 "carbon": "Professional Carbon Footprint",
                 "advanced": "Advanced Carbon Footprint"
+            },
+            "toast": {
+                "succ": "Success",
+                "been": "You have been registered successfully",
+                "wrong": "Uh oh! Something went wrong.",
+                "was": "There was a problem with your request."
             }
         },
         "forgot":{
@@ -95,33 +105,36 @@
             "label3": "Net Zero"
         },
         "update": {
-        "successMessage": "Your password has been successfully updated.",
-        "goBackToLogin": "Go back to Login",
-        "form": {
-            "title": "Update Password",
-            "instruction": "Please enter your email, current password and new password below",
-            "errorMessage": "Please check your data, there was an error in your request.",
-            "tryAgain": "Try again",
-            "fields": {
-                "email": {
-                    "label": "Email",
-                    "placeholder": "Email address"
+            "successMessage": "Your password",
+            "been": "has been successfully updated.",
+            "goBackToLogin": "Go back to Login",
+            "form": {
+                "title": "Update Password",
+                "instruction": "Please enter your email, current password and new password below",
+                "errorMessage": "Please check your data,",
+                "was": "there was an error in your request.",
+                "tryAgain": "Try again",
+                "fields": {
+                    "email": {
+                        "label": "Email",
+                        "placeholder": "Email address"
+                    },
+                    "currentPassword": {
+                        "label": "Current Password",
+                        "placeholder": "Current Password"
+                    },
+                    "newPassword": {
+                        "label": "New Password",
+                        "placeholder": "New Password"
+                    },
+                    "confirmNewPassword": {
+                        "label": "Confirm New Password",
+                        "placeholder": "Confirm New Password"
+                    }
                 },
-                "currentPassword": {
-                    "label": "Current Password",
-                    "placeholder": "Current Password"
-                },
-                "newPassword": {
-                    "label": "New Password",
-                    "placeholder": "New Password"
-                },
-                "confirmNewPassword": {
-                    "label": "Confirm New Password",
-                    "placeholder": "Confirm New Password"
-                }
-            },
-            "submitButton": "Update Password",
-            "returnToLogin": "Return to Log In"
+                "submitButton": "Update Password",
+                "returnToLogin": "Return to",
+                "log": "Log In"
             }
         },
         "nav":{
@@ -482,6 +495,7 @@
                 "label13": "SELECT VEHICLE",
                 "add": "Add",
                 "up": "Update",
+                "ne": "Next",
                 "messages":{
                     "succ": "Success",
                     "descri1": "This logistic has been inserted successfully",
@@ -554,7 +568,17 @@
                     "label5": "MODE OF TRANSPORT",
                     "fuel": "Fuel efficiency",
                     "label6": "FUELL EFFICIENCY",
-                    "up": "Update"
+                    "up": "Update",
+                    "messagess":{
+                        "succ": "Success",
+                        "inv": "This invoice has been",
+                        "cre": "created",
+                        "up": "updated",
+                        "lly": "successfully",
+                        "wrong": "Uh oh! Something went wrong.",
+                        "was": "There was a problem with your request.",
+                        "des": "It was not possible to calculate the distance between these postal codes."
+                    }
                 },
                 "fac": {
                     "type": "SELECT TYPE",
@@ -636,7 +660,16 @@
                     },
                     "next": "Next",
                     "create": "Create",
-                    "up": "Update"
+                    "up": "Update",
+                    "messages":{
+                        "succ": "Success",
+                        "inv": "This invoice has been",
+                        "cre": "created",
+                        "up": "updated",
+                        "lly": "successfully",
+                        "wrong": "Uh oh! Something went wrong.",
+                        "was": "There was a problem with your request."
+                    }
                 },
                 "log":{
                     "lab1": "Option 1",
@@ -656,7 +689,17 @@
                     "label7": "AMOUNT",
                     "uni": "Unit",
                     "label8": "UNIT",
-                    "up": "Update"
+                    "up": "Update",
+                    "messages":{
+                        "succ": "Success",
+                        "inv": "This invoice has been",
+                        "cre": "created",
+                        "up": "updated",
+                        "lly": "successfully",
+                        "wrong": "Uh oh! Something went wrong.",
+                        "was": "There was a problem with your request.",
+                        "des": "It was not possible to calculate the distance between these postal codes."
+                    }
                 },
                 "man":{
                     "lab1": "Default",

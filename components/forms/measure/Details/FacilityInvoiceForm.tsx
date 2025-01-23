@@ -167,8 +167,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: `This invoice has been ${!facility ? 'created' : 'updated'} successfully`,
+          title: dictionary.messages.succ,
+          description: `${dictionary.messagess.inv} ${!facility ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -176,8 +176,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       } else {
         toast({
           variant: 'destructive',
-          title: 'Uh oh! Something went wrong.',
-          description: 'There was a problem with your request.',
+          title: dictionary.messages.wrong,
+          description: dictionary.messages.was,
           className: 'bg-[#7f1d1d]',
         })
       }

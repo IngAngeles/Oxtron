@@ -16,6 +16,10 @@
             "buttons": {
                 "login": "Iniciar Sesión",
                 "signup": "Regístrate"
+            },
+            "toast": {
+                "title": "¡Oh no! Algo salió mal.",
+                "description": "Hubo un problema con tu solicitud."
             }
         },
         "signup": {
@@ -62,6 +66,12 @@
                 "footprint": "Huella de Carbono Básica",
                 "carbon": "Huella de Carbono Profesional",
                 "advanced": "Huella de Carbono Avanzada"
+            },
+            "toast": {
+                "succ": "Éxito",
+                "been": "Te has registrado exitosamente",
+                "wrong": "¡Oh no! Algo salió mal.",
+                "was": "Hubo un problema con tu solicitud."
             }
         },
         "forgot": {
@@ -95,12 +105,14 @@
         "label3": "Cero Neto"
         },
         "update": {
-            "successMessage": "Tu contraseña ha sido actualizada exitosamente.",
+            "successMessage": "Tu contraseña",
+            "been": "ha sido actualizada exitosamente.",
             "goBackToLogin": "Regresar al inicio de sesión",
             "form": {
                 "title": "Actualizar contraseña",
                 "instruction": "Por favor, ingresa tu correo electrónico, contraseña actual y nueva contraseña a continuación",
-                "errorMessage": "Por favor, revisa tus datos, hubo un error en tu solicitud.",
+                "errorMessage": "Por favor,",
+                "was": "hubo un error en tu solicitud.",
                 "tryAgain": "Inténtalo de nuevo",
                 "fields": {
                     "email": {
@@ -121,7 +133,8 @@
                     }
                 },
                 "submitButton": "Actualizar contraseña",
-                "returnToLogin": "Regresar al inicio de sesión"
+                "returnToLogin": "Regresar al",
+                "log": "inicio de sesión"
             }
         },
         "nav": {
@@ -482,6 +495,7 @@
                 "label13": "SELECCIONAR VEHÍCULO",
                 "add": "Agregar",
                 "up": "Actualizar",
+                "ne": "Siguiente",
                 "messages": {
                     "succ": "Éxito",
                     "descri1": "Esta logística se ha insertado correctamente",
@@ -554,7 +568,17 @@
                     "label5": "MODO DE TRANSPORTE",
                     "fuel": "Eficiencia de combustible",
                     "label6": "EFICIENCIA DE COMBUSTIBLE",
-                    "up": "Actualizar"
+                    "up": "Actualizar",
+                    "messagess": {
+                        "succ": "Éxito",
+                        "inv": "Esta factura ha sido",
+                        "cre": "creada",
+                        "up": "actualizada",
+                        "lly": "exitosamente",
+                        "wrong": "¡Oh no! Algo salió mal.",
+                        "was": "Hubo un problema con tu solicitud.",
+                        "des": "No fue posible calcular la distancia entre estos códigos postales."
+                    }
                 },
                 "fac": {
                     "type": "SELECCIONAR TIPO",
@@ -636,7 +660,16 @@
                     },
                     "next": "Siguiente",
                     "create": "Crear",
-                    "up": "Actualizar"
+                    "up": "Actualizar",
+                    "messages": {
+                        "succ": "Éxito",
+                        "inv": "Esta factura ha sido",
+                        "cre": "creada",
+                        "up": "actualizada",
+                        "lly": "exitosamente",
+                        "wrong": "¡Oh no! Algo salió mal.",
+                        "was": "Hubo un problema con tu solicitud."
+                    }
                 },
                 "log": {
                     "lab1": "Opción 1",
@@ -656,7 +689,17 @@
                     "label7": "CANTIDAD",
                     "uni": "Unidad",
                     "label8": "UNIDAD",
-                    "up": "Actualizar"
+                    "up": "Actualizar",
+                    "messages": {
+                        "succ": "Éxito",
+                        "inv": "Esta factura ha sido",
+                        "cre": "creada",
+                        "up": "actualizada",
+                        "lly": "exitosamente",
+                        "wrong": "¡Oh no! Algo salió mal.",
+                        "was": "Hubo un problema con tu solicitud.",
+                        "des": "No fue posible calcular la distancia entre estos códigos postales."
+                    }
                 },
                 "man": {
                     "lab1": "Por defecto",
