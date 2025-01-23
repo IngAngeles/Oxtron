@@ -44,12 +44,12 @@ const options2 = {
     borderRadius: 10,
 };
 
-const CircleChart: React.FC<CircleChartProps> = ({ EmissionTons, EmissionPercentage }) => {
+const CircleChart: React.FC<CircleChartProps> = ({ EmissionTons, EmissionPercentage, dictionary }) => {
   const [unit, setUnit] = useState('T')
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
-  const [dictionary, setDictionary] = useState<any>(null);
+  const [setDictionary] = useState<any>(null);
 
   useEffect(() => {
     const loadDictionary = async () => {
