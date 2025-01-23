@@ -471,7 +471,7 @@ export const SecondStepLogisticValidation = z.object({
   active: z.number().max(1).min(0).default(1),
 })
 export const ThirdStepLogisticValidation = z.object({
-  PropertyStatus: z.coerce.number().positive('This field is required'),
+  propertyStatus: z.coerce.number().positive('This field is required'),
   idControlVehicle: z.coerce.number().positive('This field is required'),
 })
 export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLogisticValidation).merge(ThirdStepLogisticValidation)

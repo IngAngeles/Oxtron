@@ -40,7 +40,6 @@ export const useLogistics = () => {
   const form = useForm<Logistic>({
     resolver: zodResolver(LogisticValidation),
     defaultValues: {
-      idControlLogistics: 0,
       idUserControl: 0,
       idCboModel: 0,
       idCboBrand: 0,
@@ -54,7 +53,7 @@ export const useLogistics = () => {
       destinationzc: '',
       originzc: '',
       loadLogistic: '',
-      PropertyStatus: 0,
+      propertyStatus: 0,
       idControlVehicle: 0,
       active: 1,
     },
@@ -66,7 +65,7 @@ export const useLogistics = () => {
     'destinationzc',
   ])
   const watchedSecondStepItems = form.watch([
-    'PropertyStatus',
+    'propertyStatus',
     'idControlVehicle',
   ])
   const items: string[] = [dictionary?.measure.bar[0]]
@@ -89,7 +88,6 @@ export const useLogistics = () => {
         handleShowModal()
         setLogistic(null)
         form.reset({
-          idControlLogistics: 0,
           idUserControl: 0,
           idCboModel: 0,
           idCboBrand: 0,
@@ -103,7 +101,7 @@ export const useLogistics = () => {
           destinationzc: '',
           originzc: '',
           loadLogistic: '',
-          PropertyStatus: 0,
+          propertyStatus: 0,
           idControlVehicle: 0,
           active: 1,
         })

@@ -3,11 +3,15 @@
 import {getAuthenticatedUserId, handleError} from "@/actions/shared";
 import axiosInstance from "@/lib/axios-instance";
 import {Logistic} from "@/lib/validation"
+import {auth} from "@/auth";
 
 export async function createLogistic(logistic: Logistic): Promise<ApiResponse<string>> {
   try {
+    const session = await auth()
     const idUserControl = await getAuthenticatedUserId();
-    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {...logistic, idUserControl})
+    const firstName = session?.user?.name || 'User'
+    console.log({...logistic, firstName, idUserControl})
+    const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {...logistic, firstName, idUserControl})
     const data = response.data as string
 
     return {
