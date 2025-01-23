@@ -1,17 +1,15 @@
+import { AxiosError } from 'axios'
+import { Dispatch, SetStateAction } from 'react'
 // --------------------------- Sidebar
 
 export interface SidebarProps {
     children: React.ReactNode;
     name: string;
     isOpen: boolean;
-  }
+    route: string;
+}
 
 // --------------------------- Measure
-
-import { AxiosError } from 'axios'
-import { Dispatch, SetStateAction } from 'react'
-// import { z } from 'zod'
-import { Facility } from '@/lib/validation'
 
 export type IMeasureResponse = {
     data: IFacility |
@@ -23,7 +21,7 @@ export type IMeasureResponse = {
 };
 
 export interface IMeasureContextType {
-    cards: IMeasureCard[];
+    cards: Card[];
     showModal: boolean;
     handleShowModal: () => void;
     handleHideModal: () => void;
@@ -64,19 +62,19 @@ export interface IFacility {
     active?: number;
 }
 
-export interface ICboStatus {
+export interface Status {
     idStatus: number;
     description: string;
     active: number;
 }
 
-export interface ICboBrand {
+export interface ComboBrand {
     idVehicleCboBrand: number;
     description: string;
     active: number;
 }
 
-export interface ICboModel {
+export interface ComboModel {
     idVehicleCboModel: number;
     idVehicleCboBrand: number;
     year: string;
@@ -84,11 +82,16 @@ export interface ICboModel {
     active: number;
 }
 
-export interface ICboType {
+export interface ComboType {
     idVehicleCboType: number;
     description: string;
     units: string;
     active: number;
+}
+export interface ComboFuel {
+    idControl: number;
+    description: string;
+    units: string;
 }
 
 export interface ICboModeTransport {
@@ -134,6 +137,8 @@ export interface ILogistic {
     idCboBrand: number;
     licensePlate?: string;
     active: number;
+    propertyStatus: string;
+    selectVehicle: string;
 }
 
 export interface IManufacturing {
@@ -158,17 +163,6 @@ export interface ICommuting {
 export interface VLabel {
     value: string;
     label: string;
-}
-
-export interface IFacilityState {
-    facilities: Facility;
-}
-
-export interface ILicenseType {
-    idTypeLicense: number;
-    description: string;
-    acronym: string;
-    active: number;
 }
 
 /*
@@ -218,7 +212,7 @@ export interface EmissionTonsProps {
     eD_Employee_T: number;
     eD_Biogenic2_T: number;
 }
-  
+
 export interface EmissionPercentageProps {
     eD_Scope1_P: number;
     eD_Stationary_P: number;
@@ -234,12 +228,34 @@ export interface EmissionPercentageProps {
     eD_Business_P: number;
     eD_Employee_P: number;
     eD_Biogenic2_P: number;
-}  
+}
 
 export interface CircleChartProps {
     EmissionTons: EmissionTonsProps | null;
     EmissionPercentage: EmissionPercentageProps | null;
-}
+    translations: {
+      title: string;
+      scope: string;
+      circle1: {
+        stationary: string;
+        mobile: string;
+        refrigerants: string;
+        biogenic: string;
+      };
+      circle2: {
+        location: string;
+        market: string;
+        heat: string;
+      };
+      circle3: {
+        transport: string;
+        bussiness: string;
+        employee: string;
+        biogenic: string;
+      };
+    };
+  }
+
 
 export interface BarChartProps {
     gasTons: GasTons | null;
@@ -259,7 +275,7 @@ export interface GasPercentage {
     ggE_CO2_P: number;
     ggE_N20_P: number;
 }
-  
+
 export interface HistoricEmissionProps {
     csc: number[];
     produced: number[];
@@ -321,7 +337,7 @@ export interface ControlData {
     eipF_TotalCO2e: number;
     eipF_Progress: number;
     captureEmissions: number;
-    [key: string]: number | string; 
+    [key: string]: number | string;
 }
 
 export interface IGWP {
@@ -346,15 +362,15 @@ export interface updatePasswordProps {
 // --------------------------- Communication
 
 export interface ControlCommunicate {
-    idControlCommunicate: number; 
-    idUserControl: number;        
-    idControlFacility: number;    
+    idControlCommunicate: number;
+    idUserControl: number;
+    idControlFacility: number;
     idFacility: string;
-    type: string;                 
-    startDate: string;            
+    type: string;
+    startDate: string;
     endDate: string;
   }
-  
+
 // --------------------------- Settings
 export interface ReportHeader {
     idControl?: number;

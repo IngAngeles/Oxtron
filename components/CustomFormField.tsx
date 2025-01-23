@@ -18,8 +18,6 @@ import { /* CalendarIcon, */Eye, EyeOff } from 'lucide-react' // Importa los íc
 import 'react-phone-number-input/style.css'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
-import '@/components/react-datepicker.css'
-import "react-datepicker/dist/react-datepicker.css";
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -52,13 +50,16 @@ interface CustomProps {
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
-  switch (props.fieldType) {
+  const { fieldType, ...restProps } = props;
+
+  switch (fieldType) {
     case FormFieldType.INPUT:
       return (
         <FormControl className={`flex-1 title-century-gothic-regular bg-[#FCFDFE] ${props.className}`}>
           <Input
             placeholder={ props.placeholder }
             { ...field }
+            {...restProps}
             className="bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]"
           />
         </FormControl>
@@ -181,8 +182,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           </FormControl>
         </div>
       );
-          
-      
+
     case FormFieldType.SELECT:
       return (
         <FormControl className="flex-1 title-century-gothic-regular bg-[#FCFDFE]">
@@ -193,8 +193,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               </SelectTrigger>
             </FormControl>
             <SelectContent className="bg-[#FCFDFE] border-[#DFE0EB] text-[#4B506D]">
-              { props.options?.map(option => (
-                <SelectItem key={ option.value } value={ option.value } className="text-[#4B506D]">
+              {props.options?.map((option, index) => (
+                <SelectItem
+                  key={`${option.value}-${index}`}
+                  value={option.value}>
                   { option.label }
                 </SelectItem>
               )) }

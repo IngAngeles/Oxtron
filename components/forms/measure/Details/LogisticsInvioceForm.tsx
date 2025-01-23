@@ -1,3 +1,4 @@
+'use client'
 import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
@@ -6,7 +7,11 @@ import { LogisticDetails, LogisticDetailsValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
-import { createLogisticDetails, updateLogisticDetails } from '@/actions/measure/details'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
+import {createLogisticDetails, getDistance, updateLogisticDetails} from '@/actions/measure/details'
 import { VLabel } from '@/constants/types'
 import { getCboTypes } from '@/actions/communicate'
 import { toast } from '@/components/ui/use-toast'
@@ -16,7 +21,27 @@ type Props = { idControlLogistics: number; logistic?: LogisticDetails; reloadDat
 export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}: Props) => {
   const [emissionsFactor, setEmissionsFactor] = useState<string>("1");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [dictionary, setDictionary] = useState<any>(null);
   const [fuelType, setFuelType] = useState<VLabel[]>([])
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setIsLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.measure.createm.log);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
   const form = useForm<LogisticDetails>({
     resolver: zodResolver(LogisticDetailsValidation),
     defaultValues: {
@@ -46,22 +71,22 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
 
       if (data.success) {
         toast({
-          title: 'Success',
-          description: `This invoice has been ${ !logistic ? 'created' : 'updated' } successfully`,
+          title: dictionary.messages.succ,
+          description: `${dictionary.messagess.inv} ${!logistic ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
           className: 'bg-black',
         })
         form.reset()
         reloadData()
       }
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.',
+        title: dictionary.messages.wrong,
+        description: dictionary.messages.was,
         className: 'bg-[#7f1d1d]',
       })
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   }
@@ -75,7 +100,32 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
     loadData()
   }, [])
 
-  return (
+  useEffect(() => {
+    const origin = form.getValues('origin');
+    const destiny = form.getValues('destiny');
+
+    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
+      getDistance(Number(origin), Number(destiny)).then((result) => {
+        if (result?.success) {
+          // @ts-ignore
+          form.setValue('amount', result?.data?.distance);
+        } else {
+          toast({
+            variant: 'destructive',
+            title: dictionary.messages.wrong,
+            description: dictionary.messages.des,
+            className: 'bg-[#7f1d1d]',
+          })
+        }
+      });
+    }
+  }, [form.getValues('origin'), form.getValues('destiny')]);
+
+  return (isLoading || !dictionary) ? (
+    <div className="flex items-center justify-center w-full h-full">
+      <Loading/>
+    </div>
+  ) : (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -84,47 +134,47 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex justify-center w-full gap-4">
             <CustomRadioButton
-              value={ emissionsFactor }
-              onChange={ setEmissionsFactor }
-              options={ [
-                { value: '1', label: 'Default' },
-                { value: '2', label: 'Personalized' },
-              ] }
-              cols={ 2 }
-              label="EMISSIONS FACTOR"
-              defaultSelected={ 0 }/>
+              value={emissionsFactor}
+              onChange={setEmissionsFactor}
+              options={[
+                {value: "1", label: dictionary.lab1},
+                // { value: "2", label: dictionary.lab2 },
+              ]}
+              cols={2}
+              label={dictionary.label}
+              defaultSelected={0}/>
           </div>
-          <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="origin"
-              label="ORIGIN"
-              placeholder="Origin"
+              name="startDate"
+              label={dictionary.label1}
+              placeholder={dictionary.ori}
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="destiny"
-              label="DESTINY"
-              placeholder="Destiny"
+              name="endDate"
+              label={dictionary.label2}
+              placeholder={dictionary.desti}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="startDate"
-              label="START DATE"
+              label={dictionary.label3}
               placeholder="dd/mm/yyyy"
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="endDate"
-              label="END DATE"
+              label={dictionary.label4}
               placeholder="dd/mm/yyyy"
             />
           </div>
@@ -133,38 +183,37 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
               control={form.control}
               fieldType={FormFieldType.INPUT}
               name="invoiceId"
-              label="INVOICE ID (OPTIONAL)"
-              placeholder="Invoice ID"
+              label={dictionary.label5}
+              placeholder={dictionary.id}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex justify-center w-full gap-4">
+          <div className="flex items-center justify-center w-full">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="idFuelType"
-              label="FUEL TYPE"
-              placeholder="Fuel Type"
-              options={ fuelType }
+              name="fuelType"
+              label={dictionary.label6}
+              placeholder={dictionary.type}
             />
           </div>
           <div>
-            <div className="flex justify-center w-full gap-4">
+            <div className="flex items-center justify-center w-full">
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="amount"
-                label="AMOUNT"
-                placeholder="Amount"
+                label={dictionary.label}
+                placeholder={dictionary.amo}
               />
-              <CustomFormField
+              {/* <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="unit"
-                placeholder="Unit"
-                label="UNIT"
-              />
+                placeholder={dictionary.uni}
+                label={dictionary.label8}
+              /> */}
             </div>
           </div>
         </div>
@@ -173,7 +222,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            {"Update"}
+            {dictionary.up}
           </SubmitButton>
         </div>
       </form>

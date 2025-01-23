@@ -26,7 +26,7 @@ type Props<T> = {
 
 const isDate = (value: any): boolean => {
   return typeof value === 'string' &&
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z)?$/.test(value)
+    /^\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2}:\d{2} (AM|PM)$/.test(value);
 }
 
 export const SimpleTable = <T, >({ columns, data, caption, options }: Props<T>) => {

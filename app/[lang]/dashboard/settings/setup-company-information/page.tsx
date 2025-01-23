@@ -1,0 +1,189 @@
+'use client'
+import TitleHandler from '@/components/TitleHandler'
+import { SquarePen } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { ArrowLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { getCompanyById } from '@/actions/company'
+import { getUserBySession } from '@/actions/auth'
+import { Modal } from '@/components/shared/Modal'
+import { EditCompanyForm } from '@/components/forms/settings/setup/EditCompanyForm'
+import { EditUserForm } from '@/components/forms/settings/setup/EditUserForm'
+import { Company, UpdateUser } from '@/lib/validation'
+import { getDictionary } from "@/lib/dictionary";
+import { usePathname } from "next/navigation";
+import { Locale } from "@/i18n.config";
+import Loading from '@/components/loading/LoadingBlack';
+
+const Setup = () => {
+  const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false)
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false)
+  const [companyData, setCompanyData] = useState<Company>()
+  const [userData, setUserData] = useState<UpdateUser>()
+  const router = useRouter()
+  const pathname = usePathname();
+  const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
+  const [loading, setLoading] = useState(true);
+  const [dictionary, setDictionary] = useState<any>(null);
+
+  const handleCompanyEditClick = () => {
+    setIsCompanyModalOpen(true)
+  }
+
+  const handleUserEditClick = () => {
+    setIsUserModalOpen(true)
+  }
+
+  const handleCloseCompanyModal = () => {
+    setIsCompanyModalOpen(false)
+  }
+
+  const handleCloseUserModal = () => {
+    setIsUserModalOpen(false)
+  }
+
+  const loadData = async () => {
+    try {
+      const user = await getUserBySession()
+      const company = await getCompanyById(user.idCompany)
+
+      setCompanyData(company)
+      setUserData(user as unknown as UpdateUser)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    const loadDictionary = async () => {
+      try {
+        setLoading(true);
+        const dict = await getDictionary(lang);
+        setDictionary(dict.pages.settings.setup);
+      } catch (error) {
+        console.error("Error loading dictionary:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDictionary();
+  }, [lang]);
+
+  if (loading || !dictionary) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <Loading />
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 lg:ml-6 ml-0 min-h-screen flex flex-col pb-10 md:pl-64">
+      <div className="flex items-center mb-4 gap-2">
+        <button onClick={ () => router.back() } className="flex items-center gap-2 text-blue-600 hover:text-blue-800">
+          <ArrowLeft className="w-6 h-6"/>
+        </button>
+        <TitleHandler title={dictionary.company} text={dictionary.manage}/>
+      </div>
+      <div className="flex flex-col md:flex-row gap-10 mt-4 flex-1 w-full pb-9">
+        {/* Contenedor 1 */ }
+        <div className="relative bg-white shadow-xl w-full md:w-1/2 px-7 py-5 grid rounded-xl">
+          <div className="absolute top-2 right-2">
+            <SquarePen size={ 15 } className="text-neutral-500 cursor-pointer" onClick={ handleCompanyEditClick }/>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <div className="flex flex-col items-center md:items-start">
+                <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.name}</p>
+                <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.organisatioName }</h2>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.industry}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.role }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.country}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.country }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.state}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.state }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.city}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.city }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.zip}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.postalCode }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.add}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.address }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.phone}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.telephoneCompany }</h2>
+            </div>
+          </div>
+        </div>
+        {/* Contenedor 2 */ }
+        <div className="relative bg-white shadow-xl w-full md:w-1/2 px-7 py-5 grid rounded-xl">
+          <div className="absolute top-2 right-2">
+            <SquarePen size={ 15 } className="text-neutral-500 cursor-pointer" onClick={ handleUserEditClick }/>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <div className="flex flex-col items-center md:items-start">
+                <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.name}</p>
+                <h2 className="font-bold text-neutral-700 text-h1">{ userData?.firstName }</h2>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.sur}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.lastName }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.user}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.idUSerType }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.email}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.email }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.role}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.role }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.pass}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.password }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.phone}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.role }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.zone}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.timeZone }</h2>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.lang}</p>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.language }</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Modal open={ isCompanyModalOpen } onClose={ handleCloseCompanyModal }>
+        <EditCompanyForm company={ companyData }/>
+      </Modal>
+      <Modal open={ isUserModalOpen } onClose={ handleCloseUserModal }>
+        <EditUserForm user={ userData } company={ companyData }/>
+      </Modal>
+    </div>
+  )
+}
+
+export default Setup

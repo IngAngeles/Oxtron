@@ -33,7 +33,7 @@ export async function getCommutingDetails(idCommuting: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -97,7 +97,7 @@ export async function getFacilityDetails(idFacilities: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -160,7 +160,7 @@ export async function getLogisticDetails(idLogistic: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -233,7 +233,7 @@ export async function getManufacturingDetails(idManufacturing: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -296,7 +296,7 @@ export async function getTravelDetails(idControl: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -359,7 +359,7 @@ export async function getVehicleDetails(idControl: number) {
 
     console.error({ error })
 
-    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+    return { status: axiosError.response?.status, success: false, data: [] }
   }
 }
 
@@ -400,6 +400,33 @@ export async function deleteVehicleDetails(IdVehicles: number) {
     const axiosError = error as unknown as AxiosError
 
     console.error({ error })
+
+    return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
+  }
+}
+
+export async function getDistance (originZip: number, destinationZip: number)  {
+  const apiKey = process.env.MAPS_API_KEY;
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json`;
+
+  try {
+    const response = await axiosInstance.get(url, {
+      params: {
+        origins: originZip,
+        destinations: destinationZip,
+        key: apiKey,
+      },
+    });
+
+    const data = response.data;
+
+    if (data.status === 'OK') {
+      const distance = data.rows[0].elements[0].distance.text;
+      const duration = data.rows[0].elements[0].duration.text;
+      return { status: data.status, success: true, data: { originZip, destinationZip, distance, duration } };
+    }
+  } catch (error) {
+    const axiosError = error as unknown as AxiosError
 
     return { status: axiosError.response?.status, success: false, data: axiosError.response?.data }
   }
