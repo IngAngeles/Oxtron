@@ -55,7 +55,6 @@ export const CreateReport = ({ reportHeader }: Props) => {
     loadData()
   }, [])
 
-  console.log({ error })
 
   const handleCreateReport = async ({
     idUserControl,
@@ -115,7 +114,7 @@ export const CreateReport = ({ reportHeader }: Props) => {
       Icon={ SendHorizonal }
       open={ showCreateReportModal }
       onClose={ handleHideCreateReportModal }
-      className="w-10/12 xl:w-1/4 lg:w-1/3 md:w-1/2 h-[90vh] md:h-[65vh]"
+      className="w-10/12 xl:w-1/4 lg:w-1/3 md:w-1/2 md:h-[65vh]"
     >
       <Form { ...form }>
         <form onSubmit={ form.handleSubmit(onSubmit) } className="flex flex-col items-center justify-between">

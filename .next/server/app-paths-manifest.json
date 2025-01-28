@@ -1,0 +1,4 @@
+{
+  "/[lang]/dashboard/measure/page": "app/[lang]/dashboard/measure/page.js",
+  "/[lang]/dashboard/page": "app/[lang]/dashboard/page.js"
+}

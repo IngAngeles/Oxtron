@@ -1,0 +1,146 @@
+{
+  "node": {
+    "8b18186d994f17c79b384c06d9532de869a32d81": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Flib%2Fdictionary.ts%22%2C%5B%22getDictionary%22%2C%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
+        "app/[lang]/dashboard/measure/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Flib%2Fdictionary.ts%22%2C%5B%22getDictionary%22%2C%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "rsc",
+        "app/[lang]/dashboard/measure/page": "rsc"
+      }
+    },
+    "e4c1d00c346ac8486e05151291a6c47a04462131": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Flib%2Fdictionary.ts%22%2C%5B%22getDictionary%22%2C%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
+        "app/[lang]/dashboard/measure/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Flib%2Fdictionary.ts%22%2C%5B%22getDictionary%22%2C%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "rsc",
+        "app/[lang]/dashboard/measure/page": "rsc"
+      }
+    },
+    "669668050188b2a2fc2d66f257d4e10bf7439d42": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "8dfe403d4e7fb955050f3ed7495588c8835021b0": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "2165b35777564f927102610319d2e66dfedc3717": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "332249a8f3a72bd91772da2b54d2ceb616dad792": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "3c125b078ffab955255fb09d87a6cf6007ae286f": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "57d9682da4d1b8ecf90eed0c2b93e4afecf19ca7": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "8ebe18d36046052807375998da5fde62c212fbdf": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "985178be957da9379375958603cde1c397cb28c7": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "a20eedcfbdd93577ab9242a63b62cbfd5f45eae2": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "b254f267962b2947b632c4c9fa1d793cb784679f": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "e2a2b0c38d22e24e558de5e775051b6263b68d3d": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    },
+    "f1b2ecbe875bd0ff8df8a0ed46b93f24bafb0580": {
+      "workers": {
+        "app/[lang]/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!",
+        "app/[lang]/dashboard/measure/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fdashboard%2Findex.ts%22%2C%5B%22fetchDash%22%2C%22fetchHeader%22%5D%5D%2C%5B%22%2FUsers%2Fantoniolariosgarciadeleon%2FDownloads%2Foxtron%2Factions%2Fauth%2Findex.ts%22%2C%5B%22deleteUserById%22%2C%22logout%22%2C%22register%22%2C%22getUserBySession%22%2C%22login%22%2C%22forgotPassword%22%2C%22registerByCompanyId%22%2C%22updateUser%22%2C%22disableUserById%22%2C%22updatePassword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/[lang]/dashboard/page": "action-browser",
+        "app/[lang]/dashboard/measure/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "xNErApEgqgJr8GrIBVxGpyrfKeZcMx0oJdPDB3elYt4="
+}

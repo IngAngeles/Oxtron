@@ -81,7 +81,7 @@ const Settings: React.FC = () => {
   ];
 
   return (
-    <div className='p-6 lg:ml-64 ml-0'>
+    <div className='p-6 lg:ml-[205px] ml-0'>
        <TitleHandler title={dictionary.title} text={dictionary.subtitle} />
       <div className='w-full mt-8'>
         {/* Contenedor General */}

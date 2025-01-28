@@ -5,7 +5,7 @@ import EqualizerChart from '@/components/charts/equalizerChart';
 import TitleHandler from '@/components/TitleHandler';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import { ControlData, EmissionPercentageProps, EmissionTonsProps, GasPercentage, GasTons, TableDataProps, CircleChartProps } from '@/constants/types';
+import { ControlData, EmissionPercentageProps, EmissionTonsProps, GasPercentage, GasTons, TableDataProps } from '@/constants/types';
 import { fetchDash } from '@/actions/dashboard';
 import CircleChart from '@/components/charts/circleChart';
 import EnvironmentalTable from '@/components/charts/environmentalTable';
@@ -266,7 +266,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center w-full h-full">
+      <div className="flex items-center justify-center w-full h-full min-h-screen">
         <Loading /> 
       </div>
     );
@@ -281,7 +281,7 @@ const Home = () => {
   }
 
   return (
-    <div className='min-h-screen overflow-hidden p-6 lg:ml-64 ml-0'>
+    <div className='min-h-screen overflow-hidden p-6 lg:ml-[205px] ml-0'>
       <TitleHandler title={dictionary.title} text={dictionary.description} />
       <div className='mt-2 flex flex-col gap-8'>
         <div className="w-full">
@@ -289,10 +289,8 @@ const Home = () => {
         </div>
         <div className="w-full flex gap-8 flex-wrap lg:flex-nowrap">
           <BarChart gasPercentage={gasPercentage} gasTons={gasTons} translations={dictionary.bar}/>
-
-            <CircleChart EmissionTons={emissionTons} EmissionPercentage={emissionPercentage} dictionary={dictionary.circle}/>
-
-                  </div>
+          <CircleChart EmissionTons={emissionTons} EmissionPercentage={emissionPercentage} dictionary={dictionary.circle}/>
+        </div>
         <div className='mt-4 flex flex-col lg:flex-row gap-10 justify-between flex-wrap'>
         <DataStats name={dictionary.totalEmissions} stats={totalEmissions} unit="CO2e"/>
         <DataStats name={dictionary.impactEquivalence} stats={impactEquivalence} unit={dictionary.bottles}/>

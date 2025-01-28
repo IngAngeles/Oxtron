@@ -1,29 +1,30 @@
 import { SidebarProps } from "@/constants/types";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NavigationLink = ({ children, name, route, isOpen }: SidebarProps) => {
+const NavigationLink = ({ children, name, route, isOpen, lang }: SidebarProps) => {
   const path = usePathname();
 
-  const isActive =
-    path === `/dashboard` && name === 'dashboard' ||
-    path.startsWith(`/dashboard/${name}`) ||
-    path.startsWith(`/${name}`);
+  const isExactDashboard = path === `/${lang}/dashboard` && name === "dashboard";
+  const isSubRoute = path === `/${lang}/dashboard/${name}`;
+
+  const isActive = isExactDashboard || isSubRoute;
 
   return (
-    <a
+    <Link
       href={route}
-      className={`flex p-2 rounded cursor-pointer place-items-center gap-3 transition-all duration-300 text-sidebar
-      ${isActive ? "bg-gradient-to-t from-[#35d7ff] via-[#000099] to-[#000]" : "hover:bg-neutral-700/30"}`}
+      className={`flex p-2 rounded-sm cursor-pointer place-items-center gap-3 transition-all duration-300 text-sidebar 
+      ${isActive ? "bg-gradient-to-t from-[#35d7ff] via-[#000099] to-[#000] border-b-2" : "hover:bg-neutral-700/30 border-b-0"}`}
     >
       <span>{children}</span>
       <p
-        className={`text-inherit font-poppins overflow-clip whitespace-nowrap tracking-wide capitalize ${
+        className={`text-inherit text-sm font-poppins overflow-clip whitespace-nowrap tracking-wide capitalize ${
           isOpen ? "opacity-100" : "opacity-0 lg:opacity-100"
         }`}
       >
         {name}
       </p>
-    </a>
+    </Link>
   );
 };
 

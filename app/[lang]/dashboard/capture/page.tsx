@@ -41,7 +41,7 @@ const Capture = () => {
   }
 
   return (
-    <div className='p-6 lg:ml-64 ml-0'>
+    <div className='min-h-screen overflow-hidden p-6 lg:ml-[205px] ml-0'>
       <TitleHandler title={dictionary.title} text={dictionary.subtitle} />
       <div className='mt-4 flex flex-col lg:flex-row lg:gap-10 gap-4 justify-between flex-wrap'>
         <DataStats name={dictionary.produced} stats={449} unit="Tons"  />
@@ -49,14 +49,14 @@ const Capture = () => {
         <DataStats name={dictionary.impact} stats={6} unit="Tons"  />
         <DataStats name={dictionary.progress} stats={44} unit="%"  />
       </div>
-      <div className='flex flex-col lg:flex-row gap-8 mt-7 w-full'>
+      <div className='flex flex-col lg:flex-row gap-8 mt-7'>
         {/* Contenedor para CarbonChart y ParticularChart */}
-        <div className='w-full flex flex-col gap-8 flex-1'>
+        <div className='flex flex-col gap-8 flex-1'>
           <CarbonChart />
           <ParticularChart />
         </div>
         {/* Contenedor para InformationTable */}
-        <div className='w-full lg:w-1/4 mt-7 lg:mt-0 flex'>
+        <div className='lg:w-1/4 mt-7 lg:mt-0 flex'>
           <InformationTable />
         </div>
       </div>

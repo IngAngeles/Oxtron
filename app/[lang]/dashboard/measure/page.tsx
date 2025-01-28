@@ -37,7 +37,7 @@ export default function Measure() {
       <Loading/>
     </div>
   ) : (
-    <div className="flex flex-col gap-4 lg:ml-64 p-6 ml-0">
+    <div className="flex flex-col gap-4 lg:ml-[205px] p-6 ml-0">
       <TitleHandler title={dictionary?.measure.title} text={dictionary?.measure.subtitle}/>
       <TabMenu items={items} cards={dictionary?.measure.cards}/>
     </div>

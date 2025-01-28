@@ -49,7 +49,7 @@ const A = () => {
     ];
 
     return (
-        <div className='min-h-screen flex flex-col justify-between lg:ml-64 ml-0 p-6'>
+        <div className='min-h-screen flex flex-col justify-between lg:ml-[205px] ml-0 p-6'>
             <div>
                 <div className='flex items-center mb-4 gap-2'>
                     <button onClick={() => window.history.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>

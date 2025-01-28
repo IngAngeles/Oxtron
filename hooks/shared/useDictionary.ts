@@ -2,7 +2,8 @@ import {useState, useEffect} from 'react';
 import {usePathname} from 'next/navigation';
 import {getDictionary} from "@/lib/dictionary";
 
-type Locale = 'en' | 'es';
+// type Locale = 'en' | 'es' ;
+type Locale = 'en' | 'es' | 'de' | 'fr' | 'ja' | 'hi' ;
 
 export const useDictionary = () => {
   const path = usePathname();

@@ -79,7 +79,7 @@ const Glossary: React.FC = () => {
   }
 
   return (
-    <div className='lg:ml-64 ml-0 p-6 md:ml-64'>
+    <div className='lg:ml-[205px] ml-0 p-6 md:ml-[205px]'>
       <div className='flex items-center mb-4 gap-2'>
         <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>
           <ArrowLeft className='w-6 h-6' /> 

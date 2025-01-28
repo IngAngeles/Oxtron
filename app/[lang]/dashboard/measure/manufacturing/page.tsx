@@ -31,7 +31,7 @@ export default function ManufacturingPage() {
     </div>
   ) : (
     <>
-      <div className="flex flex-col  gap-4 p-6 lg:ml-64 ml-0">
+      <div className="flex flex-col  gap-4 p-6 lg:ml-[205px] ml-0">
         <div>
           <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
             <Link

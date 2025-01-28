@@ -56,7 +56,7 @@ const AdminPage: React.FC = () => {
   }
 
   return (
-    <div className='p-6 lg:ml-64 ml-0 min-h-screen pb-10 mt-6 md:ml-64 flex flex-col'>
+    <div className='p-6 lg:ml-[205px] ml-0 min-h-screen pb-10 mt-6 md:ml-[205px] flex flex-col'>
       <div className='flex items-center mb-4 gap-2'>
         <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>
           <ArrowLeft className='w-6 h-6' />

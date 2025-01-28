@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { HiUser } from 'react-icons/hi2';
 
 interface HeaderProps {
-  lang: "en" | "es"; 
+  lang: "en" | "es" | "fr" | "de" | "ja" | "hi";
 }
 
 const Header: React.FC<HeaderProps> = ({ lang }) => {

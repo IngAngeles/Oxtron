@@ -7,6 +7,7 @@ export interface SidebarProps {
     name: string;
     isOpen: boolean;
     route: string;
+    lang: string;
 }
 
 // --------------------------- Measure

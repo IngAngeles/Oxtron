@@ -17,8 +17,6 @@ export const EditUserForm = () => {
   const { user } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
 
-  console.log('admin->EditUser', { user })
-
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
     defaultValues: {

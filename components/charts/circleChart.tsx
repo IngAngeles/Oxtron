@@ -49,7 +49,8 @@ const CircleChart: React.FC<CircleChartProps> = ({ EmissionTons, EmissionPercent
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
-  const [setDictionary] = useState<any>(null);
+  const [propDictionary, setDictionary] = useState<any>(null);
+
 
   useEffect(() => {
     const loadDictionary = async () => {

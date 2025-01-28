@@ -2,43 +2,37 @@
 import Header from "@/components/navigation/Header";
 import Navigation from "@/components/navigation/Navigation";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-import { Locale } from "@/i18n.config";
+import { useLayout } from "@/components/context/LayoutContext";
 
 export default function HomeLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { lang: Locale };
-}) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  children }: {
+  children: React.ReactNode;}) {
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const { isSidebarOpen, toggleSidebar, lang } = useLayout();
 
   return (
-    <div className="bg-white min-h-screen flex relative overflow-hidden justify-center">
+    <div className="bg-white min-h-screen flex h-full justify-center">
       <Navigation
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
-        lang={params.lang} // Pasamos "lang" aquí
+        lang={lang}
       />
-      <main className={`flex-1 transition-all duration-300 flex flex-col p-4 lg:p-2 mx-auto`}>
-        <div className="flex justify-between items-center px-6 pt-6">
-          <div className="w-10 h-10 lg:hidden flex items-center">
-            {!isSidebarOpen && (
-              <Bars3Icon
-                className="text-neutral-700/30 cursor-pointer w-6 h-6"
-                onClick={toggleSidebar}
-              />
-            )}
+      <main className={`flex-1 transition-all duration-300 flex flex-col mx-auto`}>
+        <div className="fixed w-full bg-white pb-3 z-10 min-h-[80px]">
+          <div className="flex justify-between items-center px-6 pt-6">
+            <div className="w-10 h-10 lg:hidden flex items-center">
+              {!isSidebarOpen && (
+                <Bars3Icon
+                  className="text-neutral-700/30 cursor-pointer w-6 h-6"
+                  onClick={toggleSidebar}
+                />
+              )}
+            </div>
+            <Header lang={lang} />
           </div>
-          <Header lang={params.lang} />
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 mt-14">{children}</div>
       </main>
     </div>
-  );
+    );
 }

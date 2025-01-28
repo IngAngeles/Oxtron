@@ -174,7 +174,6 @@ export async function createLogisticDetails(logisticDetails: LogisticDetails) {
       idFuelType: Number(idFuelType),
     }
 
-    console.log({ data })
 
     const response = await axiosInstance.post('/LogisticsDetails/Registrar_LogisticsDetails', data)
 

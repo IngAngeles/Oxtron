@@ -50,7 +50,7 @@ const Change = () => {
   }
 
   return (
-    <div className='p-6 ml-0 mt-6 lg:ml-64'>
+    <div className='p-6 ml-0 mt-6 lg:ml-[205px]'>
       <div className='flex items-center mb-4 gap-2'>
         <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>
           <ArrowLeft className='w-6 h-6' /> 

@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Si la URL no tiene idioma (por ejemplo: /register), redirige al idioma predeterminado
-  if (!segments[1] || !['en', 'es'].includes(segments[1])) {
+  if (!segments[1] || !['en', 'es', 'ja', 'hi', 'fr', 'de'].includes(segments[1])) {
     return NextResponse.redirect(new URL(`/${defaultLang}${nextUrl.pathname}`, request.url));
   }
 

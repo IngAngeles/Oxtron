@@ -28,7 +28,6 @@ const NoAccess = () => {
 
     const loadDictionary = async () => {
       try {
-        console.log("Cargando diccionario para el idioma:", lang);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages["no-access"]);
       } catch (error) {

@@ -43,8 +43,7 @@ const Communicate = () => {
   }
 
   return (
-    <div className='min-h-screen p-6 lg:ml-64 flex flex-col'>
-      <CreateReport />
+    <div className='min-h-screen p-6 lg:ml-[205px] flex flex-col'>
       <EnvironmentalReport />
       <TitleHandler title={dictionary.title} text={dictionary.subtitle} />
       <div className='flex flex-1 gap-10 lg:flex-nowrap flex-wrap mt-4 w-full'>
@@ -63,6 +62,7 @@ const Communicate = () => {
           </DashboardButton>
         </div>
       </div>
+      <CreateReport />
     </div>
   );
 };

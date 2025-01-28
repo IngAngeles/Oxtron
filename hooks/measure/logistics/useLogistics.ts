@@ -230,7 +230,6 @@ export const useLogistics = () => {
   }
 
   const onSubmit = async (logistic: Logistic) => {
-    console.log(logistic)
     try {
       if (logistic.idControlLogistics) {
         await updateLogistic(logistic);

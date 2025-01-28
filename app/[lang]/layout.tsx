@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { Toaster } from '@/components/ui/toaster'
 import { i18n, Locale } from "@/i18n.config";
 import Header from "@/components/lang/Header";
+import { LayoutProvider } from "@/components/context/LayoutContext";
 
 const fontSans = Poppins({ 
   subsets: ["latin"], 
@@ -38,14 +39,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.lang} style={{ colorScheme: 'dark' }}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
-      <body className={cn('min-h-screen font-sans antialiased', fontSans.variable)}>
-        <Header lang={params.lang}/>
-        {children}
-        <Toaster />
-      </body>
+      <LayoutProvider>
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
+        <body className={cn('min-h-screen font-sans antialiased', fontSans.variable)}>
+          <Header lang={params.lang}/>
+          {children}
+          <Toaster />
+        </body>
+      </LayoutProvider>
     </html>
   );
 }

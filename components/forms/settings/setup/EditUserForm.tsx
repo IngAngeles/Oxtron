@@ -34,8 +34,6 @@ export const EditUserForm = ({ user }: Props) => {
   async function onSubmit(user: UpdateUser) {
     setIsLoading(true)
 
-    console.log({ user })
-
     try {
       const response = await updateUser(user)
       if (response?.success){

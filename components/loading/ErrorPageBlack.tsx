@@ -54,7 +54,7 @@ const ErrorPage: React.FC = () => {
   }
 
   return (
-    <div className="lg:ml-64 flex flex-col items-center justify-center h-full">
+    <div className="lg:ml-[205px] flex flex-col items-center justify-center h-full">
       <Loading />
 
       <h1 className="text-3xl mb-10 mt-7 font-bold text-black">

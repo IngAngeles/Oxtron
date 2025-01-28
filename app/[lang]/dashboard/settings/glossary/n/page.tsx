@@ -46,7 +46,7 @@ const N = () => {
     ];
 
     return (
-        <div className='min-h-screen flex flex-col justify-between ml-0 p-6 lg:ml-64'>
+        <div className='min-h-screen flex flex-col justify-between ml-0 p-6 lg:ml-[205px]'>
             <div>
                 <div className='flex items-center mb-4 gap-2'>
                     <button onClick={() => window.history.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>

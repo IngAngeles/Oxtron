@@ -42,7 +42,7 @@ const Upgrade = () => {
   }
 
   return (
-    <div className="p-6 lg:ml-64 ml-0 min-h-screen flex flex-col justify-between pb-10 md:ml-64">
+    <div className="p-6 lg:ml-[205px] ml-0 min-h-screen flex flex-col justify-between pb-10 md:ml-[205px]">
       <div>
         <div className="flex items-center mb-4 gap-2">
           <button

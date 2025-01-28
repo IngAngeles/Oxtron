@@ -6,8 +6,6 @@ import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 export const EnvironmentalReport = () => {
   const { showReportModal, handleHideReportModal, report } = useContext(CommunicateContext) as ICommunicateContext
 
-  console.log({ report })
-
   return (
     <Modal
       open={ showReportModal }

@@ -78,7 +78,6 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
 
   useEffect(() => {
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    console.log({browserTimeZone})
     setTimeZone(browserTimeZone || 'UTC')
   }, [])
 

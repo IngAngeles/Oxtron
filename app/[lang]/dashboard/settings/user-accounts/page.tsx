@@ -10,7 +10,7 @@ const User = () => {
   const router = useRouter();
 
   return (
-    <div className="p-6 lg:ml-64 ml-0 min-h-screen pb-10 mt-6 flex flex-col md:ml-64">
+    <div className="p-6 lg:ml-[205px] ml-0 min-h-screen pb-10 mt-6 flex flex-col md:ml-[205px]">
       <div className="flex items-center mb-4 gap-2">
         <button
           onClick={() => router.back()}

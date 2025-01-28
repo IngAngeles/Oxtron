@@ -88,7 +88,7 @@ const Faqs: React.FC = () => {
   const noArrowOptions = [dictionary.set, dictionary.tech, dictionary.bill, dictionary.security, dictionary.find, 'Contact us info@oxtron.mx'];
 
   return (
-    <div className='mt-6 md:ml-64 p-6 lg:ml-64 ml-0'>
+    <div className='mt-6 md:ml-[205px] p-6 lg:ml-[205px] ml-0'>
 
     <div className='flex items-center mb-4 gap-2'>
         <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>

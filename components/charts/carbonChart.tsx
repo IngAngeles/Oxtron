@@ -10,7 +10,6 @@ import { Locale } from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
 const CarbonChart = () => {
-    const [showRandomPoint, setShowRandomPoint] = useState(true);
     const pathname = usePathname();
     const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
     const [loading, setLoading] = useState(true);
@@ -125,7 +124,7 @@ const CarbonChart = () => {
     };
 
     return (
-        <div className='rounded-[8px] shadow-custom md:p-6 p-3 mt-15 w-full'>
+        <div className='rounded-[8px] shadow-custom md:p-6 p-3 mt-15 max-w-[50rem]'>
             <h2 className='text-2xl font-bold text-neutral-800'>{dictionary.carbon.title}</h2>
             <p className='text-neutral-400 text-sm'>{dictionary.carbon.date}</p>
             <div className="h-[300px]">
