@@ -280,6 +280,7 @@ const Home = () => {
     );
   }
 
+  
   return (
     <div className='min-h-screen overflow-hidden p-6 lg:ml-[205px] ml-0'>
       <TitleHandler title={dictionary.title} text={dictionary.description} />
