@@ -1,8 +1,11 @@
 "use client";
-import TitleHandler from "@/components/TitleHandler";
-import TabMenu from "@/components/measure/TabMenu";
-import Loading from "@/components/loading/LoadingBlack";
-import {useDictionary} from "@/hooks/shared/useDictionary";
+import dynamic from "next/dynamic";
+import { useDictionary } from "@/hooks/shared/useDictionary";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR (document is not defined)
+const TitleHandler = dynamic(() => import("@/components/TitleHandler"), { ssr: false });
+const TabMenu = dynamic(() => import("@/components/measure/TabMenu"), { ssr: false });
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
 
 declare global {
   type Card = {

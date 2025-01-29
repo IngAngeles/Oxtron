@@ -1,19 +1,23 @@
 'use client'
-import TitleHandler from '@/components/TitleHandler'
-import { SquarePen } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { getCompanyById } from '@/actions/company'
-import { getUserBySession } from '@/actions/auth'
 import { Modal } from '@/components/shared/Modal'
 import { EditCompanyForm } from '@/components/forms/settings/setup/EditCompanyForm'
 import { EditUserForm } from '@/components/forms/settings/setup/EditUserForm'
-import { Company, UpdateUser } from '@/lib/validation'
+import React, { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { ArrowLeft, SquarePen } from 'lucide-react';
+import { getCompanyById } from '@/actions/company';
+import { getUserBySession } from '@/actions/auth';
+import { Company, UpdateUser } from '@/lib/validation';
 import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores en SSR
+import dynamic from 'next/dynamic';
+
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+
+
 
 const Setup = () => {
   const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false)

@@ -1,22 +1,23 @@
 'use client'
-import TitleHandler from '@/components/TitleHandler'
-import React, { useEffect, useState } from 'react'
-import { ArrowLeft, ChevronDownIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { getGWPDataset } from '@/actions/settings'
-import { IGWP } from '@/constants/types'
-import {
-  Select,
-  SelectItem,
-  SelectContent,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-} from '@/components/ui/select'
+import React, { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { ArrowLeft, ChevronDownIcon } from 'lucide-react';
+import { getGWPDataset } from '@/actions/settings';
+import { IGWP } from '@/constants/types';
 import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores en SSR
+import dynamic from 'next/dynamic';
+
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+const Select = dynamic(() => import('@/components/ui/select').then((mod) => mod.Select), { ssr: false });
+const SelectItem = dynamic(() => import('@/components/ui/select').then((mod) => mod.SelectItem), { ssr: false });
+const SelectContent = dynamic(() => import('@/components/ui/select').then((mod) => mod.SelectContent), { ssr: false });
+const SelectGroup = dynamic(() => import('@/components/ui/select').then((mod) => mod.SelectGroup), { ssr: false });
+const SelectValue = dynamic(() => import('@/components/ui/select').then((mod) => mod.SelectValue), { ssr: false });
+const SelectTrigger = dynamic(() => import('@/components/ui/select').then((mod) => mod.SelectTrigger), { ssr: false });
 
 const Report = () => {
   const [gwpDataset, setGwpDataset] = useState<IGWP[]>()

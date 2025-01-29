@@ -1,14 +1,18 @@
 "use client";
-import CarbonChart from '@/components/charts/carbonChart'
-import DataStats from '@/components/charts/dataStats'
-import InformationTable from '@/components/charts/informationTable'
-import ParticularChart from '@/components/charts/particularChart'
-import TitleHandler from '@/components/TitleHandler'
-import React, { useEffect, useState } from 'react'
+import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores de "document is not defined"
+const CarbonChart = dynamic(() => import("@/components/charts/carbonChart"), { ssr: false });
+const DataStats = dynamic(() => import("@/components/charts/dataStats"), { ssr: false });
+const InformationTable = dynamic(() => import("@/components/charts/informationTable"), { ssr: false });
+const ParticularChart = dynamic(() => import("@/components/charts/particularChart"), { ssr: false });
+const TitleHandler = dynamic(() => import("@/components/TitleHandler"), { ssr: false });
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+
 
 const Capture = () => {
   const pathname = usePathname();

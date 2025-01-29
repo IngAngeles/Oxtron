@@ -1,11 +1,15 @@
 'use client';
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import {usePathname} from "next/navigation";
-import VehiclesForm from "@/components/forms/measure/VehiclesForm";
-import Loading from "@/components/loading/LoadingBlack";
-import TabMenu from "@/components/measure/TabMenu";
-import Modal from "@/components/measure/Modal";
-import {useVehicles} from "@/hooks/measure/vehicles/useVehicles";
+import { usePathname } from "next/navigation";
+import { useVehicles } from "@/hooks/measure/vehicles/useVehicles";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR (document is not defined)
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+const Modal = dynamic(() => import("@/components/measure/Modal"), { ssr: false });
+const TabMenu = dynamic(() => import("@/components/measure/TabMenu"), { ssr: false });
+const VehiclesForm = dynamic(() => import("@/components/forms/measure/VehiclesForm"), { ssr: false });
+
 
 export default function VehiclesPage() {
   const {

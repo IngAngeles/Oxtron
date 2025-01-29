@@ -1,7 +1,13 @@
-import UpdatePasswordForm from "@/components/forms/UpdatePasswordForm";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
+
+// ⬇️ Importación dinámica de UpdatePasswordForm para evitar errores de SSR
+const UpdatePasswordForm = dynamic(
+  () => import("@/components/forms/UpdatePasswordForm"),
+  { ssr: false }
+);
 
 interface RegisterPageProps {
   params: { lang: Locale }; 

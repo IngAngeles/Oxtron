@@ -1,11 +1,14 @@
 'use client'
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import {usePathname} from "next/navigation";
-import TravelsForm from "@/components/forms/measure/TravelsForm";
-import Loading from "@/components/loading/LoadingBlack";
-import Modal from "@/components/measure/Modal";
-import TabMenu from "@/components/measure/TabMenu";
-import {useTravels} from "@/hooks/measure/travels/useTravels";
+import { usePathname } from "next/navigation";
+import { useTravels } from "@/hooks/measure/travels/useTravels";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR (document is not defined)
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+const Modal = dynamic(() => import("@/components/measure/Modal"), { ssr: false });
+const TabMenu = dynamic(() => import("@/components/measure/TabMenu"), { ssr: false });
+const TravelsForm = dynamic(() => import("@/components/forms/measure/TravelsForm"), { ssr: false });
 
 export default function TravelsPage() {
   const {
