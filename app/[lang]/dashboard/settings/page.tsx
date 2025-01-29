@@ -1,14 +1,16 @@
 "use client";
-
-import { useRouter } from 'next/navigation'; 
-import TitleHandler from '@/components/TitleHandler';
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { Box, Paper, List, ListItem, ListItemText, IconButton, Divider, Switch } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
 
 const Settings: React.FC = () => {
   const router = useRouter();
