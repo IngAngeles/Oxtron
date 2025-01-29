@@ -1,16 +1,19 @@
 "use client";
 
-import { useRouter } from 'next/navigation'; 
-import TitleHandler from '@/components/TitleHandler';
-import React, { useEffect, useState } from 'react';
-import { Box, Paper, List, ListItem, ListItemText, IconButton, Divider, TextField, InputAdornment, Collapse } from '@mui/material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { ArrowLeft } from 'lucide-react';
+import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { Box, Paper, List, ListItem, ListItemText, IconButton, Divider, TextField, InputAdornment, Collapse } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { ArrowLeft } from "lucide-react";
 import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR (document is not defined)
+const TitleHandler = dynamic(() => import("@/components/TitleHandler"), { ssr: false });
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+
 
 const Faqs: React.FC = () => {
   const router = useRouter();

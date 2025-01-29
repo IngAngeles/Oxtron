@@ -1,13 +1,16 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-import Lottie from "lottie-react";
-import animationData from "@/public/assets/lotties/loading-white.json";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
 import { usePathname } from "next/navigation";
+
+// ⬇️ Importación dinámica de Lottie para evitar errores de SSR
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
+import animationData from "@/public/assets/lotties/loading-white.json";
 
 const NoAccess = () => {
   const pathname = usePathname();

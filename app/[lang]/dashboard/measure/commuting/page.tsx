@@ -1,11 +1,15 @@
 'use client'
-import {usePathname} from "next/navigation";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Loading from "@/components/loading/LoadingBlack";
-import TabMenu from "@/components/measure/TabMenu";
-import Modal from "@/components/measure/Modal";
-import {useCommuting} from "@/hooks/measure/commuting/useCommuting";
-import CommutingForm from "@/components/forms/measure/CommutingForm";
+import { useCommuting } from "@/hooks/measure/commuting/useCommuting";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR (document is not defined)
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+const TabMenu = dynamic(() => import("@/components/measure/TabMenu"), { ssr: false });
+const Modal = dynamic(() => import("@/components/measure/Modal"), { ssr: false });
+const CommutingForm = dynamic(() => import("@/components/forms/measure/CommutingForm"), { ssr: false });
+
 
 export default function CommutingPage() {
   const {

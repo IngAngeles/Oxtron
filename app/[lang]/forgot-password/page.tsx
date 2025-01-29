@@ -1,7 +1,12 @@
 import Image from "next/image";
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
-import ForgotPassword from "@/components/forms/ForgotPasswordForm";
+
+// ⬇️ Importación dinámica para evitar errores de SSR
+import dynamic from "next/dynamic";
+
+const ForgotPassword = dynamic(() => import("@/components/forms/ForgotPasswordForm"), { ssr: false });
+
 
 interface ForgotPasswordPageProps {
   params: { lang: Locale }; 

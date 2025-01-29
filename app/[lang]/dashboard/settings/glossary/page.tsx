@@ -1,16 +1,20 @@
 "use client"
-
-import { useRouter } from 'next/navigation'; 
-import TitleHandler from '@/components/TitleHandler';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Box, List, ListItem, ListItemText, IconButton, Divider } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { ArrowLeft } from 'lucide-react';
-import ModalComponent from '@/components/glossary/Modal'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores en SSR
+import dynamic from 'next/dynamic';
+
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const ModalComponent = dynamic(() => import('@/components/glossary/Modal'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+
 
 const options = ['1', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 

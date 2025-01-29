@@ -1,11 +1,17 @@
 "use client"
-import TitleHandler from '@/components/TitleHandler';
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores en SSR
+import dynamic from 'next/dynamic';
+
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+
+
 
 const D = () => {
     const pathname = usePathname()
