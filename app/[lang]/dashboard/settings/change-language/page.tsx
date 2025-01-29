@@ -4,11 +4,14 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import TitleHandler from '@/components/TitleHandler';
+import dynamic from 'next/dynamic';
 import { getDictionary } from "@/lib/dictionary";
-import Loading from '@/components/loading/LoadingBlack';
-import { Locale } from '@/i18n.config';
-import LocalSwitcher from '@/components/lang/locale-switcher';
+import { Locale } from "@/i18n.config";
+
+// ⬇️ Importaciones dinámicas para evitar errores en SSR
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+const LocalSwitcher = dynamic(() => import('@/components/lang/locale-switcher'), { ssr: false });
 
 const Change = () => {
   const [loading, setLoading] = useState(true);
