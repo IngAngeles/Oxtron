@@ -15,7 +15,7 @@ import Loading from '@/components/loading/LoadingBlack';
 
 type Props = { user?: UpdateUser, company?: Company }
 
-export const EditUserForm = ({ user }: Props) => {
+const EditUserForm = ({ user }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { toast } = useToast()
   const pathname = usePathname();
@@ -162,3 +162,5 @@ export const EditUserForm = ({ user }: Props) => {
     </Form>
   )
 }
+
+export default EditUserForm

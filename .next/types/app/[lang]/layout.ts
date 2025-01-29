@@ -1,4 +1,4 @@
-// File: /Users/antoniolariosgarciadeleon/Downloads/oxtron/app/[lang]/layout.tsx
+// File: /Users/antoniolariosgarciadeleon/Downloads/oxtron-git/app/[lang]/layout.tsx
 import * as entry from '../../../../app/[lang]/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -11,7 +11,7 @@ import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import { roles } from '@/constants/auth'
 import SubmitButton from '@/components/SubmitButton'
 
-export const EditUserForm = () => {
+const EditUserForm = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [_, setCompany] = useState<Company>()
   const { user } = React.useContext(AdminAccountContext) as IAdminAccountContext
@@ -154,3 +154,5 @@ export const EditUserForm = () => {
     </Form>
   )
 }
+
+export default EditUserForm

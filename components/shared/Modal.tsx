@@ -23,7 +23,7 @@ type Props = {
   customClose?: boolean
 }
 
-export const Modal = ({ children, className, title, Icon, description, open, onClose, customClose = false }: Props) => {
+const Modal = ({ children, className, title, Icon, description, open, onClose, customClose = false }: Props) => {
   return (
     <Dialog open={ open } onOpenChange={ onClose } modal>
       <DialogTrigger>Open</DialogTrigger>
@@ -47,3 +47,5 @@ export const Modal = ({ children, className, title, Icon, description, open, onC
     </Dialog>
   )
 }
+
+export default Modal

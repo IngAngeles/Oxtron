@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form } from '@/components/ui/form'
-import { Modal } from '@/components/shared/Modal'
+import Modal from '@/components/shared/Modal'
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReportHeaderValidation } from '@/lib/validation'
@@ -18,7 +18,7 @@ import { VLabel } from '@/constants/types'
 type ReportHeader = z.infer<typeof ReportHeaderValidation>
 type Props = { reportHeader?: ReportHeader }
 
-export const CreateReport = ({ reportHeader }: Props) => {
+const CreateReport = ({ reportHeader }: Props) => {
   const { showCreateReportModal, handleHideCreateReportModal } = useContext(CommunicateContext) as ICommunicateContext
   const [types, setTypes] = useState<VLabel[]>([])
   const [error, setError] = useState<AxiosError | null>(null)
@@ -153,3 +153,5 @@ export const CreateReport = ({ reportHeader }: Props) => {
     </Modal>
   )
 }
+
+export default CreateReport

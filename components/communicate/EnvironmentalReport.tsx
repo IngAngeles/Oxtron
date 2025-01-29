@@ -1,9 +1,9 @@
 'use client'
 import { useContext } from 'react'
-import { Modal } from '@/components/shared/Modal'
+import Modal from '@/components/shared/Modal'
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 
-export const EnvironmentalReport = () => {
+const EnvironmentalReport = () => {
   const { showReportModal, handleHideReportModal, report } = useContext(CommunicateContext) as ICommunicateContext
 
   return (
@@ -99,3 +99,5 @@ export const EnvironmentalReport = () => {
     </Modal>
   )
 }
+
+export default EnvironmentalReport

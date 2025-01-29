@@ -1,11 +1,16 @@
 'use client'
+
 import Link from "next/link";
-import {usePathname} from "next/navigation";
-import Loading from "@/components/loading/LoadingBlack";
-import TabMenu from "@/components/measure/TabMenu";
-import Modal from "@/components/measure/Modal";
-import FacilitiesForm from "@/components/forms/measure/FacilitiesForm";
+import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import {useFacilities} from "@/hooks/measure";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+const TabMenu = dynamic(() => import("@/components/measure/TabMenu"), { ssr: false });
+const Modal = dynamic(() => import("@/components/measure/Modal"), { ssr: false });
+const FacilitiesForm = dynamic(() => import("@/components/forms/measure/FacilitiesForm"), { ssr: false });
+
 
 export default function FacilitiesPage() {
   const {
