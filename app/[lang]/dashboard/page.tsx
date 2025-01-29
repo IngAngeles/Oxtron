@@ -1,20 +1,24 @@
 "use client";
-import BarChart from '@/components/charts/barChart';
-import DataStats from '@/components/charts/dataStats';
-import EqualizerChart from '@/components/charts/equalizerChart';
-import TitleHandler from '@/components/TitleHandler';
-import { useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
-import { ControlData, EmissionPercentageProps, EmissionTonsProps, GasPercentage, GasTons, TableDataProps } from '@/constants/types';
-import { fetchDash } from '@/actions/dashboard';
-import CircleChart from '@/components/charts/circleChart';
-import EnvironmentalTable from '@/components/charts/environmentalTable';
-import CaptureEmissions from '@/components/charts/captureEmissions';
-import Loading from '@/components/loading/LoadingBlack';  
-import ErrorPage from '@/components/loading/ErrorPageBlack';
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { AxiosError } from "axios";
+import { ControlData, EmissionPercentageProps, EmissionTonsProps, GasPercentage, GasTons, TableDataProps } from "@/constants/types";
+import { fetchDash } from "@/actions/dashboard";
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
 import { usePathname } from "next/navigation";
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR
+const BarChart = dynamic(() => import("@/components/charts/barChart"), { ssr: false });
+const DataStats = dynamic(() => import("@/components/charts/dataStats"), { ssr: false });
+const EqualizerChart = dynamic(() => import("@/components/charts/equalizerChart"), { ssr: false });
+const TitleHandler = dynamic(() => import("@/components/TitleHandler"), { ssr: false });
+const CircleChart = dynamic(() => import("@/components/charts/circleChart"), { ssr: false });
+const EnvironmentalTable = dynamic(() => import("@/components/charts/environmentalTable"), { ssr: false });
+const CaptureEmissions = dynamic(() => import("@/components/charts/captureEmissions"), { ssr: false });
+const Loading = dynamic(() => import("@/components/loading/LoadingBlack"), { ssr: false });
+const ErrorPage = dynamic(() => import("@/components/loading/ErrorPageBlack"), { ssr: false });
+
 
 const Home = () => {
   const pathname = usePathname();

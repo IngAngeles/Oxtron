@@ -1,18 +1,22 @@
 'use client'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SearchIcon, ArrowLeft } from 'lucide-react';
-import DashboardButton from '@/components/DashboardButton';
-import UserByCompanyIdForm from '@/components/forms/settings/admin/UserByCompanyIdForm';
-import { EditUserForm } from '@/components/forms/settings/admin/EditUserForm';
-import TableAdmin from '@/components/TableAdmin';
-import TitleHandler from '@/components/TitleHandler';
-import { Modal } from '@/components/shared/Modal'
-import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/admin-account'
-import { getDictionary } from "@/lib/dictionary";
-import { usePathname } from "next/navigation";
-import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+import dynamic from 'next/dynamic';
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR
+const DashboardButton = dynamic(() => import('@/components/DashboardButton'), { ssr: false });
+const UserByCompanyIdForm = dynamic(() => import('@/components/forms/settings/admin/UserByCompanyIdForm'), { ssr: false });
+const EditUserForm = dynamic(() => import('@/components/forms/settings/admin/EditUserForm'), { ssr: false });
+const TableAdmin = dynamic(() => import('@/components/TableAdmin'), { ssr: false });
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const Modal = dynamic(() => import('@/components/shared/Modal'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+
+import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/admin-account';
+import { getDictionary } from '@/lib/dictionary';
+import { usePathname } from 'next/navigation';
+import { Locale } from '@/i18n.config';
 
 const AdminPage: React.FC = () => {
   const {

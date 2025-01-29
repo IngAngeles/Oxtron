@@ -1,15 +1,20 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import DashboardButton from '@/components/DashboardButton';
-import TableField from '@/components/TableField';
-import TitleHandler from '@/components/TitleHandler';
+import dynamic from 'next/dynamic';
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate';
-import { EnvironmentalReport } from '@/components/communicate/EnvironmentalReport';
-import { CreateReport } from '@/components/forms/communicate/CreateReport';
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
+
+// ⬇️ Importaciones dinámicas para evitar errores de SSR
+const DashboardButton = dynamic(() => import('@/components/DashboardButton'), { ssr: false });
+const TableField = dynamic(() => import('@/components/TableField'), { ssr: false });
+const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
+const EnvironmentalReport = dynamic(() => import('@/components/communicate/EnvironmentalReport'), { ssr: false });
+const CreateReport = dynamic(() => import('@/components/forms/communicate/CreateReport'), { ssr: false });
+const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
+
+
 
 const Communicate = () => {
   const pathname = usePathname();
