@@ -9,15 +9,17 @@ import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import {deleteTravelDetails, getTravelDetails} from "@/actions/measure/details";
 import Modal from "@/components/measure/Modal";
-import {TravelDetails, VehicleDetails} from "@/lib/validation";
+import {Travel, TravelDetails, VehicleDetails} from "@/lib/validation";
 import {TravelsInvoiceForm} from "@/components/forms/measure/Details/TravelsInvoiceForm";
 import {toast} from "@/components/ui/use-toast";
+import {getTravelsByUserId} from "@/actions/measure/travels";
 
 type Props = { params: { id: number } };
 
 export default function TravelsDetailPage({params: {id}}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [travel, setTravel] = useState<Travel>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -43,10 +45,11 @@ export default function TravelsDetailPage({params: {id}}: Props) {
     }
 
     const newData = await getData(id)
+    const travels = await getTravelsByUserId()
+    const travel = travels?.data?.find((travel) => travel.idControlTravel?.toString() === id.toString())
 
-    // @ts-ignore
     setData(newData || [])
-    console.log(data)
+    setTravel(travel)
     setIsLoading(false)
   }
 
@@ -110,7 +113,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
             >
               {dictionary?.measure.all.travels}
             </Link>
-            {' '} / {id}
+            {' '} / {travel?.idTravel}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
