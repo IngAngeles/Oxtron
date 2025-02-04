@@ -65,6 +65,7 @@ const Setup = () => {
         setLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.settings.setup);
+        await loadData();
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
@@ -182,10 +183,10 @@ const Setup = () => {
         </div>
       </div>
       <Modal open={ isCompanyModalOpen } onClose={ handleCloseCompanyModal }>
-        <EditCompanyForm company={ companyData }/>
+        <EditCompanyForm company={ companyData } loadData={ loadData }/>
       </Modal>
       <Modal open={ isUserModalOpen } onClose={ handleCloseUserModal }>
-        <EditUserForm user={ userData } company={ companyData }/>
+        <EditUserForm user={ userData } company={ companyData } loadData={ loadData }/>
       </Modal>
     </div>
   )

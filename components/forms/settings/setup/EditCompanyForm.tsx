@@ -13,9 +13,9 @@ import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
-type Props = { company?: Company }
+type Props = { company?: Company, loadData: () => Promise<void> }
 
-const EditCompanyForm = ({ company }: Props) => {
+const EditCompanyForm = ({ company, loadData }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { toast } = useToast()
   const pathname = usePathname();
@@ -54,6 +54,7 @@ const EditCompanyForm = ({ company }: Props) => {
         title: 'Success',
         description: 'This company has been updated successfully',
       })
+      await loadData()
     } catch (error) {
       toast({
         title: 'Uh oh! Something went wrong.',
