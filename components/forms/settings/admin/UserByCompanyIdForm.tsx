@@ -100,7 +100,7 @@ const UserByCompanyIdForm = () => {
             control={ form.control }
             placeholder={dictionary.modal.name}
             label={dictionary.modal.name}
-            name="fisrtName"
+            name="firstName"
           />
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
