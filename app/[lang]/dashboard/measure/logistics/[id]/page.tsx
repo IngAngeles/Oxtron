@@ -8,16 +8,18 @@ import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import Modal from "@/components/measure/Modal";
-import {LogisticDetails} from "@/lib/validation";
+import {Logistic, LogisticDetails} from "@/lib/validation";
 import {LogisticsInvoiceForm} from "@/components/forms/measure/Details/LogisticsInvioceForm";
 import {deleteLogisticDetails, getLogisticDetails} from "@/actions/measure/details";
 import {toast} from "@/components/ui/use-toast";
+import {getLogisticsByUserId} from "@/actions/measure/logistics";
 
 type Props = { params: { id: number } };
 
 export default function LogisticsDetailPage({ params: { id } }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [logistic, setLogistic] = useState<Logistic>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -43,10 +45,11 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
     }
 
     const newData = await getData(id)
+    const logistics = await getLogisticsByUserId();
+    const logistic = logistics?.data?.find((logistic) => logistic.idControlLogistics?.toString() === id.toString())
 
-    // @ts-ignore
     setData(newData || [])
-    console.log(data)
+    setLogistic(logistic)
     setIsLoading(false)
   }
 
@@ -110,7 +113,7 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
             >
               {dictionary?.measure.all.logistics}
             </Link>
-            {' '} / {id}
+            {' '} / {`${logistic?.origin} - ${logistic?.destination}`}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
