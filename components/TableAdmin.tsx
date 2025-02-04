@@ -59,6 +59,7 @@ const TableField: React.FC<TableAdminProps> = () => {
         setLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.settings.admin);
+        await loadData()
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
