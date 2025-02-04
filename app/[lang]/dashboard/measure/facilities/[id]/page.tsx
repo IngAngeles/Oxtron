@@ -45,7 +45,6 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
 
     // @ts-ignore
     setData(newData || [])
-    console.log(data)
     setIsLoading(false)
   }
 
