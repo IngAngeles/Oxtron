@@ -3,6 +3,7 @@
 import {getAuthenticatedUserId, handleError} from "@/actions/shared";
 import axiosInstance from "@/lib/axios-instance";
 import {Manufacturing} from "@/lib/validation"
+import {TypeOfEquipment} from "@/constants/types";
 
 export async function createManufacturing(manufacturing: Manufacturing) {
   try {
@@ -86,6 +87,22 @@ export async function deleteManufacturing(IdManufacturing: number) {
       success: true,
       status: 204,
       message: 'Successfully deleted manufacturing',
+      data,
+    }
+  } catch (error) {
+    return handleError(error)
+  }
+}
+
+export async function getTypeOfEquipment(): Promise<ApiResponse<TypeOfEquipment>> {
+  try {
+    const response = await axiosInstance.get('/ManufacturingCboEquipment/Mostrar_ManufacturingCboEquipment')
+    const data = response.data as TypeOfEquipment
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Successfully getting manufacturingCboEquipment',
       data,
     }
   } catch (error) {
