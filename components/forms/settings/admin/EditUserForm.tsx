@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/admin-account'
 import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
@@ -16,6 +16,7 @@ const EditUserForm = () => {
   const [_, setCompany] = useState<Company>()
   const { user } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
+  const { loadData: reloadData } = useContext(AdminAccountContext) as IAdminAccountContext
 
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
@@ -59,6 +60,7 @@ const EditUserForm = () => {
           description: 'This user has been updated successfully',
         })
         form.reset()
+        await reloadData()
       }
     } catch (error) {
       toast({

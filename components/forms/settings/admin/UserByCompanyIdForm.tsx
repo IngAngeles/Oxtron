@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getUserBySession, registerByCompanyId } from '@/actions/auth'
@@ -13,6 +13,7 @@ import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
+import {AdminAccountContext, IAdminAccountContext} from "@/context/setting/admin-account";
 
 const UserByCompanyIdForm = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -40,22 +41,20 @@ const UserByCompanyIdForm = () => {
     }
   })
 
+  const {loadData} = useContext(AdminAccountContext) as IAdminAccountContext
 
-  // TODO: check user registration by company - status 500
   async function onSubmit(user: UserRegisterByCompanyId) {
     setIsLoading(true)
 
     try {
       const session = await getUserBySession()
-
-      console.log({ ...user, idCompany: session.idCompany })
-
       await registerByCompanyId({ ...user, idCompany: session.idCompany })
       toast({
         title: dictionary.modal.success, 
         description: dictionary.modal.description,
       })
       form.reset()
+      await loadData()
     } catch (error) {
       toast({
         title: dictionary.modal.error,
@@ -166,7 +165,7 @@ const UserByCompanyIdForm = () => {
             name="language"
           />
         </div>
-        <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>{dictionary.modal.add}</SubmitButton>
+        <SubmitButton isLoading={ isLoading }>{dictionary.modal.add}</SubmitButton>
       </form>
     </Form>
   )
