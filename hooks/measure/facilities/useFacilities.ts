@@ -154,6 +154,7 @@ export function useFacilities() {
       }
 
       await fetchFacilities()
+      handleHideModal()
     } catch (error) {
       console.error(error);
       toast({
