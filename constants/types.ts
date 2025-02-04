@@ -399,3 +399,9 @@ export interface BasicResponse<T> {
     success: boolean;
     data: T;
 }
+
+export interface TypeOfEquipment {
+    idManufacturingCboEquipment: number;
+    description: string;
+    active: number;
+}
