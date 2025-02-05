@@ -19,6 +19,7 @@ export const useVehicles = () => {
     createVehicle,
     fetchVehicles,
     fetchFormData,
+    fetchModels,
     setLoading,
     setVehicle,
     updateVehicle,
@@ -30,6 +31,7 @@ export const useVehicles = () => {
   const [statusOptions, setStatusOptions] = useState<Option[]>([])
   const [typeOptions, setTypeOptions] = useState<Option[]>([])
   const [cards, setCards] = useState<Card[]>([])
+  const [isModelDisabled, setIsModelDisabled] = useState<boolean>(true)
 
   const form = useForm<Vehicle>({
     resolver: zodResolver(VehicleValidation),
@@ -45,6 +47,7 @@ export const useVehicles = () => {
       active: vehicle?.active ?? 1,
     },
   });
+  const watchBrand = form.watch(['idCboBrand'])
 
   const items: string[] = [dictionary?.measure.bar[0]]
 
@@ -143,6 +146,18 @@ export const useVehicles = () => {
     }
   }, [vehicle]);
 
+  useEffect(() => {
+    const isBrandSet = Object.values(watchBrand).some(
+      (value) => value !== undefined && value !== null && value !== 0
+    );
+
+    setIsModelDisabled(!isBrandSet);
+
+    if (isBrandSet) {
+      fetchModels(watchBrand[0]).then(() => setIsModelDisabled(false));
+    }
+  }, [JSON.stringify(watchBrand)]);
+
   const onSubmit = async (vehicle: Vehicle) => {
     try {
       if (vehicle.idControlVehicle) {
@@ -187,6 +202,7 @@ export const useVehicles = () => {
     models: modelOptions,
     statuses: statusOptions,
     types: typeOptions,
+    isModelDisabled,
     cards,
     onSubmit,
     loading,

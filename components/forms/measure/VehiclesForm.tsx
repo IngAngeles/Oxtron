@@ -12,12 +12,13 @@ type Props = {
   brands: Option[]
   models: Option[]
   types: Option[]
+  isModelDisabled: boolean
   dictionary: any;
   form: any;
   onSubmit: (vehicle: Vehicle) => Promise<void>;
 }
 
-const VehiclesForm = ({vehicle, loading = false, statuses, brands, models, types, onSubmit, dictionary, form}: Props) => {
+const VehiclesForm = ({vehicle, loading = false, statuses, brands, models, types, isModelDisabled, onSubmit, dictionary, form}: Props) => {
   return (!dictionary || loading) ? (
     <div className="flex items-center justify-center w-full h-full">
       <Loading/>
@@ -56,6 +57,7 @@ const VehiclesForm = ({vehicle, loading = false, statuses, brands, models, types
             placeholder={dictionary.measure.modalv.selectm}
             options={models}
             control={form.control}
+            disabled={isModelDisabled}
           />
           <CustomFormField
             fieldType={FormFieldType.SELECT}

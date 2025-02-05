@@ -21,6 +21,7 @@ export default function VehiclesPage() {
     brands,
     models,
     types,
+    isModelDisabled,
     showModal,
     handleHideModal,
     statuses,
@@ -61,6 +62,7 @@ export default function VehiclesPage() {
             models={models}
             statuses={statuses}
             types={types}
+            isModelDisabled={isModelDisabled}
             dictionary={dictionary}
             form={form}
             onSubmit={onSubmit}
