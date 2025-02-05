@@ -113,8 +113,8 @@ export const useManufacturing = () => {
       label: f.description,
     })) || [])
     setEquipmentOptions(equipment?.map((eq) => ({
-      value: '1',
-      label: 'Mundo'
+      value: eq.idManufacturingCboEquipment.toString() || '0',
+      label: eq.description,
     })) || [])
     setLoading(false)
   }, [facilities, fuel, equipment]);

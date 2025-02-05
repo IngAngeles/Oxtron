@@ -400,7 +400,7 @@ export interface BasicResponse<T> {
     data: T;
 }
 
-export interface TypeOfEquipment {
+export interface ComboTypeOfEquipment {
     idManufacturingCboEquipment: number;
     description: string;
     active: number;

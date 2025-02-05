@@ -3,18 +3,18 @@ import {getCboFuelType} from "@/actions/shared";
 import {
   createManufacturing,
   deleteManufacturing,
-  getManufacturingByUserId,
+  getManufacturingByUserId, getTypeOfEquipment,
   updateManufacturing
 } from "@/actions/measure/manufacturing";
 import {Facility, Manufacturing} from "@/lib/validation";
 import {getFacilitiesByUserId} from "@/actions/measure/facilities";
-import {ComboFuel} from "@/constants/types";
+import {ComboFuel, ComboTypeOfEquipment} from "@/constants/types";
 
 type ManufacturingStore = {
   manufacturing: Manufacturing[];
   facilities: Facility[];
   fuel: ComboFuel[];
-  equipment: object[];
+  equipment: ComboTypeOfEquipment[];
   manufacture: Manufacturing | null;
   error: string | null;
   loading: boolean;
@@ -56,10 +56,12 @@ export const useManufacturingStore = create<ManufacturingStore>((set) => ({
     try {
       const facilitiesResponse = await getFacilitiesByUserId();
       const fuelResponse = await getCboFuelType();
+      const equipmentResponse = await getTypeOfEquipment();
+
       set({
         facilities: facilitiesResponse.data,
         fuel: fuelResponse.data,
-        equipment: [],
+        equipment: equipmentResponse.data,
         error: null,
         loading: false,
       });
