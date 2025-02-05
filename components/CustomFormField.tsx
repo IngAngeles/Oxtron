@@ -1,6 +1,8 @@
 import { E164Number } from 'libphonenumber-js/core'
 import Image from 'next/image'
 import ReactDatePicker from 'react-datepicker'
+import '@/components/react-datepicker.css'
+import "react-datepicker/dist/react-datepicker.css";
 // import { format } from 'date-fns'
 import { Control } from 'react-hook-form'
 import PhoneInput from 'react-phone-number-input'
