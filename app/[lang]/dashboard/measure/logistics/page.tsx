@@ -24,6 +24,7 @@ export default function LogisticsPage() {
     models,
     statuses,
     isDisabled,
+    isModelDisabled,
     types,
     vehicles,
     currentStep,
@@ -80,6 +81,7 @@ export default function LogisticsPage() {
             steps={steps}
             form={form}
             isDisabled={isDisabled}
+            isModelDisabled={isModelDisabled}
             onSubmit={onSubmit}
           />
         </Modal>

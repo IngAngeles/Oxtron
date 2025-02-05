@@ -20,6 +20,7 @@ type Props = {
   vehicles: Option[],
   onSubmit: (logistic: Logistic) => void,
   isDisabled: boolean,
+  isModelDisabled: boolean,
   form: any,
   steps: number,
 }
@@ -41,6 +42,7 @@ const TravelsForm = ({
   steps,
   form,
   isDisabled,
+  isModelDisabled,
   onSubmit,
 }: Props) => {
   return (!dictionary || loading) ? (
@@ -55,7 +57,7 @@ const TravelsForm = ({
             <StepOne dictionary={dictionary} form={form}/>
           )}
           {currentStep === 1 && (
-            <StepTwo dictionary={dictionary} form={form} statuses={statuses} types={types} models={models} brands={brands}/>
+            <StepTwo dictionary={dictionary} form={form} statuses={statuses} types={types} models={models} brands={brands} isModelDisabled={isModelDisabled}/>
           )}
           {currentStep === 2 && (
             <StepThree dictionary={dictionary} form={form} statuses={statuses} vehicles={vehicles}/>
@@ -126,11 +128,12 @@ const StepOne = ({dictionary, form}: StepProps) => {
   )
 }
 
-const StepTwo = ({dictionary, form, statuses, types, models, brands,}: Readonly<StepProps & {
+const StepTwo = ({dictionary, form, statuses, types, models, brands, isModelDisabled}: Readonly<StepProps & {
   statuses: Option[],
   types: Option[],
   models: Option[],
   brands: Option[],
+  isModelDisabled: boolean,
 }>) => {
   return (
     <>
@@ -163,6 +166,7 @@ const StepTwo = ({dictionary, form, statuses, types, models, brands,}: Readonly<
         placeholder={dictionary.model}
         options={models}
         control={form.control}
+        disabled={isModelDisabled}
       />
       <CustomFormField
         fieldType={FormFieldType.SELECT}

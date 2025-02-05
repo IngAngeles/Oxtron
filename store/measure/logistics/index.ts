@@ -100,7 +100,6 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
     }
   },
   fetchModels: async (idBrand: number) => {
-    set({loading: true});
     const modelResponse = await getCboModelsBrand(idBrand);
     set({models: modelResponse.data, error: null, loading: false});
   },

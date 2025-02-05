@@ -21,6 +21,7 @@ export const useLogistics = () => {
     createLogistic,
     fetchLogistics,
     fetchFormData,
+    fetchModels,
     setCurrentStep,
     setLoading,
     setLogistic,
@@ -36,6 +37,7 @@ export const useLogistics = () => {
   const [typeOptions, setTypeOptions] = useState<Option[]>([])
   const [vehicleOptions, setVehicleOptions] = useState<Option[]>([])
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
+  const [isModelDisabled, setIsModelDisabled] = useState<boolean>(true)
   const [cards, setCards] = useState<Card[]>([])
   const form = useForm<Logistic>({
     resolver: zodResolver(LogisticValidation),
@@ -68,6 +70,7 @@ export const useLogistics = () => {
     'propertyStatus',
     'idControlVehicle',
   ])
+  const watchBrand = form.watch(['idCboBrand'])
   const items: string[] = [dictionary?.measure.bar[0]]
 
   const buttons: IIconButton[] = [
@@ -205,6 +208,18 @@ export const useLogistics = () => {
     }
   }, [logistic]);
 
+  useEffect(() => {
+    const isBrandSet = Object.values(watchBrand).some(
+      (value) => value !== undefined && value !== null && value !== 0
+    );
+
+    setIsModelDisabled(!isBrandSet);
+
+    if (isBrandSet) {
+      fetchModels(watchBrand[0] || 0).then(() => setIsModelDisabled(false));
+    }
+  }, [JSON.stringify(watchBrand)]);
+
   const nextStep = () => {
     const allFieldsSet = Object.values(watchedFirstStepItems).every(
       (value) => value !== undefined && value !== null && value !== ''
@@ -274,6 +289,7 @@ export const useLogistics = () => {
     statuses: statusOptions,
     types: typeOptions,
     vehicles: vehicleOptions,
+    isModelDisabled,
     cards,
     onSubmit,
     loading,
