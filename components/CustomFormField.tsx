@@ -184,7 +184,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
 
     case FormFieldType.SELECT:
-      console.log({value: field.value})
       return (
         <FormControl className="flex-1 title-century-gothic-regular bg-[#FCFDFE]">
           <Select onValueChange={ field.onChange } defaultValue={ field.value?.toString() }>

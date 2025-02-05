@@ -11,7 +11,7 @@ type Props = {
   options: Option[],
   dictionary: any,
   form: any,
-  onSubmit: (commuting: Commuting) => void
+  onSubmit: (commuting: Commuting) => Promise<void>
 };
 
 const CommutingForm = ({commuting, loading = false, options, dictionary, form, onSubmit}: Props) => {

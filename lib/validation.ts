@@ -644,11 +644,7 @@ export const ManufacturingDescriptionDetailsValidation = z.object({
 export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
 
 export const CommutingValidation = z.object({
-  idControlCommuting: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+  idControlCommuting: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
   idControlFacility: z.coerce.number().min(1),
   description: z.string().optional(),
