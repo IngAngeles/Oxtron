@@ -6,7 +6,7 @@ import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useEffect, useState} from "react";
-import {Commuting, CommutingDetails, Facility} from "@/lib/validation";
+import {CommutingDetails, Facility} from "@/lib/validation";
 import {deleteCommutingDetails, getCommutingDetails} from "@/actions/measure/details";
 import {CommutingInvoiceForm} from "@/components/forms/measure/Details/CommutingInvoiceForm";
 import Modal from "@/components/measure/Modal";
