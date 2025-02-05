@@ -6,20 +6,21 @@ import {HistoricalCard} from "@/components/measure/historical/HistoricalCard";
 import {SimpleTable} from "@/components/shared/SimpleTable";
 import {useDictionary} from "@/hooks/shared/useDictionary";
 import {useEffect, useState} from "react";
-import {Commuting, CommutingDetails} from "@/lib/validation";
+import {Commuting, CommutingDetails, Facility} from "@/lib/validation";
 import {deleteCommutingDetails, getCommutingDetails} from "@/actions/measure/details";
 import {CommutingInvoiceForm} from "@/components/forms/measure/Details/CommutingInvoiceForm";
 import Modal from "@/components/measure/Modal";
 import {useModal} from "@/hooks/shared/useModal";
 import {toast} from "@/components/ui/use-toast";
 import {getCommutingByUserId} from "@/actions/measure/commuting";
+import {getFacilitiesByUserId} from "@/actions/measure/facilities";
 
 type Props = { params: { id: number } };
 
 export default function CommutingDetailPage({params: {id}}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
-  const [commuting, setCommuting] = useState<Commuting>()
+  const [facility, setFacility] = useState<Facility>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -46,9 +47,12 @@ export default function CommutingDetailPage({params: {id}}: Props) {
     const newData = await getData(id)
 
     const commuting = await getCommutingByUserId();
-    const comm = commuting.data?.find(value => value.idControlFacility?.toString() === id.toString())
+    const comm = commuting.data?.find(value => value.idControlCommuting?.toString() === id.toString())
 
-    setCommuting(comm)
+    const facilities = await getFacilitiesByUserId();
+    const facility = facilities.data?.find(value => value.idControlFacility?.toString() === comm?.idControlFacility.toString())
+
+    setFacility(facility)
 
     // @ts-ignore
     setData(newData || [])
@@ -115,7 +119,7 @@ export default function CommutingDetailPage({params: {id}}: Props) {
             >
               {dictionary?.measure.all.commuting}
             </Link>
-            {' '} / {commuting?.description}
+            {' '} / {facility?.idFacility}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
