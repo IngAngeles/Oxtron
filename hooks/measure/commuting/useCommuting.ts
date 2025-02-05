@@ -115,6 +115,7 @@ export const useCommuting = () => {
   }, [commute]);
 
   const onSubmit = async (commuting: Commuting) => {
+    setLoading(true)
     try {
       if (commuting.idControlCommuting) {
         await updateCommuting(commuting);

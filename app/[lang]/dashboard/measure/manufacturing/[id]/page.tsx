@@ -9,15 +9,17 @@ import {deleteManufacturingDetails, getManufacturingDetails} from "@/actions/mea
 import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import Modal from "@/components/measure/Modal";
-import {LogisticDetails, ManufacturingDetails} from "@/lib/validation";
+import {LogisticDetails, Manufacturing, ManufacturingDetails} from "@/lib/validation";
 import {ManufacturingInvoiceForm} from "@/components/forms/measure/Details/ManufacturingInvioceForm";
 import {toast} from "@/components/ui/use-toast";
+import {getManufacturingByUserId} from "@/actions/measure/manufacturing";
 
 type Props = { params: { id: number } }
 
 export default function ManufacturingDetailPage({ params: { id } }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [manufacturing, setManufacturing] = useState<Manufacturing>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -76,10 +78,11 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
     }
 
     const newData = await getData(id)
+    const manufacturing = await getManufacturingByUserId()
+    const manufacture = manufacturing?.data?.find(value => value.idControlManufacturing?.toString() === id.toString())
 
-    // @ts-ignore
     setData(newData || [])
-    console.log(data)
+    setManufacturing(manufacture)
     setIsLoading(false)
   }
 
@@ -110,7 +113,7 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
             >
               {dictionary?.measure.all.manufacturing}
             </Link>
-            {' '} / {id}
+            {' '} / {manufacturing?.process}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}

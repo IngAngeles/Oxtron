@@ -9,15 +9,17 @@ import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import {deleteFacilityDetails, getFacilityDetails} from "@/actions/measure/details";
 import Modal from "@/components/measure/Modal";
-import {FacilityDetails} from "@/lib/validation";
+import {Facility, FacilityDetails} from "@/lib/validation";
 import {FacilityInvoiceForm} from "@/components/forms/measure/Details/FacilityInvoiceForm";
 import {toast} from "@/components/ui/use-toast";
+import {getFacilitiesByUserId} from "@/actions/measure/facilities";
 
 type Props = { params: { id: number } };
 
 export default function FacilitiesDetailPage({params: {id}}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [facility, setFacility] = useState<Facility>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -42,10 +44,13 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
     }
 
     const newData = await getData(id)
+    const facilities = await getFacilitiesByUserId()
+
+    const facility = facilities?.data?.find(value => value.idControlFacility?.toString() === id.toString())
+    setFacility(facility)
 
     // @ts-ignore
     setData(newData || [])
-    console.log(data)
     setIsLoading(false)
   }
 
@@ -109,7 +114,7 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
             >
               {dictionary?.measure.all.facilities}
             </Link>
-            {' '} / {id}
+            {' '} / {facility?.idFacility}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}

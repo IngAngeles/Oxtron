@@ -9,15 +9,17 @@ import {useEffect, useState} from "react";
 import {useModal} from "@/hooks/shared/useModal";
 import {deleteVehicleDetails, getVehicleDetails} from "@/actions/measure/details";
 import Modal from "@/components/measure/Modal";
-import {VehicleDetails} from "@/lib/validation";
+import {Vehicle, VehicleDetails} from "@/lib/validation";
 import {VehiclesInvoiceForm} from "@/components/forms/measure/Details/VehiclesInvoiceForm";
 import {toast} from "@/components/ui/use-toast";
+import {getVehiclesByUserId} from "@/actions/measure/vehicles";
 
 type Props = { params: { id: number } };
 
 export default function VehiclesDetailPage({ params: { id } }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<any>(null)
+  const [vehicle, setVehicle] = useState<Vehicle>()
   const {showModal, handleHideModal, handleShowModal} = useModal()
   const {dictionary} = useDictionary();
   const [data, setData] = useState<Array<any>>([])
@@ -32,9 +34,11 @@ export default function VehiclesDetailPage({ params: { id } }: Props) {
     }
 
     const newData = await getData(id)
+    const vehicles = await getVehiclesByUserId()
+    const vehicle = vehicles?.data?.find((vehicle) => vehicle.idControlVehicle?.toString() === id.toString())
 
-    // @ts-ignore
     setData(newData || [])
+    setVehicle(vehicle)
     setIsLoading(false)
   }
 
@@ -109,7 +113,7 @@ export default function VehiclesDetailPage({ params: { id } }: Props) {
             >
               {dictionary?.measure.all.vehicles}
             </Link>
-            {' '} / {id}
+            {' '} / {vehicle?.name}
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}

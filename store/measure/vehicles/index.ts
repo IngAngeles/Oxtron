@@ -2,7 +2,7 @@ import {create} from 'zustand';
 import {Vehicle} from "@/lib/validation";
 import {createVehicle, deleteVehicle, getVehiclesByUserId, updateVehicle} from "@/actions/measure/vehicles";
 import {ComboBrand, ComboModel, ComboType, Status} from '@/constants/types';
-import {getCboBrands, getCboModels, getCboStatuses, getCboTypes} from "@/actions/shared";
+import {getCboBrands, getCboModelsBrand, getCboStatuses, getCboTypes} from "@/actions/shared";
 
 type VehiclesStore = {
   vehicles: Vehicle[];
@@ -20,6 +20,7 @@ type VehiclesStore = {
   fetchFormData: () => Promise<void>;
   fetchVehicles: () => Promise<void>;
   fetchVehicleById: () => Promise<void>;
+  fetchModels: (idBrand: number) => Promise<void>;
   createVehicle: (vehicle: Vehicle) => Promise<string | undefined>;
   updateVehicle: (updatedVehicle: Vehicle) => Promise<string | undefined>;
   deleteVehicle: (id: number) => Promise<string | undefined>;
@@ -52,12 +53,10 @@ export const useVehicleStore = create<VehiclesStore>((set) => ({
     try {
       const statusResponse = await getCboStatuses();
       const brandResponse = await getCboBrands();
-      const modelResponse = await getCboModels();
       const typeResponse = await getCboTypes();
       set({
         statuses: statusResponse.data,
         brands: brandResponse.data,
-        models: modelResponse.data,
         types: typeResponse.data,
         error: null,
         loading: false,
@@ -80,6 +79,10 @@ export const useVehicleStore = create<VehiclesStore>((set) => ({
     if (savedVehicle) {
       set({vehicle: JSON.parse(savedVehicle)});
     }
+  },
+  fetchModels: async (idBrand: number) => {
+    const modelResponse = await getCboModelsBrand(idBrand);
+    set({models: modelResponse.data, error: null, loading: false});
   },
   createVehicle: async (vehicle) => {
     set({loading: true});

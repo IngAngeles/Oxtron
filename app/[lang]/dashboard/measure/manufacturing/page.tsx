@@ -62,7 +62,7 @@ export default function ManufacturingPage() {
             equipmentOptions={equipmentOptions}
             facilityOptions={facilityOptions}
             fuelOptions={fuelOptions}
-            dictionary={dictionary?.measure.modalc}
+            dictionary={dictionary?.measure.modalm}
             form={form}
             onSubmit={onSubmit}
           />

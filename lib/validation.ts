@@ -566,9 +566,9 @@ export const ManufacturingValidation = z.object({
   idUserControl: z.number().optional(),
   process: z.string().min(1),
   idFacility: z.coerce.number().min(1),
-  idTypeEquipment: z.number().positive('Type of equipment is required'),
-  idTypeFuelUsed: z.number().positive('Type of fuel used is required'),
-  idTypeEquipmentCode: z.number().positive('Type of equipment code is required'),
+  idTypeEquipment: z.coerce.number().min(1),
+  idTypeFuelUsed: z.coerce.number().min(1),
+  idTypeEquipmentCode: z.coerce.number().min(0),
   active: z.number().max(1).min(0).default(1),
 })
 export type Manufacturing = z.infer<typeof ManufacturingValidation>
@@ -644,11 +644,7 @@ export const ManufacturingDescriptionDetailsValidation = z.object({
 export type ManufacturingDescriptionDetails = z.infer<typeof ManufacturingDescriptionDetailsValidation>
 
 export const CommutingValidation = z.object({
-  idControlCommuting: z.string().transform(val => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) throw new Error('Invalid number')
-    return parsed
-  }).optional(),
+  idControlCommuting: z.coerce.number().optional(),
   idUserControl: z.number().optional(),
   idControlFacility: z.coerce.number().min(1),
   description: z.string().optional(),

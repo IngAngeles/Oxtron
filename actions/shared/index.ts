@@ -72,9 +72,11 @@ export async function getCboBrands(): Promise<ApiResponse<ComboBrand[]>> {
   }
 }
 
-export async function getCboModels(): Promise<ApiResponse<ComboModel[]>> {
+export async function getCboModelsBrand(idBrand: number): Promise<ApiResponse<ComboModel[]>> {
   try {
-    const response = await axiosInstance.get('/VehiclesCboModels/Mostrar_VehiclesCboModels')
+    const response = await axiosInstance.get('/VehiclesCboModels/Mostrar_VehiclesCboModels_Brand', {
+      params: {idBrand},
+    })
     const data: ComboModel[] = response.data as ComboModel[]
 
     return {
