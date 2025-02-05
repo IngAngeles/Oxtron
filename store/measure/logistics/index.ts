@@ -2,7 +2,7 @@ import {create} from 'zustand';
 import {Logistic, Vehicle} from "@/lib/validation";
 import {createLogistic, deleteLogistic, getLogisticsByUserId, updateLogistic} from "@/actions/measure/logistics";
 import {ComboBrand, ComboModel, ComboType, Status} from '@/constants/types';
-import {getCboBrands, getCboModels, getCboStatuses, getCboTypes} from "@/actions/shared";
+import {getCboBrands, getCboModelsBrand, getCboStatuses, getCboTypes} from "@/actions/shared";
 import { getVehiclesByUserId } from '@/actions/measure/vehicles';
 
 type LogisticsStore = {
@@ -27,6 +27,7 @@ type LogisticsStore = {
   fetchFormData: () => Promise<void>;
   fetchLogistics: () => Promise<void>;
   fetchLogisticById: () => Promise<void>;
+  fetchModels: (idBrand: number) => Promise<void>;
   createLogistic: (logistic: Logistic) => Promise<string | undefined>;
   updateLogistic: (updatedLogistic: Logistic) => Promise<string | undefined>;
   deleteLogistic: (id: number) => Promise<string | undefined>;
@@ -65,13 +66,11 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
     try {
       const statusResponse = await getCboStatuses();
       const brandResponse = await getCboBrands();
-      const modelResponse = await getCboModels();
       const typeResponse = await getCboTypes();
       const vehiclesResponse = await getVehiclesByUserId();
       set({
         statuses: statusResponse.data,
         brands: brandResponse.data,
-        models: modelResponse.data,
         types: typeResponse.data,
         vehicles: vehiclesResponse.data,
         error: null,
@@ -85,7 +84,11 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
     set({loading: true});
     try {
       const response = await getLogisticsByUserId();
-      set({logistics: response.data, error: null, loading: false});
+      const uniqueData = Array.from(
+        new Map(response.data?.map(item => [item.idControlLogistics, item])).values()
+      );
+
+      set({logistics: uniqueData, error: null, loading: false});
     } catch (error) {
       set({error: 'Failed to fetch logistics', loading: false});
     }
@@ -95,6 +98,11 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
     if (savedLogistic) {
       set({logistic: JSON.parse(savedLogistic)});
     }
+  },
+  fetchModels: async (idBrand: number) => {
+    set({loading: true});
+    const modelResponse = await getCboModelsBrand(idBrand);
+    set({models: modelResponse.data, error: null, loading: false});
   },
   createLogistic: async (logistic) => {
     set({loading: true});
