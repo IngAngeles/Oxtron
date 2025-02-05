@@ -9,7 +9,7 @@ type Props = {
   stepper?: {
     steps: number;
     currentStep: number;
-    setCurrentStep: () => void
+    setCurrentStep: (step: number) => void
   };
   className?: string;
 };
@@ -38,7 +38,7 @@ const Modal = ({title, handleOnCloseModal, children, stepper, className = ''}: P
 
         <div className="w-full">{children}</div>
       </div>
-      <div className="flex flex-column gap-4 mt-4">
+      <div className="flex flex-column gap-4 mt-4" onClick={(e) => e.stopPropagation()}>
         {Array.from({length: stepper?.steps || 0}, (_, index) => (
           <button
             key={index}
@@ -46,6 +46,7 @@ const Modal = ({title, handleOnCloseModal, children, stepper, className = ''}: P
               'w-3 h-3 rounded-full',
               index === stepper?.currentStep ? 'bg-[#03133A]' : 'bg-[#D9D9D9]'
             )}
+            onClick={() => stepper?.setCurrentStep(index)}
           />
         ))}
       </div>

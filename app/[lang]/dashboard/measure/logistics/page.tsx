@@ -32,6 +32,7 @@ export default function LogisticsPage() {
     prevStep,
     steps,
     onSubmit,
+    setCurrentStep,
     form,
   } = useLogistics()
   const path = usePathname()
@@ -63,7 +64,7 @@ export default function LogisticsPage() {
           title={!logistic ? dictionary.measure.modall.create : dictionary.measure.modall.title}
           handleOnCloseModal={handleHideModal}
           stepper={{
-            steps: 3, currentStep: 0, setCurrentStep: () => {}
+            steps: 3, currentStep, setCurrentStep,
           }}
           className="max-h-[80vh]">
           <LogisticsForm
