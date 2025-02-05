@@ -186,7 +186,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.SELECT:
       return (
         <FormControl className="flex-1 title-century-gothic-regular bg-[#FCFDFE]">
-          <Select onValueChange={ field.onChange } defaultValue={ field.value?.toString() }>
+          <Select onValueChange={ field.onChange } defaultValue={ field.value?.toString() } disabled={props?.disabled}>
             <FormControl>
               <SelectTrigger className="bg-[#FCFDFE] border-[#DFE0EB] text-[#4B506D]">
                 <SelectValue placeholder={ props.placeholder }/>
