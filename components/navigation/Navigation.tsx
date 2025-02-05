@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import Loading from '@/components/loading/LoadingBlack';
 
 interface NavigationProps {
   isSidebarOpen: boolean;
@@ -20,7 +19,7 @@ const Navigation = ({ isSidebarOpen, toggleSidebar }: NavigationProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
-  const [loading, setLoading] = useState(true);
+  const [_, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
 
   const signOut = async () => {
@@ -83,38 +82,38 @@ const Navigation = ({ isSidebarOpen, toggleSidebar }: NavigationProps) => {
               </button>
             </div>
             <div className={`lg:flex flex-col gap-3 transition-all duration-300`}>
-              <NavigationLink 
-                name={dictionary.dashboard} 
+              <NavigationLink
+                name={dictionary.dashboard}
                 lang={lang}
-                route="/dashboard" 
+                route={`/${lang}/dashboard`}
                 isOpen={isSidebarOpen}>
                 <Image src="/assets/icons/white/dashboard-1.png" height={20} width={20} alt="Dashboard" />
               </NavigationLink>
-              <NavigationLink 
-                name={dictionary.measure} 
+              <NavigationLink
+                name={dictionary.measure}
                 lang={lang}
-                route="/dashboard/measure" 
+                route={`/${lang}/dashboard/measure`}
                 isOpen={isSidebarOpen}>
                 <Image src="/assets/icons/white/Measure-1.png" height={20} width={20} alt="Measure" />
               </NavigationLink>
-              <NavigationLink 
-                name={dictionary.comm} 
+              <NavigationLink
+                name={dictionary.comm}
                 lang={lang}
-                route="/dashboard/communicate" 
+                route={`/${lang}/dashboard/communicate`}
                 isOpen={isSidebarOpen}>
                 <Image src="/assets/icons/white/Communicate-1.png" height={20} width={20} alt="Communicate" />
               </NavigationLink>
-              <NavigationLink 
-                name={dictionary.capture} 
+              <NavigationLink
+                name={dictionary.capture}
                 lang={lang}
-                route="/dashboard/capture" 
+                route={`/${lang}/dashboard/capture`}
                 isOpen={isSidebarOpen}>
                 <Image src="/assets/icons/white/Capture-1.png" height={20} width={20} alt="Capture" />
               </NavigationLink>
-              <NavigationLink 
-                name={dictionary.settings} 
+              <NavigationLink
+                name={dictionary.settings}
                 lang={lang}
-                route="/dashboard/settings" 
+                route={`/${lang}/dashboard/settings`}
                 isOpen={isSidebarOpen}>
                 <Image src="/assets/icons/white/Settings.png" height={20} width={20} alt="Settings" />
               </NavigationLink>
