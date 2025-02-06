@@ -165,11 +165,11 @@ const Setup = () => {
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.pass}</p>
-              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.password }</h2>
+              <h2 className="font-bold text-neutral-700 text-h1">********</h2>
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.phone}</p>
-              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.role }</h2>
+              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.telephoneUser }</h2>
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.zone}</p>
@@ -182,12 +182,16 @@ const Setup = () => {
           </div>
         </div>
       </div>
-      <Modal open={ isCompanyModalOpen } onClose={ handleCloseCompanyModal }>
-        <EditCompanyForm company={ companyData } loadData={ loadData }/>
-      </Modal>
-      <Modal open={ isUserModalOpen } onClose={ handleCloseUserModal }>
-        <EditUserForm user={ userData } company={ companyData } loadData={ loadData }/>
-      </Modal>
+      {isCompanyModalOpen && (
+        <Modal open={isCompanyModalOpen} onClose={handleCloseCompanyModal}>
+          <EditCompanyForm company={companyData} loadData={loadData} onClose={handleCloseCompanyModal}/>
+        </Modal>
+      )}
+      {isUserModalOpen && (
+        <Modal open={isUserModalOpen} onClose={handleCloseUserModal}>
+          <EditUserForm user={userData} company={companyData} loadData={loadData} onClose={handleCloseUserModal}/>
+        </Modal>
+      )}
     </div>
   )
 }
