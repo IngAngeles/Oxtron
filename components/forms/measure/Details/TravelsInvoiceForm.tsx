@@ -1,21 +1,25 @@
 import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
 import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
 import {Form} from "@/components/ui/form";
-import {TravelDetails, TravelDetailsValidation, VehicleDetails} from "@/lib/validation";
+import {TravelDetails, TravelDetailsValidation} from "@/lib/validation";
 import {zodResolver} from "@hookform/resolvers/zod";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react'
 import {useForm} from "react-hook-form";
 import SubmitButton from '@/components/SubmitButton'
+import {createTravelDetails, updateTravelDetails} from '@/actions/measure/details'
+import {toast} from '@/components/ui/use-toast'
+import {ICboModeTransport, VLabel} from '@/constants/types'
+import {getCboModeTransport} from '@/actions/shared'
 import {getDictionary} from "@/lib/dictionary";
 import {usePathname} from "next/navigation";
 import {Locale} from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
-import {createTravelDetails, updateTravelDetails} from "@/actions/measure/details";
-import {toast} from "@/components/ui/use-toast";
 
 type Props = { idControlTravel: number; travel?: TravelDetails; reloadData: () => void };
 
 export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props) => {
+  const [cboModeTransport, setCboModeTransport] = useState<VLabel[]>([])
+  const [data, setData] = useState<ICboModeTransport[]>([])
   const [emissionsFactor, setEmissionsFactor] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
@@ -52,8 +56,11 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
       origin: travel?.origin ?? '',
       startDate: travel?.startDate ?? new Date().toISOString(),
       idControlTravelDetails: travel?.idControlTravelDetails,
+      unit: travel?.unit || '',
     },
   });
+
+  const selectedType = form.watch('idTravelCboType');
 
   async function onSubmit(travelDetails: TravelDetails) {
     setIsLoading(true);
@@ -65,24 +72,48 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
       if (data.success) {
         toast({
           title: 'Success',
-          description: `This invoice has been ${ !travel ? 'created' : 'updated' } successfully`,
+          description: `This invoice has been ${!travel ? 'created' : 'updated'} successfully`,
           className: 'bg-black',
         })
         form.reset()
         reloadData()
       }
     } catch (error) {
-      console.error({ error })
+      console.error({error})
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
         className: 'bg-[#7f1d1d]',
       })
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await getCboModeTransport()
+      const data = response.data;
+
+      setData(data || [])
+      setCboModeTransport(
+        data?.map(value => ({
+          value: value.idCommutingCboModeTransport.toString(),
+          label: value.description,
+        })) || []
+      )
+    }
+
+    loadData()
+  }, [])
+
+  useEffect(() => {
+    if (selectedType) {
+      const unitSelected = data.find((vehicleCboType) => vehicleCboType.idCommutingCboModeTransport.toString() === selectedType.toString())
+      form.setValue('unit', unitSelected?.units);
+    }
+  }, [selectedType, form]);
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -95,6 +126,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
         className="space-y-6 flex-1 text-neutral-500 w-full"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
           <div className="flex items-center justify-center w-full">
             <CustomRadioButton
               value={emissionsFactor}
@@ -141,13 +173,14 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="fuelType"
+              name="idTravelCboType"
               label={dictionary.label6}
               placeholder={dictionary.tran}
+              options={cboModeTransport}
             />
           </div>
           <div>
-            <div className="flex items-center justify-center w-full">
+            <div className="flex items-end justify-center w-full gap-4">
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
@@ -161,6 +194,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
                 name="unit"
                 placeholder={dictionary.unit}
                 label={dictionary.label5}
+                disabled
               />
             </div>
           </div>
