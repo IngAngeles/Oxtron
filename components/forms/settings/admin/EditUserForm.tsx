@@ -14,7 +14,7 @@ import SubmitButton from '@/components/SubmitButton'
 const EditUserForm = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [_, setCompany] = useState<Company>()
-  const { user } = React.useContext(AdminAccountContext) as IAdminAccountContext
+  const { user, handleCloseUpdateUserModal } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
   const { loadData: reloadData } = useContext(AdminAccountContext) as IAdminAccountContext
 
@@ -61,6 +61,7 @@ const EditUserForm = () => {
         })
         form.reset()
         await reloadData()
+        handleCloseUpdateUserModal()
       }
     } catch (error) {
       toast({
