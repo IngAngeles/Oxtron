@@ -456,43 +456,18 @@ export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLo
 export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
-  idControlLogisticsDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlLogistics: z
-    .number()
-    .int(),
-  idEmissionFactor: z
-    .number()
-    .int(),
-  origin: z.string().optional(),
-  destiny: z.string().optional(),
-  startDate: z
-    .string()
-    .datetime(),
-  endDate: z
-    .string()
-    .datetime(),
+  idControlLogisticsDetails: z.number().int().optional(),
+  idControlLogistics: z.number().int(),
+  idEmissionFactor: z.number().int(),
+  origin: z.string(),
+  destiny: z.string(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
-  idFuelType: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  amount: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  unit: z.string().optional(),
-  active: z
-    .number()
-    .int(),
+  idFuelType: z.coerce.number(),
+  amount: z.coerce.number().min(1),
+  unit: z.string().nonempty(),
+  active: z.number().default(1),
 })
 export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
 

@@ -63,6 +63,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
   });
 
   async function onSubmit(logisticsDetails: LogisticDetails) {
+    console.log(logisticsDetails)
     setIsLoading(true);
     try {
       const data = !logistic
@@ -225,10 +226,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
           </div>
         </div>
         <div className="flex items-center justify-end w-32 float-end">
-          <SubmitButton
-            isLoading={isLoading}
-            onClick={() => onSubmit(form.getValues())}
-          >
+          <SubmitButton isLoading={isLoading}>
             {dictionary.up}
           </SubmitButton>
         </div>
