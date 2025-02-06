@@ -24,7 +24,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [dictionary, setDictionary] = useState<any>(null);
-  const [fuelType, setFuelType] = useState<VLabel[]>([])
+  const [_, setFuelType] = useState<VLabel[]>([])
 
   useEffect(() => {
     const loadDictionary = async () => {
@@ -72,7 +72,7 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       if (data.success) {
         toast({
           title: dictionary.messages.succ,
-          description: `${dictionary.messagess.inv} ${!logistic ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
+          description: `${dictionary.messagess?.inv} ${!logistic ? dictionary.messagess?.cre : dictionary.messagess.up} ${dictionary.messagess?.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -108,7 +108,12 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
       getDistance(Number(origin), Number(destiny)).then((result) => {
         if (result?.success) {
           // @ts-ignore
-          form.setValue('amount', result?.data?.distance);
+          const response: string = result?.data?.distance;
+          const distance = response.split(' ')[0]
+          const unit = response.split(' ')[1]
+
+          form.setValue('amount', Number(distance.split(',').join('')));
+          form.setValue('unit', unit)
         } else {
           toast({
             variant: 'destructive',
@@ -144,25 +149,25 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
               label={dictionary.label}
               defaultSelected={0}/>
           </div>
-          <div className="flex items-center justify-center w-full">
+          <div className="flex justify-center w-full gap-4">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="startDate"
-              label={dictionary.label1}
-              placeholder={dictionary.ori}
+              name="origin"
+              label="ORIGIN"
+              placeholder="Origin"
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.INPUT}
-              name="endDate"
-              label={dictionary.label2}
-              placeholder={dictionary.desti}
+              name="destiny"
+              label="DESTINY"
+              placeholder="Destiny"
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex items-center justify-center w-full">
+          <div className="flex justify-center w-full gap-4">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
@@ -189,30 +194,32 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex items-center justify-center w-full">
+          {/* <div className="flex justify-center w-full gap-4">
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="fuelType"
-              label={dictionary.label6}
-              placeholder={dictionary.type}
+              name="idFuelType"
+              label="FUEL TYPE"
+              placeholder="Fuel Type"
+              options={fuelType}
             />
-          </div>
+          </div> */ }
           <div>
-            <div className="flex items-center justify-center w-full">
+            <div className="flex justify-center w-full gap-4">
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="amount"
                 label={dictionary.label}
                 placeholder={dictionary.amo}
+                disabled
               />
               {/* <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="unit"
-                placeholder={dictionary.uni}
-                label={dictionary.label8}
+                placeholder="Unit"
+                label="UNIT"
               /> */}
             </div>
           </div>
