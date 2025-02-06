@@ -98,8 +98,20 @@ export const useVehicles = () => {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
-          handleShowModal()
+          form.reset({
+            idControlVehicle: vehicle?.idControlVehicle ?? 0,
+              idUserControl: vehicle?.idUserControl ?? 0,
+              idCboBrand: vehicle?.idCboBrand ?? 0,
+              idCboModel: vehicle?.idCboModel ?? 0,
+              idCboType: vehicle?.idCboType ?? 0,
+              idStatus: vehicle?.idStatus ?? 0,
+              licensePlate: vehicle?.licensePlate ?? "",
+              name: vehicle?.name ?? "",
+              active: vehicle?.active ?? 1,
+          })
+          setVehicle(null)
           setVehicle(vehicle!)
+          handleShowModal()
         },
       },
       link: `/${vehicle.idControlVehicle}`,
