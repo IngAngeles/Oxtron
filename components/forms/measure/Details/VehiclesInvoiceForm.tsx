@@ -173,7 +173,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="fuelType"
+              name="idVehicleCboType"
               label={dictionary.label7}
               placeholder={dictionary.cal}
               options={vehiclesCboTypes}
