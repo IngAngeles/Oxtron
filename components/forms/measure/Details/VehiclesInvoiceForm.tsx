@@ -22,7 +22,6 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
   const [data, setData] = useState<ComboType[]>([])
   const [vehiclesCboTypes, setVehiclesCboTypes] = useState<Option[]>([])
   const [emissionsFactor, setEmissionsFactor] = useState<string>("");
-  const [units, _] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
@@ -57,7 +56,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
       idVehicleCboType: vehicle?.idVehicleCboType ?? '0',
       invoiceId: vehicle?.invoiceId ?? "",
       startDate: vehicle?.startDate ?? new Date().toISOString(),
-      unit: vehicle?.unit ?? units,
+      unit: vehicle?.unit ?? '',
       idControlVehicleDetails: vehicle?.idControlVehicleDetails,
     },
   });
