@@ -41,7 +41,7 @@ const UserByCompanyIdForm = () => {
     }
   })
 
-  const {loadData} = useContext(AdminAccountContext) as IAdminAccountContext
+  const {loadData, handleCloseRegisterUserModal} = useContext(AdminAccountContext) as IAdminAccountContext
 
   async function onSubmit(user: UserRegisterByCompanyId) {
     setIsLoading(true)
@@ -50,11 +50,12 @@ const UserByCompanyIdForm = () => {
       const session = await getUserBySession()
       await registerByCompanyId({ ...user, idCompany: session.idCompany })
       toast({
-        title: dictionary.modal.success, 
+        title: dictionary.modal.success,
         description: dictionary.modal.description,
       })
       form.reset()
       await loadData()
+      handleCloseRegisterUserModal()
     } catch (error) {
       toast({
         title: dictionary.modal.error,
