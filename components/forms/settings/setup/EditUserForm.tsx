@@ -13,9 +13,9 @@ import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
-type Props = { user?: UpdateUser, company?: Company, loadData: () => Promise<void> }
+type Props = { user?: UpdateUser, company?: Company, loadData: () => Promise<void>, onClose: () => void }
 
-const EditUserForm = ({ user, loadData }: Props) => {
+const EditUserForm = ({ user, loadData, onClose }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { toast } = useToast()
   const pathname = usePathname();
@@ -42,6 +42,7 @@ const EditUserForm = ({ user, loadData }: Props) => {
           description: 'This user has been updated successfully',
         })
         form.reset()
+        onClose()
         await loadData()
       }
     } catch (error) {
