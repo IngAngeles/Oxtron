@@ -377,39 +377,17 @@ export const TravelValidation = z.object({
 export type Travel = z.infer<typeof TravelValidation>
 
 export const TravelDetailsValidation = z.object({
-  idControlTravelDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlTravel: z
-    .number()
-    .int(),
-  idEmissionFactor: z
-    .number()
-    .int(),
-  startDate: z
-    .string()
-    .datetime(),
-  endDate: z
-    .string()
-    .datetime(),
-  invoiceId: z
-    .string()
-    .optional(),
-  idTravelCboType: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) return 0
-    return parsed
-  }),
-  origin: z
-    .string()
-    .optional(),
-  destiny: z
-    .string()
-    .optional(),
-  active: z
-    .number()
-    .int(),
+  idControlTravelDetails: z.number().int().optional(),
+  idControlTravel: z.number().int(),
+  idEmissionFactor: z.number().int(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+  invoiceId: z.string().optional(),
+  idTravelCboType: z.coerce.number(),
+  unit: z.string().optional(),
+  origin: z.string().optional(),
+  destiny: z.string().optional(),
+  active: z.number().int(),
 })
 export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
 
