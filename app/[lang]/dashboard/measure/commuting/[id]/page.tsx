@@ -53,10 +53,9 @@ export default function CommutingDetailPage({params: {id}}: Props) {
     const facility = facilities.data?.find(value => value.idControlFacility?.toString() === comm?.idControlFacility.toString())
 
     setFacility(facility)
-
-    // @ts-ignore
     setData(newData || [])
     setIsLoading(false)
+    handleHideModal()
   }
 
   const handleEdit = async (rowData: any) => {

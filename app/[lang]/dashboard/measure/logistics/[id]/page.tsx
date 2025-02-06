@@ -51,6 +51,7 @@ export default function LogisticsDetailPage({ params: { id } }: Props) {
     setData(newData || [])
     setLogistic(logistic)
     setIsLoading(false)
+    handleHideModal()
   }
 
   const handleEdit = async (rowData: any) => {

@@ -51,6 +51,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
     setData(newData || [])
     setTravel(travel)
     setIsLoading(false)
+    handleHideModal()
   }
 
   const handleEdit = async (rowData: any) => {
