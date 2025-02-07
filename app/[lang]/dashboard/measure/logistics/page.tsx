@@ -31,6 +31,8 @@ export default function LogisticsPage() {
     nextStep,
     prevStep,
     steps,
+    status,
+    setStatus,
     onSubmit,
     setCurrentStep,
     form,
@@ -64,7 +66,7 @@ export default function LogisticsPage() {
           title={!logistic ? dictionary.measure.modall.create : dictionary.measure.modall.title}
           handleOnCloseModal={handleHideModal}
           stepper={{
-            steps: 3, currentStep, setCurrentStep,
+            steps: 2, currentStep, setCurrentStep,
           }}
           className="max-h-[80vh]">
           <LogisticsForm
@@ -80,6 +82,8 @@ export default function LogisticsPage() {
             nextStep={nextStep}
             prevStep={prevStep}
             steps={steps}
+            status={status}
+            setStatus={setStatus}
             form={form}
             isDisabled={isDisabled}
             isModelDisabled={isModelDisabled}

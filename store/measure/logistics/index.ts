@@ -34,7 +34,7 @@ type LogisticsStore = {
 };
 
 export const useLogisticStore = create<LogisticsStore>((set) => ({
-  steps: 3,
+  steps: 2,
   currentStep: 0,
   logistics: [],
   statuses: [],
@@ -84,9 +84,7 @@ export const useLogisticStore = create<LogisticsStore>((set) => ({
     set({loading: true});
     try {
       const response = await getLogisticsByUserId();
-      const uniqueData = Array.from(
-        new Map(response.data?.map(item => [item.idControlLogistics, item])).values()
-      );
+      const uniqueData = response.data?.filter((data) => data.active === 1) || []
 
       set({logistics: uniqueData, error: null, loading: false});
     } catch (error) {
