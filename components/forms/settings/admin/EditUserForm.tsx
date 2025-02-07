@@ -4,11 +4,10 @@ import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
-import { getUserBySession, updateUser } from '@/actions/auth'
+import {getCboRoles, getUserBySession, updateUser} from '@/actions/auth'
 import { getCompanyById } from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
-import { roles } from '@/constants/auth'
 import SubmitButton from '@/components/SubmitButton'
 
 const EditUserForm = () => {
@@ -17,6 +16,7 @@ const EditUserForm = () => {
   const { user, handleCloseUpdateUserModal } = React.useContext(AdminAccountContext) as IAdminAccountContext
   const { toast } = useToast()
   const { loadData: reloadData } = useContext(AdminAccountContext) as IAdminAccountContext
+  const [roles, setRoles] = useState<Option[]>([])
 
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
@@ -34,14 +34,18 @@ const EditUserForm = () => {
       role: user?.role,
       telephoneUser: user?.telephoneUser,
       timeZone: user?.timeZone,
-
     }
   })
 
   const loadData = async () => {
     const user = await getUserBySession()
     const company = await getCompanyById(user.idCompany)
+    const roles = await getCboRoles();
 
+    setRoles(roles.map((role) => ({
+      value: role.idCatRole.toString(),
+      label: role.description,
+    })))
     setCompany(company)
   }
 
@@ -97,7 +101,7 @@ const EditUserForm = () => {
             control={ form.control }
             placeholder="Role"
             label="Role"
-            name="role"
+            name="idUSerType"
             options={ roles }
           />
           <CustomFormField

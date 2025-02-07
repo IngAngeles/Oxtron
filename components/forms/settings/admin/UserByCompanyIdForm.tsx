@@ -114,6 +114,14 @@ const UserByCompanyIdForm = () => {
             control={ form.control }
             placeholder={dictionary.modal.role}
             label={dictionary.modal.role}
+            name="idUSerType"
+            options={ roles }
+          />
+          <CustomFormField
+            fieldType={ FormFieldType.INPUT }
+            control={ form.control }
+            placeholder={dictionary.modal.role}
+            label={dictionary.modal.role}
             name="role"
             options={ roles }
           />

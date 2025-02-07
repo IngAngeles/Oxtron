@@ -105,12 +105,16 @@ const AdminPage: React.FC = () => {
       </div>
 
       {/* Renderiza el Modal */}
-      <Modal open={ isRegisterUserModalOpen } onClose={ handleCloseRegisterUserModal } title={dictionary.modal.title} className="h-[80vh]">
-        <UserByCompanyIdForm/>
-      </Modal>
-      <Modal open={ isUpdateUserModalOpen } onClose={ handleCloseUpdateUserModal } title={dictionary.modal.edit}>
-        <EditUserForm/>
-      </Modal>
+      { isRegisterUserModalOpen && (
+        <Modal open={isRegisterUserModalOpen} onClose={handleCloseRegisterUserModal} title={dictionary.modal.title} className="h-[80vh]">
+          <UserByCompanyIdForm/>
+        </Modal>
+      )}
+      { isUpdateUserModalOpen && (
+        <Modal open={isUpdateUserModalOpen} onClose={handleCloseUpdateUserModal} title={dictionary.modal.edit}>
+          <EditUserForm/>
+        </Modal>
+      )}
     </div>
   );
 }
