@@ -86,7 +86,7 @@ export const useManufacturing = () => {
     const cards: Card[] = manufacturing?.map((manufacturing) => ({
       id: manufacturing.idControlManufacturing || 0,
       title: `${manufacturing.process}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',

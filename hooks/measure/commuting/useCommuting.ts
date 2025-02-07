@@ -76,7 +76,7 @@ export const useCommuting = () => {
     const cards: Card[] = commuting?.map((commute) => ({
       id: commute.idControlCommuting || 0,
       title: `${facilities.find((facility) => commute.idControlFacility === facility.idControlFacility)?.idFacility}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',

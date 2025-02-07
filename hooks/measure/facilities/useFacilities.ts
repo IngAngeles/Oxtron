@@ -85,7 +85,7 @@ export function useFacilities() {
       {
         id: facility.idControlFacility || 0,
         title: facility?.idFacility,
-        description: facility?.description || '',
+        description: /* facility?.description || */ '',
         icon: {
           src: '/assets/icons/black/Edit.png',
           position: 'head',

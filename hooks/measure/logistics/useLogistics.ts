@@ -122,7 +122,7 @@ export const useLogistics = () => {
     const cards: Card[] = logistics?.map((logistic) => ({
       id: logistic.idControlLogistics || 0,
       title: `${logistic.origin} - ${logistic.destination}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',

@@ -93,7 +93,7 @@ export const useVehicles = () => {
     const cards: Card[] = vehicles?.map((vehicle) => ({
       id: vehicle.idControlVehicle || 0,
       title: `${vehicle.name}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
