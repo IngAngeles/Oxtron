@@ -3,10 +3,9 @@ import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
-import { updateUser } from '@/actions/auth'
+import {getCboRoles, updateUser} from '@/actions/auth'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
-import { roles } from '@/constants/auth'
 import SubmitButton from '@/components/SubmitButton'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
@@ -22,6 +21,7 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const [roles, setRoles] = useState<Option[]>([])
 
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
@@ -59,6 +59,12 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
   useEffect(() => {
     const loadDictionary = async () => {
       try {
+        const roles = await getCboRoles();
+
+        setRoles(roles.map((role) => ({
+          value: role.idCatRole.toString(),
+          label: role.description,
+        })))
         setLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.settings.setup);
@@ -100,6 +106,14 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
+            control={ form.control }
+            placeholder={dictionary.modal.role}
+            label={dictionary.modal.role}
+            name="idUSerType"
+            options={ roles }
+          />
+          <CustomFormField
+            fieldType={ FormFieldType.INPUT }
             control={ form.control }
             placeholder={dictionary.modal.role}
             label={dictionary.modal.role}

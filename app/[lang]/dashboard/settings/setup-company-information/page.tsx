@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ArrowLeft, SquarePen } from 'lucide-react';
 import { getCompanyById } from '@/actions/company';
-import { getUserBySession } from '@/actions/auth';
+import {getCboRoles, getUserBySession} from '@/actions/auth';
 import { Company, UpdateUser } from '@/lib/validation';
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/i18n.config";
 
 // ⬇️ Importaciones dinámicas para evitar errores en SSR
 import dynamic from 'next/dynamic';
+import {ComboRole} from "@/constants/types";
 
 const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
 const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
@@ -30,6 +31,7 @@ const Setup = () => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const [role, setRole] = useState<ComboRole>()
 
   const handleCompanyEditClick = () => {
     setIsCompanyModalOpen(true)
@@ -51,7 +53,9 @@ const Setup = () => {
     try {
       const user = await getUserBySession()
       const company = await getCompanyById(user.idCompany)
+      const roles = await getCboRoles();
 
+      setRole(roles.find((role) => user.idUSerType === role.idCatRole))
       setCompanyData(company)
       setUserData(user as unknown as UpdateUser)
     } catch (error) {
@@ -153,7 +157,7 @@ const Setup = () => {
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.user}</p>
-              <h2 className="font-bold text-neutral-700 text-h1">{ userData?.idUSerType }</h2>
+              <h2 className="font-bold text-neutral-700 text-h1">{ role?.description }</h2>
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content2.email}</p>
@@ -183,12 +187,12 @@ const Setup = () => {
         </div>
       </div>
       {isCompanyModalOpen && (
-        <Modal open={isCompanyModalOpen} onClose={handleCloseCompanyModal}>
+        <Modal open={isCompanyModalOpen} onClose={handleCloseCompanyModal} className="max-h-[80vh]">
           <EditCompanyForm company={companyData} loadData={loadData} onClose={handleCloseCompanyModal}/>
         </Modal>
       )}
       {isUserModalOpen && (
-        <Modal open={isUserModalOpen} onClose={handleCloseUserModal}>
+        <Modal open={isUserModalOpen} onClose={handleCloseUserModal} className="max-h-[80vh]">
           <EditUserForm user={userData} company={companyData} loadData={loadData} onClose={handleCloseUserModal}/>
         </Modal>
       )}
