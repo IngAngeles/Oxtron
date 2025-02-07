@@ -31,13 +31,14 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   const [measureFugitiveEmissionsFactor, setMeasureFugitiveEmissionsFactor] = useState<string>('1')
   // const [chargeIntoEquipment, setChargeIntoEquipment] = useState<string>('')
   const [dontKnow, setDontKnow] = useState<string>('0')
-  const [label, setLabel] = useState<string>('TYPE')
+  const [_, setLabel] = useState<string>('TYPE')
   const [cboTypes, setCboTypes] = useState<VLabel[]>([])
   const [options, setOptions] = useState<VLabel[]>([])
   const emissionsFactorOptions: VLabel[] = [
     {value: '1', label: 'Default'},
   ]
   const [currentStep, setCurrentStep] = useState(1)
+  // const [steps, setSteps] = useState<number>(1)
   const [optValue, setOptValue] = useState<number>(-1)
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState([])
@@ -526,7 +527,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             </>
           )}
           <div className="flex justify-end w-32 float-end">
-            {idType === '4' && measureFugitiveEmissionsFactor === '0' || idType === '4' && measureFugitiveEmissionsFactor === '1' && currentStep === 2 || idType !== '4' && currentStep === 2 ? (
+            {idType !== '4' || (idType === '4' && measureFugitiveEmissionsFactor === '0')? (
               <SubmitButton isLoading={isLoading} onClick={() => onSubmit(form.getValues())}>
                 {!facility ? dictionary.create : dictionary.update}
               </SubmitButton>
