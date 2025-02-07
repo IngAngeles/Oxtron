@@ -1,9 +1,9 @@
 'use server'
-import { auth, signIn, signOut } from '@/auth'
-import { forgotPasswordProps, IUser, updatePasswordProps } from '@/constants/types'
+import {auth, signIn, signOut} from '@/auth'
+import {ComboRole, forgotPasswordProps, IUser, updatePasswordProps} from '@/constants/types'
 import axiosInstance from '@/lib/axios-instance'
-import { UpdateUser, UserRegister, UserRegisterByCompanyId } from '@/lib/validation'
-import { AxiosError } from 'axios'
+import {UpdateUser, UserRegister, UserRegisterByCompanyId} from '@/lib/validation'
+import {AxiosError} from 'axios'
 
 export async function login({ email, password }: { email: string; password: string }) {
   try {
@@ -152,4 +152,9 @@ export async function getUserBySession(): Promise<IUser> {
 
 export async function logout() {
   await signOut({ redirectTo: '/' })
+}
+
+export async function getCboRoles(): Promise<ComboRole[]> {
+  const roles = await axiosInstance.get('/cboRoles/Mostrar_cboRoles');
+  return roles.data as ComboRole[];
 }

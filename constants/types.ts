@@ -94,6 +94,12 @@ export interface ComboFuel {
     description: string;
     units: string;
 }
+export interface ComboRole {
+    idCatRole:   number;
+    description: string;
+    active:      number;
+}
+
 
 export interface ICboModeTransport {
     idCommutingCboModeTransport: number;
