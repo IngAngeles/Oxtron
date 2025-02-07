@@ -1,24 +1,26 @@
-import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
-import CustomFormField, {FormFieldType} from "@/components/CustomFormField";
-import {Form} from "@/components/ui/form";
-import {VehicleDetails, VehicleDetailsValidation} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import React, {useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
+import { CustomRadioButton } from "@/components/controls/radio-button/RadioButton";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { Form } from "@/components/ui/form";
+import { VehicleDetails, VehicleDetailsValidation } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from 'react'
+import { useForm } from "react-hook-form";
 import SubmitButton from '@/components/SubmitButton'
-import {getDictionary} from "@/lib/dictionary";
-import {usePathname} from "next/navigation";
+import { createVehicleDetails, updateVehicleDetails } from '@/actions/measure/details'
+import { toast } from '@/components/ui/use-toast'
+import { getCboTypes } from '@/actions/shared'
+import {ComboType} from "@/constants/types";
+import { usePathname } from "next/navigation";
 import {Locale} from "@/i18n.config";
+import {getDictionary} from "@/lib/dictionary";
 import Loading from '@/components/loading/LoadingBlack';
-import {toast} from "@/components/ui/use-toast";
-import {createVehicleDetails, updateVehicleDetails} from "@/actions/measure/details";
-import {getCboTypes} from "@/actions/shared";
-import {VLabel} from "@/constants/types";
 
-type Props = { idControlVehicle: number; vehicle?: VehicleDetails; reloadData: () => void };
+
+type Props = { idControlVehicle: number; vehicle?: VehicleDetails; reloadData: () => void  };
 
 export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Props) => {
-  const [vehiclesCboTypes, setVehiclesCboTypes] = useState<VLabel[]>([])
+  const [data, setData] = useState<ComboType[]>([])
+  const [vehiclesCboTypes, setVehiclesCboTypes] = useState<Option[]>([])
   const [emissionsFactor, setEmissionsFactor] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const pathname = usePathname();
@@ -59,6 +61,8 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
     },
   });
 
+  const selectedType = form.watch('idVehicleCboType');
+
   async function onSubmit(vehicleDetails: VehicleDetails) {
     setIsLoading(true);
     try {
@@ -66,19 +70,17 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
         ? await createVehicleDetails(vehicleDetails)
         : await updateVehicleDetails(vehicleDetails)
 
-      console.log({data})
-
       if (data.success) {
         toast({
           title: 'Success',
-          description: `This invoice has been ${!vehicle ? 'created' : 'updated'} successfully`,
+          description: `This invoice has been ${ !vehicle ? 'created' : 'updated' } successfully`,
           className: 'bg-black',
         })
         form.reset()
         reloadData()
       }
     } catch (error) {
-      console.error({error})
+      console.error({ error })
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
@@ -93,17 +95,26 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
   useEffect(() => {
     const loadData = async () => {
       const response = await getCboTypes()
-      const data = response.data || []
+      const data = response.data
+      setData(data || [])
+
       setVehiclesCboTypes(
-        data.map(value => ({
+        data?.map(value => ({
           value: value.idVehicleCboType.toString(),
           label: value.description,
-        }))
+        })) || []
       )
     }
 
     loadData()
   }, [])
+
+  useEffect(() => {
+    if (selectedType) {
+      const unitSelected = data.find((vehicleCboType) => vehicleCboType.idVehicleCboType.toString() === selectedType.toString())
+      form.setValue('unit', unitSelected?.units);
+    }
+  }, [selectedType, form]);
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -162,7 +173,7 @@ export const VehiclesInvoiceForm = ({idControlVehicle, vehicle, reloadData}: Pro
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.SELECT}
-              name="fuelType"
+              name="idVehicleCboType"
               label={dictionary.label7}
               placeholder={dictionary.cal}
               options={vehiclesCboTypes}

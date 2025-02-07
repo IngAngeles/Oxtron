@@ -3,25 +3,25 @@ import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
-import { updateUser } from '@/actions/auth'
+import {getCboRoles, updateUser} from '@/actions/auth'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
-import { roles } from '@/constants/auth'
 import SubmitButton from '@/components/SubmitButton'
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import Loading from '@/components/loading/LoadingBlack';
 
-type Props = { user?: UpdateUser, company?: Company, loadData: () => Promise<void> }
+type Props = { user?: UpdateUser, company?: Company, loadData: () => Promise<void>, onClose: () => void }
 
-const EditUserForm = ({ user, loadData }: Props) => {
+const EditUserForm = ({ user, loadData, onClose }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { toast } = useToast()
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const [roles, setRoles] = useState<Option[]>([])
 
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
@@ -42,6 +42,7 @@ const EditUserForm = ({ user, loadData }: Props) => {
           description: 'This user has been updated successfully',
         })
         form.reset()
+        onClose()
         await loadData()
       }
     } catch (error) {
@@ -58,6 +59,12 @@ const EditUserForm = ({ user, loadData }: Props) => {
   useEffect(() => {
     const loadDictionary = async () => {
       try {
+        const roles = await getCboRoles();
+
+        setRoles(roles.map((role) => ({
+          value: role.idCatRole.toString(),
+          label: role.description,
+        })))
         setLoading(true);
         const dict = await getDictionary(lang);
         setDictionary(dict.pages.settings.setup);
@@ -99,6 +106,14 @@ const EditUserForm = ({ user, loadData }: Props) => {
           />
           <CustomFormField
             fieldType={ FormFieldType.SELECT }
+            control={ form.control }
+            placeholder={dictionary.modal.role}
+            label={dictionary.modal.role}
+            name="idUSerType"
+            options={ roles }
+          />
+          <CustomFormField
+            fieldType={ FormFieldType.INPUT }
             control={ form.control }
             placeholder={dictionary.modal.role}
             label={dictionary.modal.role}

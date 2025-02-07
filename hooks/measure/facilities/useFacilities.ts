@@ -85,18 +85,42 @@ export function useFacilities() {
       {
         id: facility.idControlFacility || 0,
         title: facility?.idFacility,
-        description: facility?.description || '',
+        description: /* facility?.description || */ '',
         icon: {
           src: '/assets/icons/black/Edit.png',
           position: 'head',
           onClick: () => {
+            form.reset({
+              idControlFacility: facility?.idControlFacility ?? 0,
+              idUserControl: facility?.idUserControl ?? 0,
+              idFacility: facility?.idFacility ?? "",
+              city: facility?.city ?? "",
+              country: facility?.country ?? "",
+              description: facility?.description ?? "",
+              propertyStatus: facility?.propertyStatus ?? 0,
+              active: facility?.active ?? 1,
+            })
+            setFacility(null)
             setFacility(facility)
             handleShowModal()
           },
         },
         link: `/${facility.idControlFacility}`,
         lastUpdated: new Date(2022, 10, 23),
-        onClick: () => setFacility(facility),
+        onClick: () => {
+          form.reset({
+            idControlFacility: facility?.idControlFacility ?? 0,
+            idUserControl: facility?.idUserControl ?? 0,
+            idFacility: facility?.idFacility ?? "",
+            city: facility?.city ?? "",
+            country: facility?.country ?? "",
+            description: facility?.description ?? "",
+            propertyStatus: facility?.propertyStatus ?? 0,
+            active: facility?.active ?? 1,
+          })
+          setFacility(null)
+          setFacility(facility)
+        },
       }
     )) || []
     setCards(cards)

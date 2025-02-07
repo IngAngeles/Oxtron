@@ -14,6 +14,7 @@ import {
   VehicleDescriptionDetails,
   VehicleDetails
 } from '@/lib/validation'
+import {getAuthenticatedUserId} from "@/actions/shared";
 
 export async function getCommutingDetails(idCommuting: number) {
   try {
@@ -39,7 +40,16 @@ export async function getCommutingDetails(idCommuting: number) {
 
 export async function createCommutingDetails(commutingDetails: CommutingDetails) {
   try {
-    const response = await axiosInstance.post('/CommutingDetails/Registrar_CommutingDetails', commutingDetails)
+    const idUserControl = await getAuthenticatedUserId();
+    console.log({...commutingDetails, idUserControl})
+    const response = await axiosInstance.post('/CommutingDetails/Registrar_CommutingDetails',
+      {
+        ...commutingDetails,
+        originZipCode: commutingDetails.originZipCode.toString(),
+        distinationZipCode: commutingDetails.distinationZipCode.toString(),
+        cboModeTransportDescription: null,
+        idUserControl: idUserControl.toString(),
+      })
 
     return { status: response.status, success: true, data: response.data }
   } catch (error) {

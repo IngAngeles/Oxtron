@@ -10,7 +10,6 @@ export async function createLogistic(logistic: Logistic): Promise<ApiResponse<st
     const session = await auth()
     const idUserControl = await getAuthenticatedUserId();
     const firstName = session?.user?.name || 'User'
-    console.log({...logistic, firstName, idUserControl})
     const response = await axiosInstance.post('/Logistics/Registrar_Logistics', {...logistic, firstName, idUserControl})
     const data = response.data as string
 

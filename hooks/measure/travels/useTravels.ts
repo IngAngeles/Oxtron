@@ -72,7 +72,7 @@ export const useTravels = () => {
     const cards: Card[] = travels?.map((travel) => ({
       id: travel.idControlTravel || 0,
       title: `${travel.idTravel}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',

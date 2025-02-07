@@ -377,39 +377,17 @@ export const TravelValidation = z.object({
 export type Travel = z.infer<typeof TravelValidation>
 
 export const TravelDetailsValidation = z.object({
-  idControlTravelDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlTravel: z
-    .number()
-    .int(),
-  idEmissionFactor: z
-    .number()
-    .int(),
-  startDate: z
-    .string()
-    .datetime(),
-  endDate: z
-    .string()
-    .datetime(),
-  invoiceId: z
-    .string()
-    .optional(),
-  idTravelCboType: z.string().transform((val) => {
-    const parsed = Number(val)
-    if (isNaN(parsed)) return 0
-    return parsed
-  }),
-  origin: z
-    .string()
-    .optional(),
-  destiny: z
-    .string()
-    .optional(),
-  active: z
-    .number()
-    .int(),
+  idControlTravelDetails: z.number().int().optional(),
+  idControlTravel: z.number().int(),
+  idEmissionFactor: z.number().int(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+  invoiceId: z.string().optional(),
+  idTravelCboType: z.coerce.number(),
+  unit: z.string().optional(),
+  origin: z.string().optional(),
+  destiny: z.string().optional(),
+  active: z.number().int(),
 })
 export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
 
@@ -478,43 +456,18 @@ export const LogisticValidation = FirstStepLogisticValidation.merge(SecondStepLo
 export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
-  idControlLogisticsDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlLogistics: z
-    .number()
-    .int(),
-  idEmissionFactor: z
-    .number()
-    .int(),
-  origin: z.string().optional(),
-  destiny: z.string().optional(),
-  startDate: z
-    .string()
-    .datetime(),
-  endDate: z
-    .string()
-    .datetime(),
+  idControlLogisticsDetails: z.number().int().optional(),
+  idControlLogistics: z.number().int(),
+  idEmissionFactor: z.number().int(),
+  origin: z.string(),
+  destiny: z.string(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
-  idFuelType: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  amount: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) return 0
-      return parsed
-    }),
-  unit: z.string().optional(),
-  active: z
-    .number()
-    .int(),
+  idFuelType: z.coerce.number(),
+  amount: z.coerce.number().min(1),
+  unit: z.string().nonempty(),
+  active: z.number().default(1),
 })
 export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
 
@@ -653,39 +606,20 @@ export const CommutingValidation = z.object({
 export type Commuting = z.infer<typeof CommutingValidation>
 
 export const CommutingDetailsValidation = z.object({
-  idControlCommutingDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlCommuting: z
-    .number()
-    .int(),
-  origin: z
-    .string()
-    .optional(),
-  originZipCode: z
-    .string()
-    .optional(),
-  destination: z
-    .string()
-    .optional(),
-  distinationZipCode: z
-    .string()
-    .optional(),
-  distance: z
-    .string()
-    .optional(),
-  fuelEfficiency: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
-  active: z
-    .number()
-    .int()
-    .default(1),
+  idControlCommutingDetails: z.number().int().optional(),
+  idControlCommuting: z.coerce.number().int(),
+  origin: z.string().nonempty(),
+  originZipCode: z.coerce.number(),
+  destination: z.string().nonempty(),
+  distinationZipCode: z.coerce.number(),
+  distance: z.string(),
+  fuelEfficiency: z.coerce.number(),
+  active: z.number().int().default(1),
+  idCommutingCboModeTransport: z.coerce.number(),
+  cboModeTransportDescription: z.coerce.number().default(0),
+  activity: z.string().default(''),
+  unit: z.string().default(''),
+  status: z.string().default(''),
 })
 export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
 

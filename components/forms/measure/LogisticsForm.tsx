@@ -5,12 +5,16 @@ import SubmitButton from '@/components/SubmitButton'
 import {Logistic} from '@/lib/validation'
 import {Button} from '@/components/ui/button'
 import Loading from '@/components/loading/LoadingBlack';
+import {CustomRadioButton} from "@/components/controls/radio-button/RadioButton";
+import React, {Dispatch, SetStateAction} from "react";
 
 type Props = {
   logistic: Logistic | null,
   loading: boolean;
   dictionary: any,
   currentStep: number,
+  status: string,
+  setStatus: Dispatch<SetStateAction<string>>,
   nextStep: () => void,
   prevStep: () => void,
   statuses: Option[],
@@ -35,11 +39,12 @@ const TravelsForm = ({
   types,
   models,
   brands,
-  vehicles,
   currentStep,
   nextStep,
   // prevStep,
   steps,
+  status,
+  setStatus,
   form,
   isDisabled,
   isModelDisabled,
@@ -57,11 +62,11 @@ const TravelsForm = ({
             <StepOne dictionary={dictionary} form={form}/>
           )}
           {currentStep === 1 && (
-            <StepTwo dictionary={dictionary} form={form} statuses={statuses} types={types} models={models} brands={brands} isModelDisabled={isModelDisabled}/>
+            <StepTwo dictionary={dictionary} form={form} statuses={statuses} types={types} models={models} brands={brands} isModelDisabled={isModelDisabled} status={status} setStatus={setStatus}/>
           )}
-          {currentStep === 2 && (
+          {/* currentStep === 2 && (
             <StepThree dictionary={dictionary} form={form} statuses={statuses} vehicles={vehicles}/>
-          )}
+          ) */}
         </div>
         <div className="flex items-center justify-end w-32 float-end">
           {currentStep < steps - 1 ? (
@@ -128,22 +133,24 @@ const StepOne = ({dictionary, form}: StepProps) => {
   )
 }
 
-const StepTwo = ({dictionary, form, statuses, types, models, brands, isModelDisabled}: Readonly<StepProps & {
+const StepTwo = ({dictionary, form, statuses, types, models, brands, isModelDisabled, status, setStatus}: Readonly<StepProps & {
   statuses: Option[],
   types: Option[],
   models: Option[],
   brands: Option[],
+  status: string,
+  setStatus: Dispatch<SetStateAction<string>>,
   isModelDisabled: boolean,
 }>) => {
   return (
     <>
-      <CustomFormField
-        fieldType={FormFieldType.SELECT}
-        name="idCboStatus"
-        label={dictionary.label6}
-        placeholder={dictionary.status}
+      <CustomRadioButton
+        value={status}
+        onChange={setStatus}
         options={statuses}
-        control={form.control}
+        cols={2}
+        label={dictionary.label}
+        defaultSelected={0}
       />
       <CustomFormField
         fieldType={FormFieldType.INPUT}
@@ -186,7 +193,7 @@ const StepTwo = ({dictionary, form, statuses, types, models, brands, isModelDisa
   )
 }
 
-const StepThree = ({dictionary, form, statuses, vehicles}: Readonly<StepProps & {
+/* const StepThree = ({dictionary, form, statuses, vehicles}: Readonly<StepProps & {
   statuses: Option[],
   vehicles: Option[],
 }>) => {
@@ -210,6 +217,6 @@ const StepThree = ({dictionary, form, statuses, vehicles}: Readonly<StepProps & 
       />
     </>
   )
-}
+} */
 
 export default TravelsForm

@@ -45,13 +45,12 @@ export default function FacilitiesDetailPage({params: {id}}: Props) {
 
     const newData = await getData(id)
     const facilities = await getFacilitiesByUserId()
-
     const facility = facilities?.data?.find(value => value.idControlFacility?.toString() === id.toString())
-    setFacility(facility)
 
-    // @ts-ignore
+    setFacility(facility)
     setData(newData || [])
     setIsLoading(false)
+    handleHideModal()
   }
 
   const handleEdit = async (rowData: any) => {

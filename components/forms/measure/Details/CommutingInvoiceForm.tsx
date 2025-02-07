@@ -54,6 +54,8 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
     },
   })
 
+  const originAndDestination = form.watch(['originZipCode', 'distinationZipCode']);
+
   async function onSubmit(commutingDetails: CommutingDetails) {
     setIsLoading(true)
     try {
@@ -63,8 +65,8 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
 
       if (data.success) {
         toast({
-          title: dictionary.messagess.succ,
-          description: `${dictionary.messagess.inv} ${!commutingDetails ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
+          title: dictionary.messagess?.succ,
+          description: `${dictionary.messagess?.inv} ${!commutingDetails ? dictionary.messagess?.cre : dictionary.messagess.up} ${dictionary.messagess?.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -86,12 +88,12 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
   useEffect(() => {
     const loadData = async () => {
       const response = await getCboModeTransport()
-      const data = response.data || []
+      const data = response.data
       setCboModeTransport(
-        data.map(value => ({
-          value: value?.idCommutingCboModeTransport?.toString() || '',
-          label: value?.description || '',
-        }))
+        data?.map(value => ({
+          value: value.idCommutingCboModeTransport.toString(),
+          label: value.description,
+        })) || []
       )
     }
 
@@ -99,14 +101,18 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
   }, [])
 
   useEffect(() => {
-    const origin = form.getValues('originZipCode');
-    const destiny = form.getValues('distinationZipCode');
+    const origin: number = form.getValues('originZipCode');
+    const destination: number = form.getValues('distinationZipCode');
 
-    if (origin && destiny && origin.length >= 4 && destiny.length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destiny))) {
-      getDistance(Number(origin), Number(destiny)).then((result) => {
+    console.log({areAllFieldsSet: origin && destination})
+    console.log({origin})
+    console.log({destination})
+
+    if (origin && destination && origin.toString().length >= 4 && destination.toString().length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destination))) {
+      getDistance(origin, destination).then((result) => {
         if (result?.success) {
-          // @ts-ignore
-          form.setValue('distance', result?.data?.distance);
+          const data: any = result.data
+          form.setValue('distance', data?.distance);
         } else {
           toast({
             variant: 'destructive',
@@ -117,7 +123,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
         }
       });
     }
-  }, [form.getValues('originZipCode'), form.getValues('distinationZipCode')]);
+  }, [originAndDestination]);
 
   return isLoading || !dictionary ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -160,7 +166,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
           <div className="flex justify-center w-full gap-4">
             <CustomFormField
               control={form.control}
-              name="destinationZipCode"
+              name="distinationZipCode"
               fieldType={FormFieldType.INPUT}
               label={dictionary.label3}
               placeholder={dictionary.code}
@@ -188,15 +194,12 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
             control={form.control}
             name="fuelEfficiency"
             fieldType={FormFieldType.INPUT}
-            label={dictionary.label6}
-            placeholder={dictionary.fuel}
+            label="FUEL EFFICIENCY"
+            placeholder="Fuel efficiency"
           /> */}
         </div>
         <div className="flex items-center justify-end w-32 float-end">
-          <SubmitButton
-            isLoading={isLoading}
-            onClick={() => onSubmit(form.getValues())}
-          >
+          <SubmitButton isLoading={isLoading}>
             {dictionary.up}
           </SubmitButton>
         </div>

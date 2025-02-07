@@ -40,6 +40,7 @@ export default function VehiclesDetailPage({ params: { id } }: Props) {
     setData(newData || [])
     setVehicle(vehicle)
     setIsLoading(false)
+    handleHideModal()
   }
 
   useEffect(() => {

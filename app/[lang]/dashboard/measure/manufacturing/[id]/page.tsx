@@ -84,6 +84,7 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
     setData(newData || [])
     setManufacturing(manufacture)
     setIsLoading(false)
+    handleHideModal()
   }
 
   useEffect(() => {

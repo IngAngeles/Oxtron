@@ -39,6 +39,7 @@ export const useLogistics = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [isModelDisabled, setIsModelDisabled] = useState<boolean>(true)
   const [cards, setCards] = useState<Card[]>([])
+  const [status, setStatus] = useState<string>('')
   const form = useForm<Logistic>({
     resolver: zodResolver(LogisticValidation),
     defaultValues: {
@@ -122,7 +123,7 @@ export const useLogistics = () => {
     const cards: Card[] = logistics?.map((logistic) => ({
       id: logistic.idControlLogistics || 0,
       title: `${logistic.origin} - ${logistic.destination}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
@@ -247,7 +248,7 @@ export const useLogistics = () => {
   const onSubmit = async (logistic: Logistic) => {
     try {
       if (logistic.idControlLogistics) {
-        await updateLogistic(logistic);
+        await updateLogistic({...logistic, idCboStatus: Number(status) || 0});
 
         toast({
           title: dictionary?.measure.modal.toast.update.title,
@@ -255,7 +256,7 @@ export const useLogistics = () => {
           className: 'bg-black',
         });
       } else {
-        await createLogistic(logistic);
+        await createLogistic({...logistic, idCboStatus: Number(status) || 0});
 
         toast({
           title: dictionary?.measure.modal.toast.create.title,
@@ -296,6 +297,8 @@ export const useLogistics = () => {
     items,
     steps,
     setCurrentStep,
+    status,
+    setStatus,
     buttons,
     currentStep,
     nextStep,

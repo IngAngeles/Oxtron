@@ -86,12 +86,23 @@ export const useManufacturing = () => {
     const cards: Card[] = manufacturing?.map((manufacturing) => ({
       id: manufacturing.idControlManufacturing || 0,
       title: `${manufacturing.process}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
           handleShowModal()
+          form.reset({
+            idControlManufacturing: 0,
+            idUserControl: 0,
+            idFacility: 0,
+            idTypeEquipment: 0,
+            idTypeEquipmentCode: 0,
+            idTypeFuelUsed: 0,
+            process: '',
+            active: 1,
+          })
+          setManufacture(null)
           setManufacture(manufacturing!)
         },
       },

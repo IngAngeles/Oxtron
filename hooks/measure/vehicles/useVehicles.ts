@@ -93,13 +93,25 @@ export const useVehicles = () => {
     const cards: Card[] = vehicles?.map((vehicle) => ({
       id: vehicle.idControlVehicle || 0,
       title: `${vehicle.name}`,
-      description: 'Mexico City, Mexico',
+      description: '',// 'Mexico City, Mexico',
       icon: {
         src: '/assets/icons/black/Edit.png',
         position: 'head',
         onClick: () => {
-          handleShowModal()
+          form.reset({
+            idControlVehicle: vehicle?.idControlVehicle ?? 0,
+              idUserControl: vehicle?.idUserControl ?? 0,
+              idCboBrand: vehicle?.idCboBrand ?? 0,
+              idCboModel: vehicle?.idCboModel ?? 0,
+              idCboType: vehicle?.idCboType ?? 0,
+              idStatus: vehicle?.idStatus ?? 0,
+              licensePlate: vehicle?.licensePlate ?? "",
+              name: vehicle?.name ?? "",
+              active: vehicle?.active ?? 1,
+          })
+          setVehicle(null)
           setVehicle(vehicle!)
+          handleShowModal()
         },
       },
       link: `/${vehicle.idControlVehicle}`,
