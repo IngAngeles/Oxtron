@@ -76,8 +76,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       // @ts-ignore
       idEmissionFactor: facility?.idEmissionFactor ?? emissionsFactor,
       idEmissionFactorDescription: facility?.idEmissionFactorDescription,
-      startDate: facility?.startDate,
-      endDate: facility?.endDate,
+      startDate: facility?.startDate || new Date().toISOString(),
+      endDate: facility?.endDate || new Date().toISOString(),
       invoiceId: facility?.invoiceId || '',
       idTypeDetails: facility?.idTypeDetails ?? optValue,
       idTypeDetailsDescription: facility?.idTypeDetailsDescription,
@@ -139,6 +139,16 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     setIsLoading(true)
     try {
       const name = await fetchHeader()
+      console.log({
+        ...facilityDetails,
+        // @ts-ignore
+        idType,
+        idTypeDescription: cboTypes.find((cboType) => cboType.value === idType)?.label,
+        // @ts-ignore
+        dontKnow,
+        idTypeDetailsDescription: options.find((option) => option.value.toString() === facilityDetails.idTypeDetails.toString())?.label,
+        idEmissionFactorDescription: emissionsFactorOptions.find((emissionFactor) => emissionFactor.value === emissionsFactor)?.label,
+        firstName: name,})
       const data = !facility
         ? await createFacilityDetails({
           ...facilityDetails,
@@ -169,7 +179,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       if (data.success) {
         toast({
           title: dictionary.messages.succ,
-          description: `${dictionary.messagess.inv} ${!facility ? dictionary.messagess.cre : dictionary.messagess.up} ${dictionary.messagess.lly}`,
+          description: `${dictionary.messagess?.inv} ${!facility ? dictionary.messagess?.cre : dictionary.messagess.up} ${dictionary.messagess?.lly}`,
           className: 'bg-black',
         })
         form.reset()
