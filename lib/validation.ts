@@ -606,39 +606,20 @@ export const CommutingValidation = z.object({
 export type Commuting = z.infer<typeof CommutingValidation>
 
 export const CommutingDetailsValidation = z.object({
-  idControlCommutingDetails: z
-    .number()
-    .int()
-    .optional(),
-  idControlCommuting: z
-    .number()
-    .int(),
-  origin: z
-    .string()
-    .optional(),
-  originZipCode: z
-    .string()
-    .optional(),
-  destination: z
-    .string()
-    .optional(),
-  distinationZipCode: z
-    .string()
-    .optional(),
-  distance: z
-    .string()
-    .optional(),
-  fuelEfficiency: z
-    .string()
-    .transform(val => {
-      const parsed = Number(val)
-      if (isNaN(parsed)) throw new Error('Invalid number')
-      return parsed
-    })/* .refine(val => val >= 0, { message: 'Fuel efficiency is required' }) */,
-  active: z
-    .number()
-    .int()
-    .default(1),
+  idControlCommutingDetails: z.number().int().optional(),
+  idControlCommuting: z.coerce.number().int(),
+  origin: z.string().nonempty(),
+  originZipCode: z.coerce.number(),
+  destination: z.string().nonempty(),
+  distinationZipCode: z.coerce.number(),
+  distance: z.string(),
+  fuelEfficiency: z.coerce.number(),
+  active: z.number().int().default(1),
+  idCommutingCboModeTransport: z.coerce.number(),
+  cboModeTransportDescription: z.coerce.number().default(0),
+  activity: z.string().default(''),
+  unit: z.string().default(''),
+  status: z.string().default(''),
 })
 export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
 
