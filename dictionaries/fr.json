@@ -830,6 +830,7 @@
                     "name": "Prénom",
                     "last": "Nom de famille",
                     "role": "Rôle",
+                    "typeOfUser": "Type d'utilisateur",
                     "email": "E-mail",
                     "pass": "Mot de passe",
                     "confirm": "Confirmer le mot de passe",

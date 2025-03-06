@@ -784,6 +784,7 @@
                     "name": "Nombre",
                     "last": "Apellido",
                     "role": "Rol",
+                    "typeOfUser": "Tipo de usuario",
                     "adm": "Administrador",
                     "us": "Usuario",
                     "email": "Correo Electrónico",
