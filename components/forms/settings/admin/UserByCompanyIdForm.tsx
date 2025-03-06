@@ -83,6 +83,10 @@ const UserByCompanyIdForm = () => {
     loadDictionary();
   }, [lang]);
 
+  useEffect(() => {
+    console.log(form.watch(['idUSerType']))
+  }, [form.watch(['idUSerType'])]);
+
   if (loading || !dictionary) {
     return (
       <div className="flex items-center justify-center w-full h-full">
@@ -120,10 +124,9 @@ const UserByCompanyIdForm = () => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder={dictionary.modal.role}
-            label={dictionary.modal.role}
+            placeholder={dictionary.modal.typeOfUser}
+            label={dictionary.modal.typeOfUser}
             name="role"
-            options={ roles }
           />
           <CustomFormField
             fieldType={ FormFieldType.INPUT }

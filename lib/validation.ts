@@ -35,6 +35,7 @@ export const UserRegisterByCompanyIdValidation = z.object({
   idCompany: z.number(),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
+  idUSerType: z.coerce.number(),
   role: z.string().min(1),
   email: z.string().email().min(1),
   password: z.string().min(6),
