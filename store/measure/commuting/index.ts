@@ -89,7 +89,6 @@ export const useCommutingStore = create<CommutingStore>((set) => ({
   updateCommuting: async (updatedCommuting: Commuting) => {
     set({loading: true});
     try {
-      console.log({updatedCommuting})
       const response = await updateCommuting(updatedCommuting);
       const fetchResponse = await getCommutingByUserId();
 

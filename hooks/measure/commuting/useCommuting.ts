@@ -104,7 +104,6 @@ export const useCommuting = () => {
 
   useEffect(() => {
     if (commute) {
-      console.log({commute})
       form.reset({
         idControlCommuting: commute?.idControlCommuting ?? 0,
         idUserControl: commute?.idUserControl ?? 0,
