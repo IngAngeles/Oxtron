@@ -457,16 +457,16 @@ export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
   idControlLogisticsDetails: z.number().int().optional(),
-  idControlLogistics: z.number().int(),
+  idControlLogistics: z.coerce.number().int(),
   idEmissionFactor: z.number().int(),
   origin: z.string(),
   destiny: z.string(),
   startDate: z.string().datetime(),
   endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
-  idFuelType: z.coerce.number(),
+  idFuelType: z.coerce.number().optional(),
   amount: z.coerce.number().min(1),
-  unit: z.string().nonempty(),
+  unit: z.string().optional(),
   active: z.number().default(1),
 })
 export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
