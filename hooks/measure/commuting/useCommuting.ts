@@ -104,6 +104,7 @@ export const useCommuting = () => {
 
   useEffect(() => {
     if (commute) {
+      console.log({commute})
       form.reset({
         idControlCommuting: commute?.idControlCommuting ?? 0,
         idUserControl: commute?.idUserControl ?? 0,
@@ -112,12 +113,15 @@ export const useCommuting = () => {
         active: commute?.active ?? 1,
       })
     }
+
+    console.log(commute)
   }, [commute]);
 
   const onSubmit = async (commuting: Commuting) => {
     setLoading(true)
     try {
       if (commuting.idControlCommuting) {
+        console.log()
         await updateCommuting(commuting);
 
         toast({
