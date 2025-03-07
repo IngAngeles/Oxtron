@@ -43,6 +43,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       address: company?.address,
       telephoneCompany: company?.telephoneCompany,
       size: company?.size,
+      industry: company?.industry,
     }
   })
 
