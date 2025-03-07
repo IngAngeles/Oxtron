@@ -22,7 +22,6 @@ export const UserRegisterValidation = z.object({
   state: z.string().min(1),
   country: z.string().min(1),
   postalCode: z.string().min(1),
-  typeLicense: z.coerce.number(),
   // active: z.string().min(1).max(1).default('1'),
   telephoneUser: z.string().min(10),
   timeZone: z.string().min(1),
@@ -72,7 +71,6 @@ export const UpdateUserValidation = z.object({
   telephoneUser: z.string().min(1),
   timeZone: z.string().min(1),
   language: z.string().min(1),
-  typeLicense: z.coerce.number(),
 })
 export type UpdateUser = z.infer<typeof UpdateUserValidation>
 
