@@ -411,3 +411,10 @@ export interface ComboTypeOfEquipment {
     description: string;
     active: number;
 }
+
+export interface ComboTypeOfLicense {
+    idTypeLicense: number;
+    description:   string;
+    acronym:       string;
+    active:        number;
+}
