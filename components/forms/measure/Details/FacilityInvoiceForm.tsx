@@ -139,16 +139,6 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     setIsLoading(true)
     try {
       const name = await fetchHeader()
-      console.log({
-        ...facilityDetails,
-        // @ts-ignore
-        idType,
-        idTypeDescription: cboTypes.find((cboType) => cboType.value === idType)?.label,
-        // @ts-ignore
-        dontKnow,
-        idTypeDetailsDescription: options.find((option) => option.value.toString() === facilityDetails.idTypeDetails.toString())?.label,
-        idEmissionFactorDescription: emissionsFactorOptions.find((emissionFactor) => emissionFactor.value === emissionsFactor)?.label,
-        firstName: name,})
       const data = !facility
         ? await createFacilityDetails({
           ...facilityDetails,
