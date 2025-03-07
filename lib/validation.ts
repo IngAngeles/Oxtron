@@ -68,10 +68,11 @@ export const UpdateUserValidation = z.object({
   password: z.string().min(1),
   confirmPassword: z.string().min(6),
   active: z.string().min(1),
-  idUSerType: z.number(),
+  idUSerType: z.coerce.number(),
   telephoneUser: z.string().min(1),
   timeZone: z.string().min(1),
   language: z.string().min(1),
+  typeLicense: z.coerce.number(),
 })
 export type UpdateUser = z.infer<typeof UpdateUserValidation>
 
