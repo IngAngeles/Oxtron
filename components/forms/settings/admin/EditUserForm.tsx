@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
 import {getCboRoles, getUserBySession, updateUser} from '@/actions/auth'
-import {getCompanyById, getTypeOfLicenses} from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
+import { getCompanyById } from '@/actions/company'
 
 const EditUserForm = () => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -17,7 +17,6 @@ const EditUserForm = () => {
   const { toast } = useToast()
   const { loadData: reloadData } = useContext(AdminAccountContext) as IAdminAccountContext
   const [roles, setRoles] = useState<Option[]>([])
-  const [typeOfLicenses, setTypeOfLicenses] = useState<Option[]>([])
 
   const form = useForm<UpdateUser>({
     resolver: zodResolver(UpdateUserValidation),
@@ -42,15 +41,10 @@ const EditUserForm = () => {
     const user = await getUserBySession()
     const company = await getCompanyById(user.idCompany)
     const roles = await getCboRoles();
-    const typeOfLicenses = await getTypeOfLicenses();
 
     setRoles(roles.map((role) => ({
       value: role.idCatRole.toString(),
       label: role.description,
-    })))
-    setTypeOfLicenses(typeOfLicenses.map((type) => ({
-      value: type.idTypeLicense.toString(),
-      label: type.description.toString(),
     })))
     setCompany(company)
   }
@@ -130,14 +124,6 @@ const EditUserForm = () => {
             placeholder="Confirm Password"
             label="Confirm Password"
             name="confirmPassword"
-          />
-          <CustomFormField
-            fieldType={ FormFieldType.SELECT }
-            control={ form.control }
-            placeholder="Type of License"
-            label="Type of License"
-            name="typeLicense"
-            options={ typeOfLicenses }
           />
           <CustomFormField
             fieldType={ FormFieldType.PHONE_INPUT }
