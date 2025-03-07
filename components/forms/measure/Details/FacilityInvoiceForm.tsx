@@ -527,9 +527,9 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             </>
           )}
           <div className="flex justify-end w-32 float-end">
-            {idType !== '4' || (idType === '4' && measureFugitiveEmissionsFactor === '0')? (
+            {idType !== '4' || (idType === '4' && measureFugitiveEmissionsFactor === '0') || currentStep === 2 ? (
               <SubmitButton isLoading={isLoading} onClick={() => onSubmit(form.getValues())}>
-                {!facility ? dictionary.create : dictionary.update}
+                {!facility ? dictionary.create : dictionary.up}
               </SubmitButton>
             ) : (
               <Button
