@@ -109,7 +109,7 @@ const Setup = () => {
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.industry}</p>
-              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.role }</h2>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.industry }</h2>
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.country}</p>
