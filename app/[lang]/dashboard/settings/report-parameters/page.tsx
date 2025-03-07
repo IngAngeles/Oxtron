@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { ArrowLeft, ChevronDownIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { ChevronDownIcon } from 'lucide-react';
 import { getGWPDataset } from '@/actions/settings';
 import { IGWP } from '@/constants/types';
 import { getDictionary } from "@/lib/dictionary";
@@ -9,6 +9,7 @@ import { Locale } from "@/i18n.config";
 
 // ⬇️ Importaciones dinámicas para evitar errores en SSR
 import dynamic from 'next/dynamic';
+import BackButton from "@/components/navigation/BackButton";
 
 const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
 const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
@@ -21,7 +22,6 @@ const SelectTrigger = dynamic(() => import('@/components/ui/select').then((mod) 
 
 const Report = () => {
   const [gwpDataset, setGwpDataset] = useState<IGWP[]>()
-  const router = useRouter()
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
@@ -61,9 +61,7 @@ const Report = () => {
   return (
     <div className="ml-0 p-6 w-full lg:w-1/2 lg:ml-[205px]">
       <div className="flex items-center mb-4 gap-2">
-        <button onClick={ () => router.back() } className="flex items-center gap-2 text-blue-600 hover:text-blue-800">
-          <ArrowLeft className="w-6 h-6"/>
-        </button>
+        <BackButton/>
         <TitleHandler title={dictionary.params} text={dictionary.manage}/>
       </div>
       <div className="flex flex-col gap-6 mt-6">

@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { getDictionary } from "@/lib/dictionary";
@@ -12,12 +10,12 @@ import { Locale } from "@/i18n.config";
 const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
 const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
 const LocalSwitcher = dynamic(() => import('@/components/lang/locale-switcher'), { ssr: false });
+const BackButton = dynamic(() => import('@/components/navigation/BackButton'), { ssr: false });
 
 const Change = () => {
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
   const [isMounted, setIsMounted] = useState(false);  // Estado para verificar si el componente se ha montado
-  const router = useRouter();
   const pathname = usePathname();
   const lang = (pathname?.split("/")[1] as Locale) || "en";
 
@@ -55,9 +53,7 @@ const Change = () => {
   return (
     <div className='p-6 ml-0 mt-6 lg:ml-[205px]'>
       <div className='flex items-center mb-4 gap-2'>
-        <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>
-          <ArrowLeft className='w-6 h-6' /> 
-        </button>
+        <BackButton/>
         <TitleHandler title={dictionary.title} text={dictionary.subtitle} />
       </div>
       <LocalSwitcher />
