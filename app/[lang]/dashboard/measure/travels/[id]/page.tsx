@@ -26,7 +26,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
   const path = usePathname();
 
   const columns = [
-    {header: dictionary?.measure.table.travels.vehi, accessor: 'idTravelCboType'},
+    {header: dictionary?.measure.table.travels.vehi, accessor: 'travelCboTypeDescription'},
     {header: dictionary?.measure.table.travels.sou, accessor: 'invoiceId'},
     {header: dictionary?.measure.table.travels.ori, accessor: 'origin'},
     {header: dictionary?.measure.table.travels.desti, accessor: 'destiny'},
