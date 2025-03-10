@@ -614,12 +614,12 @@ export const CommutingDetailsValidation = z.object({
   distinationZipCode: z.coerce.number(),
   distance: z.string(),
   fuelEfficiency: z.coerce.number(),
-  active: z.number().int().default(1),
+  // active: z.number().int().default(1),
   idCommutingCboModeTransport: z.coerce.number(),
-  cboModeTransportDescription: z.coerce.number().default(0),
-  activity: z.string().default(''),
+  // cboModeTransportDescription: z.coerce.number().default(0),
+  // activity: z.string().default(''),
   unit: z.string().default(''),
-  status: z.string().default(''),
+  // status: z.string().default(''),
 })
 export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
 

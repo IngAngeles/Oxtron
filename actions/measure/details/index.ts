@@ -41,7 +41,6 @@ export async function getCommutingDetails(idCommuting: number) {
 export async function createCommutingDetails(commutingDetails: CommutingDetails) {
   try {
     const idUserControl = await getAuthenticatedUserId();
-    console.log({...commutingDetails, idUserControl})
     const response = await axiosInstance.post('/CommutingDetails/Registrar_CommutingDetails',
       {
         ...commutingDetails,
@@ -64,7 +63,13 @@ export async function createCommutingDetails(commutingDetails: CommutingDetails)
 
 export async function updateCommutingDetails(commutingDetails: CommutingDetails) {
   try {
-    const response = await axiosInstance.put('/CommutingDetails/Actualizar_CommutingDetails', commutingDetails)
+    const idUserControl = await getAuthenticatedUserId();
+    const response = await axiosInstance.put('/CommutingDetails/Actualizar_CommutingDetails', {
+      ...commutingDetails,
+      idUserControl: idUserControl.toString(),
+      distinationZipCode: commutingDetails.distinationZipCode.toString(),
+      originZipCode: commutingDetails.originZipCode.toString(),
+    })
     return { status: response.status, success: true, data: response.data }
   } catch (error) {
     const axiosError = error as unknown as AxiosError

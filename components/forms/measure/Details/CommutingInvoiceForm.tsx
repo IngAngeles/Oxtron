@@ -42,7 +42,17 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
   const form = useForm<CommutingDetails>({
     resolver: zodResolver(CommutingDetailsValidation),
     defaultValues: {
-      active: commuting?.active ?? 1,
+      idControlCommutingDetails: commuting?.idControlCommutingDetails,
+      idCommutingCboModeTransport: commuting?.idCommutingCboModeTransport,
+      distinationZipCode: commuting?.distinationZipCode,
+      fuelEfficiency: commuting?.fuelEfficiency ?? 0,
+      originZipCode: commuting?.originZipCode,
+      destination: commuting?.destination,
+      distance: commuting?.distance,
+      origin: commuting?.origin,
+      unit: commuting?.unit,
+      idControlCommuting,
+      /* active: commuting?.active ?? 1,
       fuelEfficiency: commuting?.fuelEfficiency ?? 0,
       destination: commuting?.destination,
       distinationZipCode: commuting?.distinationZipCode,
@@ -51,6 +61,7 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
       origin: commuting?.origin,
       originZipCode: commuting?.originZipCode,
       idControlCommutingDetails: commuting?.idControlCommutingDetails,
+      idCommutingCboModeTransport: commuting?.idCommutingCboModeTransport, */
     },
   })
 
@@ -104,23 +115,16 @@ export const CommutingInvoiceForm = ({idControlCommuting, commuting, reloadData}
     const origin: number = form.getValues('originZipCode');
     const destination: number = form.getValues('distinationZipCode');
 
-    console.log({areAllFieldsSet: origin && destination})
-    console.log({origin})
-    console.log({destination})
-
     if (origin && destination && origin.toString().length >= 4 && destination.toString().length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destination))) {
       getDistance(origin, destination).then((result) => {
         if (result?.success) {
           const data: any = result.data
           form.setValue('distance', data?.distance);
         } else {
-          toast({
-            variant: 'destructive',
-            title: dictionary.messagess.wrong,
-            description: dictionary.messagess.des,
-            className: 'bg-[#7f1d1d]',
-          })
+          form.setValue('distance', '0 km');
         }
+      }).catch(() => {
+        form.setValue('distance', '0 km');
       });
     }
   }, [originAndDestination]);
