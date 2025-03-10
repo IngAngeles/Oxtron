@@ -26,10 +26,9 @@ import Loading from "@/components/loading/LoadingBlack";
 type Props = { idControlFacility: number; facility?: FacilityDescriptionDetails; reloadData: () => void };
 
 export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: Props) => {
-  const [idType, setIdType] = useState<string>('')
+  const [idType, setIdType] = useState<string>(facility?.idType.toString() || '')
   const [emissionsFactor, setEmissionsFactor] = useState<string>('1')
   const [measureFugitiveEmissionsFactor, setMeasureFugitiveEmissionsFactor] = useState<string>('1')
-  // const [chargeIntoEquipment, setChargeIntoEquipment] = useState<string>('')
   const [dontKnow, setDontKnow] = useState<string>('0')
   const [_, setLabel] = useState<string>('TYPE')
   const [cboTypes, setCboTypes] = useState<VLabel[]>([])
@@ -38,8 +37,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     {value: '1', label: 'Default'},
   ]
   const [currentStep, setCurrentStep] = useState(1)
-  // const [steps, setSteps] = useState<number>(1)
-  const [optValue, setOptValue] = useState<number>(-1)
+  const [optValue, setOptValue] = useState<number | undefined>(facility?.idTypeDetails)
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState([])
   const {toast} = useToast()
@@ -103,37 +101,13 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       densityPressureFull: facility?.densityPressureFull,
       active: facility?.active ?? 1,
       firstName: facility?.firstName,
-      /*
-      idControlFacility,
-      amount: facility?.amount ?? 0,
-      amountYearsBeginning: facility?.amountYearsBeginning ?? 0,
-      amountYearsEnd: facility?.amountYearsEnd ?? 0,
-      chargedIntoEquipment: facility?.chargedIntoEquipment ?? 0,
-      delivered: facility?.delivered ?? 0,
-      densityPressureFull: facility?.densityPressureFull ?? 0,
-      densityPressurePartial: facility?.densityPressurePartial ?? 0,
-      dontKnow: facility?.dontKnow ?? 0,
-      startDate: facility?.startDate ?? new Date().toISOString(),
-      endDate: facility?.endDate ?? new Date().toISOString(),
-      invoiceId: facility?.invoiceId ?? '',
-      idControlFacilityDetails: facility?.idControlFacilityDetails ?? 0,
-      idEmissionFactor: facility?.idEmissionFactor ?? Number(emissionsFactor),
-      idType: facility?.idType ?? Number(idType),
-      idTypeDetails: facility?.idTypeDetails ?? 0,
-      measureFugitive: facility?.measureFugitive ?? 0,
-      offSiteDestruction: facility?.offSiteDestruction ?? 0,
-      offSiteRecycling: facility?.offSiteRecycling ?? 0,
-      partialNAmeplateCharged: facility?.partialNAmeplateCharged ?? 0,
-      purchased: facility?.purchased ?? 0,
-      returnedOffsiteRecycling: facility?.returnedOffsiteRecycling ?? 0,
-      returnedUsers: facility?.returnedUsers ?? 0,
-      returnsProducers: facility?.returnsProducers ?? 0,
-      unit: facility?.unit ?? '',
-      typeEquipment: facility?.typeEquipment ?? '',
-      active: facility?.active ?? 1,
-      firstName: facility?.firstName ?? '', */
     },
   })
+
+  useEffect(() => {
+    console.log(facility?.idType?.toString())
+    setIdType(facility?.idType?.toString() || '');
+  }, [facility]);
 
   async function onSubmit(facilityDetails: FacilityDetails) {
     setIsLoading(true)
@@ -158,18 +132,17 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
           idTypeDescription: cboTypes.find((cboType) => cboType.value === idType)?.label,
           // @ts-ignore
           dontKnow,
-          idTypeDetailsDescription: options.find((option) => {
-            console.log('idTypeDetails', facilityDetails.idTypeDetails.toString(), 'facilityIdTypeDetails', option.value.toString())
-            return option.value.toString() === facilityDetails.idTypeDetails.toString()
-          })?.label,
+          idTypeDetailsDescription: options.find((option) =>
+            option.value.toString() === facilityDetails.idTypeDetails.toString()
+          )?.label,
           idEmissionFactorDescription: emissionsFactorOptions.find((emissionFactor) => emissionFactor.value === emissionsFactor)?.label,
           firstName: name,
         })
 
       if (data.success) {
         toast({
-          title: dictionary.messages.succ,
-          description: `${dictionary.messagess?.inv} ${!facility ? dictionary.messagess?.cre : dictionary.messagess.up} ${dictionary.messagess?.lly}`,
+          title: dictionary.messages?.succ,
+          description: `${dictionary.messagess?.inv} ${!facility ? dictionary.messagess?.cre : dictionary.messagess?.up} ${dictionary.messagess?.lly}`,
           className: 'bg-black',
         })
         form.reset()
@@ -177,8 +150,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       } else {
         toast({
           variant: 'destructive',
-          title: dictionary.messages.wrong,
-          description: dictionary.messages.was,
+          title: dictionary.messages?.wrong,
+          description: dictionary.messages?.was,
           className: 'bg-[#7f1d1d]',
         })
       }
@@ -193,15 +166,10 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
     setCurrentStep(2)
   }
 
-  /* const prevStep = () => {
-    setCurrentStep(1)
-  } */
-
   useEffect(() => {
     const loadData = async () => {
       const data = await getCboTypes()
       setCboTypes(data)
-      setIdType(data[0].value)
     }
 
     loadData()
@@ -221,7 +189,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             value: data.idControl,
             label: data.description,
           })) as unknown as VLabel[])
-          setOptValue(-1)
+          // setOptValue(-1)
           form.setValue('unit', '');
           break
         case '2':
@@ -235,7 +203,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             value: data.idControl,
             label: data.description,
           })) as unknown as VLabel[])
-          setOptValue(-1)
+          // setOptValue(-1)
           form.setValue('unit', '');
           break
         case '3':
@@ -249,7 +217,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             value: data.idControl,
             label: data.description,
           })) as unknown as VLabel[])
-          setOptValue(-1)
+          // setOptValue(-1)
           form.setValue('unit', '');
           break
         case '4':
@@ -263,7 +231,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
             value: data.idControl,
             label: data.description,
           })) as unknown as VLabel[])
-          setOptValue(-1)
+          // setOptValue(-1)
           form.setValue('unit', '');
           setMeasureFugitiveEmissionsFactor('0');
           break
@@ -275,6 +243,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
+
+    console.log(value)
 
     const unitSelected = data.find((type: any) => type.idControl.toString() === value.toString())
     // @ts-ignore
@@ -306,7 +276,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                   options={cboTypes}
                   cols={4}
                   label={dictionary.type}
-                  defaultSelected={0}/>
+                  defaultSelected={Number(idType)}/>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex justify-center w-full">
@@ -362,13 +332,18 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[12px] uppercase title-century-gothic-bold text-[#9FA2B4]">
                     {dictionary.selectType.label}
                   </label>
-                  <select name="idTypeDetails" value={optValue} onChange={(e) => handleTypeChange(e)}
-                          className="flex h-10 w-full rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 title-century-gothic-regular undefined bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]">
+                  <select
+                    name="idTypeDetails"
+                    value={optValue}
+                    onChange={handleTypeChange}
+                    defaultValue={optValue}
+                    defaultChecked={true}
+                    className="flex h-10 w-full rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 title-century-gothic-regular undefined bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]">
                     <option value="" hidden>
                       {dictionary.selectType.placeholder}
                     </option>
                     {options.map((opt) => (
-                      <option key={opt.value} value={String(opt.value)}>
+                      <option key={opt.value} value={String(opt.value)} selected={opt.value === optValue?.toString()}>
                         {opt.label}
                       </option>
                     ))}
