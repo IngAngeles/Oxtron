@@ -384,9 +384,12 @@ export const TravelDetailsValidation = z.object({
   endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
   idTravelCboType: z.coerce.number(),
-  unit: z.string().optional(),
   origin: z.string().optional(),
   destiny: z.string().optional(),
+  originzc: z.string().min(1),
+  destinyzc: z.string().min(1),
+  amount: z.coerce.number(),
+  unit: z.string().min(1),
   active: z.number().int(),
 })
 export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
