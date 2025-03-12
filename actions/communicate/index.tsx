@@ -10,7 +10,7 @@ export async function fetchRecentReports(): Promise<ReportHeader[]> {
     const session = await auth()
     const idUser: number = Number(session?.user?.id) ?? 0
 
-    const response = await axiosInstance.get(`ReportHeader/Mostrar_ReportHeader_User?idUser=${ idUser }`)
+    const response = await axiosInstance.get(`Communicate/Mostrar_Communicate_User?idUser=${ idUser }`)
 
     console.log({ response: response.data, message: response.statusText })
 
@@ -23,25 +23,21 @@ export async function fetchRecentReports(): Promise<ReportHeader[]> {
 
 export async function createReport({
   idUserControl,
-  facilityId,
-  preparedBy,
-  idType,
-  typeDescription,
+  type,
+  idFacility,
+  idControlFacility,
   startDate,
   endDate,
-  active,
 }: ReportHeader) {
   try {
     const response = await axiosInstance.post('/ReportHeader/Registrar_ReportHeader', null, {
       params: {
         idUserControl,
-        facilityId,
-        preparedBy,
-        idType,
-        typeDescription,
+        idFacility,
+        idControlFacility,
+        type,
         startDate,
         endDate,
-        active,
       },
     })
 

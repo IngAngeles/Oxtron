@@ -59,11 +59,10 @@ const Communicate = () => {
           </div>
           <DashboardButton
             isLoading={loading}
-            className="bg-[#03133A] text-white w-auto mt-10 ml-0"
-            style={{ padding: '8px 16px', width: 'auto', marginLeft: '0' }}
+            className="bg-[#03133A] text-white w-auto max-w-64 mt-10 ml-0"
             onClick={handleShowCreateReportModal}
           >
-            {dictionary.generateReportButton}
+            {dictionary.button}
           </DashboardButton>
         </div>
       </div>

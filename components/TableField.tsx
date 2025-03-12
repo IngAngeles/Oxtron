@@ -7,6 +7,7 @@ import { AxiosError } from 'axios'
 import React, { useEffect, useState } from 'react'
 import Loading from '@/components/loading/LoadingBlack'
 import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
+import { formatDateTime } from '@/lib/utils'
 
 /* const invoices = [
   {
@@ -45,6 +46,7 @@ const TableField = () => {
     const loadData = async () => {
       try {
         const response = await fetchRecentReports()
+        console.log(response)
         setData(response)
       } catch (error) {
         console.error({ error })
@@ -82,18 +84,18 @@ const TableField = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          { data.map(({ facilityId, idUserControl, idType, typeDescription, startDate, endDate, preparedBy }, index) => (
+          { data.map(({ idFacility, idUserControl, type, idControlFacility, startDate, endDate, idControlCommunicate }, index) => (
             <TableRow key={ index }>
               <TableCell className="text-center hidden md:table-cell">
-                <EyeIcon className="w-4 h-4 cursor-pointer" onClick={ () => handleShowReport(idUserControl, startDate, endDate, idType) }/>
+                <EyeIcon className="w-4 h-4 cursor-pointer" onClick={ () => handleShowReport(idUserControl, startDate.toISOString(), endDate.toISOString(), 1) }/>
               </TableCell>
               <TableCell className="font-medium">
-                { preparedBy ?? idUserControl }
+                { idUserControl ?? idUserControl }
               </TableCell>
-              <TableCell className="hidden md:table-cell">{ facilityId }</TableCell>
-              <TableCell className="hidden md:table-cell">{ typeDescription }</TableCell>
-              <TableCell className="hidden md:table-cell">{ startDate }</TableCell>
-              <TableCell className="hidden md:table-cell">{ endDate }</TableCell>
+              <TableCell className="hidden md:table-cell">{ idFacility }</TableCell>
+              <TableCell className="hidden md:table-cell">{ type }</TableCell>
+              <TableCell className="hidden md:table-cell">{ formatDateTime(startDate).dateDay }</TableCell>
+              <TableCell className="hidden md:table-cell">{ formatDateTime(endDate).dateDay }</TableCell>
               <TableCell>
                 <ArrowDownTrayIcon className="w-4 h-4"/>
               </TableCell>

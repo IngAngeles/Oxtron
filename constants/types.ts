@@ -382,15 +382,13 @@ export interface ControlCommunicate {
 
 // --------------------------- Settings
 export interface ReportHeader {
-    idControl?: number;
+    idControlCommunicate: number;
     idUserControl: number;
-    preparedBy?: string;
-    facilityId?: string;
-    idType: number;
-    typeDescription?: string;
-    startDate: string;
-    endDate: string;
-    active: number;
+    idControlFacility: number;
+    idFacility: string;
+    type: string;
+    startDate: Date;
+    endDate: Date;
 }
 
 export interface CBOType {

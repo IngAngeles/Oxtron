@@ -10,8 +10,6 @@ import { ReportHeaderValidation } from '@/lib/validation'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import { SendHorizonal } from 'lucide-react'
-import { toast } from '@/components/ui/use-toast'
-import { createReport, updateReport } from '@/actions/communicate'
 import { getCboTypes } from '@/actions/communicate'
 import { VLabel } from '@/constants/types'
 
@@ -56,9 +54,9 @@ const CreateReport = ({ reportHeader }: Props) => {
   }, [])
 
 
-  const handleCreateReport = async ({
+  /* const handleCreateReport = async ({
     idUserControl,
-    facilityId,
+    idFacility,
     preparedBy,
     idType,
     typeDescription,
@@ -68,12 +66,12 @@ const CreateReport = ({ reportHeader }: Props) => {
   }: ReportHeader) => {
     await createReport({
       idUserControl,
-      facilityId,
+      idFacility,
       preparedBy,
       idType,
       typeDescription,
-      startDate,
-      endDate,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
       active
     })
     toast({
@@ -81,9 +79,13 @@ const CreateReport = ({ reportHeader }: Props) => {
       description: 'This report has been inserted successfully',
       className: 'bg-black',
     })
-  }
+  } */
 
-  const handleUpdateReport = async (report: ReportHeader) => {
+  const handleCreateReport = async () => {};
+
+  const handleUpdateReport = async () => {};
+
+  /* const handleUpdateReport = async (report: ReportHeader) => {
     const response = await updateReport(report)
     console.log({ response })
     toast({
@@ -91,15 +93,15 @@ const CreateReport = ({ reportHeader }: Props) => {
       description: 'This report has been updated successfully',
       className: 'bg-black',
     })
-  }
+  } */
 
   async function onSubmit(report: ReportHeader) {
     try {
       setIsLoading(true)
       if (!reportHeader) {
-        await handleCreateReport(report)
+        await handleCreateReport()
       } else {
-        await handleUpdateReport(report)
+        await handleUpdateReport()
       }
     } catch (error) {
       console.error('CreateReport->onSubmit', { error })
