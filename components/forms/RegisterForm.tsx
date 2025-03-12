@@ -95,7 +95,6 @@ const RegisterForm = ({ dictionary }: RegisterFormProps) => {
       state: '',
       country: '',
       postalCode: '',
-      typeLicense: 1,
       telephoneUser: '0000000000',
       timeZone: timeZone,
       language: 'Por definir',
