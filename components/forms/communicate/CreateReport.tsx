@@ -19,7 +19,7 @@ type Props = { reportHeader?: ReportHeader }
 const CreateReport = ({ reportHeader }: Props) => {
   const { showCreateReportModal, handleHideCreateReportModal } = useContext(CommunicateContext) as ICommunicateContext
   const [types, setTypes] = useState<VLabel[]>([])
-  const [error, setError] = useState<AxiosError | null>(null)
+  const [_error, setError] = useState<AxiosError | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const form = useForm<ReportHeader>({
     resolver: zodResolver(ReportHeaderValidation),
@@ -95,7 +95,7 @@ const CreateReport = ({ reportHeader }: Props) => {
     })
   } */
 
-  async function onSubmit(report: ReportHeader) {
+  async function onSubmit(_report: ReportHeader) {
     try {
       setIsLoading(true)
       if (!reportHeader) {
