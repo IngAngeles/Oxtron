@@ -368,7 +368,7 @@
                     "ori": "Origine",
                     "desti": "Destination",
                     "km": "km",
-                    "date": "Dernière mise à jour : 22 novembre 2022",
+                    "date": "Date",
                     "up": "Téléchargé par",
                     "status": "Statut"
                 },
@@ -830,6 +830,7 @@
                     "name": "Prénom",
                     "last": "Nom de famille",
                     "role": "Rôle",
+                    "typeOfUser": "Type d'utilisateur",
                     "email": "E-mail",
                     "pass": "Mot de passe",
                     "confirm": "Confirmer le mot de passe",

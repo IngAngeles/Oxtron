@@ -59,7 +59,7 @@ export async function getCommutingById(idControlCommuting: number): Promise<ApiR
 
 export async function updateCommuting(commuting: Commuting): Promise<ApiResponse<any>> {
   try {
-    const response = await axiosInstance.put('/Manufacturing/Actualizar_Manufacturing', {...commuting})
+    const response = await axiosInstance.put('/Commuting/Actualizar_Commuting', {...commuting})
     const data = response.data as string
 
     return {

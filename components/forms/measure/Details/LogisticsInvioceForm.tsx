@@ -63,7 +63,6 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
   });
 
   async function onSubmit(logisticsDetails: LogisticDetails) {
-    console.log(logisticsDetails)
     setIsLoading(true);
     try {
       const data = !logistic
@@ -211,9 +210,8 @@ export const LogisticsInvoiceForm = ({idControlLogistics, logistic, reloadData}:
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="amount"
-                label={dictionary.label}
+                label={dictionary.label7}
                 placeholder={dictionary.amo}
-                disabled
               />
               {/* <CustomFormField
                 control={form.control}

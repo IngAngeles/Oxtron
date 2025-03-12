@@ -92,17 +92,6 @@ export const useManufacturing = () => {
         position: 'head',
         onClick: () => {
           handleShowModal()
-          form.reset({
-            idControlManufacturing: 0,
-            idUserControl: 0,
-            idFacility: 0,
-            idTypeEquipment: 0,
-            idTypeEquipmentCode: 0,
-            idTypeFuelUsed: 0,
-            process: '',
-            active: 1,
-          })
-          setManufacture(null)
           setManufacture(manufacturing!)
         },
       },

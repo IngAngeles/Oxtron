@@ -1,7 +1,6 @@
 'use client'
 import { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { SearchIcon, ArrowLeft } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 // ⬇️ Importaciones dinámicas para evitar errores de SSR
@@ -17,6 +16,7 @@ import { AdminAccountContext, IAdminAccountContext } from '@/context/setting/adm
 import { getDictionary } from '@/lib/dictionary';
 import { usePathname } from 'next/navigation';
 import { Locale } from '@/i18n.config';
+import BackButton from "@/components/navigation/BackButton";
 
 const AdminPage: React.FC = () => {
   const {
@@ -29,7 +29,6 @@ const AdminPage: React.FC = () => {
     isUpdateUserModalOpen,
     handleCloseUpdateUserModal,
   } = useContext(AdminAccountContext) as IAdminAccountContext
-  const router = useRouter();
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
@@ -62,9 +61,7 @@ const AdminPage: React.FC = () => {
   return (
     <div className='p-6 lg:ml-[205px] ml-0 min-h-screen pb-10 mt-6 md:ml-[205px] flex flex-col'>
       <div className='flex items-center mb-4 gap-2'>
-        <button onClick={() => router.back()} className='flex items-center gap-2 text-blue-600 hover:text-blue-800'>
-          <ArrowLeft className='w-6 h-6' />
-        </button>
+        <BackButton/>
         <TitleHandler title={dictionary.admin} text={dictionary.subtitle} />
       </div>
       <div className='flex flex-1 gap-10 md:flex-nowrap flex-wrap mt-4 w-full'>

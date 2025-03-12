@@ -368,7 +368,7 @@
                     "ori": "Herkunft",
                     "desti": "Ziel",
                     "km": "km",
-                    "date": "Letzte Aktualisierung: 22. November 2022",
+                    "date": "Datum",
                     "up": "Hochgeladen von",
                     "status": "Status"
                 },
@@ -784,6 +784,7 @@
                     "name": "Vorname",
                     "last": "Nachname",
                     "role": "Rolle",
+                    "typeOfUser": "Benutzertyp",
                     "adm": "Admin",
                     "us": "Benutzer",
                     "email": "E-Mail",

@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, UpdateUser, UpdateUserValidation } from '@/lib/validation'
 import {getCboRoles, getUserBySession, updateUser} from '@/actions/auth'
-import { getCompanyById } from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
+import { getCompanyById } from '@/actions/company'
 
 const EditUserForm = () => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -124,13 +124,6 @@ const EditUserForm = () => {
             placeholder="Confirm Password"
             label="Confirm Password"
             name="confirmPassword"
-          />
-          <CustomFormField
-            fieldType={ FormFieldType.INPUT }
-            control={ form.control }
-            placeholder="Type of License"
-            label="Type of License"
-            name="typeLicense"
           />
           <CustomFormField
             fieldType={ FormFieldType.PHONE_INPUT }

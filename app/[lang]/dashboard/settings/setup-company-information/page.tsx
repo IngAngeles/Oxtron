@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { ArrowLeft, SquarePen } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { SquarePen } from 'lucide-react';
 import { getCompanyById } from '@/actions/company';
 import {getCboRoles, getUserBySession} from '@/actions/auth';
 import { Company, UpdateUser } from '@/lib/validation';
@@ -12,6 +12,7 @@ import { Locale } from "@/i18n.config";
 // ⬇️ Importaciones dinámicas para evitar errores en SSR
 import dynamic from 'next/dynamic';
 import {ComboRole} from "@/constants/types";
+import BackButton from "@/components/navigation/BackButton";
 
 const TitleHandler = dynamic(() => import('@/components/TitleHandler'), { ssr: false });
 const Loading = dynamic(() => import('@/components/loading/LoadingBlack'), { ssr: false });
@@ -26,7 +27,6 @@ const Setup = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false)
   const [companyData, setCompanyData] = useState<Company>()
   const [userData, setUserData] = useState<UpdateUser>()
-  const router = useRouter()
   const pathname = usePathname();
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
@@ -91,9 +91,7 @@ const Setup = () => {
   return (
     <div className="p-6 lg:ml-6 ml-0 min-h-screen flex flex-col pb-10 md:pl-64">
       <div className="flex items-center mb-4 gap-2">
-        <button onClick={ () => router.back() } className="flex items-center gap-2 text-blue-600 hover:text-blue-800">
-          <ArrowLeft className="w-6 h-6"/>
-        </button>
+        <BackButton/>
         <TitleHandler title={dictionary.company} text={dictionary.manage}/>
       </div>
       <div className="flex flex-col md:flex-row gap-10 mt-4 flex-1 w-full pb-9">
@@ -111,7 +109,7 @@ const Setup = () => {
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.industry}</p>
-              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.role }</h2>
+              <h2 className="font-bold text-neutral-700 text-h1">{ companyData?.industry }</h2>
             </div>
             <div className="flex flex-col">
               <p className="text-neutral-400 text-xs mb-1">{dictionary.content1.country}</p>

@@ -25,6 +25,11 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
   const [data, setData] = useState<Array<any>>([])
   const path = usePathname();
 
+  const handleOnClick = () => {
+    setSelectedRow(null)
+    handleShowModal()
+  }
+
   const handleEdit = async (rowData: any) => {
     setSelectedRow(rowData)
     handleShowModal()
@@ -120,7 +125,7 @@ export default function ManufacturingDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
+        <HistoricalCard onClick={handleOnClick} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
             <SimpleTable

@@ -22,7 +22,6 @@ export const UserRegisterValidation = z.object({
   state: z.string().min(1),
   country: z.string().min(1),
   postalCode: z.string().min(1),
-  typeLicense: z.coerce.number(),
   // active: z.string().min(1).max(1).default('1'),
   telephoneUser: z.string().min(10),
   timeZone: z.string().min(1),
@@ -35,6 +34,7 @@ export const UserRegisterByCompanyIdValidation = z.object({
   idCompany: z.number(),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
+  idUSerType: z.coerce.number(),
   role: z.string().min(1),
   email: z.string().email().min(1),
   password: z.string().min(6),
@@ -67,7 +67,7 @@ export const UpdateUserValidation = z.object({
   password: z.string().min(1),
   confirmPassword: z.string().min(6),
   active: z.string().min(1),
-  idUSerType: z.number(),
+  idUSerType: z.coerce.number(),
   telephoneUser: z.string().min(1),
   timeZone: z.string().min(1),
   language: z.string().min(1),
@@ -384,9 +384,12 @@ export const TravelDetailsValidation = z.object({
   endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
   idTravelCboType: z.coerce.number(),
-  unit: z.string().optional(),
   origin: z.string().optional(),
   destiny: z.string().optional(),
+  originzc: z.string().min(1),
+  destinyzc: z.string().min(1),
+  amount: z.coerce.number(),
+  unit: z.string().min(1),
   active: z.number().int(),
 })
 export type TravelDetails = z.infer<typeof TravelDetailsValidation>;
@@ -457,16 +460,16 @@ export type Logistic = z.infer<typeof LogisticValidation>
 
 export const LogisticDetailsValidation = z.object({
   idControlLogisticsDetails: z.number().int().optional(),
-  idControlLogistics: z.number().int(),
+  idControlLogistics: z.coerce.number().int(),
   idEmissionFactor: z.number().int(),
   origin: z.string(),
   destiny: z.string(),
   startDate: z.string().datetime(),
   endDate: z.string().datetime(),
   invoiceId: z.string().optional(),
-  idFuelType: z.coerce.number(),
+  idFuelType: z.coerce.number().optional(),
   amount: z.coerce.number().min(1),
-  unit: z.string().nonempty(),
+  unit: z.string().optional(),
   active: z.number().default(1),
 })
 export type LogisticDetails = z.infer<typeof LogisticDetailsValidation>
@@ -614,12 +617,12 @@ export const CommutingDetailsValidation = z.object({
   distinationZipCode: z.coerce.number(),
   distance: z.string(),
   fuelEfficiency: z.coerce.number(),
-  active: z.number().int().default(1),
+  // active: z.number().int().default(1),
   idCommutingCboModeTransport: z.coerce.number(),
-  cboModeTransportDescription: z.coerce.number().default(0),
-  activity: z.string().default(''),
+  // cboModeTransportDescription: z.coerce.number().default(0),
+  // activity: z.string().default(''),
   unit: z.string().default(''),
-  status: z.string().default(''),
+  // status: z.string().default(''),
 })
 export type CommutingDetails = z.infer<typeof CommutingDetailsValidation>;
 
@@ -683,6 +686,7 @@ export const CompanyValidation = z.object({
   address: z.string().min(1),
   telephoneCompany: z.string().min(1),
   size: z.string().min(1),
+  industry: z.string().min(1),
 })
 export type Company = z.infer<typeof CompanyValidation>;
 

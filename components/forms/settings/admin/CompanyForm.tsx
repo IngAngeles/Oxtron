@@ -34,6 +34,7 @@ export const CompanyForm = ({ company }: Props) => {
       address: company?.address,
       telephoneCompany: company?.telephoneCompany,
       size: company?.size,
+      industry: company?.industry,
     }
   })
 

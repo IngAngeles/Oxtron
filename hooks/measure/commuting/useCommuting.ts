@@ -112,12 +112,15 @@ export const useCommuting = () => {
         active: commute?.active ?? 1,
       })
     }
+
+    console.log(commute)
   }, [commute]);
 
   const onSubmit = async (commuting: Commuting) => {
     setLoading(true)
     try {
       if (commuting.idControlCommuting) {
+        console.log()
         await updateCommuting(commuting);
 
         toast({

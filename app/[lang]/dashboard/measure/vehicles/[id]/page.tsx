@@ -59,6 +59,11 @@ export default function VehiclesDetailPage({ params: { id } }: Props) {
     // { header: 'Status', accessor: 'active' },
   ]
 
+  const handleOnClick = () => {
+    setSelectedRow(null)
+    handleShowModal()
+  }
+
   const handleEdit = async (rowData: any) => {
     setSelectedRow(rowData)
     handleShowModal()
@@ -120,7 +125,7 @@ export default function VehiclesDetailPage({ params: { id } }: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
+        <HistoricalCard onClick={handleOnClick} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
             <SimpleTable

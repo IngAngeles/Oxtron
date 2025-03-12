@@ -4,7 +4,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Company, CompanyValidation } from '@/lib/validation'
-import { updateCompany } from '@/actions/company'
+import {getTypeOfLicenses, updateCompany} from '@/actions/company'
 import { Form } from '@/components/ui/form'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
@@ -22,6 +22,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
+  const [typeOfLicenses, setTypeOfLicenses] = useState<Option[]>([])
 
   const form = useForm<Company>({
     resolver: zodResolver(CompanyValidation),
@@ -43,6 +44,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       address: company?.address,
       telephoneCompany: company?.telephoneCompany,
       size: company?.size,
+      industry: company?.industry,
     }
   })
 
@@ -71,6 +73,12 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       try {
         setLoading(true);
         const dict = await getDictionary(lang);
+        const typeOfLicenses = await getTypeOfLicenses();
+
+        setTypeOfLicenses(typeOfLicenses.map((typeOfLicense) => ({
+          value: typeOfLicense.idTypeLicense.toString(),
+          label: typeOfLicense.description,
+        })))
         setDictionary(dict.pages.settings.setup);
       } catch (error) {
         console.error("Error loading dictionary:", error);
@@ -142,6 +150,14 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
             placeholder={dictionary.content1.phonee}
             label={dictionary.content1.phonee}
             name="telephoneCompany"/>
+          <CustomFormField
+            fieldType={ FormFieldType.SELECT }
+            control={ form.control }
+            placeholder="Type of License"
+            label="Type of License"
+            name="idTypeLicense"
+            options={ typeOfLicenses }
+          />
         </div>
         <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>{dictionary.content1.up}</SubmitButton>
       </form>

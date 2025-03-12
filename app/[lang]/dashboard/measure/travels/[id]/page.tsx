@@ -26,7 +26,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
   const path = usePathname();
 
   const columns = [
-    {header: dictionary?.measure.table.travels.vehi, accessor: 'idTravelCboType'},
+    {header: dictionary?.measure.table.travels.vehi, accessor: 'travelCboTypeDescription'},
     {header: dictionary?.measure.table.travels.sou, accessor: 'invoiceId'},
     {header: dictionary?.measure.table.travels.ori, accessor: 'origin'},
     {header: dictionary?.measure.table.travels.desti, accessor: 'destiny'},
@@ -52,6 +52,11 @@ export default function TravelsDetailPage({params: {id}}: Props) {
     setTravel(travel)
     setIsLoading(false)
     handleHideModal()
+  }
+
+  const handleOnClick = () => {
+    setSelectedRow(null)
+    handleShowModal()
   }
 
   const handleEdit = async (rowData: any) => {
@@ -120,7 +125,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
             {dictionary?.measure.subtitle}
           </p>
         </div>
-        <HistoricalCard onClick={handleShowModal} registryCount={data.length} title="">
+        <HistoricalCard onClick={handleOnClick} registryCount={data.length} title="">
           {isLoading ?
             <Loading/> :
             <SimpleTable

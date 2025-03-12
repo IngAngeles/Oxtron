@@ -6,7 +6,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useEffect, useState} from 'react'
 import {useForm} from "react-hook-form";
 import SubmitButton from '@/components/SubmitButton'
-import {createTravelDetails, updateTravelDetails} from '@/actions/measure/details'
+import {createTravelDetails, getDistance, updateTravelDetails} from '@/actions/measure/details'
 import {toast} from '@/components/ui/use-toast'
 import {ICboModeTransport, VLabel} from '@/constants/types'
 import {getCboModeTransport} from '@/actions/shared'
@@ -31,7 +31,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
       try {
         setIsLoading(true);
         const dict = await getDictionary(lang);
-        setDictionary(dict.pages.measure.createm.man);
+        setDictionary(dict.pages.measure);
       } catch (error) {
         console.error("Error loading dictionary:", error);
       } finally {
@@ -46,21 +46,25 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
     resolver: zodResolver(TravelDetailsValidation),
     defaultValues: {
       active: travel?.active ?? 1,
-      destiny: travel?.destiny ?? '',
       endDate: travel?.endDate ?? new Date().toISOString(),
-      idControlTravel,
       idEmissionFactor: travel?.idEmissionFactor ?? Number(emissionsFactor),
       // @ts-ignore
       idTravelCboType: travel?.idTravelCboType ?? '0',
       invoiceId: travel?.invoiceId ?? "",
+      destiny: travel?.destiny ?? '',
       origin: travel?.origin ?? '',
+      amount: travel?.amount ?? 0,
+      destinyzc: travel?.destinyzc ?? '',
+      originzc: travel?.originzc ?? '',
       startDate: travel?.startDate ?? new Date().toISOString(),
       idControlTravelDetails: travel?.idControlTravelDetails,
-      unit: travel?.unit || '',
+      unit: travel?.unit ?? '',
+      idControlTravel,
     },
   });
 
   const selectedType = form.watch('idTravelCboType');
+  const originAndDestination = form.watch(['originzc', 'destinyzc']);
 
   async function onSubmit(travelDetails: TravelDetails) {
     setIsLoading(true);
@@ -109,11 +113,29 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
   }, [])
 
   useEffect(() => {
-    if (selectedType) {
+    if (selectedType || travel) {
       const unitSelected = data.find((vehicleCboType) => vehicleCboType.idCommutingCboModeTransport.toString() === selectedType.toString())
-      form.setValue('unit', unitSelected?.units);
+      form.setValue('unit', travel?.unit || unitSelected?.units || '');
     }
-  }, [selectedType, form]);
+  }, [selectedType, form, travel]);
+
+  useEffect(() => {
+    const origin: number = Number(form.getValues('originzc'));
+    const destination: number = Number(form.getValues('destinyzc'));
+
+    if (origin && destination && origin.toString().length >= 4 && destination.toString().length >= 4 && !isNaN(Number(origin)) && !isNaN(Number(destination))) {
+      getDistance(origin, destination).then((result) => {
+        if (result?.success) {
+          const data: any = result.data
+          form.setValue('amount', data?.distance);
+        } else {
+          form.setValue('amount', 0);
+        }
+      }).catch(() => {
+        form.setValue('amount', 0);
+      });
+    }
+  }, [originAndDestination]);
 
   return (isLoading || !dictionary) ? (
     <div className="flex items-center justify-center w-full h-full">
@@ -132,11 +154,11 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               value={emissionsFactor}
               onChange={setEmissionsFactor}
               options={[
-                {value: "1", label: dictionary.lab1},
-                // {value: "2", label: dictionary.lab2},
+                {value: "1", label: dictionary.createm.man.lab1},
+                // {value: "2", label: dictionary.createm.man.lab2},
               ]}
               cols={2}
-              label={dictionary.label}
+              label={dictionary.createm.man.label}
               defaultSelected={0}
             />
           </div>
@@ -147,14 +169,14 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="startDate"
-              label={dictionary.label2}
+              label={dictionary.createm.man.label2}
               placeholder="dd/mm/yyyy"
             />
             <CustomFormField
               control={form.control}
               fieldType={FormFieldType.DATE_PICKER}
               name="endDate"
-              label={dictionary.label3}
+              label={dictionary.createm.man.label3}
               placeholder="dd/mm/yyyy"
             />
           </div>
@@ -163,8 +185,8 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               control={form.control}
               fieldType={FormFieldType.INPUT}
               name="invoiceId"
-              label={dictionary.label1}
-              placeholder={dictionary.id}
+              label={dictionary.createm.man.label1}
+              placeholder={dictionary.createm.man.id}
             />
           </div>
         </div>
@@ -174,37 +196,112 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               control={form.control}
               fieldType={FormFieldType.SELECT}
               name="idTravelCboType"
-              label={dictionary.label6}
-              placeholder={dictionary.tran}
+              label={dictionary.createm.man.label6}
+              placeholder={dictionary.createm.man.tran}
               options={cboModeTransport}
             />
           </div>
-          <div>
+          <div className="flex justify-center w-full gap-4">
+            <CustomFormField
+              control={form.control}
+              name="origin"
+              fieldType={FormFieldType.INPUT}
+              label={dictionary.createm.comm.label}
+              placeholder={dictionary.createm.comm.origin}
+            />
+            <CustomFormField
+              control={form.control}
+              name="originzc"
+              fieldType={FormFieldType.INPUT}
+              label={dictionary.createm.comm.label1}
+              placeholder={dictionary.createm.comm.zip}
+            />
+          </div>
+          <div className="flex justify-center w-full gap-4">
+            <CustomFormField
+              control={form.control}
+              name="destiny"
+              fieldType={FormFieldType.INPUT}
+              label={dictionary.createm.comm.label2}
+              placeholder={dictionary.createm.comm.desti}
+            />
+            <CustomFormField
+              control={form.control}
+              name="destinyzc"
+              fieldType={FormFieldType.INPUT}
+              label={dictionary.createm.comm.label3}
+              placeholder={dictionary.createm.comm.code}
+            />
+          </div>
+          <div className="flex items-end justify-center w-full gap-4">
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldType.INPUT}
+              name="amount"
+              label={dictionary.createm.man.label4}
+              placeholder={dictionary.createm.man.amo}
+            />
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldType.INPUT}
+              name="unit"
+              placeholder={dictionary.createm.man.unit}
+              label={dictionary.createm.man.label5}
+              disabled
+            />
+          </div>
+        </div>
+        {/* <div className="flex justify-center w-full gap-4">
+              <CustomFormField
+                control={form.control}
+                name="destination"
+                fieldType={FormFieldType.INPUT}
+                label={dictionary.createm.man.label2}
+                placeholder={dictionary.createm.man.desti}
+              />
+            </div>
+            <div className="flex justify-center w-full gap-4">
+              <CustomFormField
+                control={form.control}
+                name="destinyzc"
+                fieldType={FormFieldType.INPUT}
+                label={dictionary.createm.man.label3}
+                placeholder={dictionary.createm.man.code}
+              />
+              <CustomFormField
+                control={form.control}
+                name="distance"
+                fieldType={FormFieldType.INPUT}
+                label={dictionary.createm.man.label4}
+                placeholder={dictionary.createm.man.dis}
+                disabled
+              />
+            </div> */}
+        {/* <div>
             <div className="flex items-end justify-center w-full gap-4">
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="amount"
-                label={dictionary.label4}
-                placeholder={dictionary.amo}
+                label={dictionary.createm.man.label4}
+                placeholder={dictionary.createm.man.amo}
               />
               <CustomFormField
                 control={form.control}
                 fieldType={FormFieldType.INPUT}
                 name="unit"
-                placeholder={dictionary.unit}
-                label={dictionary.label5}
+                placeholder={dictionary.createm.man.unit}
+                label={dictionary.createm.man.label5}
                 disabled
               />
             </div>
-          </div>
-        </div>
+          </div>*/}
         <div className="flex items-center justify-end w-32 float-end">
           <SubmitButton
             isLoading={isLoading}
             onClick={() => onSubmit(form.getValues())}
           >
-            {dictionary.up}
+            {dictionary.createm.man.up}
           </SubmitButton>
         </div>
       </form>

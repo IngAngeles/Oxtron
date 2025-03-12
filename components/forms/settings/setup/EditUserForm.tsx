@@ -115,8 +115,8 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
           <CustomFormField
             fieldType={ FormFieldType.INPUT }
             control={ form.control }
-            placeholder={dictionary.modal.role}
-            label={dictionary.modal.role}
+            placeholder={dictionary.modal.typeOfUser}
+            label={dictionary.modal.typeOfUser}
             name="role"
             options={ roles }
           />
@@ -140,13 +140,6 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
             placeholder={dictionary.modal.confirm}
             label={dictionary.modal.confirm}
             name="confirmPassword"
-          />
-          <CustomFormField
-            fieldType={ FormFieldType.INPUT }
-            control={ form.control }
-            placeholder={dictionary.modal.type}
-            label={dictionary.modal.type}
-            name="typeLicense"
           />
           <CustomFormField
             fieldType={ FormFieldType.PHONE_INPUT }
