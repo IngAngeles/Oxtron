@@ -33,7 +33,6 @@ const FormModal: React.FC<{ open: boolean; onClose: () => void; }> = ({ open, on
       state: '',
       country: '',
       postalCode: '',
-      typeLicense: 0,
       telephoneUser: '',
       timeZone: '',
       language: '',
