@@ -105,7 +105,6 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   })
 
   useEffect(() => {
-    console.log(facility?.idType?.toString())
     setIdType(facility?.idType?.toString() || '');
   }, [facility]);
 
@@ -243,10 +242,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-
-    console.log(value)
-
     const unitSelected = data.find((type: any) => type.idControl.toString() === value.toString())
+
     // @ts-ignore
     form.setValue('unit', unitSelected?.units);
     form.setValue('idTypeDetails', Number(value));
