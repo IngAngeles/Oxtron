@@ -117,6 +117,7 @@ export async function getFacilityDetails(idFacilities: number) {
 }
 
 export async function createFacilityDetails(facilityDetails: FacilityDescriptionDetails) {
+  console.log(facilityDetails)
   try {
     const response = await axiosInstance.post('/FacilitiesDetails/Registrar_FacilitiesDetails', facilityDetails)
 
