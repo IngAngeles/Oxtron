@@ -105,7 +105,6 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
   })
 
   useEffect(() => {
-    console.log(facility?.idType?.toString())
     setIdType(facility?.idType?.toString() || '');
   }, [facility]);
 

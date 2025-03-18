@@ -3,9 +3,11 @@
 import { auth } from '@/auth'
 import { CBOType, ReportHeader, VLabel } from '@/constants/types'
 import axiosInstance from '@/lib/axios-instance'
+import {Communicate} from "@/lib/validation";
+import {getAuthenticatedUserId} from "@/actions/shared";
 
 
-export async function fetchRecentReports(): Promise<ReportHeader[]> {
+export async function fetchRecentReports(): Promise<Communicate[]> {
   try {
     const session = await auth()
     const idUser: number = Number(session?.user?.id) ?? 0
@@ -14,9 +16,34 @@ export async function fetchRecentReports(): Promise<ReportHeader[]> {
 
     console.log({ response: response.data, message: response.statusText })
 
-    return response.data as ReportHeader[]
+    return response.data as Communicate[]
   } catch (error) {
     console.error('communicate->fetchRecentReports:', { error })
+    throw error
+  }
+}
+
+export async function createCommunicateReport({
+  idControlFacility,
+  idFacility,
+  type,
+  startDate,
+  endDate,
+}: Communicate) {
+  try {
+    const idUserControl = await getAuthenticatedUserId();
+    const response = await axiosInstance.post('/Communicate/Registrar_Communicate', {
+      idControlFacility: idControlFacility.toString(),
+      idUserControl,
+      idFacility,
+      type: type.toString(),
+      startDate: startDate.toString(),
+      endDate: endDate.toString(),
+    })
+
+    return response.data as Communicate
+  } catch (error) {
+    console.error('Error creating Report', error)
     throw error
   }
 }
