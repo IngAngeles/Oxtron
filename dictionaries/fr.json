@@ -612,8 +612,8 @@
                     "fugitiveEmissions": {
                         "label": "MESURER LES ÉMISSIONS FUGITIVES",
                         "options": {
-                            "yes": "oui",
-                            "no": "non"
+                            "yes": "Oui",
+                            "no": "Non"
                         }
                     },
                     "amountYearsBeginning": {
