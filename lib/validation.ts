@@ -708,6 +708,22 @@ export const ReportHeaderValidation = z.object({
 })
 export type ReportHeader = z.infer<typeof ReportHeaderValidation>
 
+export const CommunicateSchema = z.object({
+  idControlCommunicate: z.number().optional(),
+  idUserControl: z.number().optional(),
+  idControlFacility: z.coerce.number(),
+  idFacility: z.string(),
+  type: z.string(),
+  startDate: z
+    .string()
+    .datetime(),
+  endDate: z
+    .string()
+    .datetime(),
+  firstName: z.string().optional(),
+});
+export type Communicate = z.infer<typeof CommunicateSchema>;
+
 export const ComboValidation = z.object({
   idControl: z.number(),
   description: z.string(),

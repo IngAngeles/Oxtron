@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { CommunicateContext, ICommunicateContext } from '@/context/communicate';
 import { getDictionary } from "@/lib/dictionary";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/i18n.config";
+import {useCommunicateStore} from "@/store/communicate";
 
 // ⬇️ Importaciones dinámicas para evitar errores de SSR
 const DashboardButton = dynamic(() => import('@/components/DashboardButton'), { ssr: false });
@@ -21,7 +21,7 @@ const Communicate = () => {
   const lang: Locale = (pathname?.split("/")[1] as Locale) || "en";
   const [loading, setLoading] = useState(true);
   const [dictionary, setDictionary] = useState<any>(null);
-  const { handleShowCreateReportModal } = React.useContext(CommunicateContext) as ICommunicateContext;
+  const { handleShowCreateReportModal } = useCommunicateStore()
 
   useEffect(() => {
     const loadDictionary = async () => {

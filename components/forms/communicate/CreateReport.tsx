@@ -1,47 +1,63 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Form } from '@/components/ui/form'
 import Modal from '@/components/shared/Modal'
-import { CommunicateContext, ICommunicateContext } from '@/context/communicate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReportHeaderValidation } from '@/lib/validation'
+import {Communicate, CommunicateSchema} from '@/lib/validation'
 import CustomFormField, { FormFieldType } from '@/components/CustomFormField'
 import SubmitButton from '@/components/SubmitButton'
 import { SendHorizonal } from 'lucide-react'
-import { getCboTypes } from '@/actions/communicate'
+import {getCboTypes} from '@/actions/communicate'
 import { VLabel } from '@/constants/types'
+import {getFacilitiesByUserId} from "@/actions/measure/facilities";
+import {toast} from "@/components/ui/use-toast";
+import {useCommunicateStore} from "@/store/communicate";
 
-type ReportHeader = z.infer<typeof ReportHeaderValidation>
-type Props = { reportHeader?: ReportHeader }
+type Props = { communicateReport?: Communicate }
 
-const CreateReport = ({ reportHeader }: Props) => {
-  const { showCreateReportModal, handleHideCreateReportModal } = useContext(CommunicateContext) as ICommunicateContext
+export default function CreateReport ({ communicateReport }: Props) {
+  const {createReport, showCreateReportModal, handleHideCreateReportModal} = useCommunicateStore()
   const [types, setTypes] = useState<VLabel[]>([])
   const [_error, setError] = useState<AxiosError | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const form = useForm<ReportHeader>({
-    resolver: zodResolver(ReportHeaderValidation),
+  const [facilityOptions, setFacilityOptions] = useState<VLabel[]>([])
+  const [type, setType] = useState<string>('')
+  const form = useForm<Communicate>({
+    resolver: zodResolver(CommunicateSchema),
     defaultValues: {
-      idControl: reportHeader?.idControl,
-      idUserControl: reportHeader?.idUserControl || 0,
-      preparedBy: reportHeader?.preparedBy,
-      facilityId: reportHeader?.facilityId,
-      idType: reportHeader?.idType || 0,
-      typeDescription: reportHeader?.typeDescription,
-      startDate: reportHeader?.startDate || '',
-      endDate: reportHeader?.endDate || '',
-      active: reportHeader?.active || 1,
+      idControlCommunicate: communicateReport?.idControlCommunicate,
+      idUserControl: communicateReport?.idUserControl || 0,
+      idControlFacility: communicateReport?.idControlFacility,
+      idFacility: communicateReport?.idFacility,
+      startDate: communicateReport?.startDate || new Date().toISOString(),
+      endDate: communicateReport?.endDate || new Date().toISOString(),
     }
   })
+  const facilityWatched = form.watch('idControlFacility');
+  const typeWatched = form.watch('type')
+
+  useEffect(() => {
+    const value: string = facilityOptions.find((item) => item.value === facilityWatched.toString())?.label || '';
+    form.setValue('idFacility', value)
+  }, [facilityWatched]);
+
+  useEffect(() => {
+    const value = types.find((item) => item.value === typeWatched?.toString())?.label || '';
+    setType(value);
+  }, [typeWatched]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         setIsLoading(true)
         const response = await getCboTypes()
+        const facilities = await getFacilitiesByUserId();
         setTypes(response)
+        setFacilityOptions(facilities.data?.map((facility) => ({
+          value: facility?.idControlFacility?.toString() || '0',
+          label: facility.idFacility,
+        })) || [])
       } catch (error) {
         console.error({ error })
         setError(error as AxiosError)
@@ -52,36 +68,6 @@ const CreateReport = ({ reportHeader }: Props) => {
 
     loadData()
   }, [])
-
-
-  /* const handleCreateReport = async ({
-    idUserControl,
-    idFacility,
-    preparedBy,
-    idType,
-    typeDescription,
-    startDate,
-    endDate,
-    active,
-  }: ReportHeader) => {
-    await createReport({
-      idUserControl,
-      idFacility,
-      preparedBy,
-      idType,
-      typeDescription,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
-      active
-    })
-    toast({
-      title: 'Success',
-      description: 'This report has been inserted successfully',
-      className: 'bg-black',
-    })
-  } */
-
-  const handleCreateReport = async () => {};
 
   const handleUpdateReport = async () => {};
 
@@ -95,11 +81,14 @@ const CreateReport = ({ reportHeader }: Props) => {
     })
   } */
 
-  async function onSubmit(_report: ReportHeader) {
+  async function onSubmit(report: Communicate) {
     try {
       setIsLoading(true)
-      if (!reportHeader) {
-        await handleCreateReport()
+      if (!communicateReport) {
+        await createReport({...report, type});
+        toast({
+          title: 'Item successfully created',
+        })
       } else {
         await handleUpdateReport()
       }
@@ -138,16 +127,25 @@ const CreateReport = ({ reportHeader }: Props) => {
             <div className="col-span-2">
               <CustomFormField
                 fieldType={ FormFieldType.SELECT }
-                name="idType"
+                name="type"
                 label="TYPE"
                 placeholder="Select Activity Type"
                 options={ types }
                 control={ form.control }/>
             </div>
+            <div className="col-span-2">
+              <CustomFormField
+                fieldType={ FormFieldType.SELECT }
+                name="idControlFacility"
+                label="FACILITY"
+                placeholder="Select Activity Type"
+                options={ facilityOptions }
+                control={ form.control }/>
+            </div>
           </div>
           <div className="flex items-center justify-end w-32 float-end">
-            <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>
-              { !reportHeader ? 'Add' : 'Update' }
+            <SubmitButton isLoading={ isLoading }>
+              { !communicateReport ? 'Add' : 'Update' }
             </SubmitButton>
           </div>
         </form>
@@ -155,5 +153,3 @@ const CreateReport = ({ reportHeader }: Props) => {
     </Modal>
   )
 }
-
-export default CreateReport
