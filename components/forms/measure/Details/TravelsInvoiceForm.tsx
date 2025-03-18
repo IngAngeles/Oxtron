@@ -127,7 +127,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
       getDistance(origin, destination).then((result) => {
         if (result?.success) {
           const data: any = result.data
-          form.setValue('amount', data?.distance);
+          form.setValue('amount', parseInt(String(data?.distance / 1000)));
         } else {
           form.setValue('amount', 0);
         }
@@ -240,6 +240,7 @@ export const TravelsInvoiceForm = ({idControlTravel, travel, reloadData}: Props)
               name="amount"
               label={dictionary.createm.man.label4}
               placeholder={dictionary.createm.man.amo}
+              disabled
             />
             <CustomFormField
               control={form.control}
