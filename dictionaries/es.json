@@ -672,7 +672,7 @@
                     }
                 },
                 "log": {
-                    "lab1": "Opción 1",
+                    "lab1": "Por defecto",
                     "lab2": "Opción 2",
                     "label": "FACTOR DE EMISIONES",
                     "ori": "Origen",
