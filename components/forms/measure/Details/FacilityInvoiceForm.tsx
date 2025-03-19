@@ -82,8 +82,7 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
       amount: facility?.amount,
       unit: facility?.unit,
       typeEquipment: facility?.typeEquipment,
-      // @ts-ignore
-      measureFugitive: facility?.measureFugitive ?? measureFugitiveEmissionsFactor,
+      measureFugitive: facility?.measureFugitive ?? Number(measureFugitiveEmissionsFactor),
       purchased: facility?.purchased,
       delivered: facility?.delivered,
       returnsProducers: facility?.returnsProducers,
@@ -106,7 +105,12 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
 
   useEffect(() => {
     setIdType(facility?.idType?.toString() || '');
+    setMeasureFugitiveEmissionsFactor(facility?.measureFugitive.toString() || '0')
   }, [facility]);
+
+  useEffect(() => {
+    console.log({measureFugitiveEmissionsFactor, measureFugitive: facility?.measureFugitive.toString()})
+  }, [measureFugitiveEmissionsFactor]);
 
   async function onSubmit(facilityDetails: FacilityDetails) {
     setIsLoading(true)
@@ -232,7 +236,6 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
           })) as unknown as VLabel[])
           // setOptValue(-1)
           form.setValue('unit', '');
-          setMeasureFugitiveEmissionsFactor('0');
           break
       }
     }
@@ -242,10 +245,8 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-
-    console.log(value)
-
     const unitSelected = data.find((type: any) => type.idControl.toString() === value.toString())
+
     // @ts-ignore
     form.setValue('unit', unitSelected?.units);
     form.setValue('idTypeDetails', Number(value));
@@ -335,14 +336,12 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                     name="idTypeDetails"
                     value={optValue}
                     onChange={handleTypeChange}
-                    defaultValue={optValue}
-                    defaultChecked={true}
-                    className="flex h-10 w-full rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 title-century-gothic-regular undefined bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]">
+                    className="flex h-10 w-full rounded-md px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 title-century-gothic-regular bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]">
                     <option value="" hidden>
                       {dictionary.selectType.placeholder}
                     </option>
                     {options.map((opt) => (
-                      <option key={opt.value} value={String(opt.value)} selected={opt.value === optValue?.toString()}>
+                      <option key={opt.value} value={String(opt.value)}>
                         {opt.label}
                       </option>
                     ))}
@@ -374,7 +373,6 @@ export const FacilityInvoiceForm = ({idControlFacility, facility, reloadData}: P
                       value={measureFugitiveEmissionsFactor}
                       onChange={setMeasureFugitiveEmissionsFactor}
                       options={[{value: '1', label: dictionary.fugitiveEmissions.options.yes}, {value: '0', label: dictionary.fugitiveEmissions.options.no}]}
-                      defaultSelected={1}
                       cols={2}/>
                   </div>
                 )}

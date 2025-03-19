@@ -612,8 +612,8 @@
                     "fugitiveEmissions": {
                         "label": "MEASURE FUGITIVE EMISSIONS",
                         "options": {
-                            "yes": "yes",
-                            "no": "no"
+                            "yes": "Yes",
+                            "no": "No"
                         }
                     },
                     "amountYearsBeginning":  {
@@ -672,7 +672,7 @@
                     }
                 },
                 "log":{
-                    "lab1": "Option 1",
+                    "lab1": "Default",
                     "lab2": "Option 2",
                     "label": "EMISSIONS FACTOR",
                     "ori": "Origin",

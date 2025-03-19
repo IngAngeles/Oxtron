@@ -30,7 +30,7 @@ export default function TravelsDetailPage({params: {id}}: Props) {
     {header: dictionary?.measure.table.travels.sou, accessor: 'invoiceId'},
     {header: dictionary?.measure.table.travels.ori, accessor: 'origin'},
     {header: dictionary?.measure.table.travels.desti, accessor: 'destiny'},
-    {header: dictionary?.measure.table.travels.km, accessor: 'idEmissionFactor'},
+    {header: dictionary?.measure.table.travels.km, accessor: 'amount'},
     {header: dictionary?.measure.table.travels.date, accessor: 'startDate'},
     {header: dictionary?.measure.table.travels.up, accessor: 'firstName'},
     // { header: 'Status', accessor: 'idControlTravel' },

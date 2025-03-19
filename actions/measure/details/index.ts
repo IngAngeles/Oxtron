@@ -117,6 +117,7 @@ export async function getFacilityDetails(idFacilities: number) {
 }
 
 export async function createFacilityDetails(facilityDetails: FacilityDescriptionDetails) {
+  console.log(facilityDetails)
   try {
     const response = await axiosInstance.post('/FacilitiesDetails/Registrar_FacilitiesDetails', facilityDetails)
 
@@ -435,7 +436,7 @@ export async function getDistance (originZip: number, destinationZip: number)  {
     const data = response.data;
 
     if (data.status === 'OK') {
-      const distance = data.rows[0].elements[0].distance.text;
+      const distance = data.rows[0].elements[0].distance.value;
       const duration = data.rows[0].elements[0].duration.text;
       return { status: data.status, success: true, data: { originZip, destinationZip, distance, duration } };
     }
