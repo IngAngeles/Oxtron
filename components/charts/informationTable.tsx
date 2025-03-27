@@ -39,7 +39,7 @@ const InformationTable = () => {
 
 
   return (
-    <div className='rounded-[8px] shadow-custom md:p-6 p-3 w-full'>
+    <div className='rounded-[8px] shadow-custom md:p-6 p-3 w-full h-full'>
       <h2 className='text-xl font-bold text-neutral-800 text-center mb-6'>
       {dictionary.information.title}
       </h2>

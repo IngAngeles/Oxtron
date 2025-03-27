@@ -136,7 +136,7 @@ const ParticularChart = () => {
     };
 
     return (
-        <div className='rounded-[8px] shadow-custom md:p-6 p-3 w-full max-w-[50rem]'>
+        <div className='rounded-[8px] shadow-custom md:p-6 p-3 w-full'>
             <h2 className='text-2xl font-bold text-neutral-800'>{dictionary.particular.title}</h2>
             <p className='text-neutral-400 text-sm'>{dictionary.particular.date}</p>
             <div className="h-[300px]">
