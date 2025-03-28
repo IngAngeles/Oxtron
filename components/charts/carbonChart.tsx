@@ -115,8 +115,7 @@ const CarbonChart = () => {
                     boxHeight: 1,
                     padding: 30,
                     filter: (legendItem) => {
-                        
-                        return legendItem.text !== 'Single Point';
+                        return legendItem.text !== dictionary.carbon.label3;
                     },
                 },
             },
