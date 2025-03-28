@@ -35,13 +35,10 @@ export default function CommutingPage() {
     <>
       <div className="flex flex-col  gap-4 p-6 lg:ml-[205px] ml-0">
         <div>
-          <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
-            <Link
-              href={path.split('/').slice(0, -1).join('/')}
-              className="text-neutral-300"
-            >
+          <h1 className="title-geometos font-[400] text-2xl text-neutral-300">
+            <Link href={path.split('/').slice(0, -1).join('/')}>
               {dictionary?.measure.title}
-            </Link> / {dictionary?.measure.all.commuting}
+            </Link> / <span className="text-neutral-900">{dictionary?.measure.all.commuting}</span>
           </h1>
           <p className="font-light text-neutral-500">
             {dictionary?.measure.subtitle}
