@@ -2,13 +2,10 @@ import { SidebarProps } from "@/constants/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NavigationLink = ({ children, name, route, isOpen, lang }: SidebarProps) => {
-  const path = usePathname();
-
-  const isExactDashboard = path === `/${lang}/dashboard` && name === "dashboard";
-  const isSubRoute = path === `/${lang}/dashboard/${name}`;
-
-  const isActive = isExactDashboard || isSubRoute;
+const NavigationLink = ({ children, name, route, isOpen }: SidebarProps) => {
+  const path = usePathname().split('/');
+  const relevantSegment = path.length > 3 ? path[3] : '';
+  const isActive = relevantSegment === '' && route.split("/").pop() === 'dashboard' || (route.split("/").pop() || '') === relevantSegment;
 
   return (
     <Link
