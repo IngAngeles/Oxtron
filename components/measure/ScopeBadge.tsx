@@ -14,7 +14,7 @@ const ScopeBadge = ({ scope, and = 'and' }: Props) => {
   };
 
   return (
-    <span className="w-auto h-auto p-1 bg-neutral-300 text-neutral-500 text-xs rounded">
+    <span className="w-auto h-auto py-1 px-2 bg-[#f4f4f4] text-neutral-500 text-xs rounded">
       { formatScope(scope) }
     </span>
   )

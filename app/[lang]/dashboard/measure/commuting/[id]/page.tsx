@@ -109,18 +109,12 @@ export default function CommutingDetailPage({params: {id}}: Props) {
     <>
       <div className="flex flex-col  gap-4 p-6 lg:ml-[205px] ml-0">
         <div>
-          <h1 className="title-geometos font-[400] text-2xl text-neutral-900">
-            <Link
-              href={path.split('/').slice(0, -1).join('/').replace('commuting', '')}
-              className="text-neutral-300"
-            >
+          <h1 className="title-geometos font-[400] text-2xl text-neutral-300">
+            <Link href={path.split('/').slice(0, -1).join('/').replace('commuting', '')}>
               {dictionary?.measure.title}
             </Link> / {' '}
 
-            <Link
-              href={path.split('/').slice(0, -1).join('/')}
-              className="text-neutral-300"
-            >
+            <Link href={path.split('/').slice(0, -1).join('/')}>
               {dictionary?.measure.all.commuting}
             </Link>
             {' '} / {facility?.idFacility}

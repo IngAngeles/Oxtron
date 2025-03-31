@@ -25,6 +25,8 @@ const TableField = () => {
             <TableHead className="hidden md:table-cell">Start Date</TableHead>
             <TableHead className="hidden md:table-cell">End Date</TableHead>
             <TableHead className="w-[50px]">PDF</TableHead>
+            <TableHead className="w-[50px]">EXL</TableHead>
+            <TableHead className="w-[50px]">CSV</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -41,7 +43,13 @@ const TableField = () => {
               <TableCell className="hidden md:table-cell">{ formatDateTime(report.startDate).dateDay }</TableCell>
               <TableCell className="hidden md:table-cell">{ formatDateTime(report.endDate).dateDay }</TableCell>
               <TableCell>
-                <ArrowDownTrayIcon className="w-4 h-4"/>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
+              </TableCell>
+              <TableCell>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
+              </TableCell>
+              <TableCell>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
               </TableCell>
             </TableRow>
           )) }

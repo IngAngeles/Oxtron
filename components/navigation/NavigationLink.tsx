@@ -2,19 +2,16 @@ import { SidebarProps } from "@/constants/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NavigationLink = ({ children, name, route, isOpen, lang }: SidebarProps) => {
-  const path = usePathname();
-
-  const isExactDashboard = path === `/${lang}/dashboard` && name === "dashboard";
-  const isSubRoute = path === `/${lang}/dashboard/${name}`;
-
-  const isActive = isExactDashboard || isSubRoute;
+const NavigationLink = ({ children, name, route, isOpen }: SidebarProps) => {
+  const path = usePathname().split('/');
+  const relevantSegment = path.length > 3 ? path[3] : '';
+  const isActive = relevantSegment === '' && route.split("/").pop() === 'dashboard' || (route.split("/").pop() || '') === relevantSegment;
 
   return (
     <Link
       href={route}
       className={`flex p-2 rounded-sm cursor-pointer place-items-center gap-3 transition-all duration-300 text-sidebar 
-      ${isActive ? "bg-gradient-to-t from-[#35d7ff] via-[#000099] to-[#000] border-b-2" : "hover:bg-neutral-700/30 border-b-0"}`}
+      ${isActive ? "shad-primary-btn border-b-2" : "hover:bg-neutral-700/30 border-b-0"}`}
     >
       <span>{children}</span>
       <p

@@ -115,8 +115,7 @@ const CarbonChart = () => {
                     boxHeight: 1,
                     padding: 30,
                     filter: (legendItem) => {
-                        
-                        return legendItem.text !== 'Single Point';
+                        return legendItem.text !== dictionary.carbon.label3;
                     },
                 },
             },
@@ -124,7 +123,7 @@ const CarbonChart = () => {
     };
 
     return (
-        <div className='rounded-[8px] shadow-custom md:p-6 p-3 mt-15 max-w-[50rem]'>
+        <div className='rounded-[8px] shadow-custom md:p-6 p-3 mt-15'>
             <h2 className='text-2xl font-bold text-neutral-800'>{dictionary.carbon.title}</h2>
             <p className='text-neutral-400 text-sm'>{dictionary.carbon.date}</p>
             <div className="h-[300px]">
