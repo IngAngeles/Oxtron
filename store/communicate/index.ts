@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {Communicate} from "@/lib/validation";
-import {createCommunicateReport, fetchRecentReports} from "@/actions/communicate";
+import { createCommunicateReport, fetchRecentReports, getCSV, getPDF, getReport, getXLSX } from '@/actions/communicate'
 
 type CommunicateStore = {
   reports: Communicate[],
@@ -22,6 +22,10 @@ type CommunicateStore = {
   createReport: (report: Communicate) => Promise<string | undefined>;
   updateReport: (updatedCommunicate: Communicate) => Promise<string | undefined>;
   deleteReport: (id: number) => Promise<string | undefined>;
+  listReport: (idUserControl: number, startDate: Date, endDate: Date, type: number) => Promise<any>;
+  PDF: (idControlCommunicate: number, idUserControl: number) => Promise<any>;
+  XLSX: (idControlCommunicate: number, idUserControl: number) => Promise<any>;
+  CSV: (idControlCommunicate: number, idUserControl: number) => Promise<any>;
 }
 
 export const useCommunicateStore = create<CommunicateStore>((set) => ({
@@ -79,4 +83,36 @@ export const useCommunicateStore = create<CommunicateStore>((set) => ({
   }),
   deleteReport: (id: number) => new Promise<string | undefined>((resolve, reject) => {
   }),
+  listReport: async (idUserControl: number, startDate: Date, endDate: Date, type: number) => {
+    try {
+      const response = await getReport(idUserControl, startDate, endDate, type);
+      console.log('listReport:', response);
+    } catch (error) {
+      console.error('listReport', error);
+    }
+  },
+  PDF: async (idControlCommunicate: number, idUserControl: number) => {
+    try {
+      const response = await getPDF(idControlCommunicate, idUserControl);
+      console.log('PDF:', response);
+    } catch (error) {
+      console.error('PDF:', error)
+    }
+  },
+  XLSX: async (idControlCommunicate: number, idUserControl: number) => {
+    try {
+      const response = await getXLSX(idControlCommunicate, idUserControl);
+      console.log('XLSX:', response);
+    } catch (error) {
+      console.error('XLSX:', error);
+    }
+  },
+  CSV: async (idControlCommunicate: number, idUserControl: number) => {
+    try {
+      const response = await getCSV(idControlCommunicate, idUserControl);
+      console.log('CSV:', response);
+    } catch (error) {
+      console.error('CSV:', error);
+    }
+  },
 }));

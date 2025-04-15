@@ -3,8 +3,8 @@
 import { auth } from '@/auth'
 import { CBOType, ReportHeader, VLabel } from '@/constants/types'
 import axiosInstance from '@/lib/axios-instance'
-import {Communicate} from "@/lib/validation";
-import {getAuthenticatedUserId} from "@/actions/shared";
+import { Communicate } from '@/lib/validation'
+import { getAuthenticatedUserId } from '@/actions/shared'
 
 
 export async function fetchRecentReports(): Promise<Communicate[]> {
@@ -107,3 +107,65 @@ export async function getCboTypes(): Promise<VLabel[]> {
     throw error
   }
 }
+
+export async function getReport (idUserControl: number, startDate: Date, endDate: Date, type: number) {
+  try {
+    const response = await axiosInstance.get('/Report/Listar_Reporte', {
+      params: {
+        idUserControl,
+        startDate,
+        endDate,
+        type,
+      }
+    })
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPDF (idControlCommunicate: number, idUserControl: number) {
+  try {
+    const response = await axiosInstance.get('/Report/Listar_ReportePDF', {
+      params: {
+        idControlCommunicate,
+        idUserControl,
+      }
+    })
+
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCSV (idControlCommunicate: number, idUserControl: number) {
+  try {
+    const response = await axiosInstance.get('/Report/Listar_ReporteCSV', {
+      params: {
+        idControlCommunicate,
+        idUserControl,
+      }
+    })
+
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getXLSX (idControlCommunicate: number, idUserControl: number) {
+  try {
+    const response = await axiosInstance.get('/Report/Listar_ReporteXLSX', {
+      params: {
+        idControlCommunicate,
+        idUserControl,
+      }
+    })
+
+    return response.data
+  } catch (error) {
+    throw error;
+  }
+}
+

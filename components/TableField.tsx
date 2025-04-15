@@ -1,17 +1,17 @@
 'use client'
-import React, {useEffect} from "react";
+import React, { useEffect } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { ArrowDownTrayIcon, EyeIcon } from '@heroicons/react/24/outline'
 import Loading from '@/components/loading/LoadingBlack'
 import { formatDateTime } from '@/lib/utils'
-import {useCommunicateStore} from "@/store/communicate";
+import { useCommunicateStore } from '@/store/communicate'
 
 const TableField = () => {
-  const { fetchReports, reports, loading, error, setReport } = useCommunicateStore()
+  const { fetchReports, reports, listReport, PDF, CSV, XLSX, loading, error, setReport } = useCommunicateStore()
 
   useEffect(() => {
     fetchReports()
-  }, []);
+  }, [])
 
   return !loading ? (
     !error ? (
@@ -33,7 +33,10 @@ const TableField = () => {
           { reports.map((report, index) => (
             <TableRow key={ index }>
               <TableCell className="text-center hidden md:table-cell">
-                <EyeIcon className="w-4 h-4 cursor-pointer" onClick={ () => setReport(report) }/>
+                <EyeIcon className="w-4 h-4 cursor-pointer" onClick={ async () => {
+                  await listReport(report.idUserControl || 0, new Date(report.startDate), new Date(report.endDate), Number(report.type))
+                  setReport(report)
+                } }/>
               </TableCell>
               <TableCell className="font-medium">
                 { report.firstName }
@@ -43,13 +46,19 @@ const TableField = () => {
               <TableCell className="hidden md:table-cell">{ formatDateTime(report.startDate).dateDay }</TableCell>
               <TableCell className="hidden md:table-cell">{ formatDateTime(report.endDate).dateDay }</TableCell>
               <TableCell>
-                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer" onClick={ async () => {
+                  await PDF(report.idControlCommunicate || 0, report.idUserControl || 0)
+                } }/>
               </TableCell>
               <TableCell>
-                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer" onClick={ async () => {
+                  await XLSX(report.idControlCommunicate || 0, report.idUserControl || 0)
+                } }/>
               </TableCell>
               <TableCell>
-                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer"/>
+                <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer" onClick={ async () => {
+                  await CSV(report.idControlCommunicate || 0, report.idUserControl || 0)
+                } }/>
               </TableCell>
             </TableRow>
           )) }
@@ -61,7 +70,7 @@ const TableField = () => {
       </div>
     )
   ) : (
-    <Loading />
+    <Loading/>
   )
 }
 
