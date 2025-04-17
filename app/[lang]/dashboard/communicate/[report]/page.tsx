@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Separator } from "@/components/ui/separator"
 
 export default function Report() {
   return (
@@ -40,7 +39,7 @@ export default function Report() {
 
         <div className="mb-6">
           <h3 className="text-md font-medium mb-2 text-gray-900">Alcance 1</h3>
-          <Separator className="mb-4 bg-[#000A14] h-0.5" />
+          <hr className="mb-4 bg-[#000A14] h-0.5" />
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -93,7 +92,7 @@ export default function Report() {
 
         <div className="mb-6">
           <h3 className="text-md font-medium mb-2 text-gray-900">Alcance 2</h3>
-          <Separator className="mb-4 bg-[#000A14] h-0.5" />
+          <hr className="mb-4 bg-[#000A14] h-0.5" />
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -138,7 +137,7 @@ export default function Report() {
 
         <div className="mb-6">
           <h3 className="text-md font-medium mb-2 text-gray-900">Alcance 3</h3>
-          <Separator className="mb-4 bg-[#000A14] h-0.5" />
+          <hr className="mb-4 bg-[#000A14] h-0.5" />
           <div className="overflow-x-auto">
             <Table>
               <TableHeader className="text-black">
@@ -191,7 +190,7 @@ export default function Report() {
 
         <div className="mb-6">
           <h3 className="text-md font-medium mb-2 text-gray-900">Impacto Total</h3>
-          <Separator className="mb-4 bg-[#000A14] h-0.5" />
+          <hr className="mb-4 bg-[#000A14] h-0.5" />
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -221,7 +220,7 @@ export default function Report() {
 
       <section className="mb-8">
         <h2 className="text-lg font-medium mb-2 text-gray-900">Impacto Ambiental por Sourced (TCO₂e.)</h2>
-        <Separator className="mb-4 bg-[#000A14] h-0.5" />
+        <hr className="mb-4 bg-[#000A14] h-0.5" />
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
