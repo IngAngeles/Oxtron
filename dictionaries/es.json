@@ -725,7 +725,12 @@
             "title": "Comunicar",
             "subtitle": "Comunicar el impacto ambiental de las actividades diarias",
             "recent": "Informes Recientes",
-            "button": "Generar Nuevo Informe"
+            "button": "Generar Nuevo Informe",
+            "report": {
+                "report_title": "Reporte de Impacto Ambiental",
+                "environmental_impact_by_scope": "Impacto Ambiental por Alcances (T/CO₂.)",
+                "environmental_impact_by_branch": "Impacto Ambiental por Sucursal (T/CO₂.)"
+            }
         },
         "capture": {
             "title": "Captura",

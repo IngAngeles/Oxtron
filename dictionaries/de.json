@@ -725,7 +725,12 @@
             "title": "Kommunizieren",
             "subtitle": "Kommunizieren Sie die Umweltauswirkungen täglicher Aktivitäten",
             "recent": "Aktuelle Berichte",
-            "button": "Neuen Bericht erstellen"
+            "button": "Neuen Bericht erstellen",
+            "report": {
+                "report_title": "Umweltwirkungsbericht",
+                "environmental_impact_by_scope": "Umweltauswirkungen nach Umfang (T/CO₂)",
+                "environmental_impact_by_branch": "Umweltauswirkungen nach Filiale (T/CO₂)"
+            }
         },
         "capture": {
             "title": "Erfassen",

@@ -725,7 +725,12 @@
             "title": "Communicate",
             "subtitle": "Communicate the environmental impact of daily activities",
             "recent": "Recent Reports",
-            "button": "Generate New Report"
+            "button": "Generate New Report",
+            "report": {
+                "report_title": "Environmental Impact Report",
+                "environmental_impact_by_scope": "Environmental Impact by Scope (T/CO₂)",
+                "environmental_impact_by_branch": "Environmental Impact by Branch (T/CO₂)"
+            }
         },
         "capture":{
             "title":"Capture",
