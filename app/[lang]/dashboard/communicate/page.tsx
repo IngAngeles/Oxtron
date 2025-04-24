@@ -77,7 +77,7 @@ const Communicate = () => {
         </div>
         <CreateReport/>
         { showReportModal && report !== null && (
-          <Modal handleOnCloseModal={ () => {
+          <Modal className="!w-auto !max-w-[800px] !h-[auto] !max-h-[90vh]" handleOnCloseModal={ () => {
             handleHideReportModal()
             setReport(null)
           } } title={ '' }>

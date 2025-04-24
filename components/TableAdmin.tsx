@@ -65,6 +65,7 @@ const TableField: React.FC<TableAdminProps> = () => {
         toast({
           title: dictionary.table.success, 
           description: dictionary.table.other,
+          className: 'bg-black',
         })
         await loadData()
       }
@@ -72,6 +73,7 @@ const TableField: React.FC<TableAdminProps> = () => {
       toast({
         title: dictionary.table.error,
         description: dictionary.table.descript,
+        className: 'bg-black',
       })
       console.error({ error })
     }
@@ -84,6 +86,7 @@ const TableField: React.FC<TableAdminProps> = () => {
         toast({
           title: dictionary.table.success, 
           description: dictionary.table.description,
+          className: 'bg-black',
         })
 
         loadData()
@@ -92,6 +95,7 @@ const TableField: React.FC<TableAdminProps> = () => {
       toast({
         title: dictionary.table.error,
         description: dictionary.table.descript,
+        className: 'bg-black',
       })
       console.error({ error })
     }

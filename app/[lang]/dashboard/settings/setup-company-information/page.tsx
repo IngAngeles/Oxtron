@@ -185,7 +185,7 @@ const Setup = () => {
         </div>
       </div>
       {isCompanyModalOpen && (
-        <Modal open={isCompanyModalOpen} onClose={handleCloseCompanyModal} className="max-h-[80vh]">
+        <Modal open={isCompanyModalOpen} onClose={handleCloseCompanyModal} className="!h-auto">
           <EditCompanyForm company={companyData} loadData={loadData} onClose={handleCloseCompanyModal}/>
         </Modal>
       )}

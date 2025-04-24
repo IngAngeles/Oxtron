@@ -131,7 +131,8 @@ export async function getPDF (idControlCommunicate: number) {
 
     return response.data
   } catch (error) {
-    throw error;
+    console.log(error)
+    return null;
   }
 }
 
@@ -143,7 +144,8 @@ export async function getCSV(idControlCommunicate: number, idUserControl: number
 
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
+    return null;
   }
 }
 
@@ -155,6 +157,7 @@ export async function getXLSX(idControlCommunicate: number, idUserControl: numbe
 
     return response.data;
   } catch (error) {
-    throw error;
+    console.log(error);
+    return null;
   }
 }

@@ -47,7 +47,7 @@ const TableField = () => {
               <TableCell className="hidden md:table-cell">{ formatDateTime(report.endDate).dateDay }</TableCell>
               <TableCell>
                 <ArrowDownTrayIcon className="w-4 h-4 cursor-pointer" onClick={ () => {
-                  setReport({ ...report, idControlCommunicate: 13 })
+                  setReport(report)
                   setDownloadReport(true)
                 } }/>
               </TableCell>

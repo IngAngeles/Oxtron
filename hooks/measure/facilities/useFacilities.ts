@@ -185,6 +185,7 @@ export function useFacilities() {
         variant: "destructive",
         title: dictionary?.measure.modal.toast.error.title || "Error",
         description: dictionary?.measure.modal.toast.error.description || "Something went wrong while processing the facility.",
+        className: 'bg-black',
       });
     }
   }

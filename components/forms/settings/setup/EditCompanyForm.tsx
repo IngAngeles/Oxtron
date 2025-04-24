@@ -56,6 +56,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       toast({
         title: 'Success',
         description: 'This company has been updated successfully',
+        className: 'bg-black',
       })
       onClose()
       await loadData()
@@ -63,6 +64,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       toast({
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
+        className: 'bg-black',
       })
     } finally {
       setIsLoading(false)
