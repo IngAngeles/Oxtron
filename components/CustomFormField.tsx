@@ -20,6 +20,7 @@ import { /* CalendarIcon, */Eye, EyeOff } from 'lucide-react' // Importa los íc
 import 'react-phone-number-input/style.css'
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
+import imageCompression from 'browser-image-compression'
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -31,6 +32,7 @@ export enum FormFieldType {
   SELECT = 'select',
   SKELETON = 'skeleton',
   RADIO = 'radio',
+  FILE_INPUT = 'fileInput',
 }
 
 interface CustomProps {
@@ -232,6 +234,45 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               }) }
             </RadioGroup>
           </div>
+        </FormControl>
+      )
+    case FormFieldType.FILE_INPUT:
+      return (
+        <FormControl>
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={async (event) => {
+              const file = event.target.files?.[0]
+              if (!file) return
+
+              const isValid = file.type.startsWith("image/")
+              if (!isValid) {
+                alert("El archivo debe ser una imagen.")
+                return
+              }
+
+              try {
+                const compressedFile = await imageCompression(file, {
+                  maxSizeMB: 1,
+                  maxWidthOrHeight: 1024,
+                  useWebWorker: true
+                })
+
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                  const base64Image = reader.result as string
+                  const cleanBase64 = base64Image.replace(/^data:image\/\w+;base64,/, "")
+
+                  field.onChange(cleanBase64)
+                }
+                reader.readAsDataURL(compressedFile)
+              } catch (error) {
+                console.error("Error al comprimir la imagen:", error)
+              }
+            }}
+            className="bg-[#FCFDFE] border-[#DFE0EB] border-[1px] text-[#4B506D]"
+          />
         </FormControl>
       )
     default:

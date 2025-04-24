@@ -687,6 +687,7 @@ export const CompanyValidation = z.object({
   telephoneCompany: z.string().min(1),
   size: z.string().min(1),
   industry: z.string().min(1),
+  imageBase64: z.string().optional(),
 })
 export type Company = z.infer<typeof CompanyValidation>;
 

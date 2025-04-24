@@ -45,6 +45,7 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
       telephoneCompany: company?.telephoneCompany,
       size: company?.size,
       industry: company?.industry,
+      imageBase64: company?.imageBase64,
     }
   })
 
@@ -157,6 +158,12 @@ const EditCompanyForm = ({ company, loadData, onClose }: Props) => {
             label="Type of License"
             name="idTypeLicense"
             options={ typeOfLicenses }
+          />
+          <CustomFormField
+            control={ form.control }
+            name="imageBase64"
+            label="Sube una imagen"
+            fieldType={ FormFieldType.FILE_INPUT }
           />
         </div>
         <SubmitButton isLoading={ isLoading } onClick={ () => onSubmit(form.getValues()) }>{dictionary.content1.up}</SubmitButton>
