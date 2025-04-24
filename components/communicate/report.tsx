@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+'use client'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
@@ -8,6 +9,7 @@ import { useCommunicateStore } from '@/store/communicate'
 
 export default function Report({ data, pdf = false }: { data: any, pdf?: boolean }) {
   const { setDownloadReport } = useCommunicateStore()
+
   function splitFiscalPeriod(start: string = new Date().toString(), end: string = new Date().toString()) {
     const startDate = new Date(start)
     const endDate = new Date(end)
@@ -45,18 +47,44 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
   const text = splitFiscalPeriod(data?.communicate?.startDate, data?.communicate?.endDate)
 
   const printRef = useRef<HTMLDivElement | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
+
   const handleDownloadPdf = () => {
+    if (isGenerating || !printRef.current) return
+
+    setIsGenerating(true)
     if (printRef.current) {
       const element = printRef.current
-      html2canvas(element).then(canvas => {
-        const data = canvas.toDataURL('image/png')
 
-        const pdf = new jsPDF()
-        const imgProperties = pdf.getImageProperties(data)
-        const pdfWidth = pdf.internal.pageSize.getWidth()
-        const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width
+      html2canvas(element, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#ffffff',
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png', 0.7)
+        const pdf = new jsPDF('p', 'px', 'a4', true)
+        const pageWidth = pdf.internal.pageSize.getWidth()
+        const pageHeight = pdf.internal.pageSize.getHeight()
+        const imgWidth = pageWidth
+        const imgHeight = (canvas.height * imgWidth) / canvas.width
+        let position = 0
 
-        pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight)
+        if (imgHeight < pageHeight) {
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+        } else {
+          let remainingHeight = imgHeight
+
+          while (remainingHeight > 0) {
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+            remainingHeight -= pageHeight
+            if (remainingHeight > 0) {
+              pdf.addPage()
+              position = -pageHeight
+            }
+          }
+        }
+
         pdf.save('Reporte.pdf')
       })
 
@@ -66,52 +94,115 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
 
   useEffect(() => {
     if (pdf) handleDownloadPdf()
+    pdf = false
   }, [pdf])
 
   return (
-    <div className="mx-auto px-6 py-8 bg-white" style={ { fontFamily: 'Poppins, sans-serif' } } id="reporte"
-         ref={ printRef }>
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-wide text-gray-900">Reporte de Impacto Ambiental</h1>
-          <div className="mt-6 grid grid-cols-2 gap-x-16 gap-y-2 text-sm">
-            <div>
-              <p className="font-medium text-gray-900">{ data?.communicate?.organisationName }</p>
-              <p className="text-gray-600 text-xs">{ `${ data?.communicate?.city }, ${ data?.communicate?.state }` }</p>
-              <p className="text-gray-600 text-xs">{ data?.communicate?.country }</p>
-              <p className="text-gray-600 text-xs">{ getFormattedToday() }</p>
-            </div>
-            <div>
-              <p className="font-medium text-gray-900">{ text.title }</p>
-              <p className="text-gray-600 text-xs">{ text.line1 }</p>
-              <p className="text-gray-600 text-xs">{ text.line2 }</p>
-              <p className="text-gray-600 text-xs">{ text.line3 }</p>
-              <p className="text-gray-600 text-xs">{ data.communicate.idFacility }</p>
+    <div
+      className="fixed border border-black w-[759px] h-[1072px] mx-auto flex flex-col items-center justify-between"
+      ref={ printRef }
+    >
+      <div
+        className="p-[50px] bg-white w-full"
+        id="reporte"
+      >
+        <div className="flex justify-between items-start mb-8 top-0 left-0">
+          <div>
+            <h1
+              style={ { fontFamily: 'Geometos, sans-serif' } }
+              className="text-[25px] font-bold uppercase tracking-wide text-[#252733]"
+            >
+              Reporte de Impacto Ambiental
+            </h1>
+            <div className="mt-6 grid grid-cols-2 gap-x-16 gap-y-2">
+              <div>
+                <p className="text-[12px] font-medium text-[#000A14]">
+                  { data?.communicate?.organisationName }
+                </p>
+                <p className="text-[9px] text-[#9FA2B4]">
+                  { `${ data?.communicate?.city }, ${ data?.communicate?.state }` }
+                </p>
+                <p className="text-[9px] text-[#9FA2B4]">
+                  { data?.communicate?.country }
+                </p>
+                <p className="text-[9px] text-[#9FA2B4]">
+                  { getFormattedToday() }
+                </p>
+              </div>
+              <div>
+                <p className="text-[12px] font-medium text-[#000A14]">{ text.title }</p>
+                <p className="text-[9px] text-[#9FA2B4]">{ text.line1 }</p>
+                <p className="text-[9px] text-[#9FA2B4]">{ text.line2 }</p>
+                <p className="text-[9px] text-[#9FA2B4]">{ text.line3 }</p>
+                <p className="">{ data.communicate.idFacility }</p>
+              </div>
             </div>
           </div>
+          <div className="relative w-24 h-24">
+            <Image
+              src={ data.image }
+              alt="Nexstar IMPACT logo"
+              width={ 96 }
+              height={ 96 }
+              className="rounded-full bg-black"
+            />
+          </div>
         </div>
-        <div className="relative w-24 h-24">
-          <Image
-            src="/placeholder.svg?height=96&width=96"
-            alt="Nexstar IMPACT logo"
-            width={ 96 }
-            height={ 96 }
-            className="rounded-full bg-black"
-          />
-        </div>
-      </div>
 
-      <section className="mb-8">
-        <h4 className="text-sm font-medium mb-3 text-gray-900">Impacto Ambiental por Alcances (T/CO₂.)</h4>
+        <section className="mb-8">
+          <h4 className="text-[12px] font-bold mb-2 text-[#252733]">
+            Impacto Ambiental por Alcances (T/CO₂.)
+          </h4>
 
-        { data.reports.map((item: any) => (
-          <div className="mb-6">
-            {
-              /* <>
-                <h3 className="text-md font-medium mb-2 text-gray-900">{ item.alcance }</h3>
-                <hr className="mb-4 bg-[#000A14] h-0.5"/>
-              </> */
-            }
+          { data.reports.map((item: any) => (
+            <div className="mb-6">
+              {
+                /* <>
+                  <h3 className="text-md font-medium mb-2 text-gray-900">{ item.alcance }</h3>
+                  <hr className="mb-4 bg-[#000A14] h-0.5"/>
+                </> */
+              }
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader className="border-b-2 border-[#000A14]">
+                    <TableRow>
+                      { Object.keys(item)
+                        .filter(key => key !== 'id' && key !== 'idUserControl' && key !== 'idControlCommunicate' && key !== 'descripcion')
+                        .map((key, index) => (
+                          <TableHead
+                            key={ key }
+                            className={ cn(index === 0 ? 'w-1/3' : 'text-right', 'h-auto !px-0 text-[#000A14] text-[10px] text-xs py-1.5') }
+                          >
+                            { index === 0 ? item[key] : key }
+                          </TableHead>
+                        ))
+                      }
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      { Object.keys(item)
+                        .filter(key => key !== 'id' && key !== 'idUserControl' && key !== 'idControlCommunicate' && key !== 'alcance')
+                        .map((key, index) => (
+                          <TableCell
+                            key={ key }
+                            className={ cn(index === 0 ? 'w-1/3' : 'text-right', '!px-0 text-[#9FA2B4] text-[10px] py-1.5') }
+                          >
+                            { item[key] }
+                          </TableCell>
+                        ))
+                      }
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )) }
+        </section>
+
+        <section className="mb-8">
+          <h4 className="text-[12px] font-bold mb-2 text-[#252733]">Impacto Ambiental por Sucursal (T/CO₂.)</h4>
+          { data.reportDetails.map((item: any) => (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader className="border-b-2 border-[#000A14]">
@@ -121,9 +212,9 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
                       .map((key, index) => (
                         <TableHead
                           key={ key }
-                          className={ cn(index === 0 ? 'w-1/3' : 'text-right', 'h-auto !px-0 text-black text-xs py-1.5') }
+                          className={ cn(index === 0 ? 'w-1/3' : 'text-right', 'h-auto !px-0 text-[#000A14] text-[10px] text-xs py-1.5') }
                         >
-                          { index === 0 ? item[key] : key }
+                          { key }
                         </TableHead>
                       ))
                     }
@@ -136,7 +227,7 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
                       .map((key, index) => (
                         <TableCell
                           key={ key }
-                          className={ cn(index === 0 ? 'w-1/3' : 'text-right', '!px-0 text-black text-xs py-1.5') }
+                          className={ cn(index === 0 ? 'w-1/3' : 'text-right', '!px-0 text-[#9FA2B4] text-[10px] py-1.5') }
                         >
                           { item[key] }
                         </TableCell>
@@ -146,63 +237,12 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
                 </TableBody>
               </Table>
             </div>
-          </div>
-        )) }
-      </section>
-
-      <section className="mb-8">
-        <h4 className="text-sm font-medium mb-2 text-gray-900">Impacto Ambiental por Sucursal (T/CO₂.)</h4>
-        <hr className="mb-4 bg-[#000A14] h-0.5"/>
-
-        { data.reportDetails.map((item: any) => (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableRow>
-                    { Object.keys(item)
-                      .filter(key => key !== 'id' && key !== 'idUserControl' && key !== 'idControlCommunicate' && key !== 'descripcion')
-                      .map((key, index) => (
-                        <TableHead
-                          key={ key }
-                          className={ cn(index === 0 ? 'w-1/3' : 'text-right', 'h-auto !px-0 text-black text-xs py-1.5') }
-                        >
-                          { index === 0 ? item[key] : key }
-                        </TableHead>
-                      ))
-                    }
-                  </TableRow>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  { Object.keys(item)
-                    .filter(key => key !== 'id' && key !== 'idUserControl' && key !== 'idControlCommunicate' && key !== 'alcance')
-                    .map((key, index) => (
-                      <TableCell
-                        key={ key }
-                        className={ cn(index === 0 ? 'w-1/3' : 'text-right', '!px-0 text-black text-xs py-1.5') }
-                      >
-                        { item[key] }
-                      </TableCell>
-                    ))
-                  }
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-        )) }
-      </section>
-
-      <footer className="mt-16 pt-4 border-t border-gray-200 flex flex-col gap-4">
-        <div className="text-xs text-gray-500 flex justify-between">
-          <div>© 2023 Nexstar</div>
-          <div>Página 1 de 1</div>
-        </div>
-        <div className="flex justify-between pb-2" style={ { color: '#000A14' } }>
-          <div className="text-xs font-medium">OXTRON</div>
-          <div className="text-xs font-medium">2023</div>
-        </div>
+          )) }
+        </section>
+      </div>
+      <footer className="flex items-center justify-between px-[23px] h-[20px] bg-[#000A14] w-[759px] mx-auto border-t border-gray-200 flexgap-4">
+        <p className="text-[8px] text-[#EBEDF0] font-extrabold">OXTRON</p>
+        <p className="text-[8px] text-[#EBEDF0] font-extrabold">{ new Date().getFullYear() }</p>
       </footer>
     </div>
   )

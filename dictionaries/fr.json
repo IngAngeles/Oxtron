@@ -725,7 +725,12 @@
             "title": "Communiquer",
             "subtitle": "Communiquez l'impact environnemental des activités quotidiennes",
             "recent": "Rapports récents",
-            "button": "Générer un nouveau rapport"
+            "button": "Générer un nouveau rapport",
+            "report": {
+                "report_title": "Rapport d'Impact Environnemental",
+                "environmental_impact_by_scope": "Impact Environnemental par Portée (T/CO₂)",
+                "environmental_impact_by_branch": "Impact Environnemental par Succursale (T/CO₂)"
+            }
         },
         "capture": {
             "title": "Capturer",

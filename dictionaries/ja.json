@@ -725,7 +725,12 @@
             "title": "コミュニケーション",
             "subtitle": "日常活動の環境影響を伝える",
             "recent": "最近のレポート",
-            "button": "新しいレポートを生成する"
+            "button": "新しいレポートを生成する",
+            "report": {
+                "report_title": "環境影響報告書",
+                "environmental_impact_by_scope": "スコープ別環境影響 (T/CO₂)",
+                "environmental_impact_by_branch": "支店別環境影響 (T/CO₂)"
+            }
         },
         "capture": {
             "title": "キャプチャ",
