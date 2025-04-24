@@ -52,6 +52,7 @@ const UserByCompanyIdForm = () => {
       toast({
         title: dictionary.modal.success,
         description: dictionary.modal.description,
+        className: 'bg-black',
       })
       form.reset()
       await loadData()
@@ -60,6 +61,7 @@ const UserByCompanyIdForm = () => {
       toast({
         title: dictionary.modal.error,
         description: dictionary.modal.descript,
+        className: 'bg-black',
       })
       console.error(error)
     } finally {

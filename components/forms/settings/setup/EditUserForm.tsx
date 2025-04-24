@@ -40,6 +40,7 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
         toast({
           title: 'Success',
           description: 'This user has been updated successfully',
+          className: 'bg-black',
         })
         form.reset()
         onClose()
@@ -49,6 +50,7 @@ const EditUserForm = ({ user, loadData, onClose }: Props) => {
       toast({
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
+        className: 'bg-black',
       })
       console.error(error)
     } finally {

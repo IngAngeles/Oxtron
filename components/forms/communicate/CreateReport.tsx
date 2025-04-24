@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
@@ -22,24 +23,24 @@ export default function CreateReport ({ communicateReport }: Props) {
   const [_error, setError] = useState<AxiosError | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [facilityOptions, setFacilityOptions] = useState<VLabel[]>([])
+  const [idFacility, setIdFacility] = useState<string>('')
   const [type, setType] = useState<string>('')
   const form = useForm<Communicate>({
     resolver: zodResolver(CommunicateSchema),
     defaultValues: {
-      idControlCommunicate: communicateReport?.idControlCommunicate,
-      idUserControl: communicateReport?.idUserControl || 0,
-      idControlFacility: communicateReport?.idControlFacility,
-      idFacility: communicateReport?.idFacility,
-      startDate: communicateReport?.startDate || new Date().toISOString(),
-      endDate: communicateReport?.endDate || new Date().toISOString(),
+      idUserControl: communicateReport?.idUserControl,
+      startDate: new Date().toISOString(),
+      endDate: new Date().toISOString(),
+      idFacility: idFacility,
+      type: type,
     }
   })
   const facilityWatched = form.watch('idControlFacility');
   const typeWatched = form.watch('type')
 
   useEffect(() => {
-    const value: string = facilityOptions.find((item) => item.value === facilityWatched.toString())?.label || '';
-    form.setValue('idFacility', value)
+    const value: string = facilityOptions.find((item) => item.value === facilityWatched?.toString() || '')?.label || '';
+    setIdFacility(value)
   }, [facilityWatched]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function CreateReport ({ communicateReport }: Props) {
         const facilities = await getFacilitiesByUserId();
         setTypes(response)
         setFacilityOptions(facilities.data?.map((facility) => ({
-          value: facility?.idControlFacility?.toString() || '0',
+          value: facility?.idControlFacility?.toString() || '',
           label: facility.idFacility,
         })) || [])
       } catch (error) {
@@ -85,10 +86,17 @@ export default function CreateReport ({ communicateReport }: Props) {
     try {
       setIsLoading(true)
       if (!communicateReport) {
-        await createReport({...report, type});
+        await createReport({...report, type, idFacility});
         toast({
-          title: 'Item successfully created',
+          title: 'Success',
+          description: 'Item successfully created',
+          className: 'bg-black',
         })
+        setType('')
+        setIdFacility('')
+        form.resetField('idControlFacility')
+        form.reset()
+        form.setValue('type', '')
       } else {
         await handleUpdateReport()
       }

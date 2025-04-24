@@ -82,6 +82,7 @@ export const useCommunicateStore = create<CommunicateStore>((set) => ({
       const fetchResponse = await fetchRecentReports()
 
       set({ reports: fetchResponse, showCreateReportModal: false, error: null, loading: false })
+      localStorage.removeItem('selectedReport')
 
       return 'success'
     } catch (error) {

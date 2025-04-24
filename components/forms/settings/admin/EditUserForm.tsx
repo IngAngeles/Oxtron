@@ -62,6 +62,7 @@ const EditUserForm = () => {
         toast({
           title: 'Success',
           description: 'This user has been updated successfully',
+          className: 'bg-black',
         })
         form.reset()
         await reloadData()
@@ -71,6 +72,7 @@ const EditUserForm = () => {
       toast({
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
+        className: 'bg-black',
       })
       console.error(error)
     } finally {

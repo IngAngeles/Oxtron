@@ -99,7 +99,7 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
 
   return (
     <div
-      className="fixed border border-black w-[759px] h-[1072px] mx-auto flex flex-col items-center justify-between"
+      className="w-[759px] h-[1072px] mx-auto flex flex-col items-center justify-between"
       ref={ printRef }
     >
       <div

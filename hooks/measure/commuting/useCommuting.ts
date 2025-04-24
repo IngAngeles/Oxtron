@@ -146,6 +146,7 @@ export const useCommuting = () => {
         variant: "destructive",
         title: dictionary?.measure.modal.toast.error.title,
         description: dictionary?.measure.modal.toast.error.description,
+        className: 'bg-black',
       });
     }
   }

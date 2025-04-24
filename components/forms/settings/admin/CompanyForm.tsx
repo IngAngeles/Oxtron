@@ -45,12 +45,14 @@ export const CompanyForm = ({ company }: Props) => {
       toast({
         title: 'Success',
         description: 'This company has been updated successfully',
+        className: 'bg-black',
       })
       form.reset()
     } catch (error) {
       toast({
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
+        className: 'bg-black',
       })
     } finally {
       setIsLoading(false)
