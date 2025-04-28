@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -138,15 +138,15 @@ export default function Report({ data, pdf = false }: { data: any, pdf?: boolean
               </div>
             </div>
           </div>
-          <div className="relative w-24 h-24">
+          {/* <div className="relative w-24 h-24">
             <Image
               src={ data.image }
-              alt="Nexstar IMPACT logo"
+              alt="Enterprise IMPACT logo"
               width={ 96 }
               height={ 96 }
               className="rounded-full bg-black"
             />
-          </div>
+          </div> */}
         </div>
 
         <section className="mb-8">
